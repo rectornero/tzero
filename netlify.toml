@@ -6,7 +6,14 @@
   # Skip the deploy when a push only changes Markdown (README, CLAUDE.md): a production deploy costs 15 credits
   ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)*.md'"
 
+# Scripts, styles and lines.json revalidate on every visit (a cheap 304), so a deploy never leaves
+# a visitor with new HTML and an old script. Images change rarely and may be cached for an hour.
 [[headers]]
   for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/img/*"
   [headers.values]
     Cache-Control = "public, max-age=3600"
