@@ -1,5 +1,8 @@
 /* Additions to the mockup's styles (site.css stays a straight copy of the approved mockup).
    Post pages: a calm reading column on the season's light background. */
+/* Official lockup (Nero, 2026-10-25): red Artache star + "TZERØ" in navy whatever the skin, only the Ø red */
+.brand span{color:#0a1f44}
+.brand b{color:#d0021b}
 footer a{color:var(--sun);text-decoration:underline;text-underline-offset:3px}
 .note a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 #latest-grid[aria-busy=true] .card{opacity:.75}
