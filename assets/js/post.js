@@ -33,7 +33,7 @@
   // Desktop sidebar: what the article covers (its section headings) and where it came from
   function side(post, body) {
     const aside = document.getElementById('side');
-    const box = el('div', 'side-box');
+    const box = el('div', 'side-box side-meta');
     box.append(el('span', 'tag', WIX.category(post).label), el('strong', '', WIX.author(post)), el('span', 'meta', WIX.date(post.firstPublishedDate) + (post.minutesToRead ? ' · ' + post.minutesToRead + ' min read' : '')));
     aside.append(box);
     const heads = [...body.querySelectorAll('h2')];
@@ -54,7 +54,7 @@
       heads.forEach(h => spy.observe(h));
     }
     const orig = el('a', 'side-link', 'Comments and likes on the original →'); orig.href = WIX.wixUrl(post);
-    aside.append(orig);
+    box.append(orig);
     aside.hidden = false;
   }
 

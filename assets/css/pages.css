@@ -70,6 +70,18 @@ footer a{color:var(--sun);text-decoration:underline;text-underline-offset:3px}
 .toc a::before{content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--b2);padding-top:1px}
 .toc a:hover,.toc a.on{background:color-mix(in srgb,var(--b2) 10%,#fff);color:var(--ink)}
 .toc a.on::before{color:var(--red)}
-.side-link{font-family:var(--mono);font-size:13px;color:var(--soft);text-decoration:underline;text-underline-offset:3px;padding-inline:4px}
+.side-link{margin-top:8px;font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--soft);text-decoration:underline;text-underline-offset:3px}
+.side-link:hover{color:var(--red)}
 .post-body h2{scroll-margin-top:96px}
 @media (max-width:1000px){.post-layout{grid-template-columns:minmax(0,1fr)}.post-side{display:none}}
+/* Big screens: three columns, the article in the middle with its facts on the left and contents on the right */
+@media (min-width:1500px){
+  .reading .wrap{max-width:1560px}
+  .crumbs,.more{max-width:1500px}
+  .post-layout{max-width:1500px;grid-template-columns:240px minmax(0,900px) 280px;justify-content:center}
+  .post-side{display:contents}
+  .side-meta{grid-column:1;grid-row:1;position:sticky;top:96px}
+  .toc{grid-column:3;grid-row:1;position:sticky;top:96px}
+  .post{grid-column:2;grid-row:1}
+  .post-body{font-size:19px}
+}
