@@ -26,7 +26,7 @@ document.addEventListener('pointerleave',()=>{mx=-1;lastX=null});
 
 /* click anywhere (except links and buttons): splash in summer, leaf burst in autumn */
 const drops=[],rings=[],flyers=[];
-document.addEventListener('click',e=>{if(e.target.closest('a,button,.polaroid'))return;memory(e);const X=e.clientX*dpr,Y=e.clientY*dpr;
+document.addEventListener('click',e=>{if(e.target.closest('a,button,.polaroid'))return;sfx('splash');memory(e);const X=e.clientX*dpr,Y=e.clientY*dpr;
   if(skin==='sea'){rings.push({x:X,y:Y,r:0});energy=2;
     for(let k=0;k<26;k++){const an=-Math.PI/2+(Math.random()-.5)*1.9,sp=(3+Math.random()*7)*dpr;drops.push({x:X,y:Y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,r:(1+Math.random()*2.6)*dpr,y0:Y})}}
   else{gust+=e.clientX>innerWidth/2?-1.4:1.4;for(let k=0;k<10;k++){const an=Math.random()*6.28,sp=(2+Math.random()*5)*dpr;flyers.push(mkLeaf(X,Y,Math.cos(an)*sp,Math.sin(an)*sp-3*dpr))}}
@@ -134,7 +134,7 @@ function menu(text){talk(text,[['Who are you?',()=>talk("A four-point star on a 
 const back=[['Back',()=>menu('What else?')],['Bye!',()=>{talk('See you around!',[]);setTimeout(release,1000)}]];
 function resize(dn){const n=Math.max(20,Math.min(62,N+dn));while(N<n){const l=pts[N-1];pts.push({x:l.x,y:l.y,px:l.x,py:l.y});N++}while(N>n){pts.pop();N--}}
 function release(){caught=null;therapy=false;chat.hidden=true;pick()}
-addEventListener('click',e=>{if(fight||home||scene)return;const tl=pts[N-1];if(!caught&&Math.hypot(e.clientX-tl.x,e.clientY-tl.y)<26){e.stopImmediatePropagation();e.preventDefault();
+addEventListener('click',e=>{if(fight||home||scene)return;const tl=pts[N-1];if(!caught&&Math.hypot(e.clientX-tl.x,e.clientY-tl.y)<26){e.stopImmediatePropagation();e.preventDefault();sfx('catch');
   caught={x:Math.min(Math.max(e.clientX,40),innerWidth-40),y:Math.min(Math.max(e.clientY,120),innerHeight-40)};say.classList.remove('on');
   chat.hidden=false;chat.style.left=Math.min(caught.x+18,innerWidth-300)+'px';chat.style.top=Math.max(caught.y-20,70)+'px';
   menu(['Ugh. Fine. You caught me. Welcome to Artache, best studio on Earth. In this building.','Ugh. Fine. You caught me.','Hey! Hands off the points!','Okay, okay, lucky click.','Caught? I let you catch me.','Rude. Impressive, but rude.','Unhand me, I\'m a star!'][Math.floor(Math.random()*4)]+' What\'s up?')}
@@ -145,7 +145,7 @@ addEventListener('pointermove',e=>{if(fight||home||scene||caught||tt<dodgeCool)r
   if(d<60&&Math.random()<.35){dodgeCool=tt+2.5;const ax=tl.x-e.clientX,ay=tl.y-e.clientY,n=Math.hypot(ax,ay)||1;tl.x+=ax/n*70;tl.y+=ay/n*70;sass=1.2;
     say.textContent=nextLine('sass');if(say.textContent)say.classList.add('on');clearTimeout(say._t);say._t=setTimeout(()=>say.classList.remove('on'),1800)}});
 
-function driveStake(){const h=pts[0];stake={x:h.x+scrollX,y:h.y+scrollY}}
+function driveStake(){sfx('stake');const h=pts[0];stake={x:h.x+scrollX,y:h.y+scrollY}}
 const stakeLines=['you just left me here?','I\'m not mad. I\'m staked','this stake is ugly. I love it','guard duty, day one','I could escape. I choose not to','tell the cursor I said hi','I\'ll be here. obviously','a star, tied to a stick. art','free? no. fabulous? yes','come back, I\'m bored'];let sli=0;
 setInterval(()=>{if(stake&&!caught&&Math.random()<.5){say.textContent=stakeLines[sli++%stakeLines.length];say.classList.add('on');clearTimeout(say._t);say._t=setTimeout(()=>say.classList.remove('on'),2200)}},9000);
 addEventListener('click',e=>{if(fight||scene||!stake||caught)return;const sx=stake.x-scrollX,sy=stake.y-scrollY;if(Math.hypot(e.clientX-sx,e.clientY-(sy-4))<18){e.stopImmediatePropagation();stake=null;say.textContent='FREE! I mean… thanks.';say.classList.add('on');clearTimeout(say._t);say._t=setTimeout(()=>say.classList.remove('on'),1800)}},true);
@@ -191,15 +191,15 @@ function patterns(dt){const F=fight,d=F.d,px=hx??innerWidth/2,py=hy??innerHeight
 /* weapon drops for the mouse */
 const DROPS={pod:{g:'◆',c:'#3d8fd6',n:'Pod'},shield:{g:'◯',c:'#1a5aa6',n:'Shield'},heart:{g:'♥',c:'#D0021B',n:'Heart'},laser:{g:'⚡',c:'#c4652b',n:'Laser'},purge:{g:'✦',c:'#0A1F44',n:'Purge'}};
 const DROP_LINES={pod:'A little robot friend? How dare you.',shield:'Hiding behind a bubble, mouse?',heart:'Healing is for the weak!',laser:'Put that thing DOWN!',purge:'MY BEAUTIFUL BULLETS!'};
-function dmgAche(n){const F=fight;if(!F||F.over)return;const before=F.ahp;F.ahp-=n;F.hurt=.15;updHud();
-  if(F.ahp<=0){F.over=true;F.b=[];F.lances=[];F.whip=null;F.drops=[];fsay(pickR('win'),3200);showEnd('Redache defeated!','You beat Ache on '+F.d.name+' with '+F.php+' ♥ left. It will remember this.');return}
+function dmgAche(n){const F=fight;if(!F||F.over)return;sfx('hit');const before=F.ahp;F.ahp-=n;F.hurt=.15;updHud();
+  if(F.ahp<=0){F.over=true;sfx('win');F.b=[];F.lances=[];F.whip=null;F.drops=[];fsay(pickR('win'),3200);showEnd('Redache defeated!','You beat Ache on '+F.d.name+' with '+F.php+' ♥ left. It will remember this.');return}
   const low=Math.floor(F.d.ahp*.3);if(before>low&&F.ahp<=low)fsay(pickR('low'),2000);else if(Math.random()<.3)fsay(pickR('hurt'),1300);
   if(Math.random()<.12)spawnDrop(F.ax,F.ay)}
 function spawnDrop(x,y){const F=fight,keys=Object.keys(DROPS),w=F.php<F.d.php/2?['heart','shield','purge','pod','laser','heart']:keys;const type=w[Math.floor(Math.random()*w.length)];
   F.drops.push({x:x??60+Math.random()*(innerWidth-120),y:y??-20,vy:1.1,t:0,type})}
 function dropsStep(dt,px,py,g){const F=fight;if(F.over)return;F.dropT-=dt;if(F.dropT<=0){F.dropT=({easy:4,normal:5,hard:6,nier:7})[F.k]+Math.random()*2;spawnDrop()}
   for(const d of F.drops){d.t+=dt;d.y+=d.vy;d.x+=Math.sin(d.t*2)*.6}
-  F.drops=F.drops.filter(d=>{if(Math.hypot(d.x-px,d.y-py)<26){collect(d.type,px,py);return false}return d.y<innerHeight+30});
+  F.drops=F.drops.filter(d=>{if(Math.hypot(d.x-px,d.y-py)<26){collect(d.type,px,py);sfx('drop');return false}return d.y<innerHeight+30});
   for(const d of F.drops){const D=DROPS[d.type],pul=1+Math.sin(d.t*6)*.08;g.save();g.translate(d.x,d.y);g.scale(pul,pul);g.fillStyle='rgba(255,246,207,.95)';g.shadowColor='rgba(255,246,207,.9)';g.shadowBlur=16;g.beginPath();g.arc(0,0,14,0,7);g.fill();g.shadowBlur=0;
     g.strokeStyle=D.c;g.lineWidth=2;g.stroke();g.fillStyle=D.c;g.font='700 15px Geist, sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(D.g,0,1);g.restore()}
   /* pod: orbits the mouse and fires at Ache */
@@ -227,8 +227,8 @@ function fightStep(){const F=fight;if(!F)return;const dt=.016;F.t+=dt;const W=in
       const vx=hx2-tx,vy=hy2-ty,t2=Math.max(0,Math.min(1,((px-tx)*vx+(py-ty)*vy)/(vx*vx+vy*vy)));if(Math.hypot(px-(tx+vx*t2),py-(ty+vy*t2))<9)hit=true}
     if(whipSeg){const tx=F.ax+Math.cos(whipSeg.a)*whipSeg.len,ty=F.ay+Math.sin(whipSeg.a)*whipSeg.len,vx=tx-F.ax,vy=ty-F.ay,t2=Math.max(0,Math.min(1,((px-F.ax)*vx+(py-F.ay)*vy)/(vx*vx+vy*vy)));if(Math.hypot(px-(F.ax+vx*t2),py-(F.ay+vy*t2))<8)hit=true}
     if(hit&&F.shield){F.shield=0;F.iframe=.9;F.flash=.15;updHud();fsay('A shield?! Cheater!',1300);hit=false}
-    if(hit){F.php--;F.iframe=1.4;F.shake=10;F.flash=.35;updHud();
-      if(F.php<=0){F.over=true;F.b=[];F.lances=[];F.whip=null;fsay(pickR('lose'),3000);showEnd('Mouse K.O.','Redache wins on '+F.d.name+'. The star is insufferable now.')}else if(Math.random()<.6)fsay(pickR('taunt'))}}
+    if(hit){F.php--;sfx('hurt');F.iframe=1.4;F.shake=10;F.flash=.35;updHud();
+      if(F.php<=0){F.over=true;sfx('ko');F.b=[];F.lances=[];F.whip=null;fsay(pickR('lose'),3000);showEnd('Mouse K.O.','Redache wins on '+F.d.name+'. The star is insufferable now.')}else if(Math.random()<.6)fsay(pickR('taunt'))}}
   /* draw */
   const g=fx2;g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);F.shake*=.85;const sx=(Math.random()-.5)*F.shake,sy=(Math.random()-.5)*F.shake;g.translate(sx,sy);
   g.fillStyle='rgba(10,31,68,.42)';g.fillRect(-20,-20,W+40,H+40);
@@ -268,8 +268,8 @@ addEventListener('resize',()=>{if(fight){fc.width=innerWidth*dpr;fc.height=inner
 const slot=document.getElementById('slot');
 function slotPos(){const b=slot.getBoundingClientRect();return{x:b.left+b.width/2,y:b.top+b.height/2}}
 const sleepLines=['five more minutes…','zzz… four points… zzz','I was NOT asleep','ugh, daylight','*yawns in red*','I dreamt I won the fight','who woke the star?'];let sli2=0;
-function goSleep(){if(fight)return;caught=null;chat.hidden=true;stake=null;home=true;slot.setAttribute('aria-label','Wake Ache up');fsay('Bedtime? Fine. Don\'t touch my thread.',1600);try{localStorage.setItem('ache-asleep','1')}catch(e){}}
-function wakeAche(){const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');slot.setAttribute('aria-label','Put Ache to sleep');pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();
+function goSleep(){if(fight)return;sfx('sleep');caught=null;chat.hidden=true;stake=null;home=true;slot.setAttribute('aria-label','Wake Ache up');fsay('Bedtime? Fine. Don\'t touch my thread.',1600);try{localStorage.setItem('ache-asleep','1')}catch(e){}}
+function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');slot.setAttribute('aria-label','Put Ache to sleep');pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();
   setTimeout(()=>fsay(sleepLines[sli2++%sleepLines.length],1800),400);try{localStorage.removeItem('ache-asleep')}catch(e){}}
 slot.addEventListener('click',e=>{e.stopPropagation();home?wakeAche():goSleep()});
 try{if(localStorage.getItem('ache-asleep')){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up')}}catch(e){}
@@ -298,7 +298,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let scrambleT=null;
 const unplug=document.createElement('div');unplug.className='unplug';unplug.textContent='⏻ unplugged';unplug.hidden=true;document.body.appendChild(unplug);
 addEventListener('pointermove',e=>{unplug.style.left=e.clientX+14+'px';unplug.style.top=e.clientY+16+'px'});
-let unT=null;dim.addEventListener('click',e=>{e.stopPropagation();e.preventDefault();unplug.textContent='⏻ Your arrow is not powered on';unplug.classList.remove('buzz');void unplug.offsetWidth;unplug.classList.add('buzz');clearTimeout(unT);unT=setTimeout(()=>unplug.textContent='⏻ unplugged',1800)});
+let unT=null;dim.addEventListener('click',e=>{e.stopPropagation();e.preventDefault();unplug.textContent='⏻ Your arrow is not powered on';sfx('buzz');unplug.classList.remove('buzz');void unplug.offsetWidth;unplug.classList.add('buzz');clearTimeout(unT);unT=setTimeout(()=>unplug.textContent='⏻ unplugged',1800)});
 ['wheel','touchmove'].forEach(ev=>addEventListener(ev,e=>{if(scene)e.preventDefault()},{passive:false}));
 addEventListener('keydown',e=>{if(scene&&['ArrowDown','ArrowUp','PageDown','PageUp',' ','Home','End','Tab'].includes(e.key))e.preventDefault()});
 const ERRS=['ache.exe has stopped feeling','SADNESS_OVERFLOW at line 27','UNITE.dll not found','lights.sys: 0%','thread_tension: CRITICAL','tears.buffer full (3 drops)','cannot pat card: card is sobbing','studio_pride.cfg corrupted (still the best studio)','mouse.drv unplugged by site manager','press F to pay respects'];
@@ -312,16 +312,16 @@ function errPopup(){const d=document.createElement('div');d.className='err';d.in
   d.style.left=Math.random()*(innerWidth-280)+'px';d.style.top=70+Math.random()*(innerHeight-200)+'px';document.body.appendChild(d)}
 async function startScene(card){newsStage=1;try{localStorage.setItem('tz-news-seen',NEWS.topic)}catch(e){}scene={card,mode:'card',cry:false,detached:true};document.body.classList.add('scene');dim.classList.add('on','block');unplug.hidden=false;say.classList.remove('on');
   fsay('…wait. UNITE?',1600);await sleep(1800);
-  scene.cry=true;fsay('no. no no no. NO. I did not approve this.',2200);card.classList.add('sob');await sleep(2400);
+  scene.cry=true;fsay('no. no no no. NO. I did not approve this.',2200);card.classList.add('sob');sfx('sob');await sleep(2400);
   fsay('*pats the card* there, there, little card. I\'ll protect you. I\'m very important here.',2600);await sleep(2800);
-  fsay('lights. LIGHTS. I need less of them. I run this place.',2200);dim.classList.add('dim2','flicker');await sleep(2400);
+  fsay('lights. LIGHTS. I need less of them. I run this place.',2200);dim.classList.add('dim2','flicker');sfx('dim');await sleep(2400);
   /* the breakdown */
-  scene.mode='rampage';fsay('ERR_SADNESS_OVERFLOW',2000);document.body.classList.add('glitch');scrambleAll(true);await sleep(2200);
-  fsay('EVERYTHING IS FALLING APART. LITERALLY.',2200);collapse(true);await sleep(1800);
-  document.body.classList.add('glitch2');for(let i=0;i<9;i++){errPopup();await sleep(330)}
+  scene.mode='rampage';fsay('ERR_SADNESS_OVERFLOW',2000);document.body.classList.add('glitch');scrambleAll(true);sfx('glitch');await sleep(2200);
+  fsay('EVERYTHING IS FALLING APART. LITERALLY.',2200);collapse(true);sfx('crash');await sleep(1800);
+  document.body.classList.add('glitch2');for(let i=0;i<9;i++){errPopup();sfx('err');if(i%3===2)sfx('glitch');await sleep(330)}
   fsay('I BROKE IT. I BROKE THE WHOLE SITE. I\'M THE MANAGER, I\'M ALLOWED.',2600);await sleep(2800);
-  document.body.classList.add('tear');await sleep(1600);
-  crt.classList.add('on');await sleep(700);document.body.classList.remove('glitch','glitch2','tear');scrambleAll(false);document.querySelectorAll('.err').forEach(e=>e.remove());dim.classList.add('dark');await sleep(600);crt.classList.remove('on');
+  document.body.classList.add('tear');sfx('glitch');setTimeout(()=>sfx('glitch'),500);await sleep(1600);
+  crt.classList.add('on');sfx('crt');await sleep(700);document.body.classList.remove('glitch','glitch2','tear');scrambleAll(false);document.querySelectorAll('.err').forEach(e=>e.remove());dim.classList.add('dark');await sleep(600);crt.classList.remove('on');
   scene.mode='mouse';fsay('doc? are you there? it\'s so dark. who turned off the lights. oh. me.',2600)}
 const crt=document.createElement('div');crt.id='crt';document.body.appendChild(crt);
 const BEATS=[
@@ -333,7 +333,7 @@ const BEATS=[
 function talkScene(){chat.hidden=false;const tp=scene.talkPos;chat.style.left=Math.min(tp.x+18,innerWidth-300)+'px';chat.style.top=Math.max(tp.y-20,70)+'px';beat(0)}
 function beat(i){const B=BEATS[i];talk(B.a,B.r.map(([q,ans])=>[q,()=>talk(ans,[[i<BEATS.length-1?'…':'Plug me back in',()=>i<BEATS.length-1?beat(i+1):endScene()]])]))}
 function endScene(){if(!scene)return;const card=scene.card;card.classList.remove('sob');chat.hidden=true;caught=null;scene.cry=false;scene.detached=false;
-  fsay('Plugging you back in. Don\'t get used to being powered.',2200);
+  sfx('plug');fsay('Plugging you back in. Don\'t get used to being powered.',2200);
   setTimeout(()=>{dim.classList.remove('dark','flicker','dim2');collapse(false)},600);
   setTimeout(()=>{dim.classList.remove('on','block');unplug.hidden=true;document.body.classList.remove('scene');scene=null;
     fsay('…okay. lights on. I\'m okay. the studio wrote a great article about it. a good article. let\'s keep going.',3200);setTimeout(pick,2500)},1600)}
@@ -373,5 +373,74 @@ let zz=10;document.querySelectorAll('.polaroid').forEach(p=>{let sx,sy,ox,oy,dra
 /* memories on click */
 const mem=['the first save file','summer 2004, a borrowed console','blowing on a cartridge','a soundtrack you still hum','the 9th floor, lights flickering','one more level before bed','player two on the couch','the smell of a new game manual'];let mi=0;
 function memory(e){const d=document.createElement('div');d.className='memory';d.textContent=mem[mi++%mem.length];d.style.left=e.clientX+'px';d.style.top=e.clientY-24+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),3700)}
+
+/* sound: everything is synthesized live with Web Audio (no files, no licences). Off by default, toggle in the header */
+const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,timer=null,lastVoice=0;
+  try{on=localStorage.getItem('tz-sound')==='1'}catch(e){}
+  const sb=document.getElementById('snd');
+  function init(){if(ac)return;ac=new(window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=.8;master.connect(ac.destination);
+    const comp=ac.createDynamicsCompressor();comp.connect(master);
+    music=ac.createGain();music.gain.value=.32;music.connect(comp);sfx=ac.createGain();sfx.gain.value=.55;sfx.connect(comp);voiceBus=ac.createGain();voiceBus.gain.value=.38;voiceBus.connect(comp);
+    const dl=ac.createDelay(1);dl.delayTime.value=.33;const fb=ac.createGain();fb.gain.value=.32;const lp=ac.createBiquadFilter();lp.frequency.value=1800;music.connect(dl);dl.connect(lp);lp.connect(fb);fb.connect(dl);lp.connect(comp);
+    noiseBuf=ac.createBuffer(1,ac.sampleRate*2,ac.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+  let noiseBuf;
+  function tone(f,t,dur,{type='sine',vol=.2,bus=sfx,to=null,att=.005,q=null}={}){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(to)o.frequency.exponentialRampToValueAtTime(to,t+dur);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+dur);let n=o;if(q){const fl=ac.createBiquadFilter();fl.type='lowpass';fl.frequency.value=q;o.connect(fl);n=fl}n.connect(g);g.connect(bus);o.start(t);o.stop(t+dur+.05)}
+  function noise(t,dur,{vol=.2,f=1200,type='bandpass',to=null,bus=sfx,Q=1}={}){const s=ac.createBufferSource(),fl=ac.createBiquadFilter(),g=ac.createGain();s.buffer=noiseBuf;fl.type=type;fl.Q.value=Q;fl.frequency.setValueAtTime(f,t);if(to)fl.frequency.exponentialRampToValueAtTime(to,t+dur);
+    g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(fl);fl.connect(g);g.connect(bus);s.start(t,Math.random());s.stop(t+dur+.05)}
+  /* BGM: soft generative loop. summer = warm pads + plucked pentatonic + surf; autumn = slower, minor-ish, music box. fight = driving bass. scene = silence and a low drone */
+  const PROG={sea:[[53,57,60,64],[52,55,59,62],[50,53,57,60],[48,52,55,59]],autumn:[[45,48,52,55],[41,45,48,52],[43,47,50,53],[40,43,47,52]]};
+  const PENTA={sea:[72,74,76,79,81,84],autumn:[69,72,74,76,79,81]};
+  const mf=m=>440*Math.pow(2,(m-69)/12);
+  function sched(){if(!ac||!on)return;const bpm=fight?132:skin==='autumn'?76:88,s16=60/bpm/4;
+    while(nextT<ac.currentTime+.25){const t=nextT,bar=Math.floor(step/16)%4,i=step%16,k=skin==='autumn'?'autumn':'sea',ch=PROG[k][bar];
+      if(scene){if(i===0&&step%32===0)tone(mf(33),t,s16*32,{type:'sawtooth',vol:.06,bus:music,att:1,q:180})}
+      else if(fight){if(i%2===0)tone(mf(ch[0]-12+(i%8===6?7:0)),t,s16*1.6,{type:'square',vol:.07,bus:music,q:700});if(i%4===0)noise(t,.06,{vol:.12,f:90,type:'lowpass',bus:music});if(i%8===4)noise(t,.08,{vol:.1,f:2500,bus:music});
+        if(i%3===0)tone(mf(ch[i%4]+12),t,s16*.9,{type:'triangle',vol:.05,bus:music})}
+      else{if(i===0)ch.forEach((n,j)=>tone(mf(n),t+j*.02,s16*16,{type:'triangle',vol:.035,bus:music,att:.8,q:900}));
+        if(home){if(i===0)tone(mf(ch[0]+24),t,1.2,{vol:.03,bus:music})}
+        else{const P=PENTA[k];if(Math.random()<(k==='autumn'?.32:.42)&&i%2===0)tone(mf(P[Math.floor(Math.random()*P.length)]),t,k==='autumn'?1.1:.5,{type:k==='autumn'?'sine':'triangle',vol:k==='autumn'?.05:.04,bus:music});
+          if(i===8&&bar%2===1)tone(mf(ch[0]-12),t,s16*8,{vol:.06,bus:music,att:.05})}
+        if(k==='sea'&&i===0&&bar%2===0)noise(t,3.2,{vol:.025,f:500,to:1400,type:'lowpass',bus:music});
+        if(k==='autumn'&&i===0&&bar===2)noise(t,2.4,{vol:.02,f:300,to:900,Q:4,bus:music})}
+      nextT+=s16;step++}}
+  function setOn(v){on=v;try{localStorage.setItem('tz-sound',v?'1':'0')}catch(e){}sb.textContent=v?'♪ Sound on':'♪ Sound off';sb.setAttribute('aria-pressed',v);
+    if(v){init();ac.resume();nextT=ac.currentTime+.05;clearInterval(timer);timer=setInterval(sched,80);fx('wake')}else{clearInterval(timer);ac&&ac.suspend()}}
+  sb.textContent=on?'♪ Sound on':'♪ Sound off';sb.onclick=e=>{e.stopPropagation();setOn(!on)};
+  if(on)addEventListener('pointerdown',function f1(){removeEventListener('pointerdown',f1);setOn(true)});
+  /* Ache's keyboard voice: one blip per letter, pitch from the letter, mood from the news */
+  function voice(text){if(!on||!ac)return;const now=ac.currentTime;lastVoice=now;const grief=(scene&&scene.cry)||/sob|sniff|cry|UNITE|tears/i.test(text);
+    const base=grief?330:fight?520:440,sp=grief?.085:.055;let t=Math.max(now,lastVoice)+.02,n=0;
+    for(const chr of text.slice(0,70)){if(/[\s]/.test(chr)){t+=sp*.6;continue}if(/[.,!?…]/.test(chr)){t+=sp*2.5;continue}if(!/[\w']/i.test(chr))continue;
+      const c=chr.toLowerCase().charCodeAt(0),f=base*Math.pow(2,((c*7)%12-5)/24)*(chr===chr.toUpperCase()&&/[A-Z]/.test(chr)?1.25:1)*(grief?1+Math.sin(n*.9)*.04:1);
+      tone(f,t,sp*.9,{type:'square',vol:.07,bus:voiceBus,q:2400});tone(f*2,t,sp*.4,{type:'sine',vol:.03,bus:voiceBus});t+=sp;n++}
+    lastVoice=t}
+  function fx(k){if(!on||!ac)return;const t=ac.currentTime;switch(k){
+    case 'splash':if(skin==='autumn'){noise(t,.35,{vol:.18,f:3500,Q:.7});noise(t+.05,.25,{vol:.1,f:6000,Q:.5})}else{noise(t,.4,{vol:.22,f:800,to:3000,Q:.8});tone(900,t+.02,.12,{vol:.06,to:1700});tone(1300,t+.09,.1,{vol:.04,to:2200})}break;
+    case 'catch':tone(500,t,.12,{type:'triangle',vol:.18,to:1100});tone(1100,t+.1,.12,{type:'triangle',vol:.12,to:1600});break;
+    case 'menu':tone(1400,t,.05,{type:'triangle',vol:.08});break;
+    case 'sleep':[784,659,523,392].forEach((f,i)=>tone(f,t+i*.12,.4,{vol:.12}));break;
+    case 'wake':[392,523,659,784].forEach((f,i)=>tone(f,t+i*.08,.3,{type:'triangle',vol:.1}));break;
+    case 'stake':noise(t,.12,{vol:.3,f:180,type:'lowpass'});tone(120,t,.15,{vol:.2,to:60});break;
+    case 'hit':tone(880,t,.08,{type:'square',vol:.08,to:440,q:3000});break;
+    case 'hurt':noise(t,.25,{vol:.3,f:400,to:120,type:'lowpass'});tone(200,t,.25,{type:'sawtooth',vol:.12,to:70,q:900});break;
+    case 'drop':[660,880,1320].forEach((f,i)=>tone(f,t+i*.06,.15,{type:'triangle',vol:.1}));break;
+    case 'win':[523,659,784,1047].forEach((f,i)=>tone(f,t+i*.13,.5,{type:'triangle',vol:.14}));break;
+    case 'ko':[392,330,262,196].forEach((f,i)=>tone(f,t+i*.18,.5,{type:'square',vol:.08,q:1200}));break;
+    case 'sob':tone(420,t,.6,{type:'triangle',vol:.1,to:300});tone(380,t+.5,.7,{type:'triangle',vol:.08,to:250});break;
+    case 'dim':tone(220,t,.8,{type:'sawtooth',vol:.08,to:55,q:600});break;
+    case 'glitch':for(let i=0;i<6;i++){const s=t+i*.05+Math.random()*.03;Math.random()<.5?noise(s,.04,{vol:.25,f:200+Math.random()*4000,Q:8}):tone(100+Math.random()*1500,s,.04,{type:'square',vol:.1})}break;
+    case 'err':tone(880,t,.18,{type:'triangle',vol:.12});tone(660,t+.12,.25,{type:'triangle',vol:.1});break;
+    case 'crash':noise(t,.9,{vol:.35,f:900,to:60,type:'lowpass'});tone(160,t,.8,{type:'sawtooth',vol:.12,to:40,q:800});break;
+    case 'crt':tone(15000,t,.05,{vol:.04});tone(400,t,.6,{type:'sawtooth',vol:.12,to:30,q:1200});noise(t,.5,{vol:.15,f:3000,to:100});break;
+    case 'buzz':tone(110,t,.22,{type:'square',vol:.1,q:600});tone(116,t,.22,{type:'square',vol:.1,q:600});break;
+    case 'plug':noise(t,.05,{vol:.25,f:2000,Q:3});tone(200,t+.05,.5,{type:'triangle',vol:.12,to:900});tone(1200,t+.5,.15,{vol:.08});break}}
+  return{voice,fx}})();
+new MutationObserver(()=>{if(say.classList.contains('on'))SND.voice(say.textContent)}).observe(say,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']});
+new MutationObserver(()=>{const p=chat.querySelector('p');if(p&&!chat.hidden)SND.voice(p.textContent)}).observe(chat,{childList:true});
+
+chat.addEventListener('click',e=>{if(e.target.closest('button'))sfx('menu')});
+function sfx(k){try{SND.fx(k)}catch(e){}}
+
 window.TZ={bindTilt};
 })();
