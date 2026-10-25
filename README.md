@@ -33,5 +33,6 @@ to `www.wixapis.com`.
 ## Ache's news mood
 
 `assets/news.json` tells Ache what is happening right now (`topic`, `key` of the post it reacts to,
-`mood`, and the line set in `lines.json` to use). `"mood": "grief"` brings the tears and the therapy
-sessions with the mouse. Set `mood` to `""` (or delete the file) when the news is over.
+`mood`, and the line set in `lines.json` to use). `"mood": "grief"` makes Ache play the grief scene (tears, dimmed and glitched site,
+therapy with the mouse) the first time it reaches that post; each visitor sees it once per `topic`
+(remembered in localStorage), after that Ache just walks past. Set `mood` to `""` (or delete the file) when the news is over.
