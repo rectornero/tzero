@@ -92,5 +92,20 @@ window.WIX = (() => {
     lineKey,
     wixUrl: post => (post.url ? post.url.base + post.url.path : 'https://www.tzero.live/post/' + post.slug),
     date: iso => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+    categoryUrl: post => 'https://www.tzero.live/posts/categories/' + category(post).key,
+    // A post as a white card: used by the Latest shelf and by "Keep reading" under articles
+    card(post) {
+      const a = document.createElement('a');
+      a.className = 'card tilt';
+      a.href = '/post/' + post.slug;
+      a.dataset.say = this.lineKey(post);
+      const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = category(post).label;
+      const h = document.createElement('h4'); h.textContent = post.title;
+      const p = document.createElement('p'); p.textContent = (post.excerpt || '').split(/(?<=[.!?])\s/)[0];
+      const meta = document.createElement('span'); meta.className = 'meta';
+      meta.textContent = this.date(post.firstPublishedDate) + ' · by ' + this.author(post);
+      a.append(tag, h, p, meta);
+      return a;
+    },
   };
 })();

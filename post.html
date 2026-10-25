@@ -18,9 +18,17 @@
 </div></header>
 
 <main class="wrap">
-  <article id="article" class="post" aria-busy="true">
-    <p class="post-status" id="status">Fetching the article from the nightly build…</p>
-  </article>
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"><a href="/">TZERØ</a><span>/</span><a href="/#latest">Latest</a></nav>
+  <div class="post-layout">
+    <article id="article" class="post" aria-busy="true">
+      <p class="post-status" id="status">Fetching the article from the nightly build…</p>
+    </article>
+    <aside class="post-side" id="side" hidden></aside>
+  </div>
+  <section class="more" id="more" hidden>
+    <h2>Keep reading</h2>
+    <div class="grid" id="more-grid"></div>
+  </section>
 </main>
 
 <footer id="publisher"><div class="wrap">
