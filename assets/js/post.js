@@ -43,7 +43,7 @@
       const ol = el('ol');
       heads.forEach((h, i) => {
         h.id = h.id || 's' + (i + 1);
-        const a = el('a', '', h.textContent); a.href = '#' + h.id;
+        const a = el('a', '', h.textContent.replace(/^[^\p{L}\p{N}]+/u, '')); a.href = '#' + h.id;
         const li = el('li'); li.append(a); ol.append(li);
       });
       toc.append(ol); aside.append(toc);
@@ -89,7 +89,9 @@
     body.appendChild(RICOS.render(post.richContent));
     // Standfirst from the excerpt, unless the article already opens with the same words
     const ex = (post.excerpt || '').trim();
-    if (ex && !body.textContent.replace(/\s+/g, ' ').includes(ex.slice(0, 40))) head.append(el('p', 'post-dek', ex));
+    const opening = ex.split(/\s+/).slice(0, 4).join(' ');
+    const echoed = [...body.querySelectorAll('p')].slice(0, 3).some(p => p.textContent.trim().replace(/\s+/g, ' ').startsWith(opening));
+    if (ex && !echoed) head.append(el('p', 'post-dek', ex));
 
     const foot = el('div', 'post-foot');
     foot.append(el('span', '', 'Written by ' + WIX.author(post) + ' · ' + cat.label + ' · ' + WIX.date(post.firstPublishedDate)));
