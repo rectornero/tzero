@@ -78,7 +78,7 @@ window.WIX = (() => {
     mediaUrl,
     author: post => AUTHORS[post.memberId] || 'TZERØ',
     lineKey: post => LINE_KEYS[post.slug] || 'post-' + category(post).key,
-    wixUrl: post => (post.url ? post.url.base + post.url.path : 'https://www.tzero.live/post/' + post.slug),
+    wixUrl: post => (post.url ? post.url.base + post.url.path : 'https://journal.tzero.live/post/' + post.slug),
     date: iso => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
   };
 })();

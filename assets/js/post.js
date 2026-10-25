@@ -7,8 +7,8 @@
   function fail(msg) {
     status.textContent = msg;
     const a = document.createElement('a');
-    a.href = slug ? 'https://www.tzero.live/post/' + slug : 'https://www.tzero.live/posts';
-    a.textContent = ' Read it on tzero.live →';
+    a.href = slug ? 'https://journal.tzero.live/post/' + slug : 'https://journal.tzero.live/posts';
+    a.textContent = ' Read it on journal.tzero.live →';
     status.appendChild(a);
   }
 
@@ -18,7 +18,7 @@
     if (!post) throw new Error('missing');
     const cat = WIX.category(post);
     document.title = post.title + ' · TZERØ';
-    const canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = WIX.wixUrl(post);
+    const canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://tzero.live/post/' + post.slug;
     document.head.appendChild(canon);
     const desc = document.querySelector('meta[name=description]');
     if (desc && post.excerpt) desc.content = post.excerpt;
@@ -38,7 +38,7 @@
     const body = document.createElement('div'); body.className = 'post-body';
     body.appendChild(RICOS.render(post.richContent));
     const end = document.createElement('p'); end.className = 'post-end';
-    const a = document.createElement('a'); a.href = WIX.wixUrl(post); a.textContent = 'Comments and likes live on the original at tzero.live →';
+    const a = document.createElement('a'); a.href = WIX.wixUrl(post); a.textContent = 'Comments and likes live on the original at journal.tzero.live →';
     end.appendChild(a);
     art.replaceChildren(head, body, end);
     art.removeAttribute('aria-busy');
