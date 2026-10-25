@@ -18,6 +18,8 @@ window.WIX = (() => {
     'pokemon-unite-doesnt-have-to-die': 'unite',
     'artache-a-studio-opens-its-doors': 'artache',
   };
+  // Ache's news mood: the newest post with this Wix tag makes Ache grieve on it (no deploy needed)
+  const NEWS_TAG_SLUG = 'ache-grief';
   const STORE = 'tz-wix-token';
 
   function load() { try { return JSON.parse(sessionStorage.getItem(STORE)) } catch (e) { return null } }
@@ -62,6 +64,8 @@ window.WIX = (() => {
     return img ? { url: img.url || mediaUrl(img.id), width: img.width, height: img.height, alt: post.title } : null;
   }
 
+  function lineKey(post) { return LINE_KEYS[post.slug] || 'post-' + category(post).key }
+
   function mediaUrl(id) { return /^https?:/.test(id) ? id : 'https://static.wixstatic.com/media/' + id }
 
   return {
@@ -73,11 +77,19 @@ window.WIX = (() => {
       const j = await get('/blog/v3/posts/slugs/' + encodeURIComponent(slug) + '?fieldsets=RICH_CONTENT&fieldsets=URL&fieldsets=SEO');
       return j.post;
     },
+    // Resolves null when the tag exists but no post carries it (news over); rejects when the tag is missing
+    async news() {
+      const t = await get('/blog/v3/tags/slugs/' + NEWS_TAG_SLUG);
+      if (!t.tag || !t.tag.id) throw new Error('no news tag');
+      const j = await get('/blog/v3/posts?tagIds=' + t.tag.id + '&paging.limit=1');
+      const post = (j.posts || [])[0];
+      return post ? { topic: post.slug, key: lineKey(post), mood: 'grief', lines: 'grief' } : null;
+    },
     category,
     cover,
     mediaUrl,
     author: post => AUTHORS[post.memberId] || 'TZERØ',
-    lineKey: post => LINE_KEYS[post.slug] || 'post-' + category(post).key,
+    lineKey,
     wixUrl: post => (post.url ? post.url.base + post.url.path : 'https://www.tzero.live/post/' + post.slug),
     date: iso => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
   };
