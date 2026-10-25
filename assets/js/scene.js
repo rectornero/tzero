@@ -278,7 +278,8 @@ try{if(localStorage.getItem('ache-asleep')){home=true;sleeping=true;slot.classLi
 setInterval(()=>{if(!fight&&!home&&!caught&&!say.classList.contains('on')&&Math.random()<.5){say.textContent=nextLine('proud');say.classList.add('on');clearTimeout(say._t);say._t=setTimeout(()=>say.classList.remove('on'),3200)}},28000);
 
 /* news awareness: the current story sets Ache's mood (swap this object when the news changes) */
-let NEWS=null;fetch('/assets/news.json').then(r=>r.json()).then(d=>{NEWS=d&&d.mood?d:null;try{if(NEWS&&localStorage.getItem('tz-news-seen')===NEWS.topic&&newsStage===0)newsStage=1}catch(e){}}).catch(()=>{});
+// News mood comes live from a Wix tag (see WIX.news); assets/news.json is only the fallback until that tag exists
+let NEWS=null;addEventListener('DOMContentLoaded',()=>{(window.WIX?WIX.news():Promise.reject()).catch(()=>fetch('/assets/news.json').then(r=>r.json())).then(d=>{NEWS=d&&d.mood?d:null;try{if(NEWS&&localStorage.getItem('tz-news-seen')===NEWS.topic&&newsStage===0)newsStage=1}catch(e){}}).catch(()=>{})});
 addEventListener('pointermove',()=>{lastMove=performance.now()});
 const TH_OPEN=["Doc. DOC. I want UNITE to stay. I WANT it. Fix it. Now, please. Now.","Nobody asked ME before leaking that. I'm the site manager! I should be consulted!","Doc… can we talk? It's about UNITE.","I'm not crying, my eye is just… a star thing. Got a minute?","Mouse, you're the only one who gets me.","Do you charge by the hour? I'm a thread. I have no money.","Same time as last week? I brought tissues. I AM tissues.","I had the dream again. The servers went dark and I was in the lobby. Alone."];
 const TH_FEEL=["Like a server going dark. Like a lobby with no players. Like a sad star.","Like I've been left on read by a game company.","Like a goal I'll never get to score.","Like my thread is made of wet spaghetti.","Honestly? Like the 9th floor. Liminal. Empty. Humming."];

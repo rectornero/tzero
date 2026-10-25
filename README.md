@@ -32,7 +32,14 @@ to `www.wixapis.com`.
 
 ## Ache's news mood
 
-`assets/news.json` tells Ache what is happening right now (`topic`, `key` of the post it reacts to,
-`mood`, and the line set in `lines.json` to use). `"mood": "grief"` makes Ache play the grief scene (tears, dimmed and glitched site,
-therapy with the mouse) the first time it reaches that post; each visitor sees it once per `topic`
-(remembered in localStorage), after that Ache just walks past. Set `mood` to `""` (or delete the file) when the news is over.
+Ache reacts to the newest Wix post tagged **Ache grief** (tag slug `ache-grief`): the first time Ache reaches
+that post it plays the grief scene (tears, dimmed and glitched site, therapy with the mouse); each visitor sees it
+once per post (remembered in localStorage), after that Ache just walks past. Add the tag to a post on Wix to start a
+mood and remove it when the news is over. No commit or deploy is needed.
+
+`assets/news.json` is only a fallback for when the tag does not exist on Wix. Delete it once the tag is in use.
+
+## Netlify credits
+
+See [CLAUDE.md](CLAUDE.md). This site must stay static: every production deploy costs 15 credits from a balance
+shared by all of Nero's sites.
