@@ -144,13 +144,13 @@ addEventListener('click',e=>{if(fight||!stake||caught)return;const sx=stake.x-sc
 let fight=null;
 const fc=document.createElement('canvas');fc.id='arena';fc.hidden=true;document.body.appendChild(fc);const fx2=fc.getContext('2d');
 const hud=document.createElement('div');hud.className='fhud';hud.hidden=true;
-hud.innerHTML='<div class="boss"><b>REDACHE</b><span class="fdiff"></span><div class="hp"><i></i></div></div><div class="you"><b>MOUSE</b><span class="hearts"></span><button type="button" class="flee">Flee (Esc)</button></div><div class="fend" hidden><h3></h3><p></p><div class="opts"><button type="button" class="again">Rematch</button><button type="button" class="leave">Leave</button></div></div>';
+hud.innerHTML='<div class="boss"><b>REDACHE</b><span class="fdiff"></span><div class="hp"><i></i></div></div><div class="you"><b>MOUSE</b><div class="php"><i></i></div><span class="hearts"></span><span class="buffs"></span><button type="button" class="flee">Flee (Esc)</button></div><div class="fend" hidden><h3></h3><p></p><div class="opts"><button type="button" class="again">Rematch</button><button type="button" class="leave">Leave</button></div></div>';
 document.body.appendChild(hud);
 const DIFF={easy:{name:'Easy',php:10,ahp:20,spd:1.7,rate:1.5,dens:.6},normal:{name:'Normal',php:6,ahp:30,spd:2.3,rate:1.05,dens:1},hard:{name:'Hard',php:4,ahp:40,spd:2.9,rate:.8,dens:1.3},nier:{name:'NieR',php:3,ahp:50,spd:3.5,rate:.6,dens:1.7}};
 const RM={
  start:['Foolish cursor! Redache shall teach you humility!','You dare raise a pointer against me?','Behold my four glorious points!','I have read every tome on this site. Prepare yourself!','A duel! At last, a worthy distraction!'],
  hurt:['Ow! My point!','A lucky click, nothing more!','Insolent pointer!','That one tickled. Mostly.','You will pay for that pixel!','Hmph. A scratch.','Do not touch the star!','My eye! Not the eye!'],
- taunt:['Ha! Feeble cursor!','Is that all, little arrow?','Dodge, mouse! Dodge!','Your clicking hand trembles!','Pathetic. Truly pathetic.','The orange ones can be clicked, you know. Not that it will save you.','Too slow, rodent!','Mind the thread, mouse. It bites.','My thread is longer than your patience!'],
+ taunt:['Ha! Feeble cursor!','Is that all, little arrow?','Dodge, mouse! Dodge!','Your clicking hand trembles!','Pathetic. Truly pathetic.','The orange ones can be clicked, you know. Not that it will save you.','Do not even THINK about those drops.','Too slow, rodent!','Mind the thread, mouse. It bites.','My thread is longer than your patience!'],
  low:['No… my glorious points are fraying!','This cannot be! I am the boss!','I am merely warming up!','Very well. No more mercy!'],
  win:['Impossible… a mouse… defeated Redache…','Fine. FINE. You win. This time.','I let you win. Obviously. Rematch?'],
  lose:['Mouse K.O.! Bow before Redache!','And stay down, cursor!','Victory is mine, as written in the tomes!'],
@@ -161,12 +161,12 @@ function sprite(col,glow){const c=document.createElement('canvas'),S=40;c.width=
 const SPR={o:sprite('#ff9a3c','rgba(255,120,30,.45)'),p:sprite('#9b5cff','rgba(110,50,255,.45)')};
 function fsay(t,ms=1800){say.textContent=t;say.classList.add('on');clearTimeout(say._t);say._t=setTimeout(()=>say.classList.remove('on'),ms)}
 function startFight(k){const d=DIFF[k];stake=null;caught=null;chat.hidden=true;
-  fight={k,d,ahp:d.ahp,php:d.php,b:[],t:0,pat:0,patT:0,fire:0,ang:0,iframe:0,ax:innerWidth/2,ay:innerHeight*.3,tx:innerWidth/2,ty:innerHeight*.3,mt:0,over:false,shake:0,flash:0,lances:[],talkT:3};
+  fight={k,d,ahp:d.ahp,php:d.php,b:[],t:0,pat:0,patT:0,fire:0,ang:0,iframe:0,ax:innerWidth/2,ay:innerHeight*.3,tx:innerWidth/2,ty:innerHeight*.3,mt:0,over:false,shake:0,flash:0,lances:[],talkT:3,drops:[],dropT:3.5,pod:0,podF:0,pb:[],shield:0,beam:0,beamA:null};
   fc.width=innerWidth*dpr;fc.height=innerHeight*dpr;fc.hidden=false;hud.hidden=false;hud.querySelector('.fend').hidden=true;hud.querySelector('.fdiff').textContent=d.name;
   document.body.classList.add('fighting');updHud();fsay(pickR('start'),2400)}
 function endFight(){fight=null;fc.hidden=true;hud.hidden=true;document.body.classList.remove('fighting');say.classList.remove('on');pick()}
 function updHud(){if(!fight)return;hud.querySelector('.hp i').style.width=Math.max(0,fight.ahp/fight.d.ahp*100)+'%';
-  hud.querySelector('.hearts').textContent='♥'.repeat(Math.max(0,fight.php))+'♡'.repeat(Math.max(0,fight.d.php-fight.php))}
+  hud.querySelector('.php i').style.width=Math.max(0,fight.php/fight.d.php*100)+'%';hud.querySelector('.php i').style.background=fight.php/fight.d.php<=.34?'linear-gradient(90deg,#D0021B,#ff6b6b)':'linear-gradient(90deg,#3d8fd6,#8cc8f2)';hud.querySelector('.buffs').textContent=[fight.pod>0?'POD '+Math.ceil(fight.pod)+'s':'',fight.shield?'SHIELD':''].filter(Boolean).join(' · ');hud.querySelector('.hearts').textContent='♥'.repeat(Math.max(0,fight.php))+'♡'.repeat(Math.max(0,fight.d.php-fight.php))}
 function shoot(x,y,a,sp,kind){fight.b.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:kind==='o'?7:6,kind})}
 function patterns(dt){const F=fight,d=F.d,px=hx??innerWidth/2,py=hy??innerHeight*.75;F.patT+=dt;F.fire-=dt;
   if(F.patT>4.5){F.patT=0;F.pat=(F.pat+1+Math.floor(Math.random()*2))%6;fsay(RM.pat[F.pat],1300)}
@@ -177,6 +177,34 @@ function patterns(dt){const F=fight,d=F.d,px=hx??innerWidth/2,py=hy??innerHeight
   if(F.pat===3&&F.fire<=0){F.fire=d.rate*1.1;const a=Math.atan2(py-F.ay,px-F.ax);F.lances.push({x:F.ax,y:F.ay,a,w:.7,spd:s*4.2,d:0})}
   if(F.pat===5&&F.fire<=0&&!F.whip){F.fire=d.rate*1.5;const a=Math.atan2(py-F.ay,px-F.ax),dir=Math.random()<.5?1:-1;F.whip={a0:a-dir*1.1,a1:a+dir*1.1,t:0,warn:.65/Math.sqrt(d.dens),len:Math.min(innerWidth,innerHeight)*.55,dur:.45/d.spd*2.3}}
   if(F.pat===4&&F.fire<=0){F.fire=d.rate*1.6;const gap=Math.random()*(innerWidth-200)+100,n=Math.ceil(innerWidth/38);for(let i=0;i<n;i++){const x=i*38+19;if(Math.abs(x-gap)<70)continue;F.b.push({x,y:-10,vx:0,vy:s*.85,r:7,kind:i%4?'p':'o'})}}}
+
+/* weapon drops for the mouse */
+const DROPS={pod:{g:'◆',c:'#3d8fd6',n:'Pod'},shield:{g:'◯',c:'#1a5aa6',n:'Shield'},heart:{g:'♥',c:'#D0021B',n:'Heart'},laser:{g:'⚡',c:'#c4652b',n:'Laser'},purge:{g:'✦',c:'#0A1F44',n:'Purge'}};
+const DROP_LINES={pod:'A little robot friend? How dare you.',shield:'Hiding behind a bubble, mouse?',heart:'Healing is for the weak!',laser:'Put that thing DOWN!',purge:'MY BEAUTIFUL BULLETS!'};
+function dmgAche(n){const F=fight;if(!F||F.over)return;const before=F.ahp;F.ahp-=n;F.hurt=.15;updHud();
+  if(F.ahp<=0){F.over=true;F.b=[];F.lances=[];F.whip=null;F.drops=[];fsay(pickR('win'),3200);showEnd('Redache defeated!','You beat Ache on '+F.d.name+' with '+F.php+' ♥ left. It will remember this.');return}
+  const low=Math.floor(F.d.ahp*.3);if(before>low&&F.ahp<=low)fsay(pickR('low'),2000);else if(Math.random()<.3)fsay(pickR('hurt'),1300);
+  if(Math.random()<.12)spawnDrop(F.ax,F.ay)}
+function spawnDrop(x,y){const F=fight,keys=Object.keys(DROPS),w=F.php<F.d.php/2?['heart','shield','purge','pod','laser','heart']:keys;const type=w[Math.floor(Math.random()*w.length)];
+  F.drops.push({x:x??60+Math.random()*(innerWidth-120),y:y??-20,vy:1.1,t:0,type})}
+function dropsStep(dt,px,py,g){const F=fight;if(F.over)return;F.dropT-=dt;if(F.dropT<=0){F.dropT=({easy:4,normal:5,hard:6,nier:7})[F.k]+Math.random()*2;spawnDrop()}
+  for(const d of F.drops){d.t+=dt;d.y+=d.vy;d.x+=Math.sin(d.t*2)*.6}
+  F.drops=F.drops.filter(d=>{if(Math.hypot(d.x-px,d.y-py)<26){collect(d.type,px,py);return false}return d.y<innerHeight+30});
+  for(const d of F.drops){const D=DROPS[d.type],pul=1+Math.sin(d.t*6)*.08;g.save();g.translate(d.x,d.y);g.scale(pul,pul);g.fillStyle='rgba(255,246,207,.95)';g.shadowColor='rgba(255,246,207,.9)';g.shadowBlur=16;g.beginPath();g.arc(0,0,14,0,7);g.fill();g.shadowBlur=0;
+    g.strokeStyle=D.c;g.lineWidth=2;g.stroke();g.fillStyle=D.c;g.font='700 15px Geist, sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(D.g,0,1);g.restore()}
+  /* pod: orbits the mouse and fires at Ache */
+  if(F.pod>0){F.pod-=dt;F.podF-=dt;const ox=px+Math.cos(F.t*3)*30,oy=py+Math.sin(F.t*3)*30;if(F.podF<=0){F.podF=.3;const a=Math.atan2(F.ay-oy,F.ax-ox);F.pb.push({x:ox,y:oy,vx:Math.cos(a)*9,vy:Math.sin(a)*9})}
+    g.save();g.translate(ox,oy);g.rotate(F.t*4);g.fillStyle='#fff6cf';g.strokeStyle='#3d8fd6';g.lineWidth=2;g.fillRect(-6,-6,12,12);g.strokeRect(-6,-6,12,12);g.restore();if(Math.floor(F.pod*10)%10===0)updHud();if(F.pod<=0)updHud()}
+  for(const b of F.pb){b.x+=b.vx;b.y+=b.vy}F.pb=F.pb.filter(b=>{if(Math.hypot(b.x-F.ax,b.y-F.ay)<22){dmgAche(1);return false}return b.x>-20&&b.x<innerWidth+20&&b.y>-20&&b.y<innerHeight+20});
+  g.fillStyle='#fff6cf';for(const b of F.pb){g.beginPath();g.arc(b.x,b.y,3,0,7);g.fill()}
+  if(F.shield){g.strokeStyle=`rgba(140,200,242,${.6+.3*Math.sin(F.t*8)})`;g.lineWidth=2.5;g.beginPath();g.arc(px,py,20,0,7);g.stroke()}
+  if(F.beam>0){F.beam-=dt;const a=F.beamA;g.strokeStyle=`rgba(255,246,207,${F.beam*3})`;g.lineWidth=10*F.beam*3;g.shadowColor='#ffcf7a';g.shadowBlur=24;g.beginPath();g.moveTo(a.x1,a.y1);g.lineTo(a.x2,a.y2);g.stroke();g.shadowBlur=0}}
+function collect(type,px,py){const F=fight;fsay(DROP_LINES[type],1500);
+  if(type==='pod')F.pod=9;if(type==='shield')F.shield=1;if(type==='heart')F.php=Math.min(F.d.php,F.php+1);
+  if(type==='purge'){F.b=[];F.lances=[];F.whip=null;F.flash=.25}
+  if(type==='laser'){F.beam=.35;F.beamA={x1:px,y1:py,x2:F.ax,y2:F.ay};const vx=F.ax-px,vy=F.ay-py,L2=vx*vx+vy*vy||1;
+    F.b=F.b.filter(b=>{const t=Math.max(0,Math.min(1,((b.x-px)*vx+(b.y-py)*vy)/L2));return Math.hypot(b.x-(px+vx*t),b.y-(py+vy*t))>26});dmgAche(Math.max(3,Math.round(F.d.ahp*.12)))}
+  updHud()}
 function fightStep(){const F=fight;if(!F)return;const dt=.016;F.t+=dt;const W=innerWidth,H=innerHeight,px=hx??W/2,py=hy??H*.75;
   if(!F.over){F.mt-=dt;if(F.mt<=0){F.mt=1+Math.random()*.8;F.tx=W*(.15+Math.random()*.7);F.ty=H*(.12+Math.random()*.38)}
     F.ax+=(F.tx-F.ax)*.04;F.ay+=(F.ty-F.ay)*.04;patterns(dt);F.iframe-=dt;F.talkT-=dt;if(F.talkT<=0){F.talkT=6+Math.random()*4;fsay(pickR('taunt'))}}
@@ -188,7 +216,8 @@ function fightStep(){const F=fight;if(!F)return;const dt=.016;F.t+=dt;const W=in
     for(const L of F.lances)if(L.w<=0){const hx2=L.x+Math.cos(L.a)*L.d,hy2=L.y+Math.sin(L.a)*L.d,tx=hx2-Math.cos(L.a)*60,ty=hy2-Math.sin(L.a)*60;
       const vx=hx2-tx,vy=hy2-ty,t2=Math.max(0,Math.min(1,((px-tx)*vx+(py-ty)*vy)/(vx*vx+vy*vy)));if(Math.hypot(px-(tx+vx*t2),py-(ty+vy*t2))<9)hit=true}
     if(whipSeg){const tx=F.ax+Math.cos(whipSeg.a)*whipSeg.len,ty=F.ay+Math.sin(whipSeg.a)*whipSeg.len,vx=tx-F.ax,vy=ty-F.ay,t2=Math.max(0,Math.min(1,((px-F.ax)*vx+(py-F.ay)*vy)/(vx*vx+vy*vy)));if(Math.hypot(px-(F.ax+vx*t2),py-(F.ay+vy*t2))<8)hit=true}
-    if(hit){F.php--;F.iframe=1.1;F.shake=10;F.flash=.35;updHud();
+    if(hit&&F.shield){F.shield=0;F.iframe=.9;F.flash=.15;updHud();fsay('A shield?! Cheater!',1300);hit=false}
+    if(hit){F.php--;F.iframe=1.4;F.shake=10;F.flash=.35;updHud();
       if(F.php<=0){F.over=true;F.b=[];F.lances=[];F.whip=null;fsay(pickR('lose'),3000);showEnd('Mouse K.O.','Redache wins on '+F.d.name+'. The star is insufferable now.')}else if(Math.random()<.6)fsay(pickR('taunt'))}}
   /* draw */
   const g=fx2;g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);F.shake*=.85;const sx=(Math.random()-.5)*F.shake,sy=(Math.random()-.5)*F.shake;g.translate(sx,sy);
@@ -207,6 +236,8 @@ function fightStep(){const F=fight;if(!F)return;const dt=.016;F.t+=dt;const W=in
   if(F.over&&F.php>0){g.strokeStyle='#0A1F44';g.lineWidth=2;g.beginPath();g.moveTo(-4,-4);g.lineTo(4,4);g.moveTo(4,-4);g.lineTo(-4,4);g.stroke()}
   else{g.fillStyle='#0A1F44';g.beginPath();g.arc(ex/ed*R*.14,ey/ed*R*.14,R*.15,0,7);g.fill();g.strokeStyle='#0A1F44';g.lineWidth=2;g.beginPath();g.moveTo(-R*.32,-R*.5);g.lineTo(R*.28,-R*.38);g.stroke()}
   g.restore();F.hurt=Math.max(0,(F.hurt||0)-dt);
+  dropsStep(dt,px,py,g);
+  if(!F.over){const r=F.php/F.d.php;g.fillStyle='rgba(10,31,68,.7)';g.fillRect(px-18,py+16,36,5);g.fillStyle=r<=.34?'#ff4d5a':'#8cc8f2';g.fillRect(px-18,py+16,36*Math.max(0,r),5)}
   /* the mouse's hitbox */
   if(!F.over||F.php>0){const blink=F.iframe>0&&Math.floor(F.t*14)%2;if(!blink){g.strokeStyle=F.php<=1?'#ff4d5a':'#fff6cf';g.lineWidth=2;g.beginPath();g.arc(px,py,9,0,7);g.stroke();g.fillStyle='#fff';g.beginPath();g.arc(px,py,2.5,0,7);g.fill()}}
   else{g.fillStyle='#fff6cf';g.font='700 46px Geist, sans-serif';g.textAlign='center';g.fillText('K.O.',px,py-24)}
@@ -214,9 +245,7 @@ function fightStep(){const F=fight;if(!F)return;const dt=.016;F.t+=dt;const W=in
   say.style.left=F.ax+'px';say.style.top=F.ay-26+'px'}
 function showEnd(h,p){const e=hud.querySelector('.fend');e.querySelector('h3').textContent=h;e.querySelector('p').textContent=p;setTimeout(()=>{if(fight)e.hidden=false},900)}
 fc.addEventListener('click',e=>{e.stopPropagation();const F=fight;if(!F||F.over)return;
-  if(Math.hypot(e.clientX-F.ax,e.clientY-F.ay)<28){F.ahp--;F.hurt=.15;F.mt=0;updHud();
-    if(F.ahp<=0){F.over=true;F.b=[];F.lances=[];F.whip=null;fsay(pickR('win'),3200);showEnd('Redache defeated!','You beat Ache on '+F.d.name+' with '+F.php+' ♥ left. It will remember this.')}
-    else if(F.ahp===Math.floor(F.d.ahp*.3))fsay(pickR('low'),2000);else if(Math.random()<.35)fsay(pickR('hurt'),1300);return}
+  if(Math.hypot(e.clientX-F.ax,e.clientY-F.ay)<34){dmgAche(1);F.mt=0;return}
   const i=F.b.findIndex(b=>b.kind==='o'&&Math.hypot(b.x-e.clientX,b.y-e.clientY)<b.r+10);if(i>=0)F.b.splice(i,1)});
 hud.querySelector('.flee').onclick=e=>{e.stopPropagation();fsay('Run, little mouse! Ha!');endFight()};
 hud.querySelector('.leave').onclick=e=>{e.stopPropagation();endFight()};

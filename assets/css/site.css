@@ -136,3 +136,5 @@ body.fighting .say{z-index:31}
 .slot.full .zz{animation:zz 2.4s ease-in-out infinite}
 @keyframes breathe{50%{transform:scale(.88)}}
 @keyframes zz{0%{opacity:0;transform:translate(0,4px)}40%{opacity:1}100%{opacity:0;transform:translate(6px,-10px)}}
+.fhud .buffs{font-size:11px;letter-spacing:.12em;color:#8cc8f2}
+.fhud .php{width:min(200px,40vw);height:8px;background:rgba(255,246,207,.18);border:1px solid rgba(255,246,207,.5)}.fhud .php i{display:block;height:100%;width:100%;transition:width .2s}
