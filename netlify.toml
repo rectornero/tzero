@@ -1,0 +1,10 @@
+# Static site: no build step, no functions. Articles load in the browser from Wix,
+# so a deploy only happens when the design changes.
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
