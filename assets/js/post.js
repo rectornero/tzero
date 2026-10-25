@@ -23,6 +23,14 @@
     WIX.latest(4).then(posts => {
       const others = posts.filter(p => p.slug !== post.slug).slice(0, 3);
       if (!others.length) return;
+      const fresh = el('nav', 'side-box side-fresh'); fresh.setAttribute('aria-label', 'Fresh from the journal');
+      fresh.append(el('span', 'tag', 'Fresh from the journal'));
+      others.forEach(p => {
+        const a = el('a'); a.href = '/post/' + p.slug; a.dataset.say = WIX.lineKey(p);
+        a.append(el('b', '', p.title), el('span', 'meta', WIX.category(p).label + ' · ' + WIX.date(p.firstPublishedDate)));
+        fresh.append(a);
+      });
+      const rail = document.querySelector('.rail-r'); if (rail) rail.append(fresh);
       const grid = document.getElementById('more-grid');
       grid.replaceChildren(...others.map(p => WIX.card(p)));
       document.getElementById('more').hidden = false;
@@ -33,9 +41,26 @@
   // Desktop sidebar: what the article covers (its section headings) and where it came from
   function side(post, body) {
     const aside = document.getElementById('side');
+    const left = el('div', 'rail rail-l'), right = el('div', 'rail rail-r');
+    aside.append(left, right);
     const box = el('div', 'side-box side-meta');
-    box.append(el('span', 'tag', WIX.category(post).label), el('strong', '', WIX.author(post)), el('span', 'meta', WIX.date(post.firstPublishedDate) + (post.minutesToRead ? ' · ' + post.minutesToRead + ' min read' : '')));
-    aside.append(box);
+    const who = el('div', 'side-who');
+    who.append(el('span', 'side-avatar', WIX.author(post).charAt(0)), el('strong', '', WIX.author(post)));
+    box.append(el('span', 'tag', WIX.category(post).label), who, el('span', 'meta', WIX.date(post.firstPublishedDate) + (post.minutesToRead ? ' · ' + post.minutesToRead + ' min read' : '')));
+    // How far through the article the reader is
+    const prog = el('div', 'side-progress'), bar = el('i'), pct = el('span', 'meta', '0% read');
+    prog.append(bar); box.append(prog, pct);
+    const sheet = art.querySelector('.post-sheet');
+    const track = () => {
+      const r = sheet.getBoundingClientRect(), total = r.height - innerHeight * .6;
+      const v = Math.max(0, Math.min(1, (innerHeight * .4 - r.top) / Math.max(1, total)));
+      bar.style.width = (v * 100).toFixed(1) + '%'; pct.textContent = v >= .99 ? 'Finished. Thanks for reading!' : Math.round(v * 100) + '% read';
+    };
+    addEventListener('scroll', track, { passive: true }); track();
+    const copy = el('button', 'side-btn', 'Copy link'); copy.type = 'button';
+    copy.onclick = () => { navigator.clipboard && navigator.clipboard.writeText(location.href).then(() => { copy.textContent = 'Link copied'; setTimeout(() => { copy.textContent = 'Copy link' }, 1800) }) };
+    box.append(copy);
+    left.append(box);
     const heads = [...body.querySelectorAll('h2')];
     if (heads.length > 1) {
       const toc = el('nav', 'side-box toc'); toc.setAttribute('aria-label', 'In this article');
@@ -46,7 +71,7 @@
         const a = el('a', '', h.textContent.replace(/^[^\p{L}\p{N}]+/u, '')); a.href = '#' + h.id;
         const li = el('li'); li.append(a); ol.append(li);
       });
-      toc.append(ol); aside.append(toc);
+      toc.append(ol); right.append(toc);
       const links = [...ol.querySelectorAll('a')];
       const spy = new IntersectionObserver(es => es.forEach(e => {
         if (e.isIntersecting) links.forEach(l => l.classList.toggle('on', l.hash === '#' + e.target.id));

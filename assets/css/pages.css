@@ -62,6 +62,8 @@ footer a{color:var(--sun);text-decoration:underline;text-underline-offset:3px}
 
 /* Sidebar on wide screens; on narrow ones the article takes the whole width */
 .post-side{position:sticky;top:96px;display:flex;flex-direction:column;gap:16px}
+.rail{display:flex;flex-direction:column;gap:16px;position:sticky;top:96px}
+.post-side .rail{position:static}
 .side-box{background:#fff;border:1px solid rgba(26,90,166,.12);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 34px -22px rgba(26,90,166,.5)}
 .side-box strong{font-family:var(--display);font-size:18px;color:var(--ink)}
 .toc ol{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:s}
@@ -80,9 +82,25 @@ footer a{color:var(--sun);text-decoration:underline;text-underline-offset:3px}
   .crumbs,.more{max-width:1500px}
   .post-layout{max-width:1500px;grid-template-columns:240px minmax(0,900px) 280px;justify-content:center}
   .post-side{display:contents}
-  .side-meta{grid-column:1;grid-row:1;position:sticky;top:96px}
-  .toc{grid-column:3;grid-row:1;position:sticky;top:96px}
+  .post-side .rail{position:sticky;top:96px}
+  .rail-l{grid-column:1;grid-row:1}
+  .rail-r{grid-column:3;grid-row:1}
   .post{grid-column:2;grid-row:1}
   .post-body{font-size:19px}
   .post[aria-busy=true]{grid-column:1/-1}
 }
+
+/* The season's scene stays behind the article the whole way down, like the home page's sea */
+.reading .post-sea{position:fixed;inset:0;z-index:0}
+.reading main{z-index:2}
+.reading .crumbs a,.reading .crumbs span{color:var(--ink)}
+.post-sheet{position:relative}
+.side-who{display:flex;align-items:center;gap:10px;margin-top:4px}
+.side-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--abyss);color:var(--sun);font-family:var(--display);font-weight:800}
+.side-progress{height:4px;border-radius:99px;background:color-mix(in srgb,var(--b2) 15%,#fff);overflow:hidden;margin-top:10px}
+.side-progress i{display:block;height:100%;width:0;background:var(--red);border-radius:inherit;transition:width .15s}
+.side-btn{margin-top:8px;align-self:flex-start;padding:7px 14px;border-radius:99px;border:1px solid color-mix(in srgb,var(--b2) 40%,transparent);background:#fff;color:var(--ink);font-family:var(--mono);font-size:12px;cursor:pointer}
+.side-btn:hover{border-color:var(--red);color:var(--red)}
+.side-fresh a{display:flex;flex-direction:column;gap:2px;padding:8px;border-radius:8px}
+.side-fresh a:hover{background:color-mix(in srgb,var(--b2) 10%,#fff)}
+.side-fresh b{font-family:var(--display);font-size:15px;line-height:1.25;color:var(--ink)}
