@@ -1,1 +1,3 @@
+# Posts render here; everything else that used to live on the Wix site goes to the journal
 /post/*  /post.html  200
+/*       https://journal.tzero.live/:splat  301
