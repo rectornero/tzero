@@ -9,7 +9,17 @@
 # Scripts, styles and lines.json revalidate on every visit (a cheap 304), so a deploy never leaves
 # a visitor with new HTML and an old script. Images change rarely and may be cached for an hour.
 [[headers]]
-  for = "/assets/*"
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*.json"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
