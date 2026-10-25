@@ -1,7 +1,8 @@
 /* TZERØ living page: season scene, page glow, click effects, the red thread and its critter.
    Ported from the approved "Tide and Thread" mockup. */
 (()=>{
-const still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,2),root=document.documentElement;
+const LITE=matchMedia('(pointer:coarse)').matches||innerWidth<760;
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,LITE?1:2),root=document.documentElement;
 const sea=document.querySelector('.sea'),c=document.getElementById('waves')||document.createElement('canvas'),x=c.getContext('2d');
 const f=document.getElementById('fx'),fx=f.getContext('2d'),b=document.getElementById('bg'),bx=b.getContext('2d');let cx=-1,cy=-1;
 let w,h,W,H,t=0,mx=-1,my=-1,px=-1,py=-1,energy=0,gust=0,lastX=null;
@@ -81,7 +82,8 @@ function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const warm=skin!==
   for(let k=flyers.length-1;k>=0;k--){const L=flyers[k];L.vx+=gust*.05*dpr;L.vy+=.08*dpr;L.vx*=.985;L.vy*=.985;L.x+=L.vx;L.y+=L.vy;L.r+=L.vr*3;L.flip+=.12;L.life-=.006;
     if(L.life<=0||L.y>H+40*dpr){flyers.splice(k,1);continue}drawLeaf(fx,L)}}
 
-function frame(){t+=.016;energy*=.96;x.clearRect(0,0,w,h);if(skin==='sea')summer();else autumn();drawFx();if(!still)requestAnimationFrame(frame)}
+let seaOn=c.isConnected,odd=false;if(seaOn&&window.IntersectionObserver)new IntersectionObserver(e=>{seaOn=e[0].isIntersecting}).observe(c);
+function frame(){if(LITE&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LITE?.032:.016;energy*=LITE?.92:.96;if(seaOn){x.clearRect(0,0,w,h);if(skin==='sea')summer();else autumn()}drawFx();if(!still)requestAnimationFrame(frame)}
 frame();
 
 function bindTilt(scope){scope.querySelectorAll('.tilt:not([data-tilt])').forEach(el=>{el.dataset.tilt='1';el.addEventListener('pointermove',e=>{if(still)return;const b=el.getBoundingClientRect(),qx=(e.clientX-b.left)/b.width,qy=(e.clientY-b.top)/b.height;
