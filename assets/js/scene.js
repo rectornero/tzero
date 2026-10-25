@@ -90,7 +90,7 @@ function bindTilt(scope){scope.querySelectorAll('.tilt:not([data-tilt])').forEac
 bindTilt(document);
 
 /* floating red thread: no gravity, desk friction */
-const tc=document.getElementById('thread'),tx_=tc.getContext('2d');let N=38;const seg=13;let home=false,sleeping=false;let stake=null;let spin=0,squash=0,blinkT=3,sass=0,dodgeCool=0;let pts=[],hx=null,hy=null;
+const tc=document.getElementById('thread'),tx_=tc.getContext('2d');let N=38;const seg=13;let therapy=false,tears=[],lastMove=0;let home=false,sleeping=false;let stake=null;let spin=0,squash=0,blinkT=3,sass=0,dodgeCool=0;let pts=[],hx=null,hy=null;
 function tsize(){tc.width=innerWidth*dpr;tc.height=innerHeight*dpr;if(!pts.length)for(let i=0;i<N;i++){pts.push({x:60+i*seg,y:110,px:60+i*seg,py:110})}}
 addEventListener('resize',tsize);tsize();addEventListener('pointermove',e=>{hx=e.clientX;hy=e.clientY});
 
@@ -99,10 +99,10 @@ const say=document.createElement('div');say.className='say';document.body.append
 let target=null,until=0,said=null,cool=0;
 function pick(){const els=[...document.querySelectorAll('[data-say]')].filter(el=>{const b=el.getBoundingClientRect();return b.bottom>40&&b.top<innerHeight-40&&b.right>0&&b.left<innerWidth});
   target=els.length?els[Math.floor(Math.random()*els.length)]:null;until=tt+6+Math.random()*4;said=null}
-function seek(){if(home){const sp=slotPos(),tl=pts[N-1];tl.x+=(sp.x-tl.x)*.2;tl.y+=(sp.y-tl.y)*.2;pts[0].x+=(sp.x-pts[0].x)*.2;pts[0].y+=(sp.y-pts[0].y)*.2;if(!sleeping&&Math.hypot(tl.x-sp.x,tl.y-sp.y)<8&&Math.hypot(pts[0].x-sp.x,pts[0].y-sp.y)<8){sleeping=true;slot.classList.add('full');say.classList.remove('on')}return}if(caught){const tl=pts[N-1];tl.x+=(caught.x-tl.x)*.25;tl.y+=(caught.y-tl.y)*.25;return}if(!target||tt>until||!document.contains(target))pick();if(!target)return;
+function seek(){if(therapy&&!caught&&hx!==null){const tl=pts[N-1],tx=hx-46,ty=hy-34;tl.x+=(tx-tl.x)*.08;tl.y+=(ty-tl.y)*.08;if(Math.hypot(tl.x-tx,tl.y-ty)<24)openTherapy(tl.x,tl.y);return}if(home){const sp=slotPos(),tl=pts[N-1];tl.x+=(sp.x-tl.x)*.2;tl.y+=(sp.y-tl.y)*.2;pts[0].x+=(sp.x-pts[0].x)*.2;pts[0].y+=(sp.y-pts[0].y)*.2;if(!sleeping&&Math.hypot(tl.x-sp.x,tl.y-sp.y)<8&&Math.hypot(pts[0].x-sp.x,pts[0].y-sp.y)<8){sleeping=true;slot.classList.add('full');say.classList.remove('on')}return}if(caught){const tl=pts[N-1];tl.x+=(caught.x-tl.x)*.25;tl.y+=(caught.y-tl.y)*.25;return}if(!target||tt>until||!document.contains(target))pick();if(!target)return;
   const b=target.getBoundingClientRect(),tx=b.left+b.width*.5,ty=b.top+Math.min(b.height*.3,60),tl=pts[N-1],dx=tx-tl.x,dy=ty-tl.y,d=Math.hypot(dx,dy);
   tl.x+=dx*.035;tl.y+=dy*.035;
-  if(d<70&&said!==target&&tt>cool&&!caught){said=target;cool=tt+2;say.textContent=nextLine(target.dataset.say);if(say.textContent)say.classList.add('on');setTimeout(()=>say.classList.remove('on'),2600)}}
+  if(d<70&&said!==target&&tt>cool&&!caught){said=target;cool=tt+2;say.textContent=NEWS&&target.dataset.say===NEWS.key&&Math.random()<.7?nextLine(NEWS.lines):nextLine(['artache','studio','motto','cover','devlog'].includes(target.dataset.say)&&Math.random()<.5?'proud':target.dataset.say);say.classList.add('on');setTimeout(()=>say.classList.remove('on'),2600)}}
 addEventListener('scroll',()=>{if(target&&target.getBoundingClientRect().bottom<0)pick()},{passive:true});
 
 /* 100+ lines per item, shuffled; no repeats until the whole bag is used */
@@ -115,6 +115,7 @@ function talk(text,opts){chat.innerHTML='';const p=document.createElement('p');p
   opts.forEach(([label,fn])=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=e=>{e.stopPropagation();fn()};row.appendChild(b)});chat.appendChild(row)}
 function menu(text){talk(text,[['Who are you?',()=>talk("A four-point star on a string, obviously. Nero's nickname comes from a star like me, so technically I'm the boss here. The name's Ache. Full name Redache. Only friends call me Ache. You may call me Ache.",back)],
   ['What should I read?',()=>{const c=[...document.querySelectorAll('.card[data-say]')];if(!c.length){talk('The fresh stuff is on the front page. Follow me.',[['Take me',()=>{location.href='/#latest'}],['Maybe later',()=>menu('Suit yourself. Anything else?')]]);return}const pick=c[Math.floor(Math.random()*c.length)];talk('Try "'+pick.querySelector('h4').textContent+'". I\'ll show you!',[['Show me',()=>{release();pick.scrollIntoView({behavior:'smooth',block:'center'});target=pick;until=tt+8;said=null}],['Maybe later',()=>menu('Okay! Anything else?')]])}],
+  ['What\'s Artache?',()=>talk(nextLine('proud'),[['Really?',()=>talk(nextLine('proud'),back)],['Back',()=>menu('Where was I? Oh right, the best studio. A good studio.')]])],
   ['Fight me!',()=>talk('You dare challenge Redache? Choose your doom.',[['Easy',()=>startFight('easy')],['Normal',()=>startFight('normal')],['Hard',()=>startFight('hard')],['NieR',()=>startFight('nier')],['Never mind',()=>menu('Coward. Anything else?')]])],
   ['Tell me a secret',()=>talk(secrets[si++%secrets.length],back)],
   ['Get shorter',()=>{resize(-6);talk(N<=20?'Any shorter and I\'m just a star with no string. Free at last? No.':'Ahh, lighter. Speedrun mode.',back)}],
@@ -123,11 +124,11 @@ function menu(text){talk(text,[['Who are you?',()=>talk("A four-point star on a 
   ['Bye!',()=>{talk('Finally. Try to keep up next time.',[]);setTimeout(release,1100)}]])}
 const back=[['Back',()=>menu('What else?')],['Bye!',()=>{talk('See you around!',[]);setTimeout(release,1000)}]];
 function resize(dn){const n=Math.max(20,Math.min(62,N+dn));while(N<n){const l=pts[N-1];pts.push({x:l.x,y:l.y,px:l.x,py:l.y});N++}while(N>n){pts.pop();N--}}
-function release(){caught=null;chat.hidden=true;pick()}
+function release(){caught=null;therapy=false;chat.hidden=true;pick()}
 addEventListener('click',e=>{if(fight||home)return;const tl=pts[N-1];if(!caught&&Math.hypot(e.clientX-tl.x,e.clientY-tl.y)<26){e.stopImmediatePropagation();e.preventDefault();
   caught={x:Math.min(Math.max(e.clientX,40),innerWidth-40),y:Math.min(Math.max(e.clientY,120),innerHeight-40)};say.classList.remove('on');
   chat.hidden=false;chat.style.left=Math.min(caught.x+18,innerWidth-300)+'px';chat.style.top=Math.max(caught.y-20,70)+'px';
-  menu(['Ugh. Fine. You caught me.','Hey! Hands off the points!','Okay, okay, lucky click.','Caught? I let you catch me.','Rude. Impressive, but rude.','Unhand me, I\'m a star!'][Math.floor(Math.random()*4)]+' What\'s up?')}
+  menu(['Ugh. Fine. You caught me. Welcome to Artache, best studio on Earth. In this building.','Ugh. Fine. You caught me.','Hey! Hands off the points!','Okay, okay, lucky click.','Caught? I let you catch me.','Rude. Impressive, but rude.','Unhand me, I\'m a star!'][Math.floor(Math.random()*4)]+' What\'s up?')}
   else if(caught&&!e.target.closest('.chat')){e.stopImmediatePropagation();release()}},true);
 addEventListener('keydown',e=>{if(e.key==='Escape'&&caught)release()});
 
@@ -263,6 +264,26 @@ function wakeAche(){const sp=slotPos();home=false;sleeping=false;slot.classList.
   setTimeout(()=>fsay(sleepLines[sli2++%sleepLines.length],1800),400);try{localStorage.removeItem('ache-asleep')}catch(e){}}
 slot.addEventListener('click',e=>{e.stopPropagation();home?wakeAche():goSleep()});
 try{if(localStorage.getItem('ache-asleep')){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up')}}catch(e){}
+
+/* Ache can't help bragging about its home studio, then correcting itself */
+setInterval(()=>{if(!fight&&!home&&!caught&&!say.classList.contains('on')&&Math.random()<.5){say.textContent=nextLine(NEWS&&Math.random()<.5?NEWS.lines:'proud');say.classList.add('on');clearTimeout(say._t);say._t=setTimeout(()=>say.classList.remove('on'),3200)}},28000);
+
+/* news awareness: the current story sets Ache's mood (swap this object when the news changes) */
+let NEWS=null;fetch('/assets/news.json').then(r=>r.json()).then(d=>{NEWS=d&&d.mood?d:null}).catch(()=>{});
+addEventListener('pointermove',()=>{lastMove=performance.now()});
+const TH_OPEN=["Doc… can we talk? It's about UNITE.","I'm not crying, my eye is just… a star thing. Got a minute?","Mouse, you're the only one who gets me.","Do you charge by the hour? I'm a thread. I have no money.","Same time as last week? I brought tissues. I AM tissues.","I had the dream again. The servers went dark and I was in the lobby. Alone."];
+const TH_FEEL=["Like a server going dark. Like a lobby with no players. Like a sad star.","Like I've been left on read by a game company.","Like a goal I'll never get to score.","Like my thread is made of wet spaghetti.","Honestly? Like the 9th floor. Liminal. Empty. Humming."];
+let thi=0,thf=0;
+function openTherapy(x,y){therapy=false;caught={x,y};chat.hidden=false;chat.style.left=Math.min(x+18,innerWidth-300)+'px';chat.style.top=Math.max(y-20,70)+'px';say.classList.remove('on');session(TH_OPEN[thi++%TH_OPEN.length])}
+const after=[['Keep talking',()=>session(TH_OPEN[thi++%TH_OPEN.length])],['Back to work',()=>{talk('*blows nose on own thread* Thanks, doc.',[]);setTimeout(release,1200)}]];
+function session(open){talk(open,[
+  ['There, there.',()=>talk('*sniff* Thank you. You\'re a good mouse. A great mouse. The best mouse. A mouse. *sob*',after)],
+  ['How does that make you feel?',()=>talk(TH_FEEL[thf++%TH_FEEL.length],after)],
+  ['It\'s just a rumour.',()=>talk('A rumour?! Dataminers are never wrong! …They\'re sometimes wrong. Oh. Oh! HOPE! *cries harder, but happier*',after)],
+  ['Read the article',()=>{const c=document.querySelector('[data-say="unite"]');talk('Claude wrote it. The studio agrees. I agree. We ALL agree. Artache is the best at agreeing. A good agreer. Come, I\'ll show you.',[['Show me',()=>{release();if(c){c.scrollIntoView({behavior:'smooth',block:'center'});target=c;until=tt+8;said=null}}]])}],
+  ['That\'ll be 50€.',()=>{talk('Put it on Artache\'s tab. Best studio in the world. Bad at paying. It pays fine! Bye!',[]);setTimeout(release,1500)}]])}
+setInterval(()=>{if(NEWS&&NEWS.mood==='grief'&&!fight&&!home&&!caught&&!therapy&&!stake&&performance.now()-lastMove<8000&&Math.random()<.55){therapy=true;say.textContent='*sniff* doc? DOC!';say.classList.add('on');clearTimeout(say._t);say._t=setTimeout(()=>say.classList.remove('on'),1600)}},45000);
+setTimeout(()=>{if(NEWS&&!caught&&!fight&&!home){say.textContent=nextLine('grief');say.classList.add('on');clearTimeout(say._t);say._t=setTimeout(()=>say.classList.remove('on'),2600)}},9000);
 let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.height);tt+=.016;if(!still)requestAnimationFrame(thread);return}tt+=.016;const h0=pts[0],gx=home?slotPos().x:stake?stake.x-scrollX:hx===null?innerWidth*.6+Math.sin(tt*.4)*innerWidth*.25:hx,gy=home?slotPos().y:stake?stake.y-scrollY:hy===null?160+Math.sin(tt*.7)*50:hy;if(stake){h0.x=gx;h0.y=gy}
   h0.x+=(gx-h0.x)*.3;h0.y+=(gy-h0.y)*.3;
   for(let i=1;i<N;i++){const p=pts[i],vx=(p.x-p.px)*.86,vy=(p.y-p.py)*.86;p.px=p.x;p.py=p.y;p.x+=vx+Math.sin(tt*1.3+i*.4)*.05;p.y+=vy+Math.cos(tt*1.1+i*.3)*.05}
@@ -282,6 +303,8 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
   if(open>.5){g.fillStyle='#0A1F44';g.beginPath();g.arc(ex/ed*R*.14*look,ey/ed*R*.14*look,R*.15,0,7);g.fill()}
   if(sass>0){sass-=.016;g.strokeStyle='#0A1F44';g.lineWidth=1.4*dpr;g.beginPath();g.moveTo(-R*.3,-R*.48);g.lineTo(R*.25,-R*.4);g.stroke()}
   g.restore();
+  if(NEWS&&NEWS.mood==='grief'&&!still){if(Math.random()<(therapy||caught?.12:.035))tears.push({x:tl.x+(Math.random()-.5)*4,y:tl.y+2,vx:(Math.random()-.5)*.8,vy:-.6,l:1});
+    for(const T of tears){T.vy+=.12;T.x+=T.vx;T.y+=T.vy;T.l-=.015;g.fillStyle=`rgba(61,143,214,${Math.max(0,T.l)})`;g.beginPath();g.ellipse(T.x*dpr,T.y*dpr,1.8*dpr,2.6*dpr,0,0,7);g.fill()}tears=tears.filter(T=>T.l>0)}
   if(stake){const sx=(stake.x-scrollX)*dpr,sy=(stake.y-scrollY)*dpr;g.save();g.translate(sx,sy);g.fillStyle='rgba(10,31,68,.18)';g.beginPath();g.ellipse(0,9*dpr,9*dpr,3*dpr,0,0,7);g.fill();
     const wg=g.createLinearGradient(-4*dpr,0,4*dpr,0);wg.addColorStop(0,'#8a5a33');wg.addColorStop(1,'#c08a5a');g.fillStyle=wg;g.beginPath();g.moveTo(-4*dpr,-16*dpr);g.lineTo(4*dpr,-16*dpr);g.lineTo(4*dpr,4*dpr);g.lineTo(0,10*dpr);g.lineTo(-4*dpr,4*dpr);g.closePath();g.fill();
     g.fillStyle='#6b4325';g.fillRect(-5*dpr,-18*dpr,10*dpr,3*dpr);g.strokeStyle='#D0021B';g.lineWidth=2*dpr;g.beginPath();g.ellipse(0,-6*dpr,5.5*dpr,2.2*dpr,0,0,7);g.stroke();g.restore()}

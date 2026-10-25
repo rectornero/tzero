@@ -29,3 +29,9 @@ red as an accent only, white cards, no Discord, English only. Canonical URLs sta
 
 Any static server works, for example `npx serve .`. Wix requests go straight from the browser
 to `www.wixapis.com`.
+
+## Ache's news mood
+
+`assets/news.json` tells Ache what is happening right now (`topic`, `key` of the post it reacts to,
+`mood`, and the line set in `lines.json` to use). `"mood": "grief"` brings the tears and the therapy
+sessions with the mouse. Set `mood` to `""` (or delete the file) when the news is over.
