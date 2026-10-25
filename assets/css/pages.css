@@ -104,3 +104,8 @@ footer a{color:var(--sun);text-decoration:underline;text-underline-offset:3px}
 .side-fresh a{display:flex;flex-direction:column;gap:2px;padding:8px;border-radius:8px}
 .side-fresh a:hover{background:color-mix(in srgb,var(--b2) 10%,#fff)}
 .side-fresh b{font-family:var(--display);font-size:15px;line-height:1.25;color:var(--ink)}
+
+/* Phones: the frosted header blur re-renders the animated scene under it on every frame */
+@media (pointer:coarse),(max-width:760px){
+  header{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in srgb,var(--sun) 94%,transparent)}
+}
