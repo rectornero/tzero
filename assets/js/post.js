@@ -8,8 +8,8 @@
 
   function fail(msg) {
     status.textContent = msg;
-    const a = el('a', '', ' Read it on tzero.live →');
-    a.href = slug ? 'https://www.tzero.live/post/' + slug : 'https://www.tzero.live/posts';
+    const a = el('a', '', ' Read it on journal.tzero.live →');
+    a.href = slug ? 'https://journal.tzero.live/post/' + slug : 'https://journal.tzero.live/posts';
     status.appendChild(a);
   }
 
@@ -89,7 +89,7 @@
     if (!post) throw new Error('missing');
     const cat = WIX.category(post);
     document.title = post.title + ' · TZERØ';
-    const canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = WIX.wixUrl(post);
+    const canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://tzero.live/post/' + post.slug;
     document.head.appendChild(canon);
     const desc = document.querySelector('meta[name=description]');
     if (desc && post.excerpt) desc.content = post.excerpt;
