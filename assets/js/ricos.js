@@ -137,7 +137,20 @@ window.RICOS = (() => {
         const a = el('a', 'btn'); a.href = href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = d.text || 'Open';
         return a;
       }
-      case 'AUDIO': case 'FILE': case 'LINK_PREVIEW': case 'EMBED': case 'HTML': {
+      case 'HTML': {
+        // Inline HTML (the playable scenes in articles) runs in a sandboxed iframe with no access to this page
+        const d = n.htmlData || {};
+        if (!d.html) return render({ ...n, type: 'EMBED' });
+        const fig = el('figure', 'scene'), f = el('iframe');
+        f.setAttribute('sandbox', 'allow-scripts');
+        f.srcdoc = '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' + d.html;
+        const h = parseInt(d.containerData && d.containerData.height && d.containerData.height.custom, 10);
+        f.style.height = (h > 0 ? h : 480) + 'px';
+        f.title = 'Interactive scene'; f.loading = 'lazy';
+        fig.appendChild(f);
+        return fig;
+      }
+      case 'AUDIO': case 'FILE': case 'LINK_PREVIEW': case 'EMBED': {
         const d = n.audioData || n.fileData || n.linkPreviewData || n.embedData || n.htmlData || {};
         const href = safeHref((d.audio && d.audio.src && d.audio.src.url) || (d.src && d.src.url) || (d.link && d.link.url) || d.url);
         if (!href) return null;
