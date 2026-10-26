@@ -59,6 +59,13 @@ a.make h4::after{content:" →";color:var(--b2)}
 .pledge b{font-family:var(--display);font-size:18px}
 .pledge p{margin:6px 0 0;color:var(--soft);font-size:15px}
 .pledge:hover{border-color:var(--red)}
+/* A quiet line naming the AI tools in use */
+.toolbox{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:14px;color:var(--soft)}
+.tb-label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--b2)}
+.tb-item{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:99px;background:#fff;border:1px solid rgba(26,90,166,.12)}
+.tb-item b{color:var(--ink);font-weight:600}
+.tb-item svg{width:20px;height:20px;fill:none;stroke:var(--b3);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tb-item img{border-radius:50%}
 @media (max-width:760px){.method{grid-template-columns:minmax(0,1fr)}.m-ai,.m-people{min-height:240px}}
 
 /* The criterion, as a countdown to T-0 */
@@ -82,7 +89,8 @@ a.make h4::after{content:" →";color:var(--b2)}
 
 /* Crew */
 .member .avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;display:grid;place-items:center;background:var(--abyss);color:var(--sun);font-family:var(--display);font-weight:800;font-size:24px;margin-bottom:4px;image-rendering:pixelated}
-.av-claude{background:#d97757!important;color:#fff!important}
+.av-claude{image-rendering:auto!important;background:#faf8f4!important;border:1px solid rgba(26,90,166,.12)}
+
 .av-ache{background:color-mix(in srgb,var(--red) 10%,#fff)!important}
 .av-ache svg{width:34px;height:34px;fill:var(--red);animation:spin 9s linear infinite}
 .av-ache circle{fill:#fff}
