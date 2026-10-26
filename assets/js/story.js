@@ -48,26 +48,26 @@
   btn.addEventListener('click', () => {
     if (!bag.length) { bag = pool.slice(); for (let i = bag.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [bag[i], bag[j]] = [bag[j], bag[i]] } }
     const p = bag.pop(); pulls++;
-    const box = document.createElement('div'); box.className = 'pull ' + p.k;
-    const rar = document.createElement('span'); rar.className = 'rar'; rar.textContent = p.k === 'essay' ? '★★★★★ essay · ' + p.d : 'guide · ' + p.d;
+    const box = document.createElement('div'); box.className = 'pull ' + p.k + ' r' + p.r;
+    const rar = document.createElement('span'); rar.className = 'rar'; rar.textContent = '★'.repeat(p.r) + ' ' + p.k + ' · ' + p.d;
     const b = document.createElement('b'); b.textContent = p.t;
     box.append(rar, b);
     if (p.g) { const g = document.createElement('span'); g.textContent = p.g; box.append(g) }
     if (p.k === 'guide') { const n = document.createElement('span'); n.textContent = 'Made inside the loop. Kept as a record, not as advice.'; box.append(n) }
     const a = document.createElement('a'); a.href = '/post/' + p.s; a.textContent = 'Read it →'; box.append(a);
     if (pulls % 10 === 0) { const n = document.createElement('span'); n.className = 'note2'; n.textContent = 'Ten pulls. A real banner would ask for money now. This one asks you to read one.'; box.append(n) }
-    out.replaceChildren(box);
+    out.replaceChildren(box); out.dataset.r = p.r;
     const secs = Math.round((Date.now() - t0) / 1000);
     count.textContent = 'Pulls ' + pulls + ' · spent €0 · ' + (secs < 60 ? secs + ' s' : Math.round(secs / 60) + ' min') + ' of your time';
   });
 
-  // The tape shelf: pull a tape to open its card right under the shelf row, filter by kind
+  // The tape shelf: every case shows its back; the first tap flips it to the front, the second plays it (opens the post)
   const shelf = $('tapes');
   shelf.addEventListener('click', ev => {
-    const sp = ev.target.closest('.spine'); if (!sp) return;
-    const card = sp.nextElementSibling, open = sp.getAttribute('aria-expanded') === 'true';
-    shelf.querySelectorAll('.spine[aria-expanded=true]').forEach(s => { s.setAttribute('aria-expanded', 'false'); s.nextElementSibling.hidden = true });
-    if (!open) { sp.setAttribute('aria-expanded', 'true'); card.hidden = false; if (!calm) card.scrollIntoView({ block: 'nearest', behavior: 'smooth' }) }
+    const c = ev.target.closest('.case'); if (!c || c.classList.contains('flipped')) return;
+    ev.preventDefault();
+    shelf.querySelectorAll('.case.flipped').forEach(x => x.classList.remove('flipped'));
+    c.classList.add('flipped');
   });
   document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
     document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === c ? 'true' : 'false'));
