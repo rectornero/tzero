@@ -79,6 +79,9 @@
   const say = (t, prio, ms) => tz().speak && tz().speak(t, prio == null ? 3 : prio, ms);
   const still = () => document.documentElement.dataset.motion === '2' || matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // pokeable things (the Ø, the studio heart) go back to their own animation after the boop
+  document.addEventListener('animationend', e => { if (e.animationName === 'stk-boop') e.target.classList.remove('boop') });
+
   const css = el('link'); css.rel = 'stylesheet'; css.href = '/assets/css/save.css'; document.head.appendChild(css);
 
   /* ---------- finding a sticker ---------- */
@@ -171,8 +174,8 @@
       const sheet = art && art.querySelector('.post-sheet');
       const h1 = sheet && sheet.querySelector('h1');
       if (!sheet || !h1) return false;
-      const crumbs = [...document.querySelectorAll('#crumbs a')];
-      const section = (crumbs[crumbs.length - 1] || {}).textContent || '';
+      // post.js adds the section to the breadcrumb once the post data is in, so read it when needed
+      const sectionOf = () => { const c = [...document.querySelectorAll('#crumbs a')]; return c.length > 2 ? c[c.length - 1].textContent : '' };
       const title = h1.textContent.trim();
       if (done) {
         const st = el('p', 'stk-readbefore', 'In your save file: you finished this one on ' + date(S.read[slug].at) + '.');
@@ -183,7 +186,7 @@
         const v = Math.max(0, Math.min(1, (innerHeight * .4 - r.top) / Math.max(1, total)));
         if (done) return;
         if (v >= .97 || r.bottom < innerHeight * .9) {
-          done = true; S = load();
+          done = true; S = load(); const section = sectionOf();
           S.read[slug] = { t: title, s: section, at: Date.now() };
           if (S.open && S.open.slug === slug) S.open = null;
           write(); emit('read', { slug, title, section });
@@ -209,7 +212,13 @@
       const o = document.querySelector('.hero h1 .o');
       if (o && !S.stickers['o-cousin']) {
         o.classList.add('stk-poke');
-        o.addEventListener('click', e => { e.stopPropagation(); o.classList.remove('boop'); void o.offsetWidth; o.classList.add('boop'); award('o-cousin', o) });
+        // the photo board overlaps the big Ø, so go by where the click lands rather than by what it hits
+        document.addEventListener('click', e => {
+          if (e.target.closest('.polaroid,.stk-spot,a,button,.chat')) return;
+          const r = o.getBoundingClientRect();
+          if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top + r.height * .1 || e.clientY > r.bottom - r.height * .1) return;
+          o.classList.remove('boop'); void o.offsetWidth; o.classList.add('boop'); award('o-cousin', o);
+        });
       }
       // under the cover polaroid: a sticker on the board, beneath the photo, until someone drags the photo away
       const board = document.querySelector('.board'), pol = board && board.querySelector('.polaroid');

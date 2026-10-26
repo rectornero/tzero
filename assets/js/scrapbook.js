@@ -30,7 +30,7 @@
       const list = SV.STICKERS.filter(s => s.g === g), have = list.filter(s => S.stickers[s.id]).length;
       const head = el('header', 'page-head');
       head.append(el('h2', '', title), el('span', 'page-n', have + ' / ' + list.length));
-      const slots = el('div', 'slots');
+      const slots = el('div', 'sb-slots');
       list.forEach(s => slots.append(slot(s)));
       page.append(head, slots, el('span', 'page-no', String(i + 1)));
       book.append(page); pages.push(page);
@@ -49,7 +49,7 @@
 
     function slot(s) {
       const got = S.stickers[s.id];
-      const d = el('div', 'slot' + (got ? ' got' : ''));
+      const d = el('div', 'sb-slot' + (got ? ' got' : ''));
       if (got) {
         const b = el('button', 'stk'); b.type = 'button'; b.dataset.id = s.id; b.dataset.say = 'sticker';
         b.style.setProperty('--r', turn(16, s.id) - 8 + 'deg');
