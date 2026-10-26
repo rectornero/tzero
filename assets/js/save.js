@@ -92,6 +92,7 @@
     S.stickers[id] = Date.now(); write();
     queue.push({ s, from }); if (queue.length === 1) reveal();
     emit('sticker', { id, name: s.name, count: count(), total: STICKERS.length });
+    emit('find', { type: 'sticker', id, item: id });
     if (id !== 'crown' && count() === STICKERS.length) setTimeout(() => award('crown'), 600);
     paintFooter();
     return true;
@@ -265,6 +266,28 @@
     if (path.startsWith('/post/')) trackPost();
   }
 
+  /* ---------- character finds (Characters Across Worlds): one hunt, two layers ----------
+     /assets/caw-spots.json lists [{id, item, path, anchor, img, style?, hint?, say?}]: path is the page ("/story"),
+     anchor a CSS selector on it. A spot is skipped when a sticker already sits on that anchor. Finds go to the "caw"
+     block of the save (found[id] = time) and out as the 'find' event {type:'caw', id, item}; the gacha thread's code shows them. */
+  function characters() {
+    fetch('/assets/caw-spots.json').then(r => r.ok ? r.json() : []).then(list => {
+      if (!Array.isArray(list)) return;
+      const found = (S.caw && S.caw.found) || {};
+      list.filter(c => c && c.path === path && !found[c.id]).forEach(c => {
+        let host = null; try { host = document.querySelector(c.anchor) } catch (e) {}
+        if (!host || host.querySelector(':scope > .stk-spot:not(.caw)')) return;
+        peek(host, { img: c.img, style: c.style, cls: 'caw', label: 'Someone is hiding here', onFind: b => {
+          S = load(); const caw = S.caw || {}; caw.found = caw.found || {};
+          if (caw.found[c.id]) return;
+          caw.found[c.id] = Date.now(); S.caw = caw; write();
+          if (c.say) say(c.say, 3);
+          emit('find', { type: 'caw', id: c.id, item: c.item, from: b });
+        } });
+      });
+    }).catch(() => {});
+  }
+
   /* ---------- Ache: catching, treats, stakes, beds, fights, outfits ---------- */
   function ache() {
     const chat = document.querySelector('.chat');
@@ -369,6 +392,6 @@
     wipe: () => { try { localStorage.removeItem(KEY) } catch (e) {} S = fresh(); S.visits = 1; S.last = Date.now(); S.pages[path] = 1; write() },
   };
 
-  const start = () => { pages(); ache(); greet(); welcome(); emit('visit', { path, first: firstHere }); dispatchEvent(new Event('tz:save-ready')) };
+  const start = () => { pages(); characters(); ache(); greet(); welcome(); emit('visit', { path, first: firstHere }); dispatchEvent(new Event('tz:save-ready')) };
   document.readyState === 'loading' ? addEventListener('DOMContentLoaded', start) : start();
 })();
