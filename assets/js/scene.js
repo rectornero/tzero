@@ -101,7 +101,7 @@ function bindTilt(scope){scope.querySelectorAll('.tilt:not([data-tilt])').forEac
 bindTilt(document);
 
 /* floating red thread: no gravity, desk friction */
-const tc=document.getElementById('thread'),tx_=tc.getContext('2d');let N=38;const seg=13;let scene=null,newsStage=0;let therapy=false,tears=[],lastMove=0;let home=false,sleeping=false;let stake=null;let spin=0,squash=0,blinkT=3,sass=0,dodgeCool=0;let pts=[],hx=null,hy=null;
+const tc=document.getElementById('thread'),tx_=tc.getContext('2d');let N=38;const seg=13;let scene=null,newsStage=0;let therapy=false,tears=[],lastMove=0;let home=false,sleeping=false;let stake=null;let spin=0,squash=0,blinkT=3,sass=0,dodgeCool=0;let pts=[],hx=null,hy=null,thA=1,lastActive=0,bat={st:'ok',next:45+Math.random()*30};
 /* phones have no cursor for the thread to power: there Ache is a little free star that rests in the bottom corner and visits things on screen */
 const TOUCH=matchMedia('(hover:none) and (pointer:coarse)').matches;
 function tsize(){tc.width=innerWidth*dpr;tc.height=innerHeight*dpr;if(!pts.length)for(let i=0;i<N;i++){pts.push({x:60+i*seg,y:110,px:60+i*seg,py:110})}}
@@ -383,9 +383,22 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
   for(let k=0;k<5;k++)for(let i=1;i<N;i++){const a=pts[i-1],b=pts[i],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;if(d<=seg)continue;const df=(d-seg)/d;
     if(i===1&&!(scene&&scene.detached)){b.x-=dx*df;b.y-=dy*df}else{a.x+=dx*df*.5;a.y+=dy*df*.5;b.x-=dx*df*.5;b.y-=dy*df*.5}}
   const g=tx_;g.clearRect(0,0,tc.width,tc.height);g.lineCap=g.lineJoin='round';
-  if(!TOUCH){g.strokeStyle='rgba(10,31,68,.14)';g.lineWidth=3*dpr;g.beginPath();pts.forEach((p,i)=>i?g.lineTo((p.x+2)*dpr,(p.y+4)*dpr):g.moveTo((p.x+2)*dpr,(p.y+4)*dpr));g.stroke();
+  /* the thread is a lot to look at: after 20 quiet seconds it fades into 'arrow wifi' (signal arcs from Ache toward the arrow) and comes back for catching, staking, sleep and scenes */
+  if(caught||stake||scene||therapy||home)lastActive=tt;thA+=((tt-lastActive<20?1:0)-thA)*.03;const tl0=pts[N-1];
+  if(!TOUCH&&thA<.98&&hx!==null){const a=Math.atan2(hy-tl0.y,hx-tl0.x);g.lineWidth=1.8*dpr;
+    for(let k=0;k<3;k++){const ph=((tt*1.2+k/3)%1);g.strokeStyle=`rgba(208,2,27,${(1-thA)*.75*(1-ph)})`;g.beginPath();g.arc(tl0.x*dpr,tl0.y*dpr,(16+ph*22)*dpr,a-.55,a+.55);g.stroke()}}
+  /* low battery: now and then the arrow goes dark and Ache sends a spark over the wifi to recharge it (desktop only) */
+  if(!TOUCH&&thA<.1&&hx!==null&&!fight&&!scene&&!caught&&!stake&&!home&&!still){
+    if(bat.st==='ok'&&tt>bat.next){bat.st='low';bat.t=tt;document.body.classList.add('lowbat');speak(nextLine('recharge'),1)}
+    else if(bat.st==='low'&&tt-bat.t>1.6){bat.st='spark';bat.x=tl0.x;bat.y=tl0.y;sfx('drop')}
+    else if(bat.st==='spark'){bat.x+=(hx-bat.x)*.16;bat.y+=(hy-bat.y)*.16;g.fillStyle='#fff6cf';g.shadowColor='#ffcf7a';g.shadowBlur=14*dpr;g.beginPath();g.arc(bat.x*dpr,bat.y*dpr,4*dpr,0,7);g.fill();g.shadowBlur=0;
+      if(Math.hypot(hx-bat.x,hy-bat.y)<6){bat.st='ring';bat.t=tt;document.body.classList.remove('lowbat');sfx('wake')}}
+    else if(bat.st==='ring'){const k=(tt-bat.t)/.45;g.strokeStyle=`rgba(255,207,122,${1-k})`;g.lineWidth=2*dpr;g.beginPath();g.arc(hx*dpr,hy*dpr,(6+k*26)*dpr,0,7);g.stroke();if(k>=1){bat.st='ok';bat.next=tt+50+Math.random()*60}}}
+  else if(bat.st!=='ok'){bat.st='ok';bat.next=tt+30;document.body.classList.remove('lowbat')}
+  g.globalAlpha=thA;
+  if(!TOUCH&&thA>.02){g.strokeStyle='rgba(10,31,68,.14)';g.lineWidth=3*dpr;g.beginPath();pts.forEach((p,i)=>i?g.lineTo((p.x+2)*dpr,(p.y+4)*dpr):g.moveTo((p.x+2)*dpr,(p.y+4)*dpr));g.stroke();
   g.strokeStyle='#D0021B';g.lineWidth=2.1*dpr;g.beginPath();g.moveTo(pts[0].x*dpr,pts[0].y*dpr);
-  for(let i=1;i<N-1;i++){g.quadraticCurveTo(pts[i].x*dpr,pts[i].y*dpr,(pts[i].x+pts[i+1].x)/2*dpr,(pts[i].y+pts[i+1].y)/2*dpr)}g.stroke();}
+  for(let i=1;i<N-1;i++){g.quadraticCurveTo(pts[i].x*dpr,pts[i].y*dpr,(pts[i].x+pts[i+1].x)/2*dpr,(pts[i].y+pts[i+1].y)/2*dpr)}g.stroke();}g.globalAlpha=1;
   const tl=pts[N-1],sp=Math.hypot(tl.x-tl.px,tl.y-tl.py);spin+=.02+sp*.04;squash+=(Math.min(.35,sp*.04)-squash)*.2;
   const R=(TOUCH?14:11)*dpr,ang=Math.sin(spin)*.5*(1-daze)+daze*(2.6+Math.sin(tt*3)*.08)+(caught?Math.sin(tt*10)*.15:0);g.save();g.translate(tl.x*dpr,tl.y*dpr);g.rotate(ang);g.scale(1+squash,1-squash*.6);
   {const M=tt<moodUntil?MOODS[moodName]:MOODS.annoying;for(const k in M)body[k]+=(M[k]-body[k])*.06}
