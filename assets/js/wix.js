@@ -146,6 +146,17 @@ window.WIX = (() => {
       const meta = document.createElement('span'); meta.className = 'meta';
       meta.textContent = this.date(post.firstPublishedDate) + ' · by ' + this.author(post);
       a.append(tag, h, p, meta);
+      // The cover on top, cropped to 16:9 by Wix so the card only downloads what it shows
+      const c = cover(post);
+      if (c) {
+        const img = document.createElement('img');
+        img.className = 'card-pic';
+        img.src = c.url.split('/v1/')[0] + '/v1/fill/w_640,h_360,al_c,q_80/' + encodeURIComponent(post.slug) + '.jpg';
+        img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+        img.onerror = () => img.remove();
+        a.prepend(img);
+        a.classList.add('has-pic');
+      }
       return a;
     },
   };

@@ -62,6 +62,9 @@ h2 small{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--soft
 .card{background-color:#fff;border:1px solid rgba(26,90,166,.12);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px;min-width:0;box-shadow:0 14px 34px -22px rgba(26,90,166,.5)}
 .card h4{font-family:var(--display);font-size:20px;line-height:1.2;margin:0;text-wrap:balance}
 .card p{margin:0;color:var(--soft);font-size:15px}
+.card-pic{display:block;margin:-24px -24px 6px;width:calc(100% + 48px);max-width:none;aspect-ratio:16/9;object-fit:cover;border-radius:11px 11px 0 0;background:color-mix(in srgb,var(--b2) 18%,#fff);transition:transform .5s}
+.card.has-pic{overflow:hidden}
+.card.has-pic:hover .card-pic{transform:scale(1.03)}
 .meta{font-family:var(--mono);font-size:12px;color:var(--soft);margin-top:auto}
 .note{font-family:var(--mono);font-size:12px;color:var(--soft);margin-top:14px}
 .sec{border-radius:12px;padding:30px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;color:#fff}
