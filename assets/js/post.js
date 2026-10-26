@@ -8,8 +8,8 @@
 
   function fail(msg) {
     status.textContent = msg;
-    const a = el('a', '', ' Read it on journal.tzero.live →');
-    a.href = slug ? 'https://journal.tzero.live/post/' + slug : 'https://journal.tzero.live/posts';
+    const a = el('a', '', ' Read it on the journal →');
+    a.href = WIX.JOURNAL + (slug ? '/post/' + slug : '/posts');
     status.appendChild(a);
   }
 

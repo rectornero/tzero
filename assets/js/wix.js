@@ -21,6 +21,9 @@ window.WIX = (() => {
   // Ache's news mood: the newest post with this Wix tag makes Ache grieve on it (no deploy needed)
   const NEWS_TAG_SLUG = 'ache-grief';
   const STORE = 'tz-wix-token';
+  // Where the Wix site lives once tzero.live points at this site (comments, likes, old pages)
+  const JOURNAL = 'https://journal.tzero.live';
+  const OWN_HOSTS = /^(www\.|journal\.)?tzero\.live$/;
 
   function load() { try { return JSON.parse(sessionStorage.getItem(STORE)) } catch (e) { return null } }
   function save(t) { try { sessionStorage.setItem(STORE, JSON.stringify(t)) } catch (e) {} }
@@ -68,7 +71,11 @@ window.WIX = (() => {
 
   function mediaUrl(id) { return /^https?:/.test(id) ? id : 'https://static.wixstatic.com/media/' + id }
 
+  const LIST_FIELDS = '&fieldsets=URL';
+
   return {
+    JOURNAL,
+    CATEGORIES,
     async latest(n = 3) {
       const j = await get('/blog/v3/posts?tagIds=' + TAG_TZERO + '&paging.limit=' + n + '&fieldsets=URL');
       return j.posts || [];
@@ -76,6 +83,33 @@ window.WIX = (() => {
     async bySlug(slug) {
       const j = await get('/blog/v3/posts/slugs/' + encodeURIComponent(slug) + '?fieldsets=RICH_CONTENT&fieldsets=URL&fieldsets=SEO');
       return j.post;
+    },
+    // One page of a listing: all posts, a category or a tag. Resolves { posts, total }
+    async list({ category, tag, offset = 0, limit = 24 } = {}) {
+      let q = '/blog/v3/posts?paging.limit=' + limit + '&paging.offset=' + offset + LIST_FIELDS;
+      if (category) q += '&categoryIds=' + category;
+      if (tag) q += '&tagIds=' + tag;
+      const j = await get(q);
+      return { posts: j.posts || [], total: (j.metaData && j.metaData.total) || 0 };
+    },
+    async categoryBySlug(slug) {
+      for (const id in CATEGORIES) if (CATEGORIES[id].key === slug) return { id, label: CATEGORIES[id].label };
+      const j = await get('/blog/v3/categories/slugs/' + encodeURIComponent(slug));
+      return j.category ? { id: j.category.id, label: j.category.label } : null;
+    },
+    async tagBySlug(slug) {
+      const j = await get('/blog/v3/tags/slugs/' + encodeURIComponent(slug));
+      return j.tag ? { id: j.tag.id, label: j.tag.label } : null;
+    },
+    // Links to tzero.live pages this site renders itself become local paths (same tab); other
+    // tzero.live pages go to the journal on Wix. Anything else is not ours: null.
+    localHref(url) {
+      let u; try { u = new URL(url, location.href) } catch (e) { return null }
+      if (!OWN_HOSTS.test(u.hostname) && u.host !== location.host) return null;
+      if (/^\/(post\/[^/]+|posts(\/(categories|tags)\/[^/]+)?)\/?$/.test(u.pathname)) return u.pathname.replace(/\/$/, '') + u.hash;
+      if (/^\/(studio|artache)\/?$/.test(u.pathname)) return '/studio';
+      if (u.pathname === '/' || u.pathname === '') return '/' + u.hash;
+      return u.host === location.host ? null : JOURNAL + u.pathname + u.search + u.hash;
     },
     // Resolves null when the tag exists but no post carries it (news over); rejects when the tag is missing
     async news() {
@@ -90,9 +124,10 @@ window.WIX = (() => {
     mediaUrl,
     author: post => AUTHORS[post.memberId] || 'TZERØ',
     lineKey,
-    wixUrl: post => (post.url ? post.url.base + post.url.path : 'https://journal.tzero.live/post/' + post.slug),
+    // The post on Wix. Wix reports its own primary address, so this follows the domain switch by itself
+    wixUrl: post => (post.url && post.url.base && new URL(post.url.base).host !== location.host ? post.url.base + post.url.path : JOURNAL + '/post/' + post.slug),
     date: iso => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-    categoryUrl: post => 'https://journal.tzero.live/posts/categories/' + category(post).key,
+    categoryUrl: post => '/posts/categories/' + category(post).key,
     // A post as a white card: used by the Latest shelf and by "Keep reading" under articles
     card(post) {
       const a = document.createElement('a');

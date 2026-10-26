@@ -13,12 +13,23 @@ so Netlify only deploys when the design changes.
 |---|---|
 | `index.html` | Homepage: hero scene, Latest (live from Wix), the tapes, footer |
 | `post.html` | Article page; Netlify serves it for every `/post/<slug>` (see `_redirects`), same slugs as Wix |
+| `posts.html` | Listings: `/posts`, `/posts/categories/<slug>` (Devlog, Studio, Archive) and `/posts/tags/<slug>`, same paths as Wix |
+| `studio.html`, `redache.html` | The studio's page (`/studio`) and Ache's home (`/redache`) |
 | `assets/css/site.css` | Styles copied from the approved "Tide and Thread" mockup |
 | `assets/css/pages.css` | Additions: post page and live states |
 | `assets/js/scene.js` | Season scenes, page glow, click effects, the red thread and Ache, ported from the mockup |
+| `assets/js/posts.js` | Listing page: section or tag lookup, cards, Load more |
 | `assets/js/wix.js` | Wix Headless client: visitor token, latest posts, post by slug |
 | `assets/js/ricos.js` | Renders a post's Wix rich content safely (no HTML parsing) |
 | `assets/lines.json` | Everything Ache says, per item, plus generic lines for live posts |
+
+## Links
+
+Header and footer links stay on this site: sections and tags open `posts.html`, the studio `/studio`, Ache `/redache`.
+Links inside articles that point at tzero.live posts or listings open here in the same tab; other old Wix pages
+go to the journal (`WIX.JOURNAL`, journal.tzero.live). "Comments and likes on the original" uses the address Wix
+reports for the post, so it follows the domain switch by itself. Any other path is redirected to the journal by
+the last rule in `_redirects`.
 
 ## Rules from the design spec
 

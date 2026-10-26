@@ -9,6 +9,16 @@ window.RICOS = (() => {
     try { const u = new URL(url, location.href); return /^(https?|mailto):$/.test(u.protocol) ? u.href : null } catch (e) { return null }
   }
 
+  // A link from the article: tzero.live pages open here in the same tab, everything else in a new one
+  function link(url, cls) {
+    const href = safeHref(url);
+    if (!href) return null;
+    const a = el('a', cls), local = window.WIX.localHref(href);
+    if (local && local.startsWith('/')) a.href = local;
+    else { a.href = local || href; a.target = '_blank'; a.rel = 'noopener noreferrer' }
+    return a;
+  }
+
   function text(node) {
     const d = node.textData || {};
     let out = document.createTextNode(d.text || '');
@@ -19,8 +29,7 @@ window.RICOS = (() => {
         case 'ITALIC': wrap = el('em'); break;
         case 'UNDERLINE': wrap = el('u'); break;
         case 'LINK': {
-          const href = safeHref(dec.linkData && dec.linkData.link && dec.linkData.link.url);
-          if (href) { wrap = el('a'); wrap.href = href; wrap.target = '_blank'; wrap.rel = 'noopener noreferrer' }
+          wrap = link(dec.linkData && dec.linkData.link && dec.linkData.link.url);
           break;
         }
         case 'COLOR': {
@@ -132,9 +141,9 @@ window.RICOS = (() => {
         return wrap;
       }
       case 'BUTTON': {
-        const d = n.buttonData || {}, href = safeHref(d.link && d.link.url);
-        if (!href) return null;
-        const a = el('a', 'btn'); a.href = href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = d.text || 'Open';
+        const d = n.buttonData || {}, a = link(d.link && d.link.url, 'btn');
+        if (!a) return null;
+        a.textContent = d.text || 'Open';
         return a;
       }
       case 'AUDIO': case 'FILE': case 'LINK_PREVIEW': case 'EMBED': case 'HTML': {

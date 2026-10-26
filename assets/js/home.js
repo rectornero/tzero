@@ -12,8 +12,8 @@
   }).catch(() => {
     grid.removeAttribute('aria-busy');
     grid.querySelectorAll('.card').forEach(c => c.classList.remove('loading'));
-    note.textContent = "The nightly build didn't answer. Read the latest on journal.tzero.live instead.";
-    const a = document.createElement('a'); a.href = 'https://journal.tzero.live/posts'; a.textContent = ' Open the journal →';
+    note.textContent = "The nightly build didn't answer. Read the latest on the journal instead.";
+    const a = document.createElement('a'); a.href = WIX.JOURNAL + '/posts'; a.textContent = ' Open the journal →';
     note.appendChild(a);
   });
 })();
