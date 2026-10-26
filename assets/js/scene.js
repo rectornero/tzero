@@ -2,16 +2,19 @@
    Ported from the approved "Tide and Thread" mockup. */
 (()=>{
 const LITE=matchMedia('(pointer:coarse)').matches||innerWidth<760;
-const still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,LITE?1:2),root=document.documentElement;
+let MODE='auto';try{const m=localStorage.getItem('tz-motion');if(m==='light'||m==='still')MODE=m}catch(e){}
+function autoLevel(){const n=navigator,cores=n.hardwareConcurrency||8,mem=n.deviceMemory||8,save=n.connection&&n.connection.saveData;if(LITE&&(cores<=2||mem<=1))return 2;return LITE||save?1:0}
+let LEVEL=MODE==='still'?2:MODE==='light'?1:autoLevel(),stillDrawn=false;
+let still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,LEVEL?1:2),root=document.documentElement;
 const sea=document.querySelector('.sea'),c=document.getElementById('waves')||document.createElement('canvas'),x=c.getContext('2d');
 const f=document.getElementById('fx'),fx=f.getContext('2d'),b=document.getElementById('bg'),bx=b.getContext('2d');let cx=-1,cy=-1;
 let w,h,W,H,t=0,mx=-1,my=-1,px=-1,py=-1,energy=0,gust=0,lastX=null;
 const SKINS={sea:'Summer',autumn:'Autumn'};const month=new Date().getMonth();
 let skin=month>=2&&month<=7?'sea':'autumn';try{const s=localStorage.getItem('tz-skin');if(SKINS[s])skin=s}catch(e){}
-const btn=document.getElementById('skin');function setSkin(s){skin=s;root.dataset.skin=s;btn.textContent='Skin: '+SKINS[s]}setSkin(skin);
+const btn=document.getElementById('skin');function setSkin(s){skin=s;root.dataset.skin=s;btn.textContent='Skin: '+SKINS[s];stillDrawn=false}setSkin(skin);
 btn.onclick=()=>{setSkin(skin==='sea'?'autumn':'sea');try{localStorage.setItem('tz-skin',skin)}catch(e){}};
 function size(){w=c.width=c.clientWidth*dpr;h=c.height=c.clientHeight*dpr;W=f.width=innerWidth*dpr;H=f.height=innerHeight*dpr;b.width=W;b.height=H}
-addEventListener('resize',size);size();
+addEventListener('resize',()=>{size();stillDrawn=false});size();
 
 /* pointer: page-wide; hero coords for the scene, viewport coords for fx */
 const wake=[];let trailD=0;
@@ -82,8 +85,14 @@ function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const warm=skin!==
   for(let k=flyers.length-1;k>=0;k--){const L=flyers[k];L.vx+=gust*.05*dpr;L.vy+=.08*dpr;L.vx*=.985;L.vy*=.985;L.x+=L.vx;L.y+=L.vy;L.r+=L.vr*3;L.flip+=.12;L.life-=.006;
     if(L.life<=0||L.y>H+40*dpr){flyers.splice(k,1);continue}drawLeaf(fx,L)}}
 
-let seaOn=c.isConnected,odd=false;if(seaOn&&window.IntersectionObserver)new IntersectionObserver(e=>{seaOn=e[0].isIntersecting}).observe(c);
-function frame(){if(LITE&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LITE?.032:.016;energy*=LITE?.92:.96;if(seaOn){x.clearRect(0,0,w,h);if(skin==='sea')summer();else autumn()}drawFx();if(!still)requestAnimationFrame(frame)}
+let seaOn=c.isConnected,odd=false,lastF=0,win=[],settle=performance.now()+1500;if(seaOn&&window.IntersectionObserver)new IntersectionObserver(e=>{seaOn=e[0].isIntersecting}).observe(c);
+function setLevel(l){if(l===LEVEL)return;LEVEL=l;root.dataset.motion=l;stillDrawn=false;dpr=Math.min(devicePixelRatio||1,l?1:2);size();if(l===2){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H)}}
+/* Auto: average the real time between frames over ~2 s windows; slow windows step the level down, never up */
+function watch(now){if(MODE!=='auto'||document.hidden||now<settle){lastF=now;return}if(lastF){const d=now-lastF;if(d<250)win.push(d)}lastF=now;if(win.length>=(LEVEL?60:120)){const avg=win.reduce((a,b)=>a+b,0)/win.length;win=[];if(LEVEL===0&&avg>24)setLevel(1);else if(LEVEL===1&&avg>40)setLevel(2)}}
+document.addEventListener('visibilitychange',()=>{lastF=0;win=[];settle=performance.now()+1000});
+function frame(now){watch(now||performance.now());if(LEVEL===2){if(seaOn&&!stillDrawn){x.clearRect(0,0,w,h);if(skin==='sea')summer();else autumn();stillDrawn=true}if(!still)requestAnimationFrame(frame);return}if(LEVEL===1&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LEVEL?.032:.016;energy*=LEVEL?.92:.96;if(seaOn){x.clearRect(0,0,w,h);if(skin==='sea')summer();else autumn()}drawFx();if(!still)requestAnimationFrame(frame)}
+/* Header button: Auto, Light or Still, remembered per visitor */
+root.dataset.motion=LEVEL;const mbtn=document.getElementById('motion');const MODES={auto:'Auto',light:'Light',still:'Still'};function showMode(){if(mbtn){mbtn.textContent='Motion: '+MODES[MODE];mbtn.title='Background animation: '+MODES[MODE]}}showMode();if(mbtn)mbtn.onclick=()=>{MODE=MODE==='auto'?'light':MODE==='light'?'still':'auto';try{MODE==='auto'?localStorage.removeItem('tz-motion'):localStorage.setItem('tz-motion',MODE)}catch(e){}showMode();win=[];settle=performance.now()+1000;setLevel(MODE==='still'?2:MODE==='light'?1:autoLevel())};
 frame();
 
 function bindTilt(scope){scope.querySelectorAll('.tilt:not([data-tilt])').forEach(el=>{el.dataset.tilt='1';el.addEventListener('pointermove',e=>{if(still)return;const b=el.getBoundingClientRect(),qx=(e.clientX-b.left)/b.width,qy=(e.clientY-b.top)/b.height;
