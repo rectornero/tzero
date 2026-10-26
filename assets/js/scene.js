@@ -341,7 +341,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let scrambleT=null;
 const unplug=document.createElement('div');unplug.className='unplug';unplug.textContent='⏻ unplugged';unplug.hidden=true;if(TOUCH)unplug.classList.add('touch');document.body.appendChild(unplug);
 addEventListener('pointermove',e=>{unplug.style.left=e.clientX+14+'px';unplug.style.top=e.clientY+16+'px'});
-let unT=null;dim.addEventListener('click',e=>{e.stopPropagation();e.preventDefault();unplug.textContent=TOUCH?'⏻ Ache unplugged your taps':'⏻ Your arrow is not powered on';sfx('buzz');unplug.classList.remove('buzz');void unplug.offsetWidth;unplug.classList.add('buzz');clearTimeout(unT);unT=setTimeout(()=>unplug.textContent='⏻ unplugged',1800)});
+let unT=null;dim.addEventListener('click',e=>{e.stopPropagation();e.preventDefault();unplug.textContent='⏻ Your arrow is not powered on';sfx('buzz');unplug.classList.remove('buzz');void unplug.offsetWidth;unplug.classList.add('buzz');clearTimeout(unT);unT=setTimeout(()=>unplug.textContent='⏻ unplugged',1800)});
 ['wheel','touchmove'].forEach(ev=>addEventListener(ev,e=>{if(scene)e.preventDefault()},{passive:false}));
 addEventListener('keydown',e=>{if(scene&&['ArrowDown','ArrowUp','PageDown','PageUp',' ','Home','End','Tab'].includes(e.key))e.preventDefault()});
 const ERRS=['ache.exe has stopped feeling','SADNESS_OVERFLOW at line 27','UNITE.dll not found','lights.sys: 0%','thread_tension: CRITICAL','tears.buffer full (3 drops)','cannot pat card: card is sobbing','studio_pride.cfg corrupted (still the best studio)','mouse.drv unplugged by site manager','press F to pay respects'];
