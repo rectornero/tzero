@@ -18,6 +18,32 @@ const posts = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 const notesFile = path.join(ROOT, 'tools/ache-notes.json');
 const notes = fs.existsSync(notesFile) ? JSON.parse(fs.readFileSync(notesFile, 'utf8')) : {};
 for (const p of posts) if (notes[p.slug]) p.ache = notes[p.slug];
+// Sentences that broke off in an old move get a visible marker (tools/cuts.json: slug -> text before the break)
+const cutsFile = path.join(ROOT, 'tools/cuts.json');
+const cuts = fs.existsSync(cutsFile) ? JSON.parse(fs.readFileSync(cutsFile, 'utf8')) : {};
+function markCuts(node, frags, found) {
+  const kids = node.nodes || [];
+  for (let i = 0; i < kids.length; i++) {
+    const t = kids[i].textData;
+    if (!t) { markCuts(kids[i], frags, found); continue; }
+    for (const f of frags) {
+      const at = t.text.indexOf(f);
+      if (at < 0 || found.has(f)) continue;
+      found.add(f);
+      const end = at + f.length, rest = t.text.slice(end);
+      const mark = { type: 'TEXT', textData: { text: '[text lost in a move]', decorations: [{ type: 'CUT' }] } };
+      const tail = rest.trim() ? [{ ...kids[i], textData: { ...t, text: ' ' + rest.replace(/^\s+/, '') } }] : [];
+      t.text = t.text.slice(0, end) + ' ';
+      kids.splice(i + 1, 0, mark, ...tail);
+      i++;
+    }
+  }
+}
+for (const p of posts) if (cuts[p.slug]) {
+  const found = new Set();
+  markCuts(p.richContent || {}, cuts[p.slug], found);
+  for (const f of cuts[p.slug]) if (!found.has(f)) throw new Error('cut not found in ' + p.slug + ': ' + f);
+}
 const template = fs.readFileSync(path.join(ROOT, 'post.html'), 'utf8');
 const js = f => fs.readFileSync(path.join(ROOT, 'assets/js', f), 'utf8');
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

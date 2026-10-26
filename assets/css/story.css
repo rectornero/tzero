@@ -115,3 +115,27 @@
 .st-empty h4{color:var(--soft)}
 .st-empty .slot-state{background:transparent;border:1px dashed var(--b2)}
 a.slot-card h4::after{content:" →";color:var(--b2)}
+
+/* The receipt: what the loop cost, in Nero's own numbers */
+.receipt{margin:20px 0 0;display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:28px;align-items:center}
+@media (max-width:760px){.receipt{grid-template-columns:minmax(0,1fr)}}
+.rc-paper{position:relative;background:#fffef8;padding:26px 22px 30px;font-family:var(--mono);font-size:13px;color:#2b2b2b;transform:rotate(-1.5deg);box-shadow:0 22px 40px -24px rgba(10,31,68,.55);
+  --zz:radial-gradient(circle at 6px 0,transparent 5px,#fffef8 5.5px);-webkit-mask:linear-gradient(#000,#000) 0 6px/100% calc(100% - 12px) no-repeat,var(--zz) 0 0/12px 6px repeat-x,radial-gradient(circle at 6px 6px,transparent 5px,#000 5.5px) 0 100%/12px 6px repeat-x;mask:linear-gradient(#000,#000) 0 6px/100% calc(100% - 12px) no-repeat,radial-gradient(circle at 6px 0,transparent 5px,#000 5.5px) 0 0/12px 6px repeat-x,radial-gradient(circle at 6px 6px,transparent 5px,#000 5.5px) 0 100%/12px 6px repeat-x;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.receipt:hover .rc-paper{transform:rotate(0)}
+.rc-head{display:block;text-align:center;letter-spacing:.1em;margin-bottom:14px;line-height:1.6}
+.rc-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:6px 0}
+.rc-row span{display:flex;flex-direction:column}
+.rc-row small{font-size:11px;color:#777;margin-top:2px;font-style:italic}
+.rc-row b{font-weight:500;white-space:nowrap}
+.rc-row.plan b{color:#2f7fd0}
+.rc-row.total{font-size:15px;font-weight:600}
+.rc-row.total b{font-weight:700;font-size:18px}
+.rc-red{color:var(--red)!important;font-weight:700!important}
+.rc-sep{border-top:1px dashed #bbb;margin:8px 0}
+.rc-foot{display:block;margin-top:16px;text-align:center;font-size:10px;letter-spacing:.08em;color:#888;text-transform:uppercase}
+.receipt figcaption{display:flex;flex-direction:column;gap:10px}
+.receipt h3{font-family:var(--display);font-size:clamp(24px,3.2vw,34px);letter-spacing:-.03em;line-height:1.05;margin:0;color:var(--ink)}
+.receipt figcaption p{margin:0;color:var(--soft);font-size:17px;max-width:52ch}
+.rc-src{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:12px}
+.rc-src a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.rc-src a:hover{color:var(--red)}

@@ -28,6 +28,7 @@ window.RICOS = (() => {
         case 'BOLD': wrap = el('strong'); break;
         case 'ITALIC': wrap = el('em'); break;
         case 'UNDERLINE': wrap = el('u'); break;
+        case 'CUT': wrap = el('span', 'cut'); wrap.title = 'The rest of this sentence was lost when the post moved between sites'; break; // our own marker, frozen posts only
         case 'LINK': {
           wrap = link(dec.linkData && dec.linkData.link && dec.linkData.link.url);
           break;

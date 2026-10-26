@@ -164,3 +164,6 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 .band-saves li::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--red);transition:background .3s}
 .story-band:hover .band-saves li::before{background:var(--red)}
 @media (max-width:640px){.band-saves{display:none}}
+
+/* "[text lost in a move]": a sentence that broke off when an old post moved between sites */
+.post .cut{font-family:var(--mono);font-size:.78em;color:var(--ink);opacity:.65;border:1px dashed currentColor;border-radius:4px;padding:0 .35em;white-space:nowrap;cursor:help}
