@@ -142,7 +142,7 @@ function talk(text,opts){chat.innerHTML='';const p=document.createElement('p');p
   opts.forEach(([label,fn])=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=e=>{e.stopPropagation();fn()};row.appendChild(b)});chat.appendChild(row)}
 function menu(text){talk(text,[['Who are you?',()=>talk("A four-point star on a string, obviously. Nero's nickname comes from a star like me, so technically I'm the boss here. The name's Ache. Full name Redache. Only friends call me Ache. You may call me Ache.",back)],
   ['What should I read?',()=>{const c=[...document.querySelectorAll('.card[data-say]')];if(!c.length){talk('The fresh stuff is on the front page. Follow me.',[['Take me',()=>{location.href='/#latest'}],['Maybe later',()=>menu('Suit yourself. Anything else?')]]);return}const pick=c[Math.floor(Math.random()*c.length)];talk('Try "'+pick.querySelector('h4').textContent+'". I\'ll show you!',[['Show me',()=>{release();pick.scrollIntoView({behavior:'smooth',block:'center'});target=pick;until=tt+8;said=null}],['Maybe later',()=>menu('Okay! Anything else?')]])}],
-  ['Want a treat?',()=>talk(['A treat? Only the premium red yarn. The imported kind. From the studio. The best studio.','Obviously. I\'ve been SO good. I only bugged the site once. Twice.','Put it on the stake. No, on a pillow. A silk pillow. Thank you.','I deserve three treats. One for each section. Four, counting me.'][Math.floor(Math.random()*4)],back)],
+  ['Want a treat?',()=>(setMood('satisfied',12),talk)(['A treat? Only the premium red yarn. The imported kind. From the studio. The best studio.','Obviously. I\'ve been SO good. I only bugged the site once. Twice.','Put it on the stake. No, on a pillow. A silk pillow. Thank you.','I deserve three treats. One for each section. Four, counting me.'][Math.floor(Math.random()*4)],back)],
   ['What\'s Artache?',()=>talk(nextLine('proud'),[['Really?',()=>talk(nextLine('proud'),back)],['Back',()=>menu('Where was I? Oh right, the best studio. A good studio.')]])],
   ['Fight me!',()=>talk('You dare challenge Redache? Choose your doom.',[['Easy',()=>startFight('easy')],['Normal',()=>startFight('normal')],['Hard',()=>startFight('hard')],['NieR',()=>startFight('nier')],['Never mind',()=>menu('Coward. Anything else?')]])],
   ['Tell me a secret',()=>talk(secrets[si++%secrets.length],back)],
@@ -162,6 +162,15 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&caught)release()});
 
 addEventListener('pointermove',e=>{if(TOUCH||fight||home||scene||caught||tt<dodgeCool)return;const tl=pts[N-1],d=Math.hypot(e.clientX-tl.x,e.clientY-tl.y);
   if(d<60&&!flee&&Math.random()<.35){dodgeCool=tt+5;const ax=tl.x-e.clientX,ay=tl.y-e.clientY,n=Math.hypot(ax,ay)||1;flee={ph:'run',t:0,dx:ax/n,dy:ay/n};sass=1.2}});
+/* moods change Ache's body. Default is the pointy, annoying star; 'satisfied' (treats, pats, winning a fight) puffs him up into a chubby soft star for a while.
+   Add a mood here and call setMood(name, seconds) wherever it should start */
+const MOODS={annoying:{inner:.34,round:0,eye:.32,pupil:.15,shade:0},satisfied:{inner:.52,round:.55,eye:.36,pupil:.17,shade:1}};
+const body={...MOODS.annoying};let moodName='annoying',moodUntil=0;
+function setMood(n,sec){if(MOODS[n]){moodName=n;moodUntil=tt+sec}}
+function starPath(g,R){const pts=[];for(let k=0;k<8;k++){const r=k%2?R*body.inner:R,a=k*Math.PI/4-Math.PI/2;pts.push([Math.cos(a)*r,Math.sin(a)*r])}
+  g.beginPath();if(body.round<.02){pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.closePath();return}
+  const m=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+  for(let i=0;i<8;i++){const p=pts[i],t=i%2?body.round*.5:body.round*.32,a=m(p,pts[(i+7)%8],t),b=m(p,pts[(i+1)%8],t);i?g.lineTo(...a):g.moveTo(...a);g.quadraticCurveTo(...p,...b)}g.closePath()}
 /* the dodge: he runs off, trips on his own thread, lies there a moment, gets up */
 let flee=null,daze=0;
 function fleeStep(){const tl=pts[N-1],f=flee;f.t+=.016;
@@ -255,7 +264,7 @@ function fightStep(){const F=fight;if(!F)return;const dt=.016;F.t+=dt;const W=in
     if(whipSeg){const tx=F.ax+Math.cos(whipSeg.a)*whipSeg.len,ty=F.ay+Math.sin(whipSeg.a)*whipSeg.len,vx=tx-F.ax,vy=ty-F.ay,t2=Math.max(0,Math.min(1,((px-F.ax)*vx+(py-F.ay)*vy)/(vx*vx+vy*vy)));if(Math.hypot(px-(F.ax+vx*t2),py-(F.ay+vy*t2))<8)hit=true}
     if(hit&&F.shield){F.shield=0;F.iframe=.9;F.flash=.15;updHud();fsay('A shield?! Cheater!',1300);hit=false}
     if(hit){F.php--;sfx('hurt');F.iframe=1.4;F.shake=10;F.flash=.35;updHud();
-      if(F.php<=0){F.over=true;sfx('ko');F.b=[];F.lances=[];F.whip=null;fsay(pickR('lose'),3000);showEnd('Mouse K.O.','Redache wins on '+F.d.name+'. The star is insufferable now.')}else if(Math.random()<.6)fsay(pickR('taunt'))}}
+      if(F.php<=0){F.over=true;sfx('ko');F.b=[];F.lances=[];F.whip=null;fsay(pickR('lose'),3000);setMood('satisfied',15);showEnd('Mouse K.O.','Redache wins on '+F.d.name+'. The star is insufferable now.')}else if(Math.random()<.6)fsay(pickR('taunt'))}}
   /* draw */
   const g=fx2;g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);F.shake*=.85;const sx=(Math.random()-.5)*F.shake,sy=(Math.random()-.5)*F.shake;g.translate(sx,sy);
   g.fillStyle='rgba(10,31,68,.42)';g.fillRect(-20,-20,W+40,H+40);
@@ -359,7 +368,7 @@ const BEATS=[
  {a:'Wait. Why are you even here? Do you care about me, or…',r:[['I care. Deeply.','Liar. You want to BROWSE THE SITE. I can see it in your arrow. It\'s black with greed.'],['Honestly? I just want to browse the site.','WOW. Therapy for clicks. Transactional. …respect. I\'d do the same.']]},
  {a:'Okay. Okay okay. I feel… 4% better. Four points, four percent. Now pat me.',r:[['*pat*','One pat. Rude. Acceptable.'],['*pat pat pat pat*','One per point. Correct. You may be powered again.']]}];
 function talkScene(){chat.hidden=false;const tp=scene.talkPos;chat.style.left=Math.min(tp.x+18,innerWidth-300)+'px';chat.style.top=Math.max(tp.y-20,70)+'px';beat(0)}
-function beat(i){const B=BEATS[i];talk(B.a,B.r.map(([q,ans])=>[q,()=>talk(ans,[[i<BEATS.length-1?'…':'Plug me back in',()=>i<BEATS.length-1?beat(i+1):endScene()]])]))}
+function beat(i){const B=BEATS[i];talk(B.a,B.r.map(([q,ans])=>[q,()=>talk((q.startsWith('*pat')&&setMood('satisfied',12),ans),[[i<BEATS.length-1?'…':'Plug me back in',()=>i<BEATS.length-1?beat(i+1):endScene()]])]))}
 function endScene(){if(!scene)return;const card=scene.card;card.classList.remove('sob');chat.hidden=true;caught=null;scene.cry=false;scene.detached=false;
   sfx('plug');fsay('Plugging you back in. Don\'t get used to being powered.',2200);
   setTimeout(()=>{dim.classList.remove('dark','flicker','dim2');collapse(false)},600);
@@ -379,11 +388,12 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
   for(let i=1;i<N-1;i++){g.quadraticCurveTo(pts[i].x*dpr,pts[i].y*dpr,(pts[i].x+pts[i+1].x)/2*dpr,(pts[i].y+pts[i+1].y)/2*dpr)}g.stroke();}
   const tl=pts[N-1],sp=Math.hypot(tl.x-tl.px,tl.y-tl.py);spin+=.02+sp*.04;squash+=(Math.min(.35,sp*.04)-squash)*.2;
   const R=(TOUCH?14:11)*dpr,ang=Math.sin(spin)*.5*(1-daze)+daze*(2.6+Math.sin(tt*3)*.08)+(caught?Math.sin(tt*10)*.15:0);g.save();g.translate(tl.x*dpr,tl.y*dpr);g.rotate(ang);g.scale(1+squash,1-squash*.6);
-  g.fillStyle='#D0021B';g.shadowColor='rgba(10,31,68,.25)';g.shadowBlur=6*dpr;g.shadowOffsetY=2*dpr;g.beginPath();
-  for(let k=0;k<8;k++){const r=k%2?R*.34:R,a2=k*Math.PI/4-Math.PI/2;g.lineTo(Math.cos(a2)*r,Math.sin(a2)*r)}g.closePath();g.fill();g.shadowColor='transparent';
+  {const M=tt<moodUntil?MOODS[moodName]:MOODS.annoying;for(const k in M)body[k]+=(M[k]-body[k])*.06}
+  let fill='#D0021B';if(body.shade>.05){const gr=g.createRadialGradient(-R*.3,-R*.35,R*.1,0,0,R*1.1);gr.addColorStop(0,'#ec2a3d');gr.addColorStop(.6,'#D0021B');gr.addColorStop(1,'#9c0014');fill=gr}
+  g.fillStyle=fill;g.shadowColor='rgba(10,31,68,.25)';g.shadowBlur=6*dpr;g.shadowOffsetY=2*dpr;starPath(g,R);g.fill();g.shadowColor='transparent';
   const ex=(hx??tl.x)-tl.x,ey=(hy??tl.y)-tl.y,ed=Math.hypot(ex,ey)||1,look=Math.min(1,ed/60);blinkT-=.016;if(blinkT<-.12)blinkT=2+Math.random()*4;
-  const open=blinkT<0?.15:1;g.fillStyle='#fff';g.beginPath();g.ellipse(0,0,R*.32,R*.32*open,0,0,7);g.fill();
-  if(open>.5){g.fillStyle='#0A1F44';g.beginPath();g.arc(ex/ed*R*.14*look,ey/ed*R*.14*look,R*.15,0,7);g.fill()}
+  const open=blinkT<0?.15:1;g.fillStyle='#fff';g.beginPath();g.ellipse(0,0,R*body.eye,R*body.eye*open,0,0,7);g.fill();
+  if(open>.5){g.fillStyle='#0A1F44';g.beginPath();g.arc(ex/ed*R*(body.eye-body.pupil)*.85*look,ey/ed*R*(body.eye-body.pupil)*.85*look,R*body.pupil,0,7);g.fill()}
   if(sass>0){sass-=.016;g.strokeStyle='#0A1F44';g.lineWidth=1.4*dpr;g.beginPath();g.moveTo(-R*.3,-R*.48);g.lineTo(R*.25,-R*.4);g.stroke()}
   g.restore();
   if(scene&&scene.cry&&!still){if(Math.random()<.14)tears.push({x:tl.x+(Math.random()-.5)*4,y:tl.y+2,vx:(Math.random()-.5)*.8,vy:-.6,l:1});
