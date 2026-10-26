@@ -1,0 +1,182 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/conduct.css">
+<title>Statement of Conduct (draft) | TZERØ</title>
+<meta name="description" content="How Artache's games treat your time and your money: six rules, each with a small toy that shows the usual way and ours. A draft: the wording may still change.">
+<link rel="canonical" href="https://tzero.live/conduct">
+<meta property="og:title" content="Artache's Statement of Conduct (draft)">
+<meta property="og:description" content="Six rules about your time and your money. Try each one. Then press Unchain time.">
+<meta property="og:image" content="/assets/img/liminal-outliers.jpg">
+</head><body class="conduct-page">
+<canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
+<header><div class="wrap">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/studio">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+</div></header>
+
+<div class="sea">
+  <div class="sunball" aria-hidden="true"></div>
+  <canvas id="waves" aria-hidden="true"></canvas>
+  <div class="wrap hero hero2 conduct-hero"><div>
+    <div class="kicker">Artache Creative Studio · <a href="/studio#respect">our one rule</a>, in practice</div>
+    <h1 class="conduct-title">Statement <span>of Conduct</span></h1>
+    <p class="sub">How our games treat your time and your money. Six rules, and each one comes with a toy: flip it to see the usual way, then ours.</p>
+    <a data-say="conduct" class="motto" href="#unchain">Press “Unchain time”</a>
+  </div>
+  <div class="draft-sheet" data-say="conduct">
+    <span class="tape" aria-hidden="true"></span>
+    <span class="ds-stamp" aria-hidden="true">Draft</span>
+    <p class="ds-head">Artache · Statement of Conduct</p>
+    <ol>
+      <li><a href="#no-timers">No timed mechanics, ever</a></li>
+      <li><a href="#unchain">Dates you can unchain</a></li>
+      <li><a href="#no-chance">No money on chance</a></li>
+      <li><a href="#reachable">Everything reachable by play</a></li>
+      <li><a href="#rewards">Rewards from play</a></li>
+      <li><a href="#released">Released stays released</a></li>
+    </ol>
+    <p class="ds-foot">Nero is still writing it. The wording may change.</p>
+  </div>
+</div></div>
+
+<div class="shore"><div class="wrap">
+
+  <div class="conduct-strip" role="note"><span class="draft">draft</span><span>Not final yet. This page shows where the rules stand today; when the text is final it will say so here.</span></div>
+
+  <section class="rule" id="no-timers">
+    <div class="rule-text">
+      <span class="rule-n">01</span>
+      <h2>No timed mechanics, ever</h2>
+      <p>No dailies, streaks, energy, expiry, countdowns or login rewards. A game shouldn't be waiting for you with a stopwatch. You play when you want, and stop without losing anything.</p>
+    </div>
+    <div class="toy card" data-toy="chores" data-mode="evil" data-say="conduct-evil">
+      <div class="mode" role="group" aria-label="Show"><button type="button" data-m="evil" aria-pressed="true">If we were evil</button><button type="button" data-m="ours" aria-pressed="false">How we do it</button></div>
+      <ul class="hud" aria-live="polite">
+        <li class="chip"><b>⚡ Energy 2/5</b><span>+1 in <i data-tick="299">04:59</i></span></li>
+        <li class="chip"><b>🔥 Day 12 streak</b><span>don't break it!</span></li>
+        <li class="chip"><b>🎁 Daily reward</b><span>claim within <i data-tick="86381">23:59:41</i></span></li>
+        <li class="chip"><b>⏳ Shop resets</b><span>in <i data-tick="22323">06:12:03</i></span></li>
+      </ul>
+      <p class="calm">Play now, or next month.<br><span>Nothing here is counting.</span></p>
+    </div>
+  </section>
+
+  <section class="rule flip" id="unchain">
+    <div class="rule-text">
+      <span class="rule-n">02</span>
+      <h2>Dates you can unchain</h2>
+      <p>An event may show a date, because an occasion feels nicer with one. Next to it there is always an “Unchain time” button that removes the date. And if you leave the date on? Wait for it, or skip ahead, and see what happens.</p>
+    </div>
+    <div class="toy card event" data-toy="event" data-state="live" data-say="conduct">
+      <div class="ev-art" aria-hidden="true"><span class="lantern"></span><span class="lantern"></span><span class="lantern"></span></div>
+      <span class="tag">Limited event</span>
+      <h3>Lantern Night</h3>
+      <p class="ev-time" aria-live="polite"><span class="chain" aria-hidden="true">⛓</span> Ends in <b class="ev-clock">00:00:15</b></p>
+      <div class="ev-msg" aria-live="assertive"><b class="ev-ended">Event has ended.</b><b class="ev-evil">…if we were evil!</b></div>
+      <div class="ev-btns">
+        <button type="button" class="btn unchain">Unchain time</button>
+        <button type="button" class="btn ghost skip">Skip to the end</button>
+        <button type="button" class="btn ghost again" hidden>Put the date back</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="rule" id="no-chance">
+    <div class="rule-text">
+      <span class="rule-n">03</span>
+      <h2>No money on chance</h2>
+      <p>Nothing you pay for is left to luck, and the odds are always shown. If a pack has random cards in it, it comes from play, and the odds are printed on the pack, not hidden behind a link.</p>
+    </div>
+    <div class="toy card" data-toy="pack" data-mode="evil" data-say="conduct-evil">
+      <div class="mode" role="group" aria-label="Show"><button type="button" data-m="evil" aria-pressed="true">If we were evil</button><button type="button" data-m="ours" aria-pressed="false">How we do it</button></div>
+      <div class="pack-row">
+        <div class="pack" aria-hidden="true"><span class="pk-star">✦</span><span class="pk-name">Tide pack</span></div>
+        <div class="pack-info">
+          <p class="pk-price"><b class="evil-only">€4.99</b><b class="ours-only">From play · no price</b></p>
+          <p class="pk-odds"><span class="evil-only">Odds: <u>see terms</u></span><span class="ours-only">Common 70% · Rare 25% · Shiny 5%</span></p>
+          <button type="button" class="btn open-pack"><span class="evil-only">Buy and open</span><span class="ours-only">Open a pack</span></button>
+        </div>
+      </div>
+      <div class="pulls" aria-live="polite"></div>
+      <p class="tally"></p>
+    </div>
+  </section>
+
+  <section class="rule flip" id="reachable">
+    <div class="rule-text">
+      <span class="rule-n">04</span>
+      <h2>Everything reachable by play</h2>
+      <p>Nothing locks your starting choices. In a card game, every card is there for deckbuilding from the first match. You collect by playing, and you never need a card you can't get.</p>
+    </div>
+    <div class="toy card" data-toy="deck" data-mode="evil" data-say="conduct-evil">
+      <div class="mode" role="group" aria-label="Show"><button type="button" data-m="evil" aria-pressed="true">If we were evil</button><button type="button" data-m="ours" aria-pressed="false">How we do it</button></div>
+      <p class="deck-head"><span>Build a deck</span><b class="deck-n">0 / 6</b></p>
+      <div class="deck-grid"></div>
+      <p class="deck-note"><span class="evil-only">8 cards locked. Unlock with 2,400 gems, or the season pass.</span><span class="ours-only">All twelve cards, from the first match. Tap to add or remove.</span></p>
+    </div>
+  </section>
+
+  <section class="rule" id="rewards">
+    <div class="rule-text">
+      <span class="rule-n">05</span>
+      <h2>Rewards from play</h2>
+      <p>No presentation tricks. No fireworks for five coins, no fake “almost!” moments, no glow that makes a small reward feel bigger than it is. A reward looks like what it is.</p>
+    </div>
+    <div class="toy card" data-toy="reward" data-mode="evil" data-say="conduct-evil">
+      <div class="mode" role="group" aria-label="Show"><button type="button" data-m="evil" aria-pressed="true">If we were evil</button><button type="button" data-m="ours" aria-pressed="false">How we do it</button></div>
+      <div class="chest-stage" aria-live="polite">
+        <div class="chest" aria-hidden="true"><span class="lid"></span><span class="box"></span></div>
+        <p class="reveal"></p>
+      </div>
+      <button type="button" class="btn open-chest">Open your reward</button>
+    </div>
+  </section>
+
+  <section class="rule flip" id="released">
+    <div class="rule-text">
+      <span class="rule-n">06</span>
+      <h2>Released stays released</h2>
+      <p>Updates and new content are welcome. What came out stays available for good: no vaults, no “gone forever”, no shelf that empties when a season ends. Drag the years and watch the shelf.</p>
+    </div>
+    <div class="toy card" data-toy="shelf" data-mode="evil" data-say="conduct-evil">
+      <div class="mode" role="group" aria-label="Show"><button type="button" data-m="evil" aria-pressed="true">If we were evil</button><button type="button" data-m="ours" aria-pressed="false">How we do it</button></div>
+      <label class="years"><span>Years after launch: <b class="yr">0</b></span><input type="range" min="0" max="10" value="0" step="1" aria-label="Years after launch"></label>
+      <ul class="c-shelf"></ul>
+    </div>
+  </section>
+
+  <section class="never" id="never-die">
+    <h2>Games that never die <small>notes from the studio's research</small></h2>
+    <p class="never-lead">The six rules are about how a game treats you while you play. These are about whether it can still be played in twenty years.</p>
+    <div class="grid never-grid">
+      <div class="card" data-say="conduct"><span class="nv-ico" aria-hidden="true">⌂</span><h4>An offline core</h4><p>The heart of every game runs on your device, with no connection needed.</p></div>
+      <div class="card" data-say="conduct"><span class="nv-ico" aria-hidden="true">∞</span><h4>Nothing that expires</h4><p>No licensed music, mandatory accounts or third-party live backends that can be switched off.</p></div>
+      <div class="card" data-say="conduct"><span class="nv-ico" aria-hidden="true">¤</span><h4>No premium currencies</h4><p>Prices in money, when there are prices. No gems standing between you and the number.</p></div>
+      <div class="card" data-say="conduct"><span class="nv-ico" aria-hidden="true">↦</span><h4>An end-of-life plan</h4><p>Decided before launch: what happens to the game if the studio ever stops working on it.</p></div>
+    </div>
+  </section>
+
+  <section class="conduct-end">
+    <div class="card">
+      <h3>This is a draft</h3>
+      <p>Nero is still writing the final text, so the wording will change. The direction won't: these rules come from <a href="/studio#respect">our one rule</a>, games that respect your time, and from the studio's mission to walk the gachafication of games backwards.</p>
+      <p>Want to see the rules at work? Every toy in the <a href="/lab">Idea Lab</a> follows them.</p>
+    </div>
+  </section>
+
+</div></div>
+<footer id="publisher"><div class="wrap">
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/conduct">Statement of Conduct</a> · <a href="/lab">Idea Lab</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
+</div></footer>
+<script src="/assets/js/scene.js" defer></script>
+<script src="/assets/js/wix.js" defer></script>
+<script src="/assets/js/conduct.js" defer></script>
+</body></html>

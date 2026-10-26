@@ -12,5 +12,8 @@
 /lab                     /lab.html      200
 /idealab                 /lab           301
 /idea-lab                /lab           301
+/conduct                 /conduct.html  200
+/statement-of-conduct    /conduct       301
+/code-of-conduct         /conduct       301
 /ache                    /redache       301
 /*                       https://journal.tzero.live/:splat  301

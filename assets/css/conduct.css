@@ -1,0 +1,178 @@
+/* Statement of Conduct (/conduct): the six draft rules, each with a toy that flips between "if we were evil" and ours. Same sea and shore as the homepage. */
+.conduct-hero{padding-block:72px 200px}
+.conduct-hero .kicker a{border-bottom:1px solid color-mix(in srgb,var(--soft) 50%,transparent)}
+.conduct-title{display:block;font-size:clamp(44px,7.6vw,96px);line-height:.94;letter-spacing:-.045em;margin:10px 0 18px;animation:none}
+.conduct-title span{display:block;animation:none;color:var(--b3)}
+.conduct-hero .sub{max-width:34ch}
+
+/* The draft sheet on the right, taped to the sky */
+.draft-sheet{position:relative;justify-self:center;width:min(360px,100%);background:#fff;border-radius:6px;padding:30px 26px 22px;transform:rotate(2.5deg);box-shadow:0 30px 50px -28px rgba(19,34,75,.7);background-image:repeating-linear-gradient(180deg,transparent 0 31px,color-mix(in srgb,var(--b1) 35%,transparent) 31px 32px);transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.draft-sheet:hover{transform:rotate(0deg) scale(1.02)}
+.ds-stamp{position:absolute;right:16px;top:14px;font:700 13px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--red);border:2px solid var(--red);border-radius:6px;padding:4px 10px;transform:rotate(-12deg);opacity:.85}
+.ds-head{margin:0 0 12px;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.draft-sheet ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px;font-family:"Caveat",cursive;font-size:24px;line-height:1.1;color:var(--ink)}
+.draft-sheet li::marker{font:500 13px var(--mono);color:var(--red)}
+.draft-sheet a:hover{color:var(--red)}
+.ds-foot{margin:14px 0 0;font-size:13px;color:var(--soft)}
+@media (max-width:760px){.conduct-hero{padding-block:56px 170px}.draft-sheet{transform:rotate(1.5deg);margin-top:8px}}
+
+.draft{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px dashed var(--red);color:var(--red);white-space:nowrap}
+.conduct-strip{position:relative;z-index:2;margin-top:-56px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--abyss);color:var(--sun);border-radius:14px;padding:16px 20px;box-shadow:0 20px 40px -24px rgba(19,34,75,.7);font-size:15px}
+.conduct-strip .draft{color:var(--sun);border-color:var(--sun)}
+
+/* One rule: the text on one side, its toy on the other */
+.rule{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(20px,4vw,48px);align-items:center;scroll-margin-top:80px}
+.rule.flip .rule-text{order:2}
+.rule-n{font:500 13px var(--mono);color:var(--red);letter-spacing:.1em}
+.rule h2{margin:6px 0 12px}
+.rule-text p{margin:0;color:var(--soft);font-size:17px;max-width:46ch}
+@media (max-width:820px){.rule{grid-template-columns:minmax(0,1fr)}.rule.flip .rule-text{order:0}}
+
+.toy{position:relative;gap:14px;min-height:260px;overflow:hidden;transition:background-color .5s,box-shadow .5s}
+.toy .btn{margin-top:0;align-self:flex-start}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--b2)}
+.btn.ghost:hover{background:color-mix(in srgb,var(--b1) 25%,transparent)}
+.toy button:focus-visible,.toy input:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.evil-only,.ours-only{display:none}
+[data-mode=evil] .evil-only,[data-mode=ours] .ours-only{display:inline}
+
+/* Evil / ours switch */
+.mode{display:flex;align-self:flex-start;padding:3px;border-radius:99px;background:color-mix(in srgb,var(--b1) 22%,#fff);border:1px solid color-mix(in srgb,var(--b2) 25%,transparent)}
+.mode button{border:0;background:transparent;font:500 12px var(--mono);letter-spacing:.04em;padding:7px 12px;border-radius:99px;color:var(--soft)}
+.mode button[aria-pressed=true]{background:var(--abyss);color:var(--sun)}
+.mode button[data-m=evil][aria-pressed=true]{background:var(--red);color:#fff}
+.toy[data-mode=evil] .mode button[data-m=ours]{animation:nudge 2.4s ease-in-out infinite}
+@keyframes nudge{0%,70%,100%{transform:none}80%{transform:translateX(3px)}90%{transform:translateX(-2px)}}
+.toy[data-mode=evil]{background-color:color-mix(in srgb,var(--red) 5%,#fff)}
+
+/* 01 chores HUD */
+.hud{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.chip{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:10px;background:#fff;border:1.5px solid color-mix(in srgb,var(--red) 40%,transparent);transition:opacity .45s,transform .55s cubic-bezier(.5,-.4,.7,1),filter .45s}
+.chip b{font-family:var(--display);font-size:16px}
+.chip span{font:500 12px var(--mono);color:var(--red)}
+.chip i{font-style:normal}
+.toy[data-mode=evil] .chip{animation:fidget 3s ease-in-out infinite}
+.toy[data-mode=evil] .chip:nth-child(2){animation-delay:-.7s}.toy[data-mode=evil] .chip:nth-child(3){animation-delay:-1.4s}.toy[data-mode=evil] .chip:nth-child(4){animation-delay:-2.1s}
+@keyframes fidget{0%,88%,100%{transform:none}92%{transform:rotate(-1.5deg) scale(1.03)}96%{transform:rotate(1.5deg)}}
+.toy[data-mode=ours] .chip{opacity:0;transform:translateY(60px) rotate(var(--r,8deg));filter:grayscale(1);pointer-events:none}
+.calm{position:absolute;left:24px;right:24px;bottom:26px;margin:0;font-family:var(--display);font-size:clamp(22px,3vw,30px);line-height:1.15;color:var(--ink);opacity:0;transform:translateY(10px);transition:opacity .5s .35s,transform .5s .35s}
+.calm span{font-family:"Caveat",cursive;font-size:1.05em;color:var(--b3)}
+.toy[data-mode=ours] .calm{opacity:1;transform:none}
+.toy[data-toy=chores]{min-height:300px}
+
+/* 02 the event and its gag */
+.event{background:linear-gradient(160deg,var(--abyss),color-mix(in srgb,var(--abyss) 70%,var(--b3)));color:var(--sky);border:0}
+.event h3{margin:0;font-family:var(--display);font-size:clamp(28px,4vw,40px);letter-spacing:-.03em;color:var(--sun)}
+.event .tag{color:var(--b1)}
+.ev-art{position:absolute;right:20px;top:18px;display:flex;gap:12px}
+.lantern{width:22px;height:30px;border-radius:9px 9px 12px 12px;background:radial-gradient(circle at 50% 60%,#ffd27a,#d7182a 70%);box-shadow:0 0 22px 4px rgba(255,190,90,.5);animation:sway 3s ease-in-out infinite;transform-origin:50% -20px}
+.lantern:nth-child(2){animation-delay:-1s;margin-top:12px}.lantern:nth-child(3){animation-delay:-2s;margin-top:4px}
+@keyframes sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.ev-time{margin:0;font:500 15px var(--mono);display:flex;align-items:center;gap:8px}
+.ev-clock{color:var(--sun);font-size:20px;font-weight:600;transition:color .3s}
+.chain{display:inline-block;transition:transform .6s,opacity .6s}
+.event[data-state=live] .ev-clock.hurry{color:#ff8a96;animation:pulse .5s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.08)}}
+.ev-msg{min-height:0;display:flex;flex-direction:column;gap:2px}
+.ev-msg b{display:none;font-family:var(--display);font-size:clamp(22px,3vw,30px);letter-spacing:-.02em}
+.ev-ended{color:#fff}
+.ev-evil{font-family:"Caveat",cursive!important;font-size:clamp(28px,4vw,38px)!important;color:var(--sun);font-weight:700}
+.ev-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+.event .btn{background:var(--sun);color:var(--ink)}
+.event .btn.ghost{background:transparent;color:var(--sun);box-shadow:inset 0 0 0 1.5px var(--b1)}
+/* ended: the card goes grey and shuts */
+.event[data-state=ended]{filter:grayscale(1) brightness(.75);transition:filter .4s}
+.event[data-state=ended] .ev-ended,.event[data-state=evil] .ev-ended{display:block}
+.event[data-state=ended] .lantern{animation:none;background:#555;box-shadow:none}
+.event[data-state=ended] .ev-btns,.event[data-state=evil] .ev-btns{visibility:hidden}
+.event[data-state=evil] .ev-ended{text-decoration:line-through;text-decoration-color:var(--red);opacity:.6}
+.event[data-state=evil] .ev-evil{display:block;animation:pop .5s cubic-bezier(.3,1.8,.5,1)}
+.event[data-state=evil] .lantern{animation:none}
+@keyframes pop{from{transform:scale(.4) rotate(-8deg);opacity:0}}
+/* unchained: no date at all, open for good */
+.event[data-state=open] .chain{transform:translateY(-20px) rotate(-40deg);opacity:0}
+.event[data-state=open] .ev-clock{color:var(--b1)}
+.event[data-state=open] .unchain,.event[data-state=open] .skip{display:none}
+.event.burst{animation:burst .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes burst{30%{transform:scale(1.03)}}
+
+/* 03 the pack */
+.pack-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.pack{width:96px;height:134px;border-radius:10px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:linear-gradient(150deg,var(--b2),var(--abyss));color:var(--sun);box-shadow:0 14px 26px -16px rgba(19,34,75,.8);transition:transform .3s}
+.pack .pk-star{font-size:30px;color:var(--red);text-shadow:0 0 12px rgba(255,255,255,.5)}
+.pack .pk-name{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.toy[data-mode=evil] .pack{background:linear-gradient(150deg,#7a3cff,#ff3cac,#ffb13c);animation:fidget 2s ease-in-out infinite}
+.pack.shake{animation:shake .35s}
+@keyframes shake{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+.pack-info{display:flex;flex-direction:column;gap:8px;min-width:0}
+.pack-info p{margin:0}
+.pk-price b{font-family:var(--display);font-size:22px}
+.pk-odds{font:500 13px var(--mono);color:var(--soft)}
+.pk-odds u{color:var(--b2);text-decoration-style:dotted;cursor:help}
+.pulls{display:flex;gap:8px;flex-wrap:wrap;min-height:58px}
+.pull{width:42px;height:58px;border-radius:6px;display:grid;place-items:center;font-size:18px;background:#fff;border:1.5px solid color-mix(in srgb,var(--b2) 40%,transparent);animation:deal .45s cubic-bezier(.3,1.6,.5,1) both}
+.pull.r{border-color:var(--b3);background:color-mix(in srgb,var(--b1) 30%,#fff)}
+.pull.s{border-color:var(--red);background:linear-gradient(140deg,#fff,color-mix(in srgb,var(--sun) 80%,var(--red)));box-shadow:0 0 14px -2px color-mix(in srgb,var(--red) 60%,transparent)}
+.pull:nth-child(2){animation-delay:.08s}.pull:nth-child(3){animation-delay:.16s}
+@keyframes deal{from{transform:translateY(-24px) rotate(-12deg);opacity:0}}
+.tally{margin:0;font:500 12px var(--mono);color:var(--soft);min-height:1.5em}
+.tally b{color:var(--ink)}
+.bill{color:var(--red)}
+
+/* 04 the deck */
+.deck-head{margin:0;display:flex;justify-content:space-between;align-items:baseline;font-family:var(--display);font-size:18px}
+.deck-n{font:600 14px var(--mono);color:var(--b3)}
+.deck-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.deck-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.dcard{position:relative;aspect-ratio:5/7;border-radius:7px;border:1.5px solid color-mix(in srgb,var(--b2) 35%,transparent);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;font-size:22px;color:var(--b3);cursor:pointer;transition:transform .25s cubic-bezier(.3,1.6,.5,1),border-color .25s,background .25s}
+.dcard small{font:500 9px var(--mono);letter-spacing:.02em;color:var(--soft);text-align:center;line-height:1.1}
+.dcard:hover{transform:translateY(-3px)}
+.dcard.in{border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,#fff);transform:translateY(-5px)}
+.dcard.in::after{content:"✓";position:absolute;right:3px;top:1px;font-size:11px;color:var(--red)}
+.dcard.locked{cursor:not-allowed;background:repeating-linear-gradient(135deg,#eef0f4 0 6px,#e3e6ec 6px 12px);color:transparent}
+.dcard.locked small{color:transparent}
+.dcard.locked::before{content:"🔒";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;filter:grayscale(1)}
+.dcard.locked.nope{animation:shake .3s}
+.deck-note{margin:0;font-size:14px;color:var(--soft)}
+.toy[data-mode=evil] .deck-note{color:var(--red)}
+
+/* 05 the reward */
+.chest-stage{position:relative;flex:1;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:10px;overflow:hidden}
+.chest{position:relative;width:84px;height:64px}
+.chest .box{position:absolute;inset:22px 0 0;border-radius:4px 4px 8px 8px;background:linear-gradient(180deg,#b5763a,#8a5427);box-shadow:inset 0 0 0 3px #6b3f1b}
+.chest .lid{position:absolute;left:0;right:0;top:0;height:26px;border-radius:14px 14px 3px 3px;background:linear-gradient(180deg,#c98845,#a2662f);box-shadow:inset 0 0 0 3px #6b3f1b;transform-origin:10% 100%;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.chest-stage.opened .lid{transform:rotate(-38deg) translate(-4px,-6px)}
+.reveal{margin:0;font-family:var(--display);font-size:20px;text-align:center;min-height:1.4em}
+.reveal small{display:block;font:500 12px var(--mono);color:var(--soft)}
+.chest-stage.hype{animation:quake .08s linear infinite;background:conic-gradient(from var(--spin,0deg),#ff3cac,#ffb13c,#3cffd0,#7a3cff,#ff3cac)}
+.chest-stage.hype .reveal{color:#fff;text-shadow:0 2px 0 #7a3cff,0 0 18px #ff3cac;font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:.04em}
+.chest-stage.hype .chest{transform:scale(1.25)}
+@keyframes quake{0%{transform:translate(1px,-1px)}50%{transform:translate(-1px,1px)}100%{transform:translate(1px,1px)}}
+.reveal .trick{display:block;margin-top:6px;font:500 13px var(--mono);color:var(--red);text-shadow:none;letter-spacing:0}
+
+/* 06 the shelf */
+.years{display:flex;flex-direction:column;gap:6px;font:500 13px var(--mono);color:var(--soft)}
+.years b{color:var(--ink);font-size:15px}
+.years input{width:100%;accent-color:var(--red)}
+.c-shelf{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px}
+.c-shelf li{position:relative;padding:10px 12px;border-radius:9px;background:#fff;border:1.5px solid color-mix(in srgb,var(--b2) 30%,transparent);display:flex;flex-direction:column;gap:2px;transition:filter .4s,opacity .4s,transform .4s;animation:deal .4s cubic-bezier(.3,1.6,.5,1) both}
+.c-shelf b{font-family:var(--display);font-size:14px;line-height:1.2}
+.c-shelf span{font:500 11px var(--mono);color:var(--b3)}
+.c-shelf li.gone{filter:grayscale(1);opacity:.55}
+.c-shelf li.gone span{color:var(--red)}
+.c-shelf li.gone::after{content:"";position:absolute;left:8px;right:8px;top:50%;border-top:2px solid var(--red);transform:rotate(-6deg)}
+.c-shelf li.new{border-color:var(--b3)}
+
+/* Games that never die */
+.never-lead{margin:-8px 0 22px;color:var(--soft);font-size:17px;max-width:62ch}
+.never-grid{grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.nv-ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:24px;color:var(--b3);background:color-mix(in srgb,var(--b2) 12%,#fff);transition:transform .5s cubic-bezier(.3,1.6,.5,1),color .3s}
+.never-grid .card:hover .nv-ico{transform:rotate(-8deg) scale(1.12);color:var(--red)}
+
+.conduct-end .card{max-width:760px;border-left:4px solid var(--red)}
+.conduct-end h3{margin:0;font-family:var(--display);font-size:24px}
+.conduct-end a{color:var(--b3);border-bottom:1px solid color-mix(in srgb,var(--b3) 40%,transparent)}
+.conduct-end a:hover{color:var(--red)}
+
+@media (prefers-reduced-motion:reduce){.chest-stage.hype{animation:none}.lantern,.chip,.pack{animation:none!important}}
+[data-motion="2"] .chest-stage.hype,[data-motion="2"] .lantern,[data-motion="2"] .chip,[data-motion="2"] .pack{animation:none!important}

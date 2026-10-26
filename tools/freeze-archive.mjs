@@ -113,7 +113,7 @@ for (const f of fs.readdirSync(path.join(ROOT, 'post-data'))) {
   const p = JSON.parse(fs.readFileSync(path.join(ROOT, 'post-data', f), 'utf8'));
   frozen.push({ slug: p.slug, lastmod: (p.lastPublishedDate || p.firstPublishedDate || '').slice(0, 10) });
 }
-const pages = ['/', '/posts', '/studio', '/lab', '/redache', '/story'];
+const pages = ['/', '/posts', '/studio', '/lab', '/conduct', '/redache', '/story'];
 const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
   + pages.map(p => '  <url><loc>' + SITE + p + '</loc></url>').join('\n') + '\n'
   + frozen.map(f => '  <url><loc>' + esc(SITE + '/post/' + encodeURI(f.slug)) + '</loc><lastmod>' + f.lastmod + '</lastmod></url>').join('\n')

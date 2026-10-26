@@ -133,3 +133,5 @@ nav a[aria-current=page]{color:var(--red)}
 .project .card-pic.contain{object-fit:contain;background:radial-gradient(ellipse at 50% 30%,#1f3b63,#0b1630)}
 .pic-note{font-family:var(--mono);font-size:11px;line-height:1.5;color:var(--soft);border-top:1px dashed color-mix(in srgb,var(--b2) 35%,transparent);padding-top:8px;margin-top:auto}
 .pic-note b{color:var(--red);font-weight:500}
+.conduct .note .try{color:var(--b3);font-weight:600;border-bottom:1px solid color-mix(in srgb,var(--b3) 40%,transparent);white-space:nowrap}
+.conduct .note .try:hover{color:var(--red)}
