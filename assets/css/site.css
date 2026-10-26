@@ -100,9 +100,10 @@ footer strong{color:var(--sun);font-family:var(--display)}
 .memory{position:fixed;z-index:25;pointer-events:none;font-family:"Caveat",cursive;font-size:28px;color:var(--ink);white-space:nowrap;animation:float 3.6s ease-out forwards}
 @keyframes float{0%{opacity:0;transform:translate(-50%,0) rotate(-3deg)}15%{opacity:1}100%{opacity:0;transform:translate(-50%,-90px) rotate(2deg)}}
 @media (max-width:760px){.hero2{grid-template-columns:minmax(0,1fr)}.board{min-height:320px}}
-.say{position:fixed;z-index:26;pointer-events:none;transform:translate(-50%,-100%) scale(.6);opacity:0;transition:opacity .25s,transform .3s cubic-bezier(.3,1.6,.5,1);background:#fff;color:var(--ink);font-family:"Caveat",cursive;font-size:21px;line-height:1.1;padding:6px 12px;border-radius:12px;box-shadow:0 8px 20px -10px rgba(10,31,68,.5);white-space:nowrap}
-.say::after{content:"";position:absolute;left:50%;bottom:-6px;width:12px;height:12px;background:#fff;transform:translateX(-50%) rotate(45deg)}
+.say{position:fixed;z-index:26;pointer-events:none;transform:translate(-50%,-100%) scale(.6);opacity:0;transition:opacity .25s,transform .3s cubic-bezier(.3,1.6,.5,1);background:#fff;color:var(--ink);font-family:"Caveat",cursive;font-size:21px;line-height:1.1;padding:6px 12px;border-radius:12px;box-shadow:0 8px 20px -10px rgba(10,31,68,.5);white-space:normal;max-width:min(320px,calc(100vw - 16px));width:max-content;text-align:center}
+.say::after{content:"";position:absolute;left:clamp(14px,calc(50% + var(--tail,0px)),calc(100% - 14px));bottom:-6px;width:12px;height:12px;background:#fff;transform:translateX(-50%) rotate(45deg)}
 .say.on{opacity:1;transform:translate(-50%,-100%) scale(1)}
+.say.below{transform:translate(-50%,0) scale(.6)}.say.below.on{transform:translate(-50%,0) scale(1)}.say.below::after{bottom:auto;top:-6px}
 .chat{position:fixed;z-index:27;width:min(290px,calc(100vw - 32px));background:#fff;border-radius:14px;padding:14px;box-shadow:0 20px 40px -18px rgba(10,31,68,.55);border:1px solid rgba(26,90,166,.15);animation:pop .3s cubic-bezier(.3,1.6,.5,1)}
 .chat p{margin:0 0 10px;font-family:"Caveat",cursive;font-size:22px;line-height:1.15;color:var(--ink)}
 .chat .opts{display:flex;flex-wrap:wrap;gap:6px}

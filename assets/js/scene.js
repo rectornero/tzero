@@ -113,6 +113,9 @@ const say=document.createElement('div');say.className='say';document.body.append
    4 scene and fight, 3 something you did to Ache (stake, sleep, wake), 2 dodging the cursor, 1 a line about what it visits, 0 idle chatter */
 let sayPrio=-1,sayEnd=0;const readMs=t=>Math.min(9000,Math.max(3000,1200+t.length*60));
 function speak(t,prio,ms){if(!t)return 0;const now=performance.now();if(now<sayEnd&&prio<sayPrio)return 0;ms=ms||readMs(t);say.textContent=t;say.classList.add('on');sayPrio=prio;sayEnd=now+ms;clearTimeout(say._t);say._t=setTimeout(()=>{say.classList.remove('on');sayPrio=-1},ms);return ms}
+/* keep the bubble on screen: slide it sideways near the edges (the tail stays on Ache) and flip it below him near the top */
+function placeSay(x,y,gap){const w=say.offsetWidth,h=say.offsetHeight,m=8,cx=Math.min(Math.max(x,w/2+m),innerWidth-w/2-m),below=y-gap-h<m;
+  say.style.left=cx+'px';say.style.top=(below?y+gap:y-gap)+'px';say.classList.toggle('below',below);say.style.setProperty('--tail',(x-cx)+'px')}
 const busy=()=>performance.now()<sayEnd+3000;
 let target=null,until=0,said=null,cool=0;
 function pick(){const els=[...document.querySelectorAll('[data-say]')].filter(el=>{const b=el.getBoundingClientRect();return b.bottom>40&&b.top<innerHeight-40&&b.right>0&&b.left<innerWidth});
@@ -288,7 +291,7 @@ function fightStep(){const F=fight;if(!F)return;const dt=.016;F.t+=dt;const W=in
   if(!F.over||F.php>0){const blink=F.iframe>0&&Math.floor(F.t*14)%2;if(!blink){g.strokeStyle=F.php<=1?'#ff4d5a':'#fff6cf';g.lineWidth=2;g.beginPath();g.arc(px,py,9,0,7);g.stroke();g.fillStyle='#fff';g.beginPath();g.arc(px,py,2.5,0,7);g.fill()}}
   else{g.fillStyle='#fff6cf';g.font='700 46px Geist, sans-serif';g.textAlign='center';g.fillText('K.O.',px,py-24)}
   if(F.flash>0){g.fillStyle=`rgba(208,2,27,${F.flash*.5})`;g.fillRect(-20,-20,W+40,H+40);F.flash-=dt}
-  say.style.left=F.ax+'px';say.style.top=F.ay-26+'px'}
+  placeSay(F.ax,F.ay,26)}
 function showEnd(h,p){const e=hud.querySelector('.fend');e.querySelector('h3').textContent=h;e.querySelector('p').textContent=p;setTimeout(()=>{if(fight)e.hidden=false},900)}
 fc.addEventListener('click',e=>{e.stopPropagation();const F=fight;if(!F||F.over)return;
   if(Math.hypot(e.clientX-F.ax,e.clientY-F.ay)<34){dmgAche(1);F.mt=0;return}
@@ -414,7 +417,7 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
   if(stake){const sx=(stake.x-scrollX)*dpr,sy=(stake.y-scrollY)*dpr;g.save();g.translate(sx,sy);g.fillStyle='rgba(10,31,68,.18)';g.beginPath();g.ellipse(0,9*dpr,9*dpr,3*dpr,0,0,7);g.fill();
     const wg=g.createLinearGradient(-4*dpr,0,4*dpr,0);wg.addColorStop(0,'#8a5a33');wg.addColorStop(1,'#c08a5a');g.fillStyle=wg;g.beginPath();g.moveTo(-4*dpr,-16*dpr);g.lineTo(4*dpr,-16*dpr);g.lineTo(4*dpr,4*dpr);g.lineTo(0,10*dpr);g.lineTo(-4*dpr,4*dpr);g.closePath();g.fill();
     g.fillStyle='#6b4325';g.fillRect(-5*dpr,-18*dpr,10*dpr,3*dpr);g.strokeStyle='#D0021B';g.lineWidth=2*dpr;g.beginPath();g.ellipse(0,-6*dpr,5.5*dpr,2.2*dpr,0,0,7);g.stroke();g.restore()}
-  say.style.left=tl.x+'px';say.style.top=tl.y-18+'px';
+  placeSay(tl.x,tl.y,18);
   if(!still)requestAnimationFrame(thread)})();
 /* draggable polaroids */
 let zz=10;document.querySelectorAll('.polaroid').forEach(p=>{let sx,sy,ox,oy,drag=false;
