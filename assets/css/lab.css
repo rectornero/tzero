@@ -13,7 +13,7 @@
 @media (max-width:820px){.lab-hero{grid-template-columns:1fr;padding-block:56px 170px}}
 
 /* Leader strip, overlapping the shoreline */
-.lab-board{position:relative;z-index:2;margin-top:-56px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--abyss);color:var(--sun);border-radius:14px;padding:16px 20px;box-shadow:0 20px 40px -24px rgba(10,31,68,.7)}
+.lab-board{position:relative;z-index:2;margin-top:-56px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--abyss);color:var(--sun);border-radius:14px;padding:16px 20px;box-shadow:0 20px 40px -24px rgba(19,34,75,.7)}
 .lb-label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--b1)}
 #leader{font-family:var(--display);font-weight:600;font-size:18px}
 #leader a{border-bottom:1px solid color-mix(in srgb,var(--sun) 40%,transparent)}
@@ -48,7 +48,7 @@
 .idea-pic[data-art=no]::before{background:radial-gradient(circle at 75% 30%,rgba(255,255,255,.5),transparent 40%),repeating-linear-gradient(-8deg,transparent 0 18px,rgba(60,40,20,.08) 18px 19px),linear-gradient(180deg,#efe2c4,#d8c39a)}
 .idea-pic[data-art=handshake]::before{background:radial-gradient(22% 60% at 50% 50%,#ffcf9a,transparent 70%),radial-gradient(1px 1px at 20% 30%,#fff 50%,transparent),radial-gradient(1px 1px at 70% 20%,#fff 50%,transparent),radial-gradient(1px 1px at 85% 70%,#fff 50%,transparent),linear-gradient(120deg,#0b1736,#0f4c5c)}
 .idea-pic[data-art=night]::before{background:radial-gradient(40% 50% at 85% 100%,rgba(122,20,32,.9),transparent 70%),radial-gradient(10% 18% at 30% 35%,rgba(255,200,120,.6),transparent),linear-gradient(180deg,#0c0a18,#1d1430)}
-.idea-pic[data-art=rewind]::before{background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 2px,transparent 2px 5px),radial-gradient(40% 70% at 50% 50%,rgba(208,2,27,.5),transparent 70%),#07070a}
+.idea-pic[data-art=rewind]::before{background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 2px,transparent 2px 5px),radial-gradient(40% 70% at 50% 50%,rgba(215,24,42,.5),transparent 70%),#07070a}
 
 /* The toy: a small dark stage, tap or click to play. Each toy draws inside it */
 .toy{position:relative;margin:4px 20px 0;border-radius:10px;overflow:hidden;min-height:220px;background:#0d1322;color:#e8ecf4;font-family:var(--mono);font-size:13px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
