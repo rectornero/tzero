@@ -2,7 +2,7 @@
 // plus its data file at /post-data/<slug>.json, so search engines read real HTML and the archive no
 // longer depends on Wix. New posts keep loading live. Run by hand, never on Netlify (no build step):
 //   node tools/freeze-archive.mjs <snapshot.json>      (needs jsdom: npm i jsdom)
-// Re-run it after changing post.html, post.js, ricos.js or tools/ache-notes.json.
+// Re-run it after changing post.html, post.js, ricos.js, tools/ache-notes.json or tools/cuts.json.
 // The snapshot is the Wix posts list with RICH_CONTENT, URL and SEO fieldsets, as one JSON array.
 import fs from 'node:fs';
 import path from 'node:path';
