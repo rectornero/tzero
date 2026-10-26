@@ -20,6 +20,10 @@ burned almost a whole month.
 
 - It is static: articles and Ache's news mood load from Wix in the visitor's browser (Wix requests cost no
   Netlify credits). Keep it that way. Don't add functions, Blobs, a database or a build step without asking.
+- One exception, chosen by Nero on 2026-10-26: `netlify/functions/votes.mjs` counts the Idea Lab hearts (/lab) in
+  one Netlify Blobs entry. GETs are cached on the CDN for 60 s, posts are rate-limited, no database. Estimated under
+  1 credit a month now, about 3 to 4 per 10,000 calls. Don't add polling to it or call it on a schedule.
+- Wix is being phased out (Nero, 2026-10-26): build new features on this site, not on Wix.
 - Pushes to `main` deploy to production. Work on a branch and merge once per finished batch.
   Commits that only change Markdown skip the deploy (`ignore` in `netlify.toml`).
 - Calls to the Artache API (artache.netlify.app) can wake its database. Make them only in sessions that produce
