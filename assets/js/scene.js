@@ -102,6 +102,8 @@ bindTilt(document);
 
 /* floating red thread: no gravity, desk friction */
 const tc=document.getElementById('thread'),tx_=tc.getContext('2d');let N=38;const seg=13;let scene=null,newsStage=0;let therapy=false,tears=[],lastMove=0;let home=false,sleeping=false;let stake=null;let spin=0,squash=0,blinkT=3,sass=0,dodgeCool=0;let pts=[],hx=null,hy=null;
+/* phones have no cursor for the thread to power: there Ache is a little free star that rests in the bottom corner and visits things on screen */
+const TOUCH=matchMedia('(hover:none) and (pointer:coarse)').matches;
 function tsize(){tc.width=innerWidth*dpr;tc.height=innerHeight*dpr;if(!pts.length)for(let i=0;i<N;i++){pts.push({x:60+i*seg,y:110,px:60+i*seg,py:110})}}
 addEventListener('resize',tsize);tsize();addEventListener('pointermove',e=>{hx=e.clientX;hy=e.clientY});
 
@@ -114,7 +116,7 @@ function speak(t,prio,ms){if(!t)return 0;const now=performance.now();if(now<sayE
 const busy=()=>performance.now()<sayEnd+3000;
 let target=null,until=0,said=null,cool=0;
 function pick(){const els=[...document.querySelectorAll('[data-say]')].filter(el=>{const b=el.getBoundingClientRect();return b.bottom>40&&b.top<innerHeight-40&&b.right>0&&b.left<innerWidth});
-  target=els.length?els[Math.floor(Math.random()*els.length)]:null;until=tt+6+Math.random()*4;said=null}
+  target=els.length?els[Math.floor(Math.random()*els.length)]:null;until=tt+(TOUCH?12:6)+Math.random()*(TOUCH?8:4);said=null}
 function seek(){if(scene){const tl=pts[N-1];let tx,ty;
   if(scene.mode==='card'){const b=scene.card.getBoundingClientRect();tx=b.right-18;ty=b.top+14;dim.style.setProperty('--sx',(b.left+b.width/2)+'px');dim.style.setProperty('--sy',(b.top+b.height/2)+'px')}
   else if(scene.mode==='rampage'){if(!scene.rt||tt>scene.rt){scene.rt=tt+.55;scene.rx=60+Math.random()*(innerWidth-120);scene.ry=90+Math.random()*(innerHeight-160)}tx=scene.rx;ty=scene.ry;dim.style.setProperty('--sx',tl.x+'px');dim.style.setProperty('--sy',tl.y+'px')}
@@ -122,7 +124,8 @@ function seek(){if(scene){const tl=pts[N-1];let tx,ty;
   else{tx=(hx??innerWidth/2)-46;ty=(hy??innerHeight/2)-34;if(Math.hypot(tl.x-tx,tl.y-ty)<26){scene.talkPos={x:tx,y:ty};talkScene()}}
   if(scene.mode==='mouse'){dim.style.setProperty('--sx',(hx??innerWidth/2)+'px');dim.style.setProperty('--sy',(hy??innerHeight/2)+'px')}
   const k=scene.mode==='rampage'?.22:.12;tl.x+=(tx-tl.x)*k;tl.y+=(ty-tl.y)*k;return}
-  if(therapy&&!caught&&hx!==null){const tl=pts[N-1],tx=hx-46,ty=hy-34;tl.x+=(tx-tl.x)*.08;tl.y+=(ty-tl.y)*.08;if(Math.hypot(tl.x-tx,tl.y-ty)<24)openTherapy(tl.x,tl.y);return}if(home){const sp=slotPos(),tl=pts[N-1];tl.x+=(sp.x-tl.x)*.2;tl.y+=(sp.y-tl.y)*.2;pts[0].x+=(sp.x-pts[0].x)*.2;pts[0].y+=(sp.y-pts[0].y)*.2;if(!sleeping&&Math.hypot(tl.x-sp.x,tl.y-sp.y)<8&&Math.hypot(pts[0].x-sp.x,pts[0].y-sp.y)<8){sleeping=true;slot.classList.add('full');say.classList.remove('on')}return}if(caught){const tl=pts[N-1];tl.x+=(caught.x-tl.x)*.25;tl.y+=(caught.y-tl.y)*.25;return}if(!target||tt>until||!document.contains(target))pick();if(!target)return;
+  if(therapy&&!caught&&hx!==null){const tl=pts[N-1],tx=hx-46,ty=hy-34;tl.x+=(tx-tl.x)*.08;tl.y+=(ty-tl.y)*.08;if(Math.hypot(tl.x-tx,tl.y-ty)<24)openTherapy(tl.x,tl.y);return}if(home){const sp=slotPos(),tl=pts[N-1];tl.x+=(sp.x-tl.x)*.2;tl.y+=(sp.y-tl.y)*.2;pts[0].x+=(sp.x-pts[0].x)*.2;pts[0].y+=(sp.y-pts[0].y)*.2;if(!sleeping&&Math.hypot(tl.x-sp.x,tl.y-sp.y)<8&&Math.hypot(pts[0].x-sp.x,pts[0].y-sp.y)<8){sleeping=true;slot.classList.add('full');say.classList.remove('on')}return}if(caught){flee=null;daze=0;const tl=pts[N-1];tl.x+=(caught.x-tl.x)*.25;tl.y+=(caught.y-tl.y)*.25;return}if(flee){fleeStep();return}if(!target||tt>until||!document.contains(target))pick();if(!target)return;
+  if(TOUCH&&said===target&&performance.now()>sayEnd){const tl=pts[N-1],dx=innerWidth-40,dy=innerHeight-56+Math.sin(tt*2)*4;tl.x+=(dx-tl.x)*.05;tl.y+=(dy-tl.y)*.05;return}
   const b=target.getBoundingClientRect(),tx=b.left+b.width*.5,ty=b.top+Math.min(b.height*.3,60),tl=pts[N-1],dx=tx-tl.x,dy=ty-tl.y,d=Math.hypot(dx,dy);
   tl.x+=dx*.035;tl.y+=dy*.035;
   if(d<70&&NEWS&&target.dataset.say===NEWS.key&&!caught&&!scene&&newsStage<2){if(newsStage===0){startScene(target);return}newsStage=2;said=target;until=tt+1.6;fsay("I'm okay now. mostly. go read it, it's a good article. a GREAT article. a good one.",2600);return}
@@ -157,9 +160,17 @@ addEventListener('click',e=>{if(fight||home||scene)return;const tl=pts[N-1];if(!
   else if(caught&&!e.target.closest('.chat')){e.stopImmediatePropagation();release()}},true);
 addEventListener('keydown',e=>{if(e.key==='Escape'&&caught)release()});
 
-addEventListener('pointermove',e=>{if(fight||home||scene||caught||tt<dodgeCool)return;const tl=pts[N-1],d=Math.hypot(e.clientX-tl.x,e.clientY-tl.y);
-  if(d<60&&Math.random()<.35){dodgeCool=tt+2.5;const ax=tl.x-e.clientX,ay=tl.y-e.clientY,n=Math.hypot(ax,ay)||1;tl.x+=ax/n*70;tl.y+=ay/n*70;sass=1.2;
-    speak(nextLine('sass'),2)}});
+addEventListener('pointermove',e=>{if(TOUCH||fight||home||scene||caught||tt<dodgeCool)return;const tl=pts[N-1],d=Math.hypot(e.clientX-tl.x,e.clientY-tl.y);
+  if(d<60&&!flee&&Math.random()<.35){dodgeCool=tt+5;const ax=tl.x-e.clientX,ay=tl.y-e.clientY,n=Math.hypot(ax,ay)||1;flee={ph:'run',t:0,dx:ax/n,dy:ay/n};sass=1.2}});
+/* the dodge: he runs off, trips on his own thread, lies there a moment, gets up */
+let flee=null,daze=0;
+function fleeStep(){const tl=pts[N-1],f=flee;f.t+=.016;
+  if(f.ph==='run'){const sp=9*Math.max(.35,1-f.t/1.1);f.dx+=(Math.random()-.5)*.08;f.dy+=(Math.random()-.5)*.08;const n=Math.hypot(f.dx,f.dy)||1;f.dx/=n;f.dy/=n;
+    if(tl.x<30||tl.x>innerWidth-30)f.dx=-f.dx;if(tl.y<80||tl.y>innerHeight-30)f.dy=-f.dy;tl.x+=f.dx*sp;tl.y+=f.dy*sp+Math.sin(f.t*22)*1.5;
+    if(f.t>1.1){f.ph='trip';f.t=0;sfx('hurt');speak(nextLine('trip')||nextLine('sass'),2)}}
+  else if(f.ph==='trip'){const k=Math.min(1,f.t/.35);daze=k;tl.x+=f.dx*3*(1-k);tl.y+=(1-k)*2+(k<1?1.5:0);if(f.t>.35){f.ph='down';f.t=0}}
+  else if(f.ph==='down'){daze=1;if(f.t>1.4){f.ph='up';f.t=0}}
+  else{daze=Math.max(0,1-f.t/.5);tl.y-=1.2*(1-f.t/.5);if(f.t>.5){flee=null;daze=0}}}
 
 function driveStake(){sfx('stake');const h=pts[0];stake={x:h.x+scrollX,y:h.y+scrollY}}
 const stakeLines=['you just left me here?','I\'m not mad. I\'m staked','this stake is ugly. I love it','guard duty, day one','I could escape. I choose not to','tell the cursor I said hi','I\'ll be here. obviously','a star, tied to a stick. art','free? no. fabulous? yes','come back, I\'m bored'];let sli=0;
@@ -356,18 +367,18 @@ function endScene(){if(!scene)return;const card=scene.card;card.classList.remove
     fsay('…okay. lights on. I\'m okay. the studio wrote a great article about it. a good article. let\'s keep going.',3200);setTimeout(pick,2500)},1600)}
 function finish(){scene?endScene():release()}
 
-let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.height);tt+=.016;if(!still)requestAnimationFrame(thread);return}tt+=.016;const h0=pts[0],gx=home?slotPos().x:stake?stake.x-scrollX:hx===null?innerWidth*.6+Math.sin(tt*.4)*innerWidth*.25:hx,gy=home?slotPos().y:stake?stake.y-scrollY:hy===null?160+Math.sin(tt*.7)*50:hy;if(stake&&!scene){h0.x=gx;h0.y=gy}
+let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.height);tt+=.016;if(!still)requestAnimationFrame(thread);return}tt+=.016;const h0=pts[0],gx=home?slotPos().x:stake?stake.x-scrollX:TOUCH?pts[N-1].x:hx===null?innerWidth*.6+Math.sin(tt*.4)*innerWidth*.25:hx,gy=home?slotPos().y:stake?stake.y-scrollY:TOUCH?pts[N-1].y:hy===null?160+Math.sin(tt*.7)*50:hy;if(stake&&!scene){h0.x=gx;h0.y=gy}
   if(scene&&scene.detached){const vx=(h0.x-(h0.px??h0.x))*.9,vy=(h0.y-(h0.py??h0.y))*.9;h0.px=h0.x;h0.py=h0.y;h0.x+=vx;h0.y+=vy}else{h0.px=h0.x;h0.py=h0.y;h0.x+=(gx-h0.x)*.3;h0.y+=(gy-h0.y)*.3}
   for(let i=1;i<N;i++){const p=pts[i],vx=(p.x-p.px)*.86,vy=(p.y-p.py)*.86;p.px=p.x;p.py=p.y;p.x+=vx+Math.sin(tt*1.3+i*.4)*.05;p.y+=vy+Math.cos(tt*1.1+i*.3)*.05}
   seek();
   for(let k=0;k<5;k++)for(let i=1;i<N;i++){const a=pts[i-1],b=pts[i],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;if(d<=seg)continue;const df=(d-seg)/d;
     if(i===1&&!(scene&&scene.detached)){b.x-=dx*df;b.y-=dy*df}else{a.x+=dx*df*.5;a.y+=dy*df*.5;b.x-=dx*df*.5;b.y-=dy*df*.5}}
   const g=tx_;g.clearRect(0,0,tc.width,tc.height);g.lineCap=g.lineJoin='round';
-  g.strokeStyle='rgba(10,31,68,.14)';g.lineWidth=3*dpr;g.beginPath();pts.forEach((p,i)=>i?g.lineTo((p.x+2)*dpr,(p.y+4)*dpr):g.moveTo((p.x+2)*dpr,(p.y+4)*dpr));g.stroke();
+  if(!TOUCH){g.strokeStyle='rgba(10,31,68,.14)';g.lineWidth=3*dpr;g.beginPath();pts.forEach((p,i)=>i?g.lineTo((p.x+2)*dpr,(p.y+4)*dpr):g.moveTo((p.x+2)*dpr,(p.y+4)*dpr));g.stroke();
   g.strokeStyle='#D0021B';g.lineWidth=2.1*dpr;g.beginPath();g.moveTo(pts[0].x*dpr,pts[0].y*dpr);
-  for(let i=1;i<N-1;i++){g.quadraticCurveTo(pts[i].x*dpr,pts[i].y*dpr,(pts[i].x+pts[i+1].x)/2*dpr,(pts[i].y+pts[i+1].y)/2*dpr)}g.stroke();
+  for(let i=1;i<N-1;i++){g.quadraticCurveTo(pts[i].x*dpr,pts[i].y*dpr,(pts[i].x+pts[i+1].x)/2*dpr,(pts[i].y+pts[i+1].y)/2*dpr)}g.stroke();}
   const tl=pts[N-1],sp=Math.hypot(tl.x-tl.px,tl.y-tl.py);spin+=.02+sp*.04;squash+=(Math.min(.35,sp*.04)-squash)*.2;
-  const R=11*dpr,ang=Math.sin(spin)*.5+(caught?Math.sin(tt*10)*.15:0);g.save();g.translate(tl.x*dpr,tl.y*dpr);g.rotate(ang);g.scale(1+squash,1-squash*.6);
+  const R=(TOUCH?14:11)*dpr,ang=Math.sin(spin)*.5*(1-daze)+daze*(2.6+Math.sin(tt*3)*.08)+(caught?Math.sin(tt*10)*.15:0);g.save();g.translate(tl.x*dpr,tl.y*dpr);g.rotate(ang);g.scale(1+squash,1-squash*.6);
   g.fillStyle='#D0021B';g.shadowColor='rgba(10,31,68,.25)';g.shadowBlur=6*dpr;g.shadowOffsetY=2*dpr;g.beginPath();
   for(let k=0;k<8;k++){const r=k%2?R*.34:R,a2=k*Math.PI/4-Math.PI/2;g.lineTo(Math.cos(a2)*r,Math.sin(a2)*r)}g.closePath();g.fill();g.shadowColor='transparent';
   const ex=(hx??tl.x)-tl.x,ey=(hy??tl.y)-tl.y,ed=Math.hypot(ex,ey)||1,look=Math.min(1,ed/60);blinkT-=.016;if(blinkT<-.12)blinkT=2+Math.random()*4;
