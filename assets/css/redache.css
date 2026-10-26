@@ -1,0 +1,94 @@
+/* Redache's page: the page source as an editor window floating over the season.
+   Colours follow the skin (--abyss, --b1, --sun); red only marks Ache himself. */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.source .crumbs span:last-child{color:var(--red)}
+
+.ide{--bg:color-mix(in srgb,var(--abyss) 94%,#000);--line:color-mix(in srgb,var(--b1) 16%,transparent);--dim:color-mix(in srgb,var(--sky) 45%,var(--abyss));
+  max-width:1180px;margin:0 auto;background:var(--bg);color:#e6eefb;border-radius:14px;overflow:clip;border:1px solid color-mix(in srgb,var(--b1) 30%,transparent);
+  box-shadow:0 40px 80px -40px rgba(10,31,68,.7),0 0 0 6px color-mix(in srgb,#fff 35%,transparent);font-family:var(--mono);font-size:14px;line-height:1.65}
+.ide.shake{animation:ideshake .5s}
+@keyframes ideshake{20%{transform:translateX(-8px) rotate(-.4deg)}40%{transform:translateX(7px) rotate(.3deg)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+
+.ide-bar{display:flex;align-items:center;gap:14px;padding:12px 16px;background:color-mix(in srgb,var(--abyss) 80%,#fff 4%);border-bottom:1px solid var(--line)}
+.dots{display:flex;gap:7px}.dots i{width:11px;height:11px;border-radius:50%;background:var(--dim)}.dots i:first-child{background:var(--red)}
+.addr{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:5px 14px;border-radius:99px;background:rgba(0,0,0,.25);color:var(--dim);font-size:13px}
+.addr b{color:#fff;font-weight:500}
+.ro{font-size:12px;color:var(--dim)}
+.ide-tabs{display:flex;background:rgba(0,0,0,.18);border-bottom:1px solid var(--line);overflow-x:auto}
+.ide-tabs button{display:flex;align-items:center;gap:8px;font:inherit;font-size:13px;color:var(--dim);background:transparent;border:0;border-right:1px solid var(--line);padding:10px 18px;border-top:2px solid transparent}
+.ide-tabs button[aria-selected=true]{color:#fff;background:var(--bg);border-top-color:var(--red)}
+.ide-tabs button:hover{color:#fff}
+.fi{width:10px;height:10px;border-radius:2px;background:var(--b1)}.fi.j{background:var(--sun)}
+
+/* code: one row per line, gutter with numbers and star breakpoints */
+.ide-code{padding:14px 0 22px;--gw:3ch}
+.ide-code pre{margin:0;padding:0 20px;white-space:pre-wrap;font:inherit;color:var(--dim)}
+.blk{position:relative;border-radius:6px;transition:background .3s}
+.blk[data-say]:hover{background:color-mix(in srgb,var(--b1) 6%,transparent)}
+.ln{display:grid;grid-template-columns:calc(var(--gw) + 46px) minmax(0,1fr);min-height:1.65em}
+.ln:hover{background:color-mix(in srgb,var(--b1) 9%,transparent)}
+.ln:hover .g{color:#fff}
+.g{position:relative;text-align:right;padding-right:22px;color:color-mix(in srgb,var(--dim) 70%,transparent);cursor:pointer;font-variant-numeric:tabular-nums}
+.g::before{content:"";position:absolute;right:5px;top:50%;width:11px;height:11px;margin-top:-5.5px;background:var(--red);opacity:0;transform:scale(.4) rotate(-45deg);transition:.2s cubic-bezier(.3,1.6,.5,1);
+  clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+.g:hover::before{opacity:.35;transform:scale(.8)}
+.bp .g::before{opacity:1;transform:none}
+.bp{background:color-mix(in srgb,var(--red) 12%,transparent)}
+.c{white-space:pre-wrap;overflow-wrap:anywhere;padding-right:20px;color:#e6eefb}
+.boot{animation:boot .5s both;animation-delay:calc(var(--i) * 12ms)}
+@keyframes boot{from{opacity:0;transform:translateX(-10px)}}
+
+/* syntax: the skin's blues and sand; red is reserved for Ache */
+.cm{color:color-mix(in srgb,var(--sky) 55%,var(--abyss));font-style:italic}
+.st{color:#ffd98a}
+.tg{color:var(--b1)}
+.at{color:#b9e3ff}
+.pr{color:#9fd4ff}
+.kw{color:#c7a8ff}
+.nu{color:#ffb38a}
+.fn{color:#8ff0d0}
+.sel{color:#ffd98a}
+.hx{color:#ffb38a}
+.sw{text-decoration:none;border-bottom:3px solid var(--c);border-radius:1px}
+.me{color:#ff4d61;font-weight:500;font-style:normal;text-shadow:0 0 12px rgba(208,2,27,.6)}
+.eye{display:inline-block;color:#fff;font-style:normal;text-shadow:0 0 10px #fff;animation:blinkeye 4.5s infinite}
+@keyframes blinkeye{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.live-cm{color:var(--red);font-style:normal;animation:pulse 1.8s infinite}
+.lv{border-radius:4px;padding:0 2px}
+.lv.blink{animation:livein 1.2s}
+@keyframes livein{from{background:color-mix(in srgb,var(--red) 55%,transparent)}}
+
+/* terminal */
+.ide-term{border-top:1px solid var(--line);background:rgba(0,0,0,.28)}
+.term-head{display:flex;justify-content:space-between;gap:12px;padding:8px 20px;font-size:11px;letter-spacing:.12em;color:var(--dim);border-bottom:1px solid var(--line)}
+.term-head span:last-child{letter-spacing:0}
+.term-out{height:200px;overflow-y:auto;padding:12px 20px;font-size:13px;color:#cfe3ff;white-space:pre-wrap;overflow-wrap:anywhere}
+.term-out .cmd{color:#8ff0d0;margin-top:8px}
+.term-out .cmd:first-child{margin-top:0}
+.term-cmds{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 16px}
+.term-cmds button{font:inherit;font-size:12px;color:#e6eefb;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:99px;padding:6px 12px;transition:.2s}
+.term-cmds button::before{content:"$ ";color:var(--dim)}
+.term-cmds button:hover{border-color:var(--b1);background:color-mix(in srgb,var(--b1) 18%,transparent)}
+.term-cmds [data-cmd=rm]:hover{border-color:var(--red);background:color-mix(in srgb,var(--red) 25%,transparent)}
+
+/* status bar sticks to the bottom of the window while the code scrolls past */
+.ide-status{position:sticky;bottom:0;display:flex;align-items:center;gap:16px;padding:6px 16px;font-size:12px;color:#fff;background:color-mix(in srgb,var(--b3) 85%,var(--abyss));white-space:nowrap;overflow:hidden}
+.ide-status .sp{flex:1}
+.ide-status .br{color:var(--sun)}
+.ide-status .blame{color:color-mix(in srgb,#fff 70%,transparent);overflow:hidden;text-overflow:ellipsis}
+.ide-status .blame:not(:empty)::before{content:"✎ "}
+.src-note{max-width:1180px;margin:20px auto 0;font-size:15px;color:var(--ink)}
+.src-note a{text-decoration:underline;text-underline-offset:3px}
+.src-note a:hover{color:var(--red)}
+
+@media (max-width:700px){
+  .ide{font-size:12.5px;border-radius:10px;box-shadow:0 30px 60px -30px rgba(10,31,68,.7)}
+  .ro,#st-lang,.ide-status span:nth-last-child(2),.ide-status .blame{display:none}
+  .ln{grid-template-columns:calc(var(--gw) + 26px) minmax(0,1fr)}
+  .g{padding-right:12px}
+  .g::before{right:1px;width:9px;height:9px;margin-top:-4.5px}
+  .c{padding-right:12px}
+  .term-out{height:170px;padding-inline:14px}
+  .term-cmds{padding-inline:14px}
+}
+@media (prefers-reduced-motion:reduce){.eye,.live-cm{animation:none}}

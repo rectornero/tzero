@@ -12,12 +12,14 @@ so Netlify only deploys when the design changes.
 | Path | What it is |
 |---|---|
 | `index.html` | Homepage: hero scene, Latest (live from Wix), the tapes, footer |
+| `redache.html` | Ache's own page at `/redache`: the page source shown as an editor (Ache lives there), live values, a small terminal. The source text sits escaped in `<pre id="src">` |
 | `post.html` | Article page; Netlify serves it for every `/post/<slug>` (see `_redirects`), same slugs as Wix |
 | `assets/css/site.css` | Styles copied from the approved "Tide and Thread" mockup |
 | `assets/css/pages.css` | Additions: post page and live states |
 | `assets/js/scene.js` | Season scenes, page glow, click effects, the red thread and Ache, ported from the mockup |
 | `assets/js/wix.js` | Wix Headless client: visitor token, latest posts, post by slug |
 | `assets/js/ricos.js` | Renders a post's Wix rich content safely (no HTML parsing) |
+| `assets/js/redache.js`, `assets/css/redache.css` | Highlighter, tabs, terminal and live values for the Redache page |
 | `assets/lines.json` | Everything Ache says, per item, plus generic lines for live posts |
 
 ## Rules from the design spec

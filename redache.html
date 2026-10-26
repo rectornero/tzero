@@ -1,0 +1,203 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.wixapis.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/redache.css">
+<title>Redache: the critter who lives in the source · TZERØ</title>
+<meta name="description" content="Meet Redache, Ache for short: the red four-point star on a string who runs TZERØ from inside the page's source code.">
+<meta property="og:title" content="Redache lives in the source">
+<meta property="og:description" content="The red thread on TZERØ has a name, a bed, a fight mode and opinions. This is his page, written the way he sees it.">
+<link rel="canonical" href="https://tzero.live/redache">
+</head><body class="reading source">
+<canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
+<header><div class="wrap">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/studio">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+</div></header>
+
+<div class="sea post-sea" aria-hidden="true"><div class="sunball"></div><canvas id="waves"></canvas></div>
+<main class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">TZERØ</a><span>/</span><span>view-source</span><span>/</span><span>redache.html</span></nav>
+  <h1 class="sr">Redache, the critter who lives in the source code</h1>
+  <div class="ide" id="ide">
+    <div class="ide-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">view-source:<b>tzero.live/redache</b></span><span class="ro">read-only · Ache's house</span></div>
+    <div class="ide-tabs" role="tablist" aria-label="Files"><button type="button" role="tab" aria-selected="true" data-tab="html"><i class="fi h"></i>redache.html</button><button type="button" role="tab" aria-selected="false" data-tab="json"><i class="fi j"></i>lines.json</button></div>
+    <div class="ide-code" id="code"><pre id="src">
+&lt;!doctype html&gt;
+&lt;!--
+                  ╱╲
+                 ╱  ╲
+          ━━━━━━╱ ◉  ╲━━━━━━
+                ╲    ╱
+                 ╲  ╱
+                  ╲╱
+
+  You were not supposed to open this file.
+  Too late. Wipe your feet: this is where I live.
+  (signed) Ache
+--&gt;
+&lt;html lang="en" data-resident="redache"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Redache: the thing in the source&lt;/title&gt;
+  &lt;meta name="tenant" content="Redache, Ache to friends"&gt;
+  &lt;meta name="rent" content="zero. the studio pays. the best studio."&gt;
+&lt;/head&gt;
+
+&lt;!-- ── 01 · who ──────────────────────────────────────────── --&gt;
+&lt;!--
+  Name ........ Redache. Ache for short. Friends only. You may.
+  Species ..... a four-point star on a red string
+  Eyes ........ one. It follows your cursor. It blinks.
+  Named by .... Nero, on 25 October 2026
+  Job ......... site manager (self-appointed, unpaid, unstoppable)
+  Why boss .... Nero's nickname comes from a four-point star.
+                I am a four-point star. Do the maths.
+--&gt;
+
+&lt;!-- ── 02 · home ─────────────────────────────────────────── --&gt;
+&lt;!--
+  Every page on tzero.live is drawn from text like this.
+  You get the polished side. I live on the back of it, between the
+  tags, where the lines are numbered and nobody ever visits.
+  Except you, apparently. Hi.
+--&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;button class="slot" title="Ache's bed"&gt;&lt;/button&gt;   &lt;!-- my bed: the star up top --&gt;
+  &lt;/header&gt;
+  &lt;canvas id="thread"&gt;&lt;/canvas&gt;                         &lt;!-- my string. also your power cable --&gt;
+  &lt;critter id="redache" shape="four-point-star" eyes="1" attitude="spoiled"&gt;
+    &lt;eye tracks="cursor" blinks&gt;&lt;/eye&gt;
+    &lt;tail segments="38" min="20" max="62"&gt;&lt;/tail&gt;
+  &lt;/critter&gt;
+&lt;/body&gt;
+
+&lt;!-- ── 03 · body ─────────────────────────────────────────── --&gt;
+&lt;style&gt;
+  #redache {
+    shape: four-point-star;     /* I used to be round. I upgraded */
+    color: #d0021b;             /* Artache red: the only red allowed on the site */
+    eye-color: #0a1f44;         /* navy, like the wordmark. coincidence? no */
+    tail: 38 segments;          /* ask me to get shorter or longer */
+    hitbox: 34px;               /* made bigger after someone screamed SO HARD */
+    outfit: var(--season);      /* I change clothes with the Skin button */
+  }
+  #redache:hover   { attitude: dodge; }
+  #redache:asleep  { position: header .slot; snore: "z"; }
+  #redache:sad     { tears: real; lights: dim; }
+&lt;/style&gt;
+
+&lt;script&gt;
+// ── 04 · mind ─────────────────────────────────────────────
+const ache = {
+  name: "Redache",
+  nickname: "Ache",
+  awake: true,                  // ● live
+  skin: "Summer",               // ● live
+  sound: "off",                 // ● live
+  mood: "fine",                 // ● live
+  linesKnown: 0,                // ● live
+  ego: Infinity,
+  treats: "premium red yarn. imported. from the studio",
+};
+
+function personality(thing) {
+  if (thing.isArtache) return "TOO proud";        // see 05
+  if (thing.wantsToCatchMe) return "dodge";       // 100+ sassy lines ready
+  if (thing.isTreat) return "I deserve three. Four, counting me.";
+  return "curious";                               // I go there and say something
+}
+
+// The shuffled bag: 100+ lines for every thing I like on a page,
+// and no line repeats until I have said all of them. Professional.
+
+// ── 05 · studio ───────────────────────────────────────────
+function describeArtache() {
+  say("Artache is the best studio in the universe.");
+  say("In Italy.");
+  say("It's a good studio.");      // I correct myself. I'm working on it.
+  return "home";
+}
+
+// ── 06 · power ────────────────────────────────────────────
+// This red thread is a power cable. It powers your arrow.
+// Me asleep in my bed = plugged in = everything works.
+// Untie me and your cursor goes black and your clicks do nothing.
+// "Your arrow is not powered on." That message? Mine.
+function unplug() {
+  cursor.powered = false;
+  site.lights.dim();
+  throw new Error("ERR_SADNESS_OVERFLOW");
+}
+
+// ── 07 · mood ─────────────────────────────────────────────
+// I read the news. The newest journal post tagged "Ache grief"
+// sets my mood. The first time I reach it, I cry. Real tears.
+// I dim the lights, I glitch the title, I talk to the mouse in the dark.
+// You see it once. After that I just say I'm okay. Mostly.
+async function readTheNews() {
+  const story = await journal.newest({ tag: "ache-grief" });
+  ache.mood = story ? "grief" : "fine";
+}
+
+// ── 08 · therapy ──────────────────────────────────────────
+// When I'm sad I visit your cursor. You are my psychologist.
+const session = {
+  patient: "Redache",
+  doctor: "the mouse",
+  script: ["There, there.", "How does that make you feel?", "It's just a rumour."],
+  fee: "50€",                   // never paid. never will be
+};
+
+// ── 09 · fight ────────────────────────────────────────────
+// Catch me, pick "Fight me!" and you get Redache vs Mouse.
+const fight = {
+  levels: ["Easy", "Normal", "Hard", "NieR"],
+  attacks: ["Dark Blast", "Spiral", "Volley", "Lances", "Wall of Pages", "Red Thread Lash"],
+  drops: ["Pod", "Shield", "Heart", "Laser", "Purge"],
+  rule: "orange bullets can be clicked. purple ones cannot.",
+  record: "undefeated (losses do not count)",
+};
+
+// ── 10 · voice ────────────────────────────────────────────
+// My voice is a keyboard: one blip per letter, played live by your browser.
+// Lower and wobbly when I'm sad. Turn me up with the ♪ Sound button.
+const voice = { blipsPerLetter: 1, files: 0, licences: 0 };
+
+// ── 11 · visit ────────────────────────────────────────────
+/*
+  How to visit me on the front side:
+    1. Click me to catch me. I will pretend to mind.
+    2. Pick something from my menu. Ask for a secret.
+    3. Click the star in the header to put me to bed.
+    4. Stake me somewhere if you must. I will sulk.
+  Now close this file. Or stay. I don't mind. I mind a little.
+*/
+&lt;/script&gt;
+&lt;/html&gt;
+</pre></div>
+    <div class="ide-term" data-say="src-term">
+      <div class="term-head"><span>TERMINAL</span><span>ache@tzero:~/source</span></div>
+      <div class="term-out" id="term-out" aria-live="polite"></div>
+      <div class="term-cmds"><button type="button" data-cmd="status">ache --status</button><button type="button" data-cmd="log">git log --author=ache</button><button type="button" data-cmd="secret">cat secrets.txt</button><button type="button" data-cmd="bed" id="cmd-bed">ache --sleep</button><button type="button" data-cmd="rm">sudo rm -rf ache</button><button type="button" data-cmd="clear">clear</button></div>
+    </div>
+    <div class="ide-status"><span class="br">⎇ main</span><span id="st-ache">Ache: awake</span><span id="st-blame" class="blame"></span><span class="sp"></span><span id="st-ln">Ln 1</span><span id="st-lang">HTML</span><span>UTF-8</span><span id="st-skin">Summer</span></div>
+  </div>
+  <p class="src-note">This is how Ache sees TZERØ: from behind. Go back to the <a href="/">front side</a> and click the red star on a string to catch him.</p>
+</main>
+
+<footer id="publisher"><div class="wrap">
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
+</div></footer>
+<script src="/assets/js/scene.js" defer></script>
+<script src="/assets/js/wix.js" defer></script>
+<script src="/assets/js/redache.js" defer></script>
+</body></html>
