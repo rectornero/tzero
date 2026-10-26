@@ -5,10 +5,13 @@
   color-scheme:light;
 }
 :root[data-skin=autumn]{--sun:#fff0d2; --sand:#fbe3bd; --sky:#f7b98a; --b1:#e8896a; --b2:#c4652b; --b3:#8c3d1c; --abyss:#2f1a12; --ink:#2f1a12; --soft:#7b5338}
+:root[data-skin=winter]{--sun:#eef4fa; --sand:#e3ecf5; --sky:#a9c6e4; --b1:#86aed6; --b2:#4a7fb3; --b3:#2b5a8a; --abyss:#13243d; --ink:#13243d; --soft:#4b6585}
+:root[data-skin=spring]{--sun:#fffaf2; --sand:#eef7e4; --sky:#cfe8f6; --b1:#a9dba9; --b2:#4c9f66; --b3:#2f7a4c; --abyss:#1b3a29; --ink:#1b3a29; --soft:#587262}
+[data-skin=winter] .sea{background:linear-gradient(180deg,#d3e2f1 0%,#a9c6e4 55%,#86aed6 100%)}
 body,.sea,.shore,.sec,footer,header{transition:background .8s,color .8s}
 .skin{font-family:var(--mono);font-size:13px;padding:6px 12px;border-radius:99px;border:1px solid var(--b2);background:transparent;color:var(--ink);cursor:pointer}
 .skin:hover{background:color-mix(in srgb,var(--b1) 30%,transparent)}
-[data-skin=autumn] .sunball{opacity:0}
+[data-skin=autumn] .sunball,[data-skin=winter] .sunball{opacity:0}
 .sunball{transition:opacity .8s,left 1.6s cubic-bezier(.2,.7,.2,1),top 1.6s cubic-bezier(.2,.7,.2,1)}
 #fx{position:fixed;inset:0;width:100%;height:100%;z-index:20;pointer-events:none}
 h1,.brand{user-select:none;-webkit-user-select:none}
