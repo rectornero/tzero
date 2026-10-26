@@ -1,9 +1,9 @@
-/* Redache's page: the page source rendered as an editor, with live values, Ache's lines and a small terminal.
-   The source text lives in <pre id="src"> so the page still reads without JavaScript. */
+/* Redache's page: the page's own real source rendered as an editor, with live values, Ache's lines and a small terminal.
+   Ache's story is written as real comments in redache.html, so the browser's View source tells it too. */
 (() => {
-  const pre = document.getElementById('src');
   const code = document.getElementById('code');
-  const SOURCE = pre.textContent.replace(/^\n/, '');
+  const ACHE = window.ACHE || {};
+  let SOURCE = '';
   const root = document.documentElement;
   const slot = document.getElementById('slot');
   const snd = document.getElementById('snd');
@@ -51,10 +51,11 @@
 
   /* Each numbered section is a block Ache can visit; blame says who wrote it */
   const BLOCKS = {
-    top: ['src-home', 'Ache · uncommitted'], who: ['src-who', 'Nero · 25 Oct'], home: ['src-home', 'Ache · uncommitted'],
-    body: ['src-body', 'Claude · 25 Oct'], mind: ['sass', 'Ache · uncommitted'], studio: ['proud', 'Ache · 25 Oct, then 26, then 27'],
-    power: ['src-power', 'Nero · 25 Oct'], mood: ['src-power', 'Nero · 25 Oct'], therapy: ['src-power', 'the mouse · unpaid'],
-    fight: ['src-fight', 'Nero · 25 Oct · "SO HARD"'], voice: ['src-body', 'Claude · 25 Oct'], visit: ['src-visit', 'Ache · uncommitted'],
+    top: ['src-home', 'Ache · uncommitted'], who: ['src-who', 'Nero · 25 Oct'], body: ['src-body', 'Claude · 25 Oct'],
+    mind: ['sass', 'Ache · uncommitted'], studio: ['proud', 'Ache · 25 Oct, then 26, then 27'], fight: ['src-fight', 'Nero · 25 Oct · "SO HARD"'],
+    therapy: ['src-power', 'the mouse · unpaid'], secrets: ['src-term', 'Ache · do not read'], history: ['src-lines', 'Ache · every day'],
+    power: ['src-power', 'Nero · 25 Oct'], home: ['src-home', 'Nero · 25 Oct'], window: ['src-term', 'Claude · 26 Oct'],
+    visit: ['src-visit', 'Ache · uncommitted'],
   };
   const live = { awake: true, skin: 'Summer', sound: 'off', mood: 'fine', linesKnown: 0 };
   let LINES = null, news = null, bps = 0;
@@ -129,6 +130,7 @@
     live.sound = snd && snd.getAttribute('aria-pressed') === 'true' ? 'on' : 'off';
     live.mood = news ? 'grief' : 'fine';
     live.linesKnown = LINES ? Object.values(LINES).reduce((a, v) => a + v.length, 0) : 0;
+    Object.assign(ACHE, live);
   }
   function fmt(v) {
     if (typeof v === 'string') return '<span class="st">"' + esc(v) + '"</span>';
@@ -142,7 +144,7 @@
       if (el.innerHTML !== html) { el.innerHTML = html; el.classList.remove('blink'); void el.offsetWidth; el.classList.add('blink') }
     });
     // sad Ache visits the mood blocks with grief lines; a happy one just explains them
-    code.querySelectorAll('.blk[data-key=mood],.blk[data-key=therapy]').forEach(b => { b.dataset.say = news ? 'grief' : 'src-power' });
+    code.querySelectorAll('.blk[data-key=power],.blk[data-key=therapy]').forEach(b => { b.dataset.say = news ? 'grief' : 'src-power' });
     const s = document.getElementById('st-ache');
     if (s) s.textContent = (live.awake ? 'Ache: awake' : 'Ache: asleep') + (news ? ' · sad' : '');
     const sk = document.getElementById('st-skin');
@@ -192,30 +194,7 @@
       out.scrollTop = out.scrollHeight;
     });
   }
-  const LOG = [
-    'a1f3c9e  25 Oct  born as the loose end of the red thread on the homepage',
-    'b72e014  25 Oct  named Ache. full name Redache. I pretend I picked it',
-    'c09d5aa  25 Oct  learned 100+ lines per thing, in a shuffled bag',
-    'd4410be  25 Oct  got a stake. hate it',
-    'e5be2f1  25 Oct  got a bed: the star in the header',
-    'f1c8a07  25 Oct  added Redache vs Mouse. four difficulties. NieR is the real one',
-    '0a77d3c  25 Oct  became TOO proud of Artache. corrected. a good studio',
-    '19ee5b2  25 Oct  new head: four-point star, one eye. very handsome',
-    '2b3f6d8  25 Oct  thread now powers your cursor. you are welcome',
-    '3c2a9e1  25 Oct  learned to cry about the news. once per story',
-    '4d81f0a  25 Oct  got a keyboard voice. blip',
-    '5e90c4b  26 Oct  moved into the source code. this page. my page',
-  ];
-  const SECRETS = [
-    'the source is warmer than the front. the CPU, probably',
-    'I read every line before you do. I give some of them a little spin',
-    'line 1 of every page is mine. legally. I checked. nobody else checked',
-    'when the page loads I tidy the tags. you never notice. that is the point',
-    'the Ø in the logo is my cousin. we do not talk about the slash',
-    'Nero plays with my thread like a cat. I pretend not to notice',
-    'I was drawn with AI help, then fixed by people. like everything here',
-    'I have a key to every page on the site. it is a semicolon',
-  ];
+  const LOG = ACHE.log || [], SECRETS = ACHE.secrets || ['the window is empty. I hid the secrets. ha'];
   let si = Math.floor(Math.random() * SECRETS.length);
   const CMDS = {
     status: () => {
@@ -251,8 +230,9 @@
   if (slot) mo.observe(slot, { attributes: true, attributeFilter: ['aria-label'] });
   if (snd) mo.observe(snd, { attributes: true, attributeFilter: ['aria-pressed'] });
 
-  renderSource();
-  pre.hidden = true;
+  // Show the real file: the same request the browser just made, normally straight from its cache
+  fetch(location.pathname).then(r => r.ok ? r.text() : Promise.reject()).catch(() => '<!doctype html>\n' + root.outerHTML)
+    .then(t => { SOURCE = t.replace(/\r/g, '').replace(/\n$/, ''); if (tab === 'html') renderSource() });
   print(['TZERØ source shell. Ache is listening. Pick a command below.']);
 
   fetch('/assets/lines.json').then(r => r.json()).then(d => { LINES = d; paintLive(); if (tab === 'json') renderJson() }).catch(() => {});

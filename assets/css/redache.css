@@ -22,7 +22,7 @@
 
 /* code: one row per line, gutter with numbers and star breakpoints */
 .ide-code{padding:14px 0 22px;--gw:3ch}
-.ide-code pre{margin:0;padding:0 20px;white-space:pre-wrap;font:inherit;color:var(--dim)}
+.ide-code .loading{margin:0;padding:0 20px;color:var(--dim)}
 .blk{position:relative;border-radius:6px;transition:background .3s}
 .blk[data-say]:hover{background:color-mix(in srgb,var(--b1) 6%,transparent)}
 .ln{display:grid;grid-template-columns:calc(var(--gw) + 46px) minmax(0,1fr);min-height:1.65em}
@@ -54,7 +54,7 @@
 .eye{display:inline-block;color:#fff;font-style:normal;text-shadow:0 0 10px #fff;animation:blinkeye 4.5s infinite}
 @keyframes blinkeye{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 .live-cm{color:var(--red);font-style:normal;animation:pulse 1.8s infinite}
-.lv{border-radius:4px;padding:0 2px}
+.lv{border-radius:4px}
 .lv.blink{animation:livein 1.2s}
 @keyframes livein{from{background:color-mix(in srgb,var(--red) 55%,transparent)}}
 
