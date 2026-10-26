@@ -1,8 +1,8 @@
 /* Additions to the mockup's styles (site.css stays a straight copy of the approved mockup).
    Post pages: a calm reading column on the season's light background. */
 /* Official lockup (Nero, 2026-10-25): red Artache star + "TZERØ" in navy whatever the skin, only the Ø red */
-.brand span{color:#0a1f44}
-.brand b{color:#d0021b}
+.brand span{color:#13224b}
+.brand b{color:#d7182a}
 /* Homepage hero: the big title needs the full width below 860px, so the polaroids move under it instead of over the Ø */
 @media (max-width:860px){.hero2{grid-template-columns:minmax(0,1fr)}.board{min-height:320px}}
 .polaroid figcaption{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -18,7 +18,7 @@ footer a{color:var(--sun);text-decoration:underline;text-underline-offset:3px}
 /* The article is a white sheet: cover on top, then a padded reading column */
 .post-layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:40px;align-items:start}
 .post-layout:has(.post-side[hidden]){grid-template-columns:minmax(0,1fr)}
-.post{min-width:0;background:#fff;border:1px solid rgba(26,90,166,.12);border-radius:14px;overflow:hidden;box-shadow:0 30px 60px -36px rgba(10,31,68,.45)}
+.post{min-width:0;background:#fff;border:1px solid rgba(26,90,166,.12);border-radius:14px;overflow:hidden;box-shadow:0 30px 60px -36px rgba(19,34,75,.45)}
 .post[aria-busy=true]{background:transparent;border:0;box-shadow:none}
 .post-status{font-family:var(--mono);font-size:14px;color:var(--soft);padding-block:120px;text-align:center}
 .post-status a{color:var(--ink);text-decoration:underline}
@@ -136,9 +136,9 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 .ache-note::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;background:radial-gradient(circle,color-mix(in srgb,var(--lv) 16%,transparent),transparent 70%);pointer-events:none}
 .ache-note.lv-caution{--lv:#c77700;--lv-bg:#fff8e8}
 .ache-note.lv-cheer{--lv:#2f7fd0;--lv-bg:#eef6ff}
-.ache-face{width:56px;height:56px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 6px 16px -8px rgba(10,31,68,.5)}
+.ache-face{width:56px;height:56px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 6px 16px -8px rgba(19,34,75,.5)}
 .ache-face svg{width:40px;height:40px;animation:ache-bob 3.2s ease-in-out infinite}
-.ache-face path{fill:#d0021b}.ache-face circle:first-of-type{fill:#fff}.ache-face circle:last-of-type{fill:#0a1f44}
+.ache-face path{fill:#d7182a}.ache-face circle:first-of-type{fill:#fff}.ache-face circle:last-of-type{fill:#13224b}
 @keyframes ache-bob{50%{transform:translateY(-3px) rotate(6deg)}}
 .ache-main{display:flex;flex-direction:column;gap:8px;min-width:0}
 .ache-kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--lv);font-weight:500}
@@ -154,7 +154,7 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 @media (max-width:560px){.ache-note{grid-template-columns:minmax(0,1fr)}.ache-face{width:46px;height:46px}.ache-face svg{width:32px;height:32px}}
 
 /* Homepage band that leads to /story */
-.story-band{position:relative;display:flex;flex-direction:column;gap:8px;padding:clamp(22px,4vw,40px);border-radius:14px;background:var(--abyss);color:var(--sky);overflow:hidden;box-shadow:0 24px 50px -30px rgba(10,31,68,.7)}
+.story-band{position:relative;display:flex;flex-direction:column;gap:8px;padding:clamp(22px,4vw,40px);border-radius:14px;background:var(--abyss);color:var(--sky);overflow:hidden;box-shadow:0 24px 50px -30px rgba(19,34,75,.7)}
 .story-band .tag{color:var(--b1)}
 .story-band h3{font-family:var(--display);font-size:clamp(30px,5vw,56px);letter-spacing:-.04em;line-height:1;margin:0;color:var(--sun)}
 .story-band p{margin:0;max-width:52ch;opacity:.9}

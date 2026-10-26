@@ -2,7 +2,7 @@
    Built with createElement/textContent only, so post text is never parsed as HTML. */
 window.RICOS = (() => {
   // Wix colors from the Artache house style map to the site's tokens, so they follow the skin
-  const COLORS = { '#0a1f44': 'var(--ink)', '#d0021b': 'var(--red)', '#6b7280': 'var(--soft)' };
+  const COLORS = { '#0a1f44': 'var(--ink)', '#13224b': 'var(--ink)', '#d0021b': 'var(--red)', '#d7182a': 'var(--red)', '#6b7280': 'var(--soft)' };
   const el = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e };
 
   function safeHref(url) {
