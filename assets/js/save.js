@@ -129,13 +129,18 @@
 
   /* a sticker peeking out of the page: click it to peel it off */
   function spot(id, host, style, label) {
-    if (!host || S.stickers[id]) return null;
-    const b = el('button', 'stk-spot'); b.type = 'button'; b.setAttribute('aria-label', label || 'A sticker is peeking out');
-    const img = el('img'); img.src = IMG(id); img.alt = ''; img.loading = 'lazy'; b.append(img);
-    Object.assign(b.style, style || {});
+    if (S.stickers[id]) return null;
+    return peek(host, { img: IMG(id), style, label: label || 'A sticker is peeking out', onFind: b => award(id, b) });
+  }
+  // the peel-off look, also for other finds on the site (TZSAVE.peek): {img, style, label, cls, onFind(button)}
+  function peek(host, o) {
+    if (!host) return null;
+    const b = el('button', 'stk-spot' + (o.cls ? ' ' + o.cls : '')); b.type = 'button'; b.setAttribute('aria-label', o.label || 'Something is peeking out');
+    const img = el('img'); img.src = o.img; img.alt = ''; img.loading = 'lazy'; b.append(img);
+    Object.assign(b.style, o.style || {});
     b.addEventListener('click', e => {
       e.preventDefault(); e.stopPropagation();
-      b.classList.add('peel'); award(id, b); setTimeout(() => b.remove(), 600);
+      b.classList.add('peel'); o.onFind && o.onFind(b); setTimeout(() => b.remove(), 600);
     });
     host.classList.add('stk-host'); host.appendChild(b);
     return b;
@@ -346,7 +351,7 @@
   window.TZSAVE = {
     STICKERS, CROWN, GROUPS, IMG,
     data: () => (S = load(), S),
-    count, award, date,
+    count, award, date, peek,
     get: ns => { if (OWN.includes(ns)) return null; S = load(); return JSON.parse(JSON.stringify(S[ns] || {})) },
     set: (ns, obj) => { if (OWN.includes(ns)) return false; S = load(); S[ns] = obj; write(); return true },
     // where a sticker was dragged to in the scrapbook ({x, y, r} in % of its page), or null to put it back
