@@ -15,7 +15,7 @@ const SKINS={sea:'Summer',autumn:'Autumn',winter:'Winter',spring:'Spring'},ORDER
 const SEASON=['winter','spring','sea','autumn'][Math.floor((new Date().getMonth()+1)%12/3)];
 let skin=SEASON;try{const s=localStorage.getItem('tz-skin');if(SKINS[s])skin=s}catch(e){}
 const btn=document.getElementById('skin');function setSkin(s){skin=s;root.dataset.skin=s;btn.textContent='Skin: '+SKINS[s];btn.title=s===SEASON?'Skin follows the season':'Your pick. Cycle to '+SKINS[SEASON]+' to follow the season again';stillDrawn=false}setSkin(skin);
-btn.onclick=()=>{setSkin(ORDER[(ORDER.indexOf(skin)+1)%ORDER.length]);try{skin===SEASON?localStorage.removeItem('tz-skin'):localStorage.setItem('tz-skin',skin)}catch(e){}seasonSay(1)};
+btn.onclick=()=>{setSkin(ORDER[(ORDER.indexOf(skin)+1)%ORDER.length]);try{skin===SEASON?localStorage.removeItem('tz-skin'):localStorage.setItem('tz-skin',skin)}catch(e){}seasonSay(1);deckShow()};
 function size(){w=c.width=c.clientWidth*dpr;h=c.height=c.clientHeight*dpr;W=f.width=innerWidth*dpr;H=f.height=innerHeight*dpr;b.width=W;b.height=H}
 addEventListener('resize',()=>{size();stillDrawn=false});size();
 
@@ -545,7 +545,7 @@ const mem=['the first save file','summer 2004, a borrowed console','blowing on a
 function memory(e){const d=document.createElement('div');d.className='memory';d.textContent=mem[mi++%mem.length];d.style.left=e.clientX+'px';d.style.top=e.clientY-24+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),3700)}
 
 /* sound: everything is synthesized live with Web Audio (no files, no licences). Off by default, toggle in the header */
-const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,timer=null,lastVoice=0;
+const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,timer=null,lastVoice=0,pick=null,st=null;
   try{on=localStorage.getItem('tz-sound')==='1'}catch(e){}
   const sb=document.getElementById('snd');
   function init(){if(ac)return;ac=new(window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=.8;master.connect(ac.destination);
@@ -565,8 +565,8 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
   const PENTA={sea:[72,74,76,79,81,84],autumn:[69,72,74,76,79,81],winter:[76,79,81,84,86,88],spring:[74,76,79,81,83,86]};
   const BPM={sea:88,autumn:76,winter:68,spring:96},VO={sea:[.42,.5,'triangle',.04],autumn:[.32,1.1,'sine',.05],winter:[.26,1.6,'sine',.045],spring:[.45,.35,'triangle',.04]};
   const mf=m=>440*Math.pow(2,(m-69)/12);
-  function sched(){if(!ac||!on)return;const bpm=fight?132:BPM[skin]||88,s16=60/bpm/4;
-    while(nextT<ac.currentTime+.25){const t=nextT,bar=Math.floor(step/16)%4,i=step%16,k=PROG[skin]?skin:'sea',ch=PROG[k][bar];
+  function sched(){if(!ac||!on)return;const mk=pick||skin,bpm=fight?132:BPM[mk]||88,s16=60/bpm/4;
+    while(nextT<ac.currentTime+.25){const t=nextT,bar=Math.floor(step/16)%4,i=step%16,k=PROG[mk]?mk:'sea',ch=PROG[k][bar];
       if(scene){if(i===0&&step%32===0)tone(mf(33),t,s16*32,{type:'sawtooth',vol:.06,bus:music,att:1,q:180})}
       else if(fight){if(i%2===0)tone(mf(ch[0]-12+(i%8===6?7:0)),t,s16*1.6,{type:'square',vol:.07,bus:music,q:700});if(i%4===0)noise(t,.06,{vol:.12,f:90,type:'lowpass',bus:music});if(i%8===4)noise(t,.08,{vol:.1,f:2500,bus:music});
         if(i%3===0)tone(mf(ch[i%4]+12),t,s16*.9,{type:'triangle',vol:.05,bus:music})}
@@ -579,7 +579,7 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
         if(k==='winter'&&i===0&&bar%2===1)noise(t,3.4,{vol:.016,f:1600,to:3200,Q:5,bus:music});
         if(k==='spring'&&i===4&&Math.random()<.35){tone(2600,t,.07,{vol:.018,to:3600,bus:music});tone(3000,t+.1,.06,{vol:.015,to:4200,bus:music})}}
       nextT+=s16;step++}}
-  function setOn(v){on=v;try{localStorage.setItem('tz-sound',v?'1':'0')}catch(e){}sb.textContent=v?'♪ Sound on':'♪ Sound off';sb.setAttribute('aria-pressed',v);
+  function setOn(v){on=v;if(st)setTimeout(st);try{localStorage.setItem('tz-sound',v?'1':'0')}catch(e){}sb.textContent=v?'♪ Sound on':'♪ Sound off';sb.setAttribute('aria-pressed',v);
     if(v){init();ac.resume();nextT=ac.currentTime+.05;clearInterval(timer);timer=setInterval(sched,80);fx('wake')}else{clearInterval(timer);ac&&ac.suspend()}}
   // browsers keep audio locked after a reload until a real gesture (click, tap or key; a touch pointerdown doesn't count):
   // a remembered "on" waits for one, keeps waiting until the audio actually runs, and the Sound button itself just unlocks it
@@ -616,9 +616,29 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
     case 'crt':tone(15000,t,.05,{vol:.04});tone(400,t,.6,{type:'sawtooth',vol:.12,to:30,q:1200});noise(t,.5,{vol:.15,f:3000,to:100});break;
     case 'buzz':tone(110,t,.22,{type:'square',vol:.1,q:600});tone(116,t,.22,{type:'square',vol:.1,q:600});break;
     case 'plug':noise(t,.05,{vol:.25,f:2000,Q:3});tone(200,t+.05,.5,{type:'triangle',vol:.12,to:900});tone(1200,t+.5,.15,{vol:.08});break}}
-  return{voice,fx}})();
+  /* soundtrack corner: pick a season theme (null = the music follows the skin) */
+  function play(k){pick=k;if(!on)setOn(true);else if(!live()){ac.resume()}if(st)st()}
+  function stop(){if(on)setOn(false);if(st)st()}
+  return{voice,fx,play,stop,state:()=>({on,pick}),watch:f=>{st=f}}})();
 new MutationObserver(()=>{if(say.classList.contains('on'))SND.voice(say.textContent)}).observe(say,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']});
 new MutationObserver(()=>{const p=chat.querySelector('p');if(p&&!chat.hidden)SND.voice(p.textContent)}).observe(chat,{childList:true});
+
+/* soundtrack corner: a small deck bottom-left. The season themes are generated live in the browser (no files);
+   Nero's Liminal Outliers tracks join the list once they are cleared for the web */
+const TRACKS=[[null,'Follow the skin','plays the season the page wears'],['sea','Summer · Tide','warm pads, plucks, surf'],['autumn','Autumn · Wind','slow music box'],['winter','Winter · Bells','high bells, cold wind'],['spring','Spring · Meadow','bright plucks, birds']];
+const deck=document.createElement('div');deck.className='deck';
+deck.innerHTML='<button class="deck-tab" type="button" aria-expanded="false"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="deck-now">Soundtrack</span></button><div class="deck-list" hidden><p class="deck-h">TZERØ soundtrack<small>made live in your browser</small></p></div>';
+document.body.appendChild(deck);
+const deckTab=deck.querySelector('.deck-tab'),deckList=deck.querySelector('.deck-list');
+TRACKS.forEach(([k,n,d])=>{const r=document.createElement('button');r.type='button';r.className='deck-row';r.dataset.k=k||'';r.innerHTML='<b>'+n+'</b><small>'+d+'</small>';
+  r.onclick=()=>{const st=SND.state();if(st.on&&st.pick===k)SND.stop();else SND.play(k)};deckList.appendChild(r)});
+deckList.insertAdjacentHTML('beforeend','<div class="deck-row soon"><b>Liminal Outliers OST</b><small>Nero\'s tracks from the game. coming soon</small></div>');
+deck.addEventListener('click',e=>e.stopPropagation());
+deckTab.onclick=()=>{deckList.hidden=!deckList.hidden;deckTab.setAttribute('aria-expanded',!deckList.hidden)};
+document.addEventListener('click',()=>{deckList.hidden=true;deckTab.setAttribute('aria-expanded','false')});
+function deckShow(){const s=SND.state();deck.classList.toggle('on',s.on);deck.querySelector('.deck-now').textContent=s.on?'♪ '+(s.pick?SKINS[s.pick]:SKINS[skin]+' (auto)'):'Soundtrack';
+  deckList.querySelectorAll('[data-k]').forEach(r=>r.classList.toggle('cur',s.on&&(r.dataset.k||null)===s.pick))}
+SND.watch(deckShow);deckShow();
 
 chat.addEventListener('click',e=>{if(e.target.closest('button'))sfx('menu')});
 function sfx(k){try{SND.fx(k)}catch(e){}}
