@@ -79,8 +79,10 @@
       }), { rootMargin: '0px 0px -70% 0px' });
       heads.forEach(h => spy.observe(h));
     }
-    const orig = el('a', 'side-link', 'Comments and likes on the original →'); orig.href = WIX.wixUrl(post);
-    box.append(orig);
+    if (!post.own) {
+      const orig = el('a', 'side-link', 'Comments and likes on the original →'); orig.href = WIX.wixUrl(post);
+      box.append(orig);
+    }
     aside.hidden = false;
   }
 
@@ -109,7 +111,7 @@
 
   if (!slug) { fail('No article here.'); return }
 
-  // Archive posts are frozen into the site (pre-rendered page + its data file); new posts load live from Wix
+  // Archive and own posts are saved in the site (pre-rendered page + its data file); the rest load live from Wix
   const frozen = document.documentElement.hasAttribute('data-frozen');
   const source = frozen ? WIX.frozen(slug).catch(() => WIX.bySlug(slug)) : WIX.bySlug(slug);
   source.then(post => {
@@ -149,8 +151,10 @@
 
     const foot = el('div', 'post-foot');
     foot.append(el('span', '', 'Written by ' + WIX.author(post) + ' · ' + cat.label + ' · ' + WIX.date(post.firstPublishedDate)));
-    const orig = el('a', 'btn', 'Comments and likes on the original →'); orig.href = WIX.wixUrl(post);
-    foot.append(orig);
+    if (!post.own) {
+      const orig = el('a', 'btn', 'Comments and likes on the original →'); orig.href = WIX.wixUrl(post);
+      foot.append(orig);
+    }
 
     sheet.append(head);
     if (post.ache) sheet.append(acheNote(post));

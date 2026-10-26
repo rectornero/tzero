@@ -2,10 +2,12 @@
 
 The front end of [TZERØ](https://www.tzero.live), a journal by Artache Creative Studio.
 
-Articles are written on Wix (the "nightly build"). This site shows them in its own design:
-the visitor's browser reads published posts from the Wix blog through Wix Headless
-(an anonymous, read-only visitor token). There is no build step and no serverless code,
-so Netlify only deploys when the design changes.
+We are moving away from Wix. New articles are written in this repo as `tools/posts/<slug>.json`
+(a post object with Ricos rich content) and rendered by hand with `node tools/freeze-archive.mjs` into
+`post/<slug>.html` plus `post-data/<slug>.json`; `post-data/index.json` lists them for the Latest shelf
+and the listings. The old archive is frozen the same way. Posts still on Wix (the "nightly build") load in the
+visitor's browser through Wix Headless (an anonymous, read-only visitor token) and are merged in by date.
+There is no build step and no serverless code.
 
 ## Layout
 

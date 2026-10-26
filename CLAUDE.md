@@ -18,8 +18,12 @@ burned almost a whole month.
 
 ## This site
 
-- It is static: articles and Ache's news mood load from Wix in the visitor's browser (Wix requests cost no
-  Netlify credits). Keep it that way. Don't add functions, Blobs, a database or a build step without asking.
+- It is static. Don't add functions, Blobs, a database or a build step without asking.
+- We are migrating away from Wix (Nero, 2026-10-26). New articles are written here, not on Wix: add
+  `tools/posts/<slug>.json` and run `node tools/freeze-archive.mjs` (no snapshot argument) to render
+  `post/<slug>.html`, `post-data/<slug>.json` and `post-data/index.json`. Each go-live is a production deploy,
+  so review articles on Deploy Previews and send them live in batches. Older posts on Wix still load from Wix
+  in the visitor's browser (no Netlify credits) until the migration is finished.
 - Pushes to `main` deploy to production. Work on a branch and merge once per finished batch.
   Commits that only change Markdown skip the deploy (`ignore` in `netlify.toml`).
 - Calls to the Artache API (artache.netlify.app) can wake its database. Make them only in sessions that produce
