@@ -418,8 +418,11 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
       nextT+=s16;step++}}
   function setOn(v){on=v;try{localStorage.setItem('tz-sound',v?'1':'0')}catch(e){}sb.textContent=v?'♪ Sound on':'♪ Sound off';sb.setAttribute('aria-pressed',v);
     if(v){init();ac.resume();nextT=ac.currentTime+.05;clearInterval(timer);timer=setInterval(sched,80);fx('wake')}else{clearInterval(timer);ac&&ac.suspend()}}
-  sb.textContent=on?'♪ Sound on':'♪ Sound off';sb.onclick=e=>{e.stopPropagation();setOn(!on)};
-  if(on)addEventListener('pointerdown',function f1(){removeEventListener('pointerdown',f1);setOn(true)});
+  // browsers keep audio locked after a reload until a real gesture (click, tap or key; a touch pointerdown doesn't count):
+  // a remembered "on" waits for one, keeps waiting until the audio actually runs, and the Sound button itself just unlocks it
+  const live=()=>ac&&ac.state==='running',GEST=['click','pointerup','keydown','touchend'];
+  sb.textContent=on?'♪ Sound on':'♪ Sound off';sb.onclick=e=>{e.stopPropagation();if(on&&!live()){setOn(true);return}setOn(!on)};
+  if(on){const unlock=e=>{if(!on||live()||sb.contains(e.target))return;setOn(true);ac.resume().then(()=>{if(live())GEST.forEach(t=>removeEventListener(t,unlock,true))})};GEST.forEach(t=>addEventListener(t,unlock,true))}
   /* Ache's keyboard voice: one blip per letter, pitch from the letter, mood from the news */
   function voice(text){if(!on||!ac)return;const now=ac.currentTime;lastVoice=now;const grief=(scene&&scene.cry)||/sob|sniff|cry|UNITE|tears/i.test(text);
     const base=grief?330:fight?520:440,sp=grief?.085:.055;let t=Math.max(now,lastVoice)+.02,n=0;
