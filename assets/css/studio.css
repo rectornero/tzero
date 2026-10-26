@@ -1,0 +1,104 @@
+/* Studio page (/studio): Artache Creative Studio, introduced on the same sea and shore as the homepage. */
+.studio-hero{padding-block:72px 200px}
+.studio-title{font-size:clamp(54px,10.5vw,136px);align-items:flex-start;gap:0}
+.studio-title .ache{color:var(--b3)}
+.studio-title .h1-star{width:.22em;height:.22em;margin:.08em 0 0 .06em;fill:var(--red);animation:spin 9s linear infinite;flex:none}
+.studio-hero .sub{max-width:30ch}
+
+/* Quick facts strip, overlapping the shoreline */
+.facts{list-style:none;margin:-64px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;position:relative;z-index:2}
+.facts li{background:#fff;border:1px solid rgba(26,90,166,.12);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:2px;box-shadow:0 14px 34px -22px rgba(26,90,166,.5);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.facts li:hover{transform:translateY(-4px)}
+.facts b{font-family:var(--display);font-size:28px;letter-spacing:-.03em;color:var(--ink)}
+.facts span{font-family:var(--mono);font-size:12px;color:var(--soft)}
+@media (max-width:760px){.facts{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:-48px}}
+
+/* Art + heartache = Artache */
+.equation{position:relative;background:#fff;border-radius:14px;padding:clamp(22px,4vw,40px);box-shadow:0 24px 50px -30px rgba(26,90,166,.5);overflow:hidden}
+.eq-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,64px);letter-spacing:-.04em;line-height:1.05;color:var(--ink)}
+.eq-word i{font-style:normal;color:var(--b2);transition:color .4s}
+.eq-op{color:var(--soft);font-weight:300}
+.eq-result{padding:0 14px 4px;border-radius:12px;background:var(--abyss);color:var(--sun)}
+.eq-result i{color:var(--b1)}
+.equation:hover .eq-word i{color:var(--red)}
+.eq-notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 32px;margin-top:22px;font-size:18px;color:var(--soft);max-width:860px}
+.eq-notes p{margin:0}
+.eq-notes em{font-family:"Caveat",cursive;font-style:normal;font-size:1.45em;color:var(--ink)}
+.eq-heart{position:absolute;right:clamp(16px,4vw,40px);top:clamp(16px,3vw,30px);width:44px;height:44px;fill:var(--red);opacity:.9;animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.18)}24%{transform:scale(1)}36%{transform:scale(1.1)}}
+
+/* What we make */
+.make{position:relative}
+.make-ico{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--b2) 12%,#fff);margin-bottom:4px}
+.make-ico svg{width:34px;height:34px;fill:none;stroke:var(--b3);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.make:hover .make-ico svg{transform:rotate(-8deg) scale(1.12);stroke:var(--red)}
+a.make h4::after{content:" →";color:var(--b2)}
+
+/* Method: AI opens paths, people thread the best */
+.method{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.m-ai,.m-people{position:relative;border-radius:14px;padding:clamp(22px,3.4vw,34px);min-height:320px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden}
+.m-ai{background:var(--abyss);color:var(--sky)}
+.m-ai .tag{color:var(--b1)}
+.method .m-ai h3{color:var(--sun)}
+.m-people{background:#fff;color:var(--soft);box-shadow:0 24px 50px -30px rgba(26,90,166,.5)}
+.m-people .tag{color:var(--red)}
+.method h3{font-family:var(--display);font-size:clamp(26px,3.6vw,40px);letter-spacing:-.03em;line-height:1.05;margin:0;color:var(--ink)}
+.method p{margin:0;max-width:44ch}
+.paths,.threadline{position:absolute;inset:16px 16px auto;width:calc(100% - 32px);height:120px;fill:none}
+.paths path{stroke:var(--b1);stroke-width:1.6;stroke-dasharray:4 7;opacity:.55;animation:march 2.4s linear infinite}
+.threadline path{stroke:var(--red);stroke-width:3;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1)}
+.threadline circle{fill:var(--red);opacity:0;transition:opacity .4s 1.2s}
+.method:hover .threadline path,.m-people.drawn .threadline path{stroke-dashoffset:0}
+.method:hover .threadline circle,.m-people.drawn .threadline circle{opacity:1}
+@keyframes march{to{stroke-dashoffset:-22}}
+.iam{margin:22px 0 0;padding:18px 24px;border-left:4px solid var(--red);background:color-mix(in srgb,var(--sun) 70%,#fff);border-radius:0 12px 12px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.iam b{font-family:var(--display);font-size:clamp(20px,2.6vw,28px);letter-spacing:-.02em}
+.iam span{font-family:"Caveat",cursive;font-size:24px;color:var(--soft)}
+.pledges{margin-top:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.pledge{border-top:2px solid var(--b2);padding-top:14px}
+.pledge b{font-family:var(--display);font-size:18px}
+.pledge p{margin:6px 0 0;color:var(--soft);font-size:15px}
+.pledge:hover{border-color:var(--red)}
+@media (max-width:760px){.method{grid-template-columns:minmax(0,1fr)}.m-ai,.m-people{min-height:240px}}
+
+/* The criterion, as a countdown to T-0 */
+.respect{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center;border-radius:14px;padding:clamp(22px,4vw,40px);background:linear-gradient(135deg,var(--b3),var(--abyss));color:var(--sky);box-shadow:0 24px 50px -30px rgba(10,31,68,.7)}
+.respect .tag{color:var(--b1)}
+.respect h3{font-family:var(--display);font-size:clamp(28px,4.4vw,48px);letter-spacing:-.03em;line-height:1.05;margin:8px 0 12px;color:var(--sun)}
+.respect p{margin:0;max-width:52ch}
+.countdown{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:15px;color:var(--sun)}
+.countdown li{display:flex;gap:14px;align-items:baseline;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.06);transition:background .3s,transform .3s}
+.countdown li span{color:var(--sky);opacity:.85;font-size:13px}
+.countdown li:hover{background:rgba(255,255,255,.14);transform:translateX(6px)}
+.countdown .zero{background:var(--sun);color:var(--abyss);font-weight:500}
+.countdown .zero span{color:var(--abyss);opacity:1}
+.countdown .zero::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);align-self:center;animation:pulse 1.6s infinite}
+@media (max-width:760px){.respect{grid-template-columns:minmax(0,1fr)}}
+
+/* Workbench cover: the Liminal Outliers art keeps its own shape */
+#workbench .cover img{aspect-ratio:4/5;object-position:top}
+#workbench .btn span{transition:transform .2s}
+#workbench .btn:hover span{transform:translateX(4px)}
+
+/* Crew */
+.member .avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;display:grid;place-items:center;background:var(--abyss);color:var(--sun);font-family:var(--display);font-weight:800;font-size:24px;margin-bottom:4px;image-rendering:pixelated}
+.av-claude{background:#d97757!important;color:#fff!important}
+.av-ache{background:color-mix(in srgb,var(--red) 10%,#fff)!important}
+.av-ache svg{width:34px;height:34px;fill:var(--red);animation:spin 9s linear infinite}
+.av-ache circle{fill:#fff}
+a.member:hover h4{color:var(--red)}
+
+/* Follow along */
+.follow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 32px;background:#fff;border-radius:14px;padding:clamp(22px,3.4vw,34px);box-shadow:0 24px 50px -30px rgba(26,90,166,.5)}
+.follow h3{font-family:var(--display);font-size:clamp(24px,3.4vw,34px);margin:0}
+.follow p{margin:4px 0 0;color:var(--soft)}
+.follow-links{display:flex;flex-wrap:wrap;gap:10px}
+.follow-links .btn{margin-top:0}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid color-mix(in srgb,var(--b2) 45%,transparent)}
+.btn.ghost:hover{border-color:var(--red);color:var(--red)}
+.studio-page section{scroll-margin-top:80px}
+.studio-page .shore section:last-child{padding-bottom:88px}
+
+@media (prefers-reduced-motion:reduce){.eq-heart,.paths path,.countdown .zero::before,.studio-title .h1-star,.av-ache svg{animation:none}}
+/* The current page in the header nav */
+nav a[aria-current=page]{color:var(--red)}
