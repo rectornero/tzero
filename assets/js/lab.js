@@ -382,9 +382,9 @@
     TZ.addLines('lab-idea', ['play it first, judge it after', 'thirty seconds. that\'s the whole deal', 'no energy bar. you\'re welcome', 'I\'d heart this one. I\'m biased. I\'m a thread', 'careful, this one\'s fun', 'if it ever asks for money, call me. it won\'t', 'this idea respects your time. I made sure']);
   }
 
-  // Pictures: an <img src> in lab.html replaces the drawn stand-in once it loads
+  // Pictures: an <img src> in lab.html fades in over the drawn stand-in once it loads
   document.querySelectorAll('.idea-pic img[src]').forEach(img => {
-    const ok = () => { img.hidden = false; img.parentNode.classList.add('has-img') };
+    const ok = () => img.parentNode.classList.add('has-img');
     if (img.complete && img.naturalWidth) ok(); else img.addEventListener('load', ok, { once: true });
   });
 
