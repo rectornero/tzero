@@ -31,8 +31,8 @@
 .idea.lead::after{content:"Most loved";position:absolute;top:12px;right:12px;padding:4px 10px;border-radius:99px;background:var(--red);color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 
 @media (min-width:860px){
-  .idea{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);grid-template-rows:auto auto auto auto 1fr;grid-template-areas:"pic toy" "tag toy" "h3 toy" "pitch toy" "foot toy";column-gap:4px;row-gap:10px;padding-bottom:20px}
-  .idea-pic{grid-area:pic}.idea>.tag{grid-area:tag}.idea h3{grid-area:h3}.idea .pitch{grid-area:pitch}.idea-foot{grid-area:foot;align-self:end}
+  .idea{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);grid-template-rows:auto auto auto auto 1fr;grid-template-areas:"pic toy" "tag toy" "h3 toy" "pitch toy" "foot toy" "game game";column-gap:4px;row-gap:10px;padding-bottom:20px}
+  .idea-pic{grid-area:pic}.idea>.tag{grid-area:tag}.idea h3{grid-area:h3}.idea .pitch{grid-area:pitch}.idea-foot{grid-area:foot;align-self:end}.from-game{grid-area:game}
   .idea .toy{grid-area:toy;margin:20px 20px 0 0;min-height:300px}
   .idea.lead::after{right:auto;left:12px}
 }
@@ -134,4 +134,12 @@
 .lab-rules .card{max-width:760px}
 .lab-rules h3{font-family:var(--display);margin:0;font-size:22px}
 .lab-rules a{color:var(--b3);border-bottom:1px solid currentColor}
+/* From the game: cleared screenshots and art from each project's pack */
+.from-game{margin:14px 20px 0;padding-top:12px;border-top:1px dashed rgba(19,34,75,.18)}
+.from-game figcaption{font-size:12px;line-height:1.45;color:var(--soft);margin-bottom:8px}
+.from-game figcaption b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--abyss);margin-bottom:2px}
+.from-game .shots{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
+.from-game img{height:150px;width:auto;flex:none;border-radius:8px;scroll-snap-align:start;background:rgba(19,34,75,.06)}
+@media (min-width:860px){.from-game img{height:170px}}
 @media (prefers-reduced-motion:reduce){.heart[aria-pressed=true] .h,.t-rewind .dead h4{animation:none}}
+.from-game a{color:inherit}
