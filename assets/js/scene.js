@@ -646,3 +646,6 @@ function sfx(k){try{SND.fx(k)}catch(e){}}
 // Pages can add their own lines (Ache notes on frozen posts) without touching lines.json
 window.TZ={bindTilt,addLines:(k,a)=>{XLINES[k]=a}};
 })();
+
+// Newsletter band ("Letters from the shore") sits above the footer on every page, frozen posts too
+(()=>{const s=document.createElement('script');s.src='/assets/js/newsletter.js';s.defer=true;document.head.appendChild(s)})();
