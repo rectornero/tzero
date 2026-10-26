@@ -12,6 +12,7 @@ so Netlify only deploys when the design changes.
 | Path | What it is |
 |---|---|
 | `index.html` | Homepage: hero scene, Latest (live from Wix), the tapes, footer |
+| `redache.html` | Ache's own page at `/redache`: the page source shown as an editor (Ache lives there), live values, a small terminal. The editor shows the file's own real source: Ache's story is written as real comments in redache.html, and `window.ACHE` holds his live data, secrets and history |
 | `post.html` | Article page; Netlify serves it for every `/post/<slug>` (see `_redirects`), same slugs as Wix |
 | `posts.html` | Listings: `/posts`, `/posts/categories/<slug>` (Devlog, Studio, Archive) and `/posts/tags/<slug>`, same paths as Wix |
 | `studio.html`, `redache.html` | The studio's page (`/studio`) and Ache's home (`/redache`) |
@@ -21,6 +22,7 @@ so Netlify only deploys when the design changes.
 | `assets/js/posts.js` | Listing page: section or tag lookup, cards, Load more |
 | `assets/js/wix.js` | Wix Headless client: visitor token, latest posts, post by slug |
 | `assets/js/ricos.js` | Renders a post's Wix rich content safely (no HTML parsing) |
+| `assets/js/redache.js`, `assets/css/redache.css` | Highlighter, tabs, terminal and live values for the Redache page |
 | `assets/lines.json` | Everything Ache says, per item, plus generic lines for live posts |
 
 ## Links
