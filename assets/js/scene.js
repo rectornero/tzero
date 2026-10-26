@@ -502,4 +502,7 @@ function sfx(k){try{SND.fx(k)}catch(e){}}
 
 // Pages can add their own lines (Ache notes on frozen posts) without touching lines.json
 window.TZ={bindTilt,addLines:(k,a)=>{XLINES[k]=a}};
+// The reader save file and Ache's sticker scrapbook (save.js) watch Ache through these and talk through him
+Object.assign(window.TZ,{speak,sfx,menu:t=>{if(!chat.hidden)menu(t)},setMood});
+{const s=document.createElement('script');s.src='/assets/js/save.js';s.defer=true;document.head.appendChild(s)}
 })();
