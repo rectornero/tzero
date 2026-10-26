@@ -30,7 +30,7 @@ document.addEventListener('pointerleave',()=>{mx=-1;lastX=null});
 
 /* click anywhere (except links and buttons): splash in summer, leaf burst in autumn */
 const drops=[],rings=[],flyers=[];
-document.addEventListener('click',e=>{if(e.target.closest('a,button,.polaroid'))return;sfx('splash');memory(e);const X=e.clientX*dpr,Y=e.clientY*dpr;
+document.addEventListener('click',e=>{if(scene||e.target.closest('a,button,.polaroid,.err,.chat'))return;sfx('splash');memory(e);const X=e.clientX*dpr,Y=e.clientY*dpr;
   if(skin==='sea'){rings.push({x:X,y:Y,r:0});energy=2;
     for(let k=0;k<26;k++){const an=-Math.PI/2+(Math.random()-.5)*1.9,sp=(3+Math.random()*7)*dpr;drops.push({x:X,y:Y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,r:(1+Math.random()*2.6)*dpr,y0:Y})}}
   else{gust+=e.clientX>innerWidth/2?-1.4:1.4;for(let k=0;k<10;k++){const an=Math.random()*6.28,sp=(2+Math.random()*5)*dpr;flyers.push(mkLeaf(X,Y,Math.cos(an)*sp,Math.sin(an)*sp-3*dpr))}}
@@ -103,7 +103,10 @@ bindTilt(document);
 /* floating red thread: no gravity, desk friction */
 const tc=document.getElementById('thread'),tx_=tc.getContext('2d');let N=38;const seg=13;let scene=null,newsStage=0;let therapy=false,tears=[],lastMove=0;let home=false,sleeping=false;let stake=null;let spin=0,squash=0,blinkT=3,sass=0,dodgeCool=0;let pts=[],hx=null,hy=null,thA=1,lastActive=0,bat={st:'ok',next:45+Math.random()*30};
 /* phones have no cursor for the thread to power: there Ache is a little free star that rests in the bottom corner and visits things on screen */
-const TOUCH=matchMedia('(hover:none) and (pointer:coarse)').matches;
+let TOUCH=matchMedia('(pointer:coarse)').matches||(navigator.maxTouchPoints>0&&!matchMedia('(pointer:fine)').matches);
+/* some phones report a fine pointer: trust the real input instead (a finger switches to phone mode, a moving mouse back) */
+addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&!TOUCH){TOUCH=true;unplug&&unplug.classList.add('touch')}},true);
+addEventListener('pointermove',e=>{if(e.pointerType==='mouse'&&TOUCH&&e.movementX+e.movementY!==0){TOUCH=false;unplug&&unplug.classList.remove('touch')}},true);
 function tsize(){tc.width=innerWidth*dpr;tc.height=innerHeight*dpr;if(!pts.length)for(let i=0;i<N;i++){pts.push({x:60+i*seg,y:110,px:60+i*seg,py:110})}}
 addEventListener('resize',tsize);tsize();addEventListener('pointermove',e=>{hx=e.clientX;hy=e.clientY});
 
@@ -336,9 +339,9 @@ function session(open){talk(open,[
 const dim=document.createElement('div');dim.id='dim';document.body.appendChild(dim);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let scrambleT=null;
-const unplug=document.createElement('div');unplug.className='unplug';unplug.textContent='⏻ unplugged';unplug.hidden=true;document.body.appendChild(unplug);
+const unplug=document.createElement('div');unplug.className='unplug';unplug.textContent='⏻ unplugged';unplug.hidden=true;if(TOUCH)unplug.classList.add('touch');document.body.appendChild(unplug);
 addEventListener('pointermove',e=>{unplug.style.left=e.clientX+14+'px';unplug.style.top=e.clientY+16+'px'});
-let unT=null;dim.addEventListener('click',e=>{e.stopPropagation();e.preventDefault();unplug.textContent='⏻ Your arrow is not powered on';sfx('buzz');unplug.classList.remove('buzz');void unplug.offsetWidth;unplug.classList.add('buzz');clearTimeout(unT);unT=setTimeout(()=>unplug.textContent='⏻ unplugged',1800)});
+let unT=null;dim.addEventListener('click',e=>{e.stopPropagation();e.preventDefault();unplug.textContent=TOUCH?'⏻ Ache unplugged your taps':'⏻ Your arrow is not powered on';sfx('buzz');unplug.classList.remove('buzz');void unplug.offsetWidth;unplug.classList.add('buzz');clearTimeout(unT);unT=setTimeout(()=>unplug.textContent='⏻ unplugged',1800)});
 ['wheel','touchmove'].forEach(ev=>addEventListener(ev,e=>{if(scene)e.preventDefault()},{passive:false}));
 addEventListener('keydown',e=>{if(scene&&['ArrowDown','ArrowUp','PageDown','PageUp',' ','Home','End','Tab'].includes(e.key))e.preventDefault()});
 const ERRS=['ache.exe has stopped feeling','SADNESS_OVERFLOW at line 27','UNITE.dll not found','lights.sys: 0%','thread_tension: CRITICAL','tears.buffer full (3 drops)','cannot pat card: card is sobbing','studio_pride.cfg corrupted (still the best studio)','mouse.drv unplugged by site manager','press F to pay respects'];
