@@ -57,6 +57,7 @@ h2 small{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--soft
 .cover h3{font-family:var(--display);font-size:clamp(28px,4vw,48px);margin:8px 0 4px;line-height:1.05}
 .cover p{color:var(--soft);max-width:46ch}
 .btn{display:inline-flex;gap:8px;margin-top:12px;padding:12px 20px;border-radius:99px;background:var(--abyss);color:var(--sun);font-weight:600;transition:gap .2s}
+.btn[hidden]{display:none}
 .btn:hover{gap:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .card{background-color:#fff;border:1px solid rgba(26,90,166,.12);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px;min-width:0;box-shadow:0 14px 34px -22px rgba(26,90,166,.5)}
