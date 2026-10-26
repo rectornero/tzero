@@ -175,3 +175,18 @@ body.tear .shore{animation:tear .18s steps(1) infinite}
 body.lowbat,body.lowbat *{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24'%3E%3Cpath d='M2 2v17l4.5-4.2 3 6.6 2.6-1.2-3-6.4H15z' fill='%23b9bec8' fill-opacity='.7' stroke='%23686e7a' stroke-width='1' stroke-dasharray='2 2'/%3E%3C/svg%3E") 2 2,default!important}
 /* the arrow-power gag is for mouse users only */
 .unplug.touch{display:none!important}
+/* soundtrack corner */
+.deck{position:fixed;left:max(14px,env(safe-area-inset-left,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));z-index:24;font-family:var(--mono);font-size:12px}
+.deck-tab{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:99px;border:1px solid var(--b2);background:color-mix(in srgb,var(--sun) 82%,transparent);backdrop-filter:blur(10px);color:var(--ink);font:inherit;box-shadow:0 10px 24px -14px rgba(19,34,75,.5)}
+.eq{display:flex;gap:2px;align-items:flex-end;height:12px}.eq i{width:3px;height:4px;background:var(--b2);border-radius:1px}
+.deck.on .eq i{animation:eq .9s ease-in-out infinite}.deck.on .eq i:nth-child(2){animation-delay:-.3s}.deck.on .eq i:nth-child(3){animation-delay:-.6s}
+@keyframes eq{0%,100%{height:3px}50%{height:12px}}
+.deck-list{position:absolute;left:0;bottom:calc(100% + 8px);width:min(270px,calc(100vw - 28px));background:#fff;border-radius:12px;padding:10px;box-shadow:0 20px 40px -18px rgba(19,34,75,.55);border:1px solid color-mix(in srgb,var(--b2) 25%,transparent)}
+.deck-list[hidden]{display:none}
+.deck-h{margin:2px 8px 8px;font-weight:600;color:var(--ink)}.deck-h small{display:block;font-weight:400;color:var(--soft)}
+.deck-row{display:flex;flex-direction:column;align-items:flex-start;gap:1px;width:100%;text-align:left;padding:7px 8px;border:0;border-radius:8px;background:transparent;color:var(--ink);font:inherit}
+.deck-row small{color:var(--soft);font-size:11px}
+.deck-row:hover{background:color-mix(in srgb,var(--b1) 22%,transparent)}
+.deck-row.cur{background:color-mix(in srgb,var(--b1) 35%,transparent)}.deck-row.cur b::before{content:"▶ ";color:#d7182a}
+.deck-row.soon{opacity:.55;cursor:default}.deck-row.soon:hover{background:transparent}
+@media (prefers-reduced-motion:reduce){.deck.on .eq i{animation:none;height:8px}}
