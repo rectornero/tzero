@@ -73,6 +73,12 @@ window.WIX = (() => {
 
   const LIST_FIELDS = '&fieldsets=URL';
 
+  const WIX_MEDIA = 'https://static.wixstatic.com/media/';
+  let picsP;
+  function cardPics() {
+    return picsP || (picsP = fetch('/assets/card-pics.json').then(r => r.ok ? r.json() : {}).catch(() => ({})));
+  }
+
   return {
     JOURNAL,
     CATEGORIES,
@@ -146,17 +152,22 @@ window.WIX = (() => {
       const meta = document.createElement('span'); meta.className = 'meta';
       meta.textContent = this.date(post.firstPublishedDate) + ' · by ' + this.author(post);
       a.append(tag, h, p, meta);
-      // The cover on top, cropped to 16:9 by Wix so the card only downloads what it shows
-      const c = cover(post);
-      if (c) {
+      // A picture on top: the cover, else the post's video thumbnail or first picture (assets/card-pics.json)
+      const pic = url => {
         const img = document.createElement('img');
         img.className = 'card-pic';
-        img.src = c.url.split('/v1/')[0] + '/v1/fill/w_640,h_360,al_c,q_80/' + encodeURIComponent(post.slug) + '.jpg';
+        // Wix crops to 16:9 so the card only downloads what it shows
+        img.src = url.startsWith(WIX_MEDIA) ? url.split('/v1/')[0] + '/v1/fill/w_640,h_360,al_c,q_80/' + encodeURIComponent(post.slug) + '.jpg' : url;
         img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
-        img.onerror = () => img.remove();
+        img.onerror = () => { img.remove(); a.classList.remove('has-pic') };
+        // YouTube answers a removed video with a 120px grey stand-in instead of an error
+        img.onload = () => img.naturalWidth <= 120 && img.onerror();
         a.prepend(img);
         a.classList.add('has-pic');
-      }
+      };
+      const c = cover(post);
+      if (c) pic(c.url);
+      else cardPics().then(m => m[post.slug] && pic(m[post.slug]));
       return a;
     },
   };
