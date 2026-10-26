@@ -164,6 +164,13 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 .band-saves li::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--red);transition:background .3s}
 .story-band:hover .band-saves li::before{background:var(--red)}
 @media (max-width:640px){.band-saves{display:none}}
+.story-band > *{position:relative;z-index:2}
+.story-band > .band-saves{position:absolute}
+.story-band > .band-pic{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:right center;transition:transform .6s}
+.story-band::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,var(--abyss) 0%,color-mix(in srgb,var(--abyss) 78%,transparent) 45%,color-mix(in srgb,var(--abyss) 12%,transparent) 100%)}
+.story-band:hover > .band-pic{transform:scale(1.03)}
+.band-saves li{text-shadow:0 1px 6px #000}
+@media (max-width:640px){.story-band{padding-top:150px}.story-band > .band-pic{height:210px;bottom:auto}.story-band::before{background:linear-gradient(180deg,transparent 0,transparent 120px,var(--abyss) 205px)}}
 
 /* "[text lost in a move]": a sentence that broke off when an old post moved between sites */
 .post .cut{font-family:var(--mono);font-size:.78em;color:var(--ink);opacity:.65;border:1px dashed currentColor;border-radius:4px;padding:0 .35em;white-space:nowrap;cursor:help}
