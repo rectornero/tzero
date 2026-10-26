@@ -137,7 +137,7 @@ addEventListener('scroll',()=>{if(target&&target.getBoundingClientRect().bottom<
 
 /* 100+ lines per item, shuffled; no repeats until the whole bag is used */
 let LINES={};fetch('/assets/lines.json').then(r=>r.json()).then(d=>{LINES=d}).catch(()=>{});const bags={};
-function nextLine(k){if(!LINES[k]||!LINES[k].length)return '';if(!bags[k]||!bags[k].length){bags[k]=LINES[k].slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
+const XLINES={};function nextLine(k){const L=LINES[k]||XLINES[k];if(!L||!L.length)return '';if(!bags[k]||!bags[k].length){bags[k]=L.slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
 /* catch the critter and talk to it */
 let caught=null;const chat=document.createElement('div');chat.className='chat';chat.hidden=true;document.body.appendChild(chat);
 const secrets=['the 9th floor has a 10th floor. probably','I was drawn with AI help, then fixed by people','every season I change clothes. try the Skin button','click the sky. it does things','I\'ve read all 158 old letters','the Ø is my cousin','my full name is Redache. Ache for short','Nero named me. I pretend I picked it','TZERØ means the moment things start','the polaroids can be dragged. rearrange my room!','Nero plays with me like a cat. I pretend not to notice','I don\'t sleep. I coil','I steal one pixel from every page. nobody noticed','I\'m why the cursor glows. you\'re welcome','I could dodge every click. I\'m just nice'];let si=0;
@@ -500,5 +500,6 @@ new MutationObserver(()=>{const p=chat.querySelector('p');if(p&&!chat.hidden)SND
 chat.addEventListener('click',e=>{if(e.target.closest('button'))sfx('menu')});
 function sfx(k){try{SND.fx(k)}catch(e){}}
 
-window.TZ={bindTilt};
+// Pages can add their own lines (Ache notes on frozen posts) without touching lines.json
+window.TZ={bindTilt,addLines:(k,a)=>{XLINES[k]=a}};
 })();

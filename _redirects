@@ -8,5 +8,6 @@
 /studio                  /studio.html   200
 /artache                 /studio        301
 /redache                 /redache.html  200
+/story                   /story.html    200
 /ache                    /redache       301
 /*                       https://journal.tzero.live/:splat  301

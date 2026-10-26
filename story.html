@@ -1,0 +1,550 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/studio.css">
+<link rel="stylesheet" href="/assets/css/story.css">
+<link rel="canonical" href="https://tzero.live/story">
+<title>The story so far · TZERØ</title>
+<meta name="description" content="How TZERØ got here, from RectorNews in 2017 through the gacha years to Artache Creative Studio: save points, old anime reviews and the posts that tell the story.">
+<link rel="canonical" href="https://tzero.live/studio">
+<meta property="og:title" content="The story so far · TZERØ">
+<meta property="og:description" content="Nine years, one journal: how TZERØ got here.">
+<meta property="og:image" content="/assets/img/liminal-outliers.jpg">
+</head><body class="studio-page story-page">
+<canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
+<header><div class="wrap">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story" aria-current="page">Story</a><a href="/studio">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+</div></header>
+
+<div class="sea">
+  <div class="sunball" aria-hidden="true"></div>
+  <canvas id="waves" aria-hidden="true"></canvas>
+  <div class="wrap hero hero2 studio-hero story-hero"><div>
+    <div class="kicker">Continue? · 159 posts since 2017</div>
+    <h1 class="studio-title story-title" aria-label="The story so far"><span>The</span> <span>story</span> <span>so</span> <span class="ache">far</span></h1>
+    <p class="sub">Nine years, one journal. How TZERØ got here, told by the posts that were there.</p>
+    <a data-say="story" class="motto" href="#saves">Load the first save</a>
+    <a class="coverlink" href="#loop">Or skip to the gacha years →</a>
+  </div>
+  <div class="board">
+    <figure data-say="story" class="polaroid" style="left:4%;top:4%;transform:rotate(-6deg)"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_12a3e03c184042138994e767e653a74e~mv2.png/v1/fill/w_520,h_520,al_c,q_85/pic.png" alt="Nero Atlas, the 2026 model"><figcaption>Nero, 2026 model</figcaption></figure>
+    <figure data-say="save" class="polaroid" style="left:46%;top:32%;transform:rotate(5deg);width:min(190px,44vw)"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_333300fe4c2441acb91f44627375e653~mv2.jpg/v1/fill/w_400,h_400,al_c,q_85/pic.jpg" alt="The 2017 RectorNews schedule"><figcaption>where it started</figcaption></figure>
+  </div>
+</div></div>
+
+<div class="shore"><div class="wrap">
+
+  <ul class="facts" aria-label="TZERØ at a glance">
+    <li><b>2017</b><span>first post, 25 August</span></li>
+    <li><b>159</b><span>posts so far</span></li>
+    <li><b>98</b><span>posts in 2024 alone</span></li>
+    <li><b>1</b><span>name, many meanings</span></li>
+  </ul>
+
+  <section id="name">
+    <h2>What's in a name <small>turn the dial</small></h2>
+    <div class="dial tilt" data-say="save">
+      <div class="dial-word" aria-live="polite"><span id="dial-word">TZERØ</span></div>
+      <p class="dial-line" id="dial-line">T-zero: the moment things start. A journal by Artache Creative Studio.</p>
+      <div class="dial-years" role="group" aria-label="Pick a year"><button type="button" class="dial-y" data-i="0" aria-pressed="false">2017</button><button type="button" class="dial-y" data-i="1" aria-pressed="false">2023</button><button type="button" class="dial-y" data-i="2" aria-pressed="false">2025</button><button type="button" class="dial-y" data-i="3" aria-pressed="false">2026</button><button type="button" class="dial-y" data-i="4" aria-pressed="true">now</button></div>
+    </div>
+  </section>
+
+  <section id="saves">
+    <h2>Save points <small>eleven saves, oldest first</small></h2>
+    <ol class="saves">
+      <li class="thread-line" aria-hidden="true"><i></i></li>
+    <li class="save" data-say="story">
+      <div class="save-mark" aria-hidden="true"><span>01</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 01 · Aug–Dec 2017</span>
+          <h3>RectorNews <small>the first journal</small></h3>
+          <p>Before it had a name, it had a schedule. RectorNews, from RectorStudio, ran anime reviews, Overwatch hero breakdowns and notes on making visual novels. In December the timetable went, and a person showed up instead.</p>
+          <blockquote><p>So yes, I will use more “I”</p><a href="/post/nero-s-nightly-considerations">from Nero’s Nightly Considerations</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/consulting-firms-identity-persona-5">Consulting Firms, Identity &amp; Persona 5</a></li><li><a href="/post/nero-s-nightly-considerations">Nero’s Nightly Considerations</a></li><li><a href="/post/mawaru-penguindrum-review">Mawaru Penguindrum – Review</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_333300fe4c2441acb91f44627375e653~mv2.jpg/v1/fill/w_440,h_440,al_c,q_85/pic.jpg" alt="" loading="lazy"><figcaption>the 2017 schedule</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="story">
+      <div class="save-mark" aria-hidden="true"><span>02</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 02 · 2018–2022</span>
+          <h3>The quiet years <small>mostly offline</small></h3>
+          <p>A last run of reviews in 2018, and DeadenD, Nero&#x27;s first visual novel, written alone in Ren&#x27;Py. Then four years without a post, until a Pokémon Violet blind run in December 2022.</p>
+          <blockquote><p>it’s a story of men doing what the system can’t.</p><a href="/post/psycho-pass-review">from Psycho-Pass – Review</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/psycho-pass-review">Psycho-Pass – Review</a></li><li><a href="/post/spice-and-wolf-review">Spice and Wolf – Review</a></li><li><a href="/post/pokémon-violet-blind-run">Pokémon Violet - Blind Run</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><div class="ph2">02</div><figcaption>2018 → 2022</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="story">
+      <div class="save-mark" aria-hidden="true"><span>03</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 03 · Feb 2023</span>
+          <h3>TZERO, the team <small>a BanG Dream tiering team</small></h3>
+          <p>The name arrives, without the slash. TZERO is a rhythm-game tiering team built around spending little, born from noticing how much the events really cost.</p>
+          <blockquote><p>TZERO stands for &quot;T0&quot; (standing outside the first position of a ladder, as we achieve other goals besides tiering)</p><a href="/post/introducing-tzero-a-resource-optimal-tiering-team">from Introducing TZERO: A Resource-Optimal Tiering Team</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/introducing-tzero-a-resource-optimal-tiering-team">Introducing TZERO: A Resource-Optimal Tiering Team</a></li><li><a href="/post/how-not-to-play-rhythm-games">How (not to) Play Rhythm Games</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_1b3be0970824468db72e06a6b16b991b~mv2.png/v1/fill/w_440,h_440,al_c,q_85/pic.png" alt="" loading="lazy"><figcaption>TZERO, 2023</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="loop">
+      <div class="save-mark" aria-hidden="true"><span>04</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 04 · May–Aug 2023</span>
+          <h3>Spend rationally <small>the first warnings</small></h3>
+          <p>Honkai: Star Rail launches and the essays start asking what subscriptions and battle passes really take from you. The answers are already TZERØ&#x27;s, two years early.</p>
+          <blockquote><p>Games should never make someone feel trapped, even if the reward seem worth it</p><a href="/post/spending-rationally-episode-2-battle-passes">from &quot;Spending Rationally&quot;, Episode 2: Battle Passes</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/spend-rationally-the-hidden-costs-of-gacha-game-subscriptions">&quot;Spend Rationally&quot;: The Hidden Costs of Gacha Game Subscriptions</a></li><li><a href="/post/spending-rationally-episode-2-battle-passes">&quot;Spending Rationally&quot;, Episode 2: Battle Passes</a></li><li><a href="/post/just-don-t-play-gacha-games-and-social-relevance">&quot;Just Don&#x27;t Play&quot;: TCGs, Gacha Games and Social Relevance</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_5ba067d90a6448ecbe9d6abc9dd53d37~mv2.png/v1/fill/w_440,h_440,al_c,q_85/pic.png" alt="" loading="lazy"><figcaption>spend rationally</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="loop">
+      <div class="save-mark" aria-hidden="true"><span>05</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 05 · 2024</span>
+          <h3>The Adventurers Guild <small>inside the loop</small></h3>
+          <p>Nero&#x27;s Coffee becomes the Adventurers Guild: YouTube, Twitch, fifteen gacha games and a new guide every few days. 98 posts in one year, the busiest TZERØ has ever been. Most of them are what this journal now says no to.</p>
+          <blockquote><p>We&#x27;ll be kind of your weekly press about the gacha world.</p><a href="/post/adventurers-guild-featured-content-cycle">from Adventurers Guild: Featured Content Cycle</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/adventurers-guild-featured-content-cycle">Adventurers Guild: Featured Content Cycle</a></li><li><a href="/post/the-day-we-gathered-here">The Day We Gathered Here</a></li></ul>
+          <a class="save-jump" href="#loop">Step inside the loop ↓</a>
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_80d2d9fab4a0420c8aee234f3f7652b5~mv2.png/v1/fill/w_440,h_440,al_c,q_85/pic.png" alt="" loading="lazy"><figcaption>the day we gathered here</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="loop">
+      <div class="save-mark" aria-hidden="true"><span>06</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 06 · Oct–Dec 2024</span>
+          <h3>The Videogame Journal <small>first try at leaving</small></h3>
+          <p>A video about quitting, then one about going back three days later. The channel is renamed The Videogame Journal: unedited, diary-like. And for the first time, a promise that the writing will live on tzero.live.</p>
+          <blockquote><p>Know that much content will end up on tzero.live</p><a href="/post/a-channel-for-everyone">from A Channel for Everyone</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/why-i-thought-i-d-quit-gacha-games">Why I *Thought* I&#x27;d Quit Gacha Games</a></li><li><a href="/post/back-to-gacha-my-mistakes-with-hsr">Back to Gacha &amp; My Mistakes With HSR</a></li><li><a href="/post/a-channel-for-everyone">A Channel for Everyone</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><div class="ph2">06</div><figcaption>logging in</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="story">
+      <div class="save-mark" aria-hidden="true"><span>07</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 07 · Jan–Feb 2025</span>
+          <h3>A radical decision <small>the first exit</small></h3>
+          <p>Nero quits every gacha game and deletes the account. Days later the old videos go private and a new word appears in the journal for the first time: Artache.</p>
+          <blockquote><p>With Artache, I want to bring game making in the hands of everyone.</p><a href="/post/our-voyage-s-future">from Our Voyage&#x27;s Future</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/quitting-gacha">A Radical Decision Changes My Life and The Journal</a></li><li><a href="/post/our-voyage-s-future">Our Voyage&#x27;s Future</a></li><li><a href="/post/contrary-quest-devlog-1">Contrary Quest: My First Quest!</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_3fb1187529294630925d125a7f7faca8~mv2.png/v1/fill/w_440,h_440,al_c,q_85/pic.png" alt="" loading="lazy"><figcaption>a card on the desk</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="story">
+      <div class="save-mark" aria-hidden="true"><span>08</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 08 · 2025</span>
+          <h3>TZERØ, with the slash <small>the cost reviewer</small></h3>
+          <p>The Ø appears. TZERØ becomes a voice that rates what card games and gachas really cost, and still gets pulled back in now and then. The loop doesn&#x27;t let go in one go.</p>
+          <blockquote><p>Pull because you&#x27;re excited. Not because you&#x27;re afraid to miss out.</p><a href="/post/saber-vs-phainon-collection-pressure-regret-and-choosing-with-intention-honkai-star-rail">from Saber vs Phainon: Collection Pressure, Regret, and Choosing with Intention</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/vanguard-dear-days-cost-model">Cost Models in Card Game Simulators &amp; Vanguard Dear Days Controversy</a></li><li><a href="/post/the-real-problem-with-shadowverse-worlds-beyond">The Real Problem with Shadowverse: Worlds Beyond</a></li><li><a href="/post/saber-vs-phainon-collection-pressure-regret-and-choosing-with-intention-honkai-star-rail">Saber vs Phainon: Collection Pressure, Regret, and Choosing with Intention</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_a7da15d8e62846de90c3ac4458f811bf~mv2.png/v1/fill/w_440,h_440,al_c,q_85/pic.png" alt="" loading="lazy"><figcaption>cost models</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="story">
+      <div class="save-mark" aria-hidden="true"><span>09</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 09 · Dec 2025–Feb 2026</span>
+          <h3>Looking for beauty <small>a new aim</small></h3>
+          <p>Optimizing stops being the point. A new logo, a group of friends writing in several languages, and one simple aim. In February the Hoyoverse years end for good.</p>
+          <blockquote><p>finding beauty in games.</p><a href="/post/looking-for-tzerø-experiencing-beauty-in-games">from Looking for TZERØ - Experiencing Beauty in Games</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/looking-for-tzerø-experiencing-beauty-in-games">Looking for TZERØ - Experiencing Beauty in Games</a></li><li><a href="/post/brand-new-days-tzerø-s-horizons-for-2026">Brand New Days: TZERØ&#x27;s Horizons for 2026</a></li><li><a href="/post/breaking-the-habit">Breaking the Habit, With Hoyoverse and YouTube</a></li><li><a href="/post/how-striving-for-beauty-led-me-astray">How Striving For Beauty Led Me Astray</a></li><li><a href="/post/the-endless-endgame-paradox">The Endless Endgame Paradox</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_4a9abcc7466f44a0b503872b9ce932f9~mv2.png/v1/fill/w_440,h_440,al_c,q_85/pic.png" alt="" loading="lazy"><figcaption>the 2026 logo</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="story">
+      <div class="save-mark" aria-hidden="true"><span>10</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 10 · Jun 2026</span>
+          <h3>From ZERØ <small>starting over</small></h3>
+          <p>A restart with a plan: play for free, practise missing out, and find people who want the same. Having the most with the least.</p>
+          <blockquote><p>&quot;Missing out&quot; should be seen as a victory</p><a href="/post/from-zerø">from From ZERØ</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/from-zerø">From ZERØ</a></li></ul>
+          
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_ef94d34108fc476fb81d012c4897fa5f~mv2.jpg/v1/fill/w_440,h_440,al_c,q_85/pic.jpg" alt="" loading="lazy"><figcaption>from zero</figcaption></figure>
+      </article>
+    </li>
+    <li class="save" data-say="artache">
+      <div class="save-mark" aria-hidden="true"><span>11</span></div>
+      <article class="save-card tilt">
+        <div class="save-text">
+          <span class="tag">Save 11 · Oct 2026</span>
+          <h3>Artache opens <small>the studio</small></h3>
+          <p>Art plus heartache. A small studio that makes stories you can play, with AI and by people, and TZERØ becomes its journal. You are reading the newest save.</p>
+          <blockquote><p>Results will come when they come. The making is the point.</p><a href="/post/artache-a-studio-opens-its-doors">from Artache: a studio opens its doors</a></blockquote>
+          <ul class="save-posts" aria-label="Read from this save"><li><a href="/post/artache-a-studio-opens-its-doors">Artache: a studio opens its doors</a></li></ul>
+          <a class="save-jump" href="/studio">Meet the studio →</a>
+        </div>
+        <figure class="polaroid save-pic"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_021b19076f3040548fb6adcac745effc~mv2.png/v1/fill/w_440,h_440,al_c,q_85/pic.png" alt="" loading="lazy"><figcaption>doors open</figcaption></figure>
+      </article>
+    </li>
+    </ol>
+    <p class="note">Every quote is copied from the post it links to. The old posts keep their original words, typos included.</p>
+  </section>
+
+  <section id="loop" class="loop">
+    <h2>Inside the Loop <small>the gacha years, kept on purpose</small></h2>
+    <div class="loop-intro">
+      <p>In 2024 TZERØ published guides, tier lists and banner advice for gacha games, sometimes several a week. They're still here, each with a note: <em>I made this while I was caught in the gacha loop.</em> Not as advice. As a record of what the loop looks like from inside, next to the essays written on the way out.</p>
+      <a class="btn ghost" href="/posts/tags/inside-the-loop">Open the whole room <span>→</span></a>
+    </div>
+    <div class="loop-grid">
+      <figure class="pile card" data-say="loop">
+        <span class="tag">Guides per month, 2024</span>
+        <ol class="pile-bars" aria-label="Gacha guides published per month in 2024"><li style="--n:7" data-n="7"><span class="pile-stack" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Mar</b><span class="pile-n">7</span></li><li style="--n:0" data-n="0"><span class="pile-stack" aria-hidden="true"></span><b>Apr</b><span class="pile-n">0</span></li><li style="--n:0" data-n="0"><span class="pile-stack" aria-hidden="true"></span><b>May</b><span class="pile-n">0</span></li><li style="--n:10" data-n="10"><span class="pile-stack" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Jun</b><span class="pile-n">10</span></li><li style="--n:9" data-n="9"><span class="pile-stack" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Jul</b><span class="pile-n">9</span></li><li style="--n:17" data-n="17"><span class="pile-stack" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Aug</b><span class="pile-n">17</span></li><li style="--n:9" data-n="9"><span class="pile-stack" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Sep</b><span class="pile-n">9</span></li><li style="--n:12" data-n="12"><span class="pile-stack" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Oct</b><span class="pile-n">12</span></li><li style="--n:10" data-n="10"><span class="pile-stack" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Nov</b><span class="pile-n">10</span></li><li style="--n:11" data-n="11"><span class="pile-stack" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Dec</b><span class="pile-n">11</span></li></ol>
+        <figcaption>Every tile is one guide. August: seventeen.</figcaption>
+      </figure>
+      <div class="banner card" data-say="banner">
+        <span class="tag">The honest banner</span>
+        <h3>Pull for a post</h3>
+        <p class="banner-sub">Rates: 100% something to read. No pity, no timer, no currency. 22 posts in the pool, 6 of them essays.</p>
+        <div class="banner-slot" id="pull-out" aria-live="polite"><span class="banner-idle">Ø</span></div>
+        <div class="banner-row"><button type="button" class="btn" id="pull-btn">Pull ×1 · free</button><span class="banner-count" id="pull-count">Pulls 0 · spent €0</span></div>
+      </div>
+    </div>
+    <script type="application/json" id="loop-pool">[{"s": "spend-rationally-the-hidden-costs-of-gacha-game-subscriptions", "t": "\"Spend Rationally\": The Hidden Costs of Gacha Game Subscriptions", "g": "", "d": "2023-05", "k": "essay"}, {"s": "spending-rationally-episode-2-battle-passes", "t": "\"Spending Rationally\", Episode 2: Battle Passes", "g": "", "d": "2023-05", "k": "essay"}, {"s": "1st-anniversary-banners-honkai-star-rail", "t": "1st Anniversary Banners", "g": "Honkai: Star Rail", "d": "2024-03", "k": "guide"}, {"s": "1-0-pull-priorities-jiyan-yinlin-wuthering-waves", "t": "1.0 Pull Priorities: Jiyan & Yinlin", "g": "Wuthering Waves", "d": "2024-06", "k": "guide"}, {"s": "last-minute-focus-yinlin-weapon-banners-wuthering-waves", "t": "Last Minute Focus: Yinlin & Weapon Banners", "g": "Wuthering Waves", "d": "2024-06", "k": "guide"}, {"s": "quick-reroll-guide-sword-of-convallaria", "t": "Quick Reroll Guide", "g": "Sword of Convallaria", "d": "2024-08", "k": "guide"}, {"s": "zhu-yuan-last-minute-impressions-zenless-zone-zero", "t": "Zhu Yuan - Last Minute Impressions", "g": "Zenless Zone Zero", "d": "2024-08", "k": "guide"}, {"s": "pulling-for-edda-and-going-all-in-sword-of-convallaria", "t": "Pulling for Edda, and going ALL IN", "g": "Sword of Convallaria", "d": "2024-08", "k": "guide"}, {"s": "2-5-banners-tierlist-honkai-star-rail", "t": "2.5 Banners Tierlist", "g": "Honkai Star Rail", "d": "2024-09", "k": "guide"}, {"s": "why-i-thought-i-d-quit-gacha-games", "t": "Why I *Thought* I'd Quit Gacha Games", "g": "", "d": "2024-10", "k": "essay"}, {"s": "back-to-gacha-my-mistakes-with-hsr", "t": "Back to Gacha & My Mistakes With HSR", "g": "", "d": "2024-10", "k": "essay"}, {"s": "how-to-best-spend-gems-pokémon-unite", "t": "How to Best Spend Gems", "g": "Pokémon Unite", "d": "2024-10", "k": "guide"}, {"s": "sensor-tower-gacha-revenue-analysis-september-2024", "t": "Sensor Tower Gacha Revenue Analysis: September 2024", "g": "", "d": "2024-10", "k": "guide"}, {"s": "tickets-expire-pokémon-unite", "t": "TICKETS EXPIRE!!", "g": "Pokémon Unite", "d": "2024-10", "k": "guide"}, {"s": "halloweeen-rewards-f2p-p2w-pokémon-unite", "t": "Halloweeen Rewards! F2P & P2W", "g": "Pokémon Unite", "d": "2024-10", "k": "guide"}, {"s": "should-you-pull-rappa-honkai-star-rail", "t": "Should You Pull? Rappa", "g": "Honkai Star Rail", "d": "2024-10", "k": "guide"}, {"s": "start-with-your-favorite-element-now-nov-2024-anniversary-aether-gazer", "t": "Start With Your Favorite Element Now! (Nov 2024 Anniversary)", "g": "Aether Gazer", "d": "2024-11", "k": "guide"}, {"s": "new-gacha-rates-ninetales-legendary-skin-pokémon-unite", "t": "New Gacha Rates & Ninetales Legendary Skin", "g": "Pokémon Unite", "d": "2024-11", "k": "guide"}, {"s": "s-verthandi-event-made-easy-get-an-s-rank-character-for-free-aether-gazer", "t": "S Verthandi Event Made Easy! Get an S-Rank Character for Free!", "g": "Aether Gazer", "d": "2024-12", "k": "guide"}, {"s": "quitting-gacha", "t": "A Radical Decision Changes My Life and The Journal", "g": "", "d": "2025-01", "k": "essay"}, {"s": "breaking-the-habit", "t": "Breaking the Habit, With Hoyoverse and YouTube", "g": "", "d": "2026-02", "k": "essay"}, {"s": "1-2-free-s-rank-selector-best-pick-neverness-to-everness", "t": "1.2 FREE S-Rank Selector: Best Pick?", "g": "Neverness to Everness", "d": "2026-07", "k": "guide"}]</script>
+  </section>
+
+  <section id="shelf">
+    <h2>The tape shelf <small>reviews and tidbits since 2017</small></h2>
+    <p class="shelf-intro">Before the gacha years there were anime reviews with a score and a one-word verdict, a hero-by-hero look at how Overwatch feels, and notes on making visual novels. Pull a tape.</p>
+    <div class="chips" role="group" aria-label="Filter the shelf"><button type="button" class="chip" data-k="all" aria-pressed="true">All 28</button><button type="button" class="chip" data-k="anime" aria-pressed="false">Anime 12</button><button type="button" class="chip" data-k="game" aria-pressed="false">Game 6</button><button type="button" class="chip" data-k="design" aria-pressed="false">Design 7</button><button type="button" class="chip" data-k="tidbit" aria-pressed="false">Tidbit 3</button></div>
+    <ul class="tapes" id="tapes">
+      <li class="tape-item" data-kind="tidbit" data-say="shelf">
+        <button type="button" class="spine k-tidbit" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Consulting Firms, Identity &amp; Persona 5</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_02a0862bb84343d9a8d69178279aa3f1~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Tidbit · 2017-08-25</span>
+          <h4>Consulting Firms, Identity &amp; Persona 5</h4>
+          <p>“There is NO opportunity in big consulting firms. They make you feel right, but it’s just illusion.”</p>
+          <a class="btn" href="/post/consulting-firms-identity-persona-5">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Mawaru Penguindrum – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_77a1b91d73c444d4911699178ad9ab8e~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2017-09-07</span>
+          <h4>Mawaru Penguindrum – Review</h4><span class="tape-score">10/10 – MASTERPIECE</span>
+          <p>“Each piece found its place and nothing seems useless anymore.”</p>
+          <a class="btn" href="/post/mawaru-penguindrum-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="design" data-say="shelf">
+        <button type="button" class="spine k-design" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Overwatch Heroes UX</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_ae96a827eeeb4f15bc2b7d7da5acedd8~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Design · 2017-09-14</span><span class="tag">Overwatch Hero UX</span>
+          <h4>Overwatch Heroes UX</h4>
+          <p>“The keyword here is, indeed, “fun”: I play Overwatch for fun”</p>
+          <a class="btn" href="/post/overwatch-heroes-ux">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="design" data-say="shelf">
+        <button type="button" class="spine k-design" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Overwatch Hero UX: Symmetra</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_598fec510ef742ab9740a4cd936a5731~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Design · 2017-09-14</span><span class="tag">Overwatch Hero UX</span>
+          <h4>Overwatch Hero UX: Symmetra</h4><span class="tape-score">9/10 (final fun rating)</span>
+          <p>“you find yourself with a glowing blue stream that wrecks through anything, even mechs”</p>
+          <a class="btn" href="/post/overwatch-hero-ux-symmetra">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="design" data-say="shelf">
+        <button type="button" class="spine k-design" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Overwatch Hero UX: Torbjörn</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_555ff19455ca4ef5854443d637cce1b7~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Design · 2017-09-19</span><span class="tag">Overwatch Hero UX</span>
+          <h4>Overwatch Hero UX: Torbjörn</h4><span class="tape-score">9.5/10 (final fun rating)</span>
+          <p>“Who doesn’t love turrets?”</p>
+          <a class="btn" href="/post/overwatch-hero-ux-torbjörn">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="design" data-say="shelf">
+        <button type="button" class="spine k-design" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Overwatch Hero UX: D.VA</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_7f718fc713ce4e418870778cb60047ea~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Design · 2017-09-27</span><span class="tag">Overwatch Hero UX</span>
+          <h4>Overwatch Hero UX: D.VA</h4><span class="tape-score">8/10 (final fun rating)</span>
+          <p>“Boosters actually boost D.VA fun!”</p>
+          <a class="btn" href="/post/overwatch-hero-ux-d-va">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">No Game No Life – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_648cb20c11d841d6ba6f9217a581d5fb~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2017-09-29</span>
+          <h4>No Game No Life – Review</h4><span class="tape-score">7.5/10 – interesting</span>
+          <p>“Do not contemplate failure / constraints, focus on success / options.”</p>
+          <a class="btn" href="/post/no-game-no-life-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Terror In Resonance – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_445ea17590c54de6a54c9bb19e097e75~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2017-10-02</span>
+          <h4>Terror In Resonance – Review</h4><span class="tape-score">6.5/10 – okay (Lisa is, though, a 10/10)</span>
+          <p>“I’d say that we can notice happiness better when life is harsh.”</p>
+          <a class="btn" href="/post/terror-in-resonance-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="game" data-say="shelf">
+        <button type="button" class="spine k-game" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Nier:Automata – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_de4b016346be4d85a4a908cedabe95f3~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Game · 2017-10-05</span>
+          <h4>Nier:Automata – Review</h4><span class="tape-score">7/10 – could have been better</span>
+          <p>“Nier:Automata failed to ignite in me passion.”</p>
+          <a class="btn" href="/post/nier-automata-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="tidbit" data-say="shelf">
+        <button type="button" class="spine k-tidbit" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Press Review – 06/12/2017</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_4fa5130f2a504acba484808dd06d4dc1~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Tidbit · 2017-12-06</span><span class="tag">Press Review</span>
+          <h4>Press Review – 06/12/2017</h4>
+          <p>Weekly roundup: EA’s Battlefront 2 “Lootgate”, Mega Man 11’s reveal, Overwatch eSports and Hunter x Hunter’s return.</p>
+          <a class="btn" href="/post/press-review-06-12-2017">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">MP4S: Mawaru Penguindrum Analysis</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_507e9626838a44dead10edcb4be26bb6~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2017-12-07</span><span class="tag">MP4S</span>
+          <h4>MP4S: Mawaru Penguindrum Analysis</h4>
+          <p>“Mawaru Penguindrum is a labyrinth of symbols, each episode having multiple levels of interpretation.”</p>
+          <a class="btn" href="/post/mp4s-mawaru-penguindrum-analysis">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">MP4S #01 – The Bell of Fate Tolls</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_632fc8a3db9f46339fc206504fb25a5d~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2017-12-07</span><span class="tag">MP4S</span>
+          <h4>MP4S #01 – The Bell of Fate Tolls</h4>
+          <p>“Fate in Mawaru Penguindrum is seen from a sociological – and human – point of view”</p>
+          <a class="btn" href="/post/mp4s-01-the-bell-of-fate-tolls">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="design" data-say="shelf">
+        <button type="button" class="spine k-design" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">Game Design Bits – Ren’Py Visual Novel Making</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_30ec55e2f2974757acece240472c5e11~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Design · 2017-12-11</span><span class="tag">Game Design Bits</span>
+          <h4>Game Design Bits – Ren’Py Visual Novel Making</h4>
+          <p>“Making visual novel is both literature and cinema”</p>
+          <a class="btn" href="/post/game-design-bits-ren-py-visual-novel-making">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2017</span><span class="spine-t">MP4S #02 – Risky Survival Strategy</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_a2b165cbf62741a881c88fb5f6afe98c~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2017-12-14</span><span class="tag">MP4S</span>
+          <h4>MP4S #02 – Risky Survival Strategy</h4>
+          <p>“For the author, Fate is clearly determined by psychological traumas.”</p>
+          <a class="btn" href="/post/mp4s-02-risky-survival-strategy">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2018</span><span class="spine-t">Re:Zero – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_7d4aec439d3c4f65bb0bba9252d463a2~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2018-02-22</span>
+          <h4>Re:Zero – Review</h4><span class="tape-score">7/10 – good (character art is really nice)</span>
+          <p>“This is, for sure, the path to become a villain.”</p>
+          <a class="btn" href="/post/re-zero-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2018</span><span class="spine-t">Angel Beats! – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_0b2d3e769a2d47b9a48959275826d953~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2018-08-30</span>
+          <h4>Angel Beats! – Review</h4><span class="tape-score">7.5/10 – good (can’t stop repeating themes in my head)</span>
+          <p>“The promise was fulfilled: Angel Beats made me laugh as much as I cried.”</p>
+          <a class="btn" href="/post/angel-beats-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2018</span><span class="spine-t">Spice and Wolf – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_a8d751429c904a2bb2e74cbae1907f8a~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2018-09-22</span>
+          <h4>Spice and Wolf – Review</h4><span class="tape-score">8.5/10 – very good</span>
+          <p>“something extraordinary out of the ordinary. Which is how I’d describe the entire series.”</p>
+          <a class="btn" href="/post/spice-and-wolf-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2018</span><span class="spine-t">Spice and Wolf (S2) – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_f77b0600fd53438b8953ce4ba77423ec~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2018-09-28</span>
+          <h4>Spice and Wolf (S2) – Review</h4><span class="tape-score">7.5/10 – good (the feeling has been kept alive)</span>
+          <p>“If the first part is an 8.5 and the second is a 5, we have a 7.”</p>
+          <a class="btn" href="/post/spice-and-wolf-s2-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2018</span><span class="spine-t">New Game! – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_dd93554e935841c3b924354b97538304~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2018-10-02</span>
+          <h4>New Game! – Review</h4>
+          <p>““New Game!” is a splendid, fun anime, which still feels “real” in its scenes.”</p>
+          <a class="btn" href="/post/new-game-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="anime" data-say="shelf">
+        <button type="button" class="spine k-anime" aria-expanded="false"><span class="spine-y">2018</span><span class="spine-t">Psycho-Pass – Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_6fc9e863adac493fa1837835f593e14f~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Anime · 2018-10-25</span>
+          <h4>Psycho-Pass – Review</h4><span class="tape-score">9/10 – impressive</span>
+          <p>“it’s a story of men doing what the system can’t.”</p>
+          <a class="btn" href="/post/psycho-pass-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="tidbit" data-say="shelf">
+        <button type="button" class="spine k-tidbit" aria-expanded="false"><span class="spine-y">2022</span><span class="spine-t">Pokémon Violet - Blind Run</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_b7da1751e79e41aa8e9703babdd47582~mv2.webp/v1/fill/w_360,h_360,al_c,q_85/pic.webp" alt="" loading="lazy">
+          <div><span class="tag">Tidbit · 2022-12-15</span>
+          <h4>Pokémon Violet - Blind Run</h4>
+          <p>“Now that the ninth generation is out, this will be my main content for a while!”</p>
+          <a class="btn" href="/post/pokémon-violet-blind-run">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="design" data-say="shelf">
+        <button type="button" class="spine k-design" aria-expanded="false"><span class="spine-y">2023</span><span class="spine-t">How (not to) Play Rhythm Games</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_675bdc8e95774e8aac29cce0c05ae843~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Design · 2023-06-18</span>
+          <h4>How (not to) Play Rhythm Games</h4>
+          <p>“Is a png that says &quot;1st&quot; enough for this hell?”</p>
+          <a class="btn" href="/post/how-not-to-play-rhythm-games">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="game" data-say="shelf">
+        <button type="button" class="spine k-game" aria-expanded="false"><span class="spine-y">2024</span><span class="spine-t">Coromon</span></button>
+        <div class="tape-card" hidden>
+          <div class="ph2">▶</div>
+          <div><span class="tag">Game · 2024-10-20</span><span class="tag">Videogame Reviews</span>
+          <h4>Coromon</h4>
+          <p>A first look at Coromon’s pixel art, side quests and Titan Battles; full review after the main story.</p>
+          <a class="btn" href="/post/coromon-videogame-reviews">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="game" data-say="shelf">
+        <button type="button" class="spine k-game" aria-expanded="false"><span class="spine-y">2024</span><span class="spine-t">TemTem - Overview</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_b382ff23efca424396fcd16d5316218b~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Game · 2024-10-31</span>
+          <h4>TemTem - Overview</h4>
+          <p>“it&#x27;s one of the main reasons why I play games: make meaningful encounters that tell stories.”</p>
+          <a class="btn" href="/post/temtem-preview">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="design" data-say="shelf">
+        <button type="button" class="spine k-design" aria-expanded="false"><span class="spine-y">2024</span><span class="spine-t">Let&#x27;s Talk About Gacha Rhythm Games</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_034b5034f2ee4220ac42aa76e59c12a6~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Design · 2024-12-12</span>
+          <h4>Let&#x27;s Talk About Gacha Rhythm Games</h4>
+          <p>“I attempted this challenge once, and got third place in a very popular event.”</p>
+          <a class="btn" href="/post/lets-talk-about-gacha-rhythm-games">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="game" data-say="shelf">
+        <button type="button" class="spine k-game" aria-expanded="false"><span class="spine-y">2025</span><span class="spine-t">Shadowverse: Worlds Beyond: Review</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_c60fbd70ac9b40c8a2e7c9ff34b31af4~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Game · 2025-07-22</span><span class="tag">TZERØ Review</span>
+          <h4>Shadowverse: Worlds Beyond: Review</h4><span class="tape-score">3/5: Acceptable</span>
+          <p>“Monetization isn’t generous, but it’s not predatory either”</p>
+          <a class="btn" href="/post/shadowverse-worlds-beyond-review">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="game" data-say="shelf">
+        <button type="button" class="spine k-game" aria-expanded="false"><span class="spine-y">2026</span><span class="spine-t">Ratchet &amp; Clank (2016)</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_978e5be6822c49c899889e06eb7fcc7a~mv2.png/v1/fill/w_360,h_360,al_c,q_85/pic.png" alt="" loading="lazy">
+          <div><span class="tag">Game · 2026-02-10</span><span class="tag">TZERØ Review</span>
+          <h4>Ratchet &amp; Clank (2016)</h4><span class="tape-score">8/10 - Amazing!</span>
+          <p>“great games come from dedication, and attention to detail.”</p>
+          <a class="btn" href="/post/ratchet-clank-2016">Read it <span>→</span></a></div>
+        </div>
+      </li>
+      <li class="tape-item" data-kind="game" data-say="shelf">
+        <button type="button" class="spine k-game" aria-expanded="false"><span class="spine-y">2026</span><span class="spine-t">Introduction to Beyblade X</span></button>
+        <div class="tape-card" hidden>
+          <img src="https://static.wixstatic.com/media/https://static.wixstatic.com/media/38ba49_b8e5aa8a43404d288231130937ec07d2~mv2.jpg/v1/fill/w_360,h_360,al_c,q_85/pic.jpg" alt="" loading="lazy">
+          <div><span class="tag">Game · 2026-06-09</span>
+          <h4>Introduction to Beyblade X</h4>
+          <p>Beyblade X is secretly a card-based autobattler: collect parts, build a three-bey deck, launch, then watch.</p>
+          <a class="btn" href="/post/introduction-to-beyblade-x">Read it <span>→</span></a></div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="slots">
+    <h2>Save slots <small><span class="dot"></span>more coming</small></h2>
+    <div class="grid slots"><div class="slot-card tilt st-loading" data-say="slot"><span class="slot-state">Loading…</span><h4>DeadenD</h4><span class="meta">2018 · 2026</span><p>Nero&#x27;s first visual novel, written alone in 2018. Revived this year.</p></div><a class="slot-card tilt st-saved" data-say="slot" href="/post/contrary-quest-devlog-1"><span class="slot-state">Saved</span><h4>Contrary Quest</h4><span class="meta">2025</span><p>An RPG Maker MV devlog: the first quest.</p></a><a class="slot-card tilt st-saved" data-say="slot" href="/studio#workbench"><span class="slot-state">Saved</span><h4>Liminal Outliers</h4><span class="meta">2026</span><p>The first Artache visual novel, on the workbench now.</p></a><div class="slot-card tilt st-empty" data-say="slot"><span class="slot-state">Empty</span><h4>Empty slot</h4><span class="meta">soon</span><p>More from Artache and Nero’s other projects is on its way.</p></div><div class="slot-card tilt st-empty" data-say="slot"><span class="slot-state">Empty</span><h4>Empty slot</h4><span class="meta">soon</span><p>This one is reserved. Ache is guarding it.</p></div></div>
+    <p class="note">More material from Artache and Nero's other projects is on its way. These slots fill up as it arrives.</p>
+  </section>
+
+</div></div>
+
+<footer id="publisher"><div class="wrap">
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
+</div></footer>
+<script src="/assets/js/scene.js" defer></script>
+<script src="/assets/js/wix.js" defer></script>
+<script src="/assets/js/story.js" defer></script>
+<script type="application/json" id="dial-data">[{"y": "2017", "word": "RectorNews", "line": "The blog of RectorStudio. Reviews, news, and a strict weekly schedule."}, {"y": "2023", "word": "TZERO", "line": "\"T0\": standing outside the first place of a ladder. Also Team Zero Errors & Resource Optimization."}, {"y": "2025", "word": "TZERØ", "line": "The slash arrives. A voice that rates what games really cost."}, {"y": "2026", "word": "t0", "line": "Going beyond the meta, looking for a tier that belongs only to you."}, {"y": "now", "word": "TZERØ", "line": "T-zero: the moment things start. A journal by Artache Creative Studio."}]</script>
+</body></html>

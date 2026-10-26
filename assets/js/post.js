@@ -7,6 +7,7 @@
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e };
 
   function fail(msg) {
+    if (!status) return; // a frozen page already shows the article
     status.textContent = msg;
     const a = el('a', '', ' Read it on the journal →');
     a.href = WIX.JOURNAL + (slug ? '/post/' + slug : '/posts');
@@ -83,14 +84,42 @@
     aside.hidden = false;
   }
 
+  // Ache's note on an old gacha post: he's the critic now, and keeps players safe (written per article, frozen with it)
+  const LEVELS = { warning: 'Player safety · warning', caution: 'Player safety · heads up', cheer: 'Player safety · proud of you' };
+  function acheNote(post) {
+    const a = post.ache;
+    const box = el('aside', 'ache-note lv-' + (LEVELS[a.level] ? a.level : 'caution'));
+    box.setAttribute('aria-label', "Ache's note on this article");
+    box.dataset.say = 'ache-' + post.slug;
+    if (window.TZ && TZ.addLines && a.lines) TZ.addLines('ache-' + post.slug, a.lines);
+    const face = el('span', 'ache-face'); face.setAttribute('aria-hidden', 'true');
+    face.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/><circle cx="12" cy="12" r="2.8"/><circle cx="12.8" cy="11.3" r="1"/></svg>';
+    const main = el('div', 'ache-main');
+    main.append(el('span', 'ache-kicker', LEVELS[a.level] || LEVELS.caution), el('h3', '', a.title), el('p', '', a.note));
+    if (a.watch && a.watch.length) {
+      const ul = el('ul', 'ache-watch'); ul.setAttribute('aria-label', 'Watch out for');
+      a.watch.forEach(w => ul.append(el('li', '', w)));
+      main.append(ul);
+    }
+    if (a.tip) { const t = el('p', 'ache-tip'); t.append(el('b', '', 'Ache’s tip '), document.createTextNode(a.tip)); main.append(t) }
+    main.append(el('span', 'ache-sign', '— Ache, critic and player bodyguard (self-appointed)'));
+    box.append(face, main);
+    return box;
+  }
+
   if (!slug) { fail('No article here.'); return }
 
-  WIX.bySlug(slug).then(post => {
+  // Archive posts are frozen into the site (pre-rendered page + its data file); new posts load live from Wix
+  const frozen = document.documentElement.hasAttribute('data-frozen');
+  const source = frozen ? WIX.frozen(slug).catch(() => WIX.bySlug(slug)) : WIX.bySlug(slug);
+  source.then(post => {
     if (!post) throw new Error('missing');
     const cat = WIX.category(post);
     document.title = post.title + ' · TZERØ';
-    const canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://tzero.live/post/' + post.slug;
-    document.head.appendChild(canon);
+    if (!document.querySelector('link[rel=canonical]')) {
+      const canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://tzero.live/post/' + post.slug;
+      document.head.appendChild(canon);
+    }
     const desc = document.querySelector('meta[name=description]');
     if (desc && post.excerpt) desc.content = post.excerpt;
 
@@ -123,7 +152,9 @@
     const orig = el('a', 'btn', 'Comments and likes on the original →'); orig.href = WIX.wixUrl(post);
     foot.append(orig);
 
-    sheet.append(head, body, foot);
+    sheet.append(head);
+    if (post.ache) sheet.append(acheNote(post));
+    sheet.append(body, foot);
     parts.push(sheet);
     art.replaceChildren(...parts);
     art.removeAttribute('aria-busy');

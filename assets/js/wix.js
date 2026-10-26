@@ -80,6 +80,12 @@ window.WIX = (() => {
       const j = await get('/blog/v3/posts?tagIds=' + TAG_TZERO + '&paging.limit=' + n + '&fieldsets=URL');
       return j.posts || [];
     },
+    // A frozen archive post: the same post object, saved in the site at /post-data/<slug>.json
+    async frozen(slug) {
+      const r = await fetch('/post-data/' + encodeURIComponent(slug) + '.json');
+      if (!r.ok) throw new Error('frozen ' + r.status);
+      return r.json();
+    },
     async bySlug(slug) {
       const j = await get('/blog/v3/posts/slugs/' + encodeURIComponent(slug) + '?fieldsets=RICH_CONTENT&fieldsets=URL&fieldsets=SEO');
       return j.post;
