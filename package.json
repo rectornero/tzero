@@ -1,0 +1,9 @@
+{
+  "name": "tzero-main-site",
+  "private": true,
+  "type": "module",
+  "description": "Static site. The only dependency is for the Idea Lab vote function (netlify/functions/votes.mjs).",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.6"
+  }
+}

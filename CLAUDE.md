@@ -19,8 +19,11 @@ burned almost a whole month.
 ## This site
 
 - It is static. Don't add functions, Blobs, a database or a build step without asking.
-- We are migrating away from Wix (Nero, 2026-10-26). New articles are written here, not on Wix: add
-  `tools/posts/<slug>.json` and run `node tools/freeze-archive.mjs` (no snapshot argument) to render
+- One exception, chosen by Nero on 2026-10-26: `netlify/functions/votes.mjs` counts the Idea Lab hearts (/lab) in
+  one Netlify Blobs entry. GETs are cached on the CDN for 60 s, posts are rate-limited, no database. Estimated under
+  1 credit a month now, about 3 to 4 per 10,000 calls. Don't add polling to it or call it on a schedule.
+- We are migrating away from Wix (Nero, 2026-10-26): build new features on this site, not on Wix. New articles are
+  written here: add `tools/posts/<slug>.json` and run `node tools/freeze-archive.mjs` (no snapshot argument) to render
   `post/<slug>.html`, `post-data/<slug>.json` and `post-data/index.json`. Each go-live is a production deploy,
   so review articles on Deploy Previews and send them live in batches. Older posts on Wix still load from Wix
   in the visitor's browser (no Netlify credits) until the migration is finished.

@@ -9,5 +9,8 @@
 /artache                 /studio        301
 /redache                 /redache.html  200
 /story                   /story.html    200
+/lab                     /lab.html      200
+/idealab                 /lab           301
+/idea-lab                /lab           301
 /ache                    /redache       301
 /*                       https://journal.tzero.live/:splat  301

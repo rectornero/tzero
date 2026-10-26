@@ -18,6 +18,8 @@ There is no build step and no serverless code.
 | `post.html` | Article page; Netlify serves it for every `/post/<slug>` (see `_redirects`), same slugs as Wix |
 | `posts.html` | Listings: `/posts`, `/posts/categories/<slug>` (Devlog, Studio, Archive) and `/posts/tags/<slug>`, same paths as Wix |
 | `studio.html`, `redache.html` | The studio's page (`/studio`) and Ache's home (`/redache`) |
+| `lab.html`, `assets/js/lab.js`, `assets/css/lab.css` | The Idea Lab (`/lab`): one small idea per Artache game, each with a 30-second toy and a ❤ |
+| `netlify/functions/votes.mjs` | The site's only server code: counts Idea Lab hearts in Netlify Blobs (`GET`/`POST /api/votes`) |
 | `assets/css/site.css` | Styles copied from the approved "Tide and Thread" mockup |
 | `assets/css/pages.css` | Additions: post page and live states |
 | `assets/js/scene.js` | Season scenes, page glow, click effects, the red thread and Ache, ported from the mockup |
@@ -53,6 +55,14 @@ once per post (remembered in localStorage), after that Ache just walks past. Add
 mood and remove it when the news is over. No commit or deploy is needed.
 
 `assets/news.json` is only a fallback for when the tag does not exist on Wix. Delete it once the tag is in use.
+
+## Idea Lab
+
+`/lab` shows small ideas for Artache's games. Each card has a pitch, a picture, a toy and a heart. To add an idea,
+copy an `<article class="idea">` in `lab.html`, give it a new `data-idea` id, add that id to `IDEAS` in
+`netlify/functions/votes.mjs` (unknown ids are refused), and write its toy in `TOYS` in `assets/js/lab.js`. Toys never
+use timers or countdowns. Pictures: put the URL in the card's `<img>` (`src`) and lab.js swaps out the drawn stand-in.
+Hearts are counted by the function; the browser remembers which ideas it hearted (localStorage `tz-lab-hearts`).
 
 ## Netlify credits
 
