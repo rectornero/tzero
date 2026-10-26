@@ -3,6 +3,9 @@
 /* Official lockup (Nero, 2026-10-25): red Artache star + "TZERØ" in navy whatever the skin, only the Ø red */
 .brand span{color:#0a1f44}
 .brand b{color:#d0021b}
+/* Homepage hero: the big title needs the full width below 860px, so the polaroids move under it instead of over the Ø */
+@media (max-width:860px){.hero2{grid-template-columns:minmax(0,1fr)}.board{min-height:320px}}
+.polaroid figcaption{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 footer a{color:var(--sun);text-decoration:underline;text-underline-offset:3px}
 .note a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 #latest-grid[aria-busy=true] .card{opacity:.75}
