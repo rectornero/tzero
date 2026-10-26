@@ -129,3 +129,7 @@ nav a[aria-current=page]{color:var(--red)}
 .project h4 small{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--soft)}
 .project p b{color:var(--ink)}
 .project .meta{margin-top:auto;color:var(--b3)}
+.project .card-pic{border-radius:0}
+.project .card-pic.contain{object-fit:contain;background:radial-gradient(ellipse at 50% 30%,#1f3b63,#0b1630)}
+.pic-note{font-family:var(--mono);font-size:11px;line-height:1.5;color:var(--soft);border-top:1px dashed color-mix(in srgb,var(--b2) 35%,transparent);padding-top:8px;margin-top:auto}
+.pic-note b{color:var(--red);font-weight:500}
