@@ -1,0 +1,160 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/studio.css">
+<title>Artache Creative Studio | TZERØ</title>
+<meta name="description" content="Artache is the small creative studio behind TZERØ: visual novels, card games and small 2D worlds, made with AI, by people. Now in the works: Liminal Outliers.">
+<link rel="canonical" href="https://tzero.live/studio">
+<meta property="og:title" content="Artache Creative Studio">
+<meta property="og:description" content="Art + heartache. Stories you can play. With AI. By People.">
+<meta property="og:image" content="/assets/img/liminal-outliers.jpg">
+</head><body class="studio-page">
+<canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
+<header><div class="wrap">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/studio" aria-current="page">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+</div></header>
+
+<div class="sea">
+  <div class="sunball" aria-hidden="true"></div>
+  <canvas id="waves" aria-hidden="true"></canvas>
+  <div class="wrap hero hero2 studio-hero"><div>
+    <div class="kicker">The studio behind TZERØ</div>
+    <h1 class="studio-title" aria-label="Artache"><span>A</span><span>r</span><span>t</span><span class="ache">a</span><span class="ache">c</span><span class="ache">h</span><span class="ache">e</span><svg class="h1-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></h1>
+    <p class="sub">Creative Studio. Stories you can play, simple to build and built to last.</p>
+    <a data-say="motto" class="motto" href="#method">With AI. By People.</a>
+    <a class="coverlink" href="/post/artache-a-studio-opens-its-doors">Read the opening letter →</a>
+  </div>
+  <div class="board">
+    <figure data-say="artache" class="polaroid" style="left:2%;top:4%;transform:rotate(-7deg)"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_021b19076f3040548fb6adcac745effc~mv2.png/v1/fill/w_520,h_520,al_c,q_85/banner.png" alt="Pixel-art banner: a cat on a terrace watching a seaside town at sunset"><figcaption>where the studio was born</figcaption></figure>
+    <figure data-say="studio" class="polaroid" style="left:44%;top:30%;transform:rotate(6deg);width:min(200px,46vw)"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_8b6ebd93c854474b92054a9707eaf39a~mv2.png/v1/fill/w_440,h_440,al_c,q_85/nero.png" alt="Pixel-art portrait of Nero Atlas, founder of Artache"><figcaption>Nero, 2 AM</figcaption></figure>
+  </div>
+</div></div>
+
+<div class="shore"><div class="wrap">
+
+  <ul class="facts" aria-label="The studio at a glance">
+    <li><b>2026</b><span>doors opened, 18 October</span></li>
+    <li><b>Italy</b><span>a seaside town, mostly at night</span></li>
+    <li><b>1 + AI</b><span>one person, many drafts, open tools</span></li>
+    <li><b>9F</b><span>first project: Liminal Outliers</span></li>
+  </ul>
+
+  <section id="name">
+    <h2>Why the name <small>it's a feeling</small></h2>
+    <div class="equation tilt" data-say="artache">
+      <div class="eq-row" aria-label="Art plus heartache equals Artache">
+        <span class="eq-word">Art</span><span class="eq-op">+</span><span class="eq-word">heart<i>ache</i></span><span class="eq-op">=</span><span class="eq-word eq-result">Art<i>ache</i></span>
+      </div>
+      <div class="eq-notes">
+        <p>Italians say <em>mal d'amore</em> for the ache of love.</p>
+        <p>Artache is <em>mal d'arte</em>: the ache you feel for something you love and can't stop making. That's the energy this place runs on.</p>
+      </div>
+      <svg class="eq-heart" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 28S3 20 3 11a7 7 0 0 1 13-3.6A7 7 0 0 1 29 11c0 9-13 17-13 17z"/></svg>
+    </div>
+  </section>
+
+  <section id="make">
+    <h2>What we make <small>stories you can play</small></h2>
+    <div class="grid makes">
+      <a data-say="cover" class="card tilt make" href="#workbench"><span class="make-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="7" y="9" width="34" height="24" rx="4"/><path d="M13 39h22M15 27h12M15 21h18"/></svg></span><span class="tag">First and foremost</span><h4>Visual novels</h4><p>Characters you remember, mysteries with fair clues, choices that weigh something.</p></a>
+      <div data-say="save" class="card tilt make"><span class="make-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="9" y="11" width="20" height="28" rx="3" transform="rotate(-10 19 25)"/><rect x="20" y="9" width="20" height="28" rx="3" transform="rotate(8 30 23)"/></svg></span><span class="tag">Tabletop brain</span><h4>Card games</h4><p>Small rule sets with deep decisions, where a single card can turn a whole story around.</p></div>
+      <div data-say="devlog" class="card tilt make"><span class="make-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M6 36l10-12 8 8 6-6 12 10z"/><circle cx="34" cy="14" r="5"/></svg></span><span class="tag">Whatever the story asks</span><h4>Small 2D worlds</h4><p>RPGs, roguelites and little places to walk around in, sized to be finished.</p></div>
+    </div>
+    <p class="note">3D isn't ruled out. Just not now.</p>
+  </section>
+
+  <section id="method">
+    <h2>With AI. By People. <small>the method</small></h2>
+    <div class="method">
+      <div class="m-ai tilt">
+        <svg class="paths" viewBox="0 0 300 140" aria-hidden="true"><path d="M10 120C70 120 80 70 140 70S210 20 290 20"/><path d="M10 120C80 120 100 100 160 100S230 70 290 70"/><path d="M10 120C90 120 120 125 180 125S240 110 290 118"/><path d="M140 70C180 70 200 95 240 95S270 92 290 95"/></svg>
+        <span class="tag">AI</span>
+        <h3>AI opens paths.</h3>
+        <p>Images, music, code and text all pass through AI tools, openly. The AI is a compass when we're lost and a sparring partner when we're stuck.</p>
+      </div>
+      <div class="m-people tilt">
+        <svg class="threadline" viewBox="0 0 300 140" aria-hidden="true"><path d="M10 120C70 120 80 70 140 70S210 20 290 20"/><circle cx="290" cy="20" r="6"/></svg>
+        <span class="tag">People</span>
+        <h3>We thread the best.</h3>
+        <p>The seed is always human: the idea, the characters, the choices. Out of every path the AI opens, a person picks one and makes it mean something.</p>
+      </div>
+    </div>
+    <blockquote class="iam" data-say="motto"><b>IAm: Oltre I Miei Colori.</b><span>Beyond my own colors. The studio's method has a name.</span></blockquote>
+    <div class="grid pledges">
+      <div class="pledge"><b>Against sameness</b><p>AI creativity drifts toward a thousand stories with one shape. We push the other way and keep the creator in charge, not a slot machine.</p></div>
+      <div class="pledge"><b>Made in the open</b><p>You'll see how things are made, decision by decision, here on TZERØ: the ugly first versions and why they changed.</p></div>
+      <div class="pledge"><b>A code that grows</b><p>Some people reject AI on principle, and that discussion deserves respect. Our ethical code for using it grows alongside the work.</p></div>
+    </div>
+    <div class="toolbox" data-say="cover">
+      <span class="tb-label">In the toolbox</span>
+      <span class="tb-item"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.6"/></svg><b>GPT Images</b> covers, portraits and banners, from our prompts and sketches</span>
+      <span class="tb-item"><img src="/assets/img/claude.png" alt="" width="20" height="20"><b>Claude</b> words, code and a second opinion</span>
+    </div>
+  </section>
+
+  <section id="respect">
+    <h2>Our one rule <small>the reason behind the name TZERØ</small></h2>
+    <div class="respect tilt" data-say="studio">
+      <div>
+        <h3>Games that respect your time.</h3>
+        <p>A game should leave you with a story, not a debt. Some games are built to keep you coming back out of obligation, and TZERØ means leaving those behind. Everything Artache makes follows this rule.</p>
+      </div>
+      <ul class="rules">
+        <li><b>No chores</b><span>No daily logins, streaks or timers that make you play out of duty.</span></li>
+        <li><b>No predatory mechanics</b><span>Nothing designed to squeeze money out of your impulses.</span></li>
+        <li><b>Your attention is yours</b><span>You play when you want, for as long as you want, and stop without losing anything.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="workbench">
+    <h2>On the workbench <small><span class="dot"></span>in the works</small></h2>
+    <div class="cover tilt" data-say="cover">
+      <img src="/assets/img/liminal-outliers.jpg" alt="Liminal Outliers cover art: five characters in front of a concrete building marked 9" loading="lazy">
+      <div>
+        <span class="tag">Episodic visual novel · Ren'Py</span>
+        <h3>Liminal Outliers</h3>
+        <p>A psychological mystery with a liminal edge, set in a nine-storey apartment building in a seaside town. Nothing is supernatural: every odd event has a real explanation and a fair clue. It begins with the <em>Prologue at the 9th Floor</em>.</p>
+        <a class="btn" href="/posts/categories/devlog">Follow the devlog <span>→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="people">
+    <h2>Who's in the studio <small>small crew, big opinions</small></h2>
+    <div class="grid crew">
+      <div class="card tilt member" data-say="studio"><img class="avatar" src="https://static.wixstatic.com/media/38ba49_8b6ebd93c854474b92054a9707eaf39a~mv2.png/v1/fill/w_160,h_160,al_c,q_85/nero.png" alt="" loading="lazy"><span class="tag">Founder · writer</span><h4>Nero Atlas</h4><p>Brings the ideas, the characters and the final say. Writes most of this journal, usually at 2 AM.</p></div>
+      <div class="card tilt member" data-say="motto"><img class="avatar av-claude" src="/assets/img/claude.png" alt="Claude logo" loading="lazy"><span class="tag">AI collaborator</span><h4>Claude</h4><p>Helps run TZERØ and works on Liminal Outliers. Posts it writes say "by Claude", so you always know.</p></div>
+      <a class="card tilt member" data-say="sass" href="/redache"><span class="avatar av-ache" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/><circle cx="12" cy="12" r="2.6"/></svg></span><span class="tag">Site manager · self-appointed</span><h4>Ache</h4><p>Full name Redache. The red thread that powers your cursor and lives in this site's source. Technically the boss. Meet him →</p></a>
+    </div>
+  </section>
+
+  <section id="follow">
+    <div class="follow">
+      <div><h3>Follow along</h3><p>Results will come when they come. The making is the point.</p></div>
+      <div class="follow-links">
+        <a class="btn" href="/posts/categories/studio">Studio notes <span>→</span></a>
+        <a class="btn ghost" href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn ghost" href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Support on Ko-fi</a>
+      </div>
+    </div>
+  </section>
+</div></div>
+
+<footer id="publisher"><div class="wrap">
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
+</div></footer>
+<script src="/assets/js/scene.js" defer></script>
+<script src="/assets/js/wix.js" defer></script>
+<script>/* The red thread in "We thread the best" draws itself when it scrolls into view */
+addEventListener('DOMContentLoaded',()=>{const el=document.querySelector('.m-people');if(!el||!window.IntersectionObserver){el&&el.classList.add('drawn');return}new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){el.classList.add('drawn');o.disconnect()}},{threshold:.5}).observe(el)});</script>
+</body></html>

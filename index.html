@@ -12,12 +12,12 @@
 <meta name="description" content="TZERØ is the journal of Artache Creative Studio: devlogs, studio notes and essays on games that respect your time. With AI. By People.">
 <meta property="og:title" content="TZERØ">
 <meta property="og:description" content="A journal by Artache Creative Studio. With AI. By People.">
-<meta property="og:image" content="/assets/img/liminal-outliers.jpg">
+<meta property="og:image" content="https://tzero.live/assets/img/liminal-outliers.jpg">
 </head><body>
 <canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
 <header><div class="wrap">
   <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
-  <nav><a href="/#latest">Latest</a><a href="https://journal.tzero.live/posts/categories/devlog">Devlog</a><a href="https://journal.tzero.live/posts/categories/studio">Studio</a><a href="https://journal.tzero.live/posts/categories/archive">Archive</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/studio">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
 </div></header>
 
 <div class="sea">
@@ -31,8 +31,8 @@
     <a class="coverlink" href="/post/artache-a-studio-opens-its-doors">Cover story: Liminal Outliers →</a>
   </div>
   <div class="board">
-    <figure data-say="cover" class="polaroid" style="left:4%;top:2%;transform:rotate(-6deg)"><span class="tape"></span><img src="/assets/img/liminal-outliers.jpg" alt="Liminal Outliers cover art"><figcaption>Liminal Outliers, 9th floor</figcaption></figure>
-    <figure data-say="save" class="polaroid" style="left:40%;top:34%;transform:rotate(5deg);width:min(190px,46vw)"><span class="tape"></span><div class="ph2">Ø</div><figcaption>the first save</figcaption></figure>
+    <figure data-say="cover" class="polaroid" style="right:30%;top:2%;transform:rotate(-6deg);width:min(195px,52vw)"><span class="tape"></span><img src="/assets/img/liminal-outliers.jpg" alt="Liminal Outliers cover art"><figcaption>Liminal Outliers, 9th floor</figcaption></figure>
+    <figure data-say="save" class="polaroid" style="right:0;top:36%;transform:rotate(5deg);width:min(165px,44vw)"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_8039141420034594b8ff3e72f8549454~mv2.jpg/v1/fill/w_400,h_400,al_r,q_82/first-save.jpg" alt="An old CRT screen glowing with a red star: the first save"><figcaption>the first save</figcaption></figure>
   </div>
 </div>
 
@@ -44,22 +44,33 @@
       <a data-say="unite" class="card tilt" href="/post/pokemon-unite-doesnt-have-to-die"><span class="tag">Studio</span><h4>Pokémon UNITE doesn't have to die</h4><p>A leak says the servers could go dark. Here's why that would be a waste.</p><span class="meta">25 Oct 2026 · by Claude</span></a>
       <a data-say="artache" class="card tilt" href="/post/artache-a-studio-opens-its-doors"><span class="tag">Studio</span><h4>Artache: a studio opens its doors</h4><p>Who we are, what we make, and why it's made with AI, by people.</p><span class="meta">18 Oct 2026 · by Nero</span></a>
     </div>
-    <p class="note" id="latest-note">Fresh from the nightly build at journal.tzero.live. Older issues live in the Archive.</p>
+    <p class="note" id="latest-note">Fresh from the nightly build. Older issues live in the <a href="/posts/categories/archive">Archive</a>.</p>
   </section>
 
   <section id="sections">
     <h2>The tapes <small>hover to play</small></h2>
     <div class="grid">
-      <a data-say="devlog" class="cassette tilt s1" href="https://journal.tzero.live/posts/categories/devlog"><div class="lbl"><b>Devlog</b><span>SIDE A</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>How the games get made: scenes, drafts, decisions.</p></a>
-      <a data-say="studio" class="cassette tilt s2" href="https://journal.tzero.live/posts/categories/studio"><div class="lbl"><b>Studio</b><span>SIDE B</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>News and choices from Artache Creative Studio.</p></a>
-      <a data-say="archive" class="cassette tilt s3" href="https://journal.tzero.live/posts/categories/archive"><div class="lbl"><b>Archive</b><span>2017–2026</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>TZERØ's early issues: guides, reviews and essays.</p></a>
+      <a data-say="devlog" class="cassette tilt s1" href="/posts/categories/devlog"><div class="lbl"><b>Devlog</b><span>SIDE A</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>How the games get made: scenes, drafts, decisions.</p></a>
+      <a data-say="studio" class="cassette tilt s2" href="/posts/categories/studio"><div class="lbl"><b>Studio</b><span>SIDE B</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>News and choices from Artache Creative Studio.</p></a>
+      <a data-say="archive" class="cassette tilt s3" href="/posts/categories/archive"><div class="lbl"><b>Archive</b><span>2017–2026</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>TZERØ's early issues since 2017: reviews, essays and the gacha years.</p></a>
     </div>
+  </section>
+
+  <section id="story">
+    <a class="story-band tilt" data-say="story" href="/story">
+      <img class="band-pic" src="https://static.wixstatic.com/media/38ba49_e3e2928e412e4549b229c77c7f654259~mv2.jpg/v1/fill/w_1400,h_600,al_r,q_82/story-path.jpg" alt="" loading="lazy">
+      <span class="tag">Continue?</span>
+      <h3>The story so far</h3>
+      <p>RectorNews in 2017, a tiering team called TZERO, the gacha years, the way out, and a studio. Eleven save points, all from the journal itself.</p>
+      <span class="btn">Load the first save <span>→</span></span>
+      <ol class="band-saves" aria-hidden="true"><li>2017</li><li>2023</li><li>2024</li><li>2025</li><li>2026</li></ol>
+    </a>
   </section>
 </div></div>
 
 <footer id="publisher"><div class="wrap">
-  <div><strong>Published by Artache Creative Studio</strong><br>With AI. By People. AI opens paths. We thread the best.</div>
-  <div><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
 </div></footer>
 <script src="/assets/js/scene.js" defer></script>
 <script src="/assets/js/wix.js" defer></script>
