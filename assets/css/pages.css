@@ -47,6 +47,8 @@ footer a{color:var(--sun);text-decoration:underline;text-underline-offset:3px}
 .post-body figure{margin:8px auto;width:100%}
 .post-body figure img{display:block;width:100%;height:auto;border-radius:8px}
 .post-body figcaption{font-family:"Caveat",cursive;font-size:22px;line-height:1.2;text-align:center;color:var(--soft);margin-top:8px}
+.post-body .scene{margin:1.6em 0}
+.post-body .scene iframe{display:block;width:100%;border:0;border-radius:10px;background:var(--abyss)}
 .post-body .video iframe{display:block;width:100%;aspect-ratio:16/9;height:auto;border:0;border-radius:10px;background:var(--abyss)}
 .post-body .table{overflow-x:auto;background:#fff;border-radius:10px;border:1px solid rgba(26,90,166,.15)}
 .post-body table{border-collapse:collapse;width:100%;font-size:16px;line-height:1.45}
