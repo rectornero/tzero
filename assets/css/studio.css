@@ -68,18 +68,16 @@ a.make h4::after{content:" →";color:var(--b2)}
 .tb-item img{border-radius:50%}
 @media (max-width:760px){.method{grid-template-columns:minmax(0,1fr)}.m-ai,.m-people{min-height:240px}}
 
-/* The criterion, as a countdown to T-0 */
+/* The criterion: games that respect your time */
 .respect{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center;border-radius:14px;padding:clamp(22px,4vw,40px);background:linear-gradient(135deg,var(--b3),var(--abyss));color:var(--sky);box-shadow:0 24px 50px -30px rgba(10,31,68,.7)}
 .respect .tag{color:var(--b1)}
-.respect h3{font-family:var(--display);font-size:clamp(28px,4.4vw,48px);letter-spacing:-.03em;line-height:1.05;margin:8px 0 12px;color:var(--sun)}
+.respect h3{font-family:var(--display);font-size:clamp(28px,4.4vw,48px);letter-spacing:-.03em;line-height:1.05;margin:0 0 12px;color:var(--sun)}
 .respect p{margin:0;max-width:52ch}
-.countdown{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:15px;color:var(--sun)}
-.countdown li{display:flex;gap:14px;align-items:baseline;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.06);transition:background .3s,transform .3s}
-.countdown li span{color:var(--sky);opacity:.85;font-size:13px}
-.countdown li:hover{background:rgba(255,255,255,.14);transform:translateX(6px)}
-.countdown .zero{background:var(--sun);color:var(--abyss);font-weight:500}
-.countdown .zero span{color:var(--abyss);opacity:1}
-.countdown .zero::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);align-self:center;animation:pulse 1.6s infinite}
+.rules{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.rules li{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,.07);border-left:3px solid var(--red);transition:background .3s,transform .3s}
+.rules li:hover{background:rgba(255,255,255,.14);transform:translateX(6px)}
+.rules b{font-family:var(--display);font-size:17px;color:var(--sun)}
+.rules span{font-size:14px;color:var(--sky)}
 @media (max-width:760px){.respect{grid-template-columns:minmax(0,1fr)}}
 
 /* Workbench cover: the Liminal Outliers art keeps its own shape */
@@ -107,6 +105,6 @@ a.member:hover h4{color:var(--red)}
 .studio-page section{scroll-margin-top:80px}
 .studio-page .shore section:last-child{padding-bottom:88px}
 
-@media (prefers-reduced-motion:reduce){.eq-heart,.paths path,.countdown .zero::before,.studio-title .h1-star,.av-ache svg{animation:none}}
+@media (prefers-reduced-motion:reduce){.eq-heart,.paths path,.studio-title .h1-star,.av-ache svg{animation:none}}
 /* The current page in the header nav */
 nav a[aria-current=page]{color:var(--red)}
