@@ -134,7 +134,7 @@ function seek(){if(scene){const tl=pts[N-1];let tx,ty;
   if(TOUCH&&said===target&&performance.now()>sayEnd){const tl=pts[N-1],dx=innerWidth-40,dy=innerHeight-56+Math.sin(tt*2)*4;tl.x+=(dx-tl.x)*.05;tl.y+=(dy-tl.y)*.05;return}
   const b=target.getBoundingClientRect(),tx=b.left+b.width*.5,ty=b.top+Math.min(b.height*.3,60),tl=pts[N-1],dx=tx-tl.x,dy=ty-tl.y,d=Math.hypot(dx,dy);
   tl.x+=dx*.035;tl.y+=dy*.035;
-  if(d<70&&NEWS&&target.dataset.say===NEWS.key&&!caught&&!scene&&newsStage<2){if(newsStage===0){startScene(target);return}newsStage=2;said=target;until=tt+1.6;fsay("I'm okay now. mostly. go read it, it's a good article. a GREAT article. a good one.",2600);return}
+  if(d<70&&NEWS&&target.dataset.say===NEWS.key&&!caught&&!scene&&newsStage<2){if(newsStage===0){startScene(target);return}newsStage=2;said=target;until=tt+1.6;setMood('sad',10);fsay("I'm okay now. mostly. go read it, it's a good article. a GREAT article. a good one.",2600);return}
   if(d<70&&said!==target&&tt>cool&&!caught){said=target;const ms=speak(nextLine(['artache','studio','motto','cover','devlog'].includes(target.dataset.say)&&Math.random()<.5?'proud':target.dataset.say),1);if(ms){cool=tt+ms/1000+4;until=Math.max(until,tt+ms/1000+1.5)}}}
 addEventListener('scroll',()=>{if(target&&target.getBoundingClientRect().bottom<0)pick()},{passive:true});
 
@@ -159,7 +159,7 @@ function menu(text){talk(text,[['Who are you?',()=>talk("A four-point star on a 
 const back=[['Back',()=>menu('What else?')],['Bye!',()=>{talk('See you around!',[]);setTimeout(release,1000)}]];
 function resize(dn){const n=Math.max(20,Math.min(62,N+dn));while(N<n){const l=pts[N-1];pts.push({x:l.x,y:l.y,px:l.x,py:l.y});N++}while(N>n){pts.pop();N--}}
 function release(){caught=null;therapy=false;chat.hidden=true;pick()}
-addEventListener('click',e=>{if(fight||home||scene)return;const tl=pts[N-1];if(!caught&&Math.hypot(e.clientX-tl.x,e.clientY-tl.y)<26){e.stopImmediatePropagation();e.preventDefault();sfx('catch');
+addEventListener('click',e=>{if(fight||home||scene)return;const tl=pts[N-1],dc=Math.hypot(e.clientX-tl.x,e.clientY-tl.y);if(!caught&&dc>=26&&dc<80)setMood('smug',3);if(!caught&&dc<26){e.stopImmediatePropagation();e.preventDefault();sfx('catch');
   caught={x:Math.min(Math.max(e.clientX,40),innerWidth-40),y:Math.min(Math.max(e.clientY,120),innerHeight-40)};say.classList.remove('on');
   chat.hidden=false;chat.style.left=Math.min(caught.x+18,innerWidth-300)+'px';chat.style.top=Math.max(caught.y-20,70)+'px';
   menu(['Ugh. Fine. You caught me. Welcome to Artache, best studio on Earth. In this building.','Ugh. Fine. You caught me.','Hey! Hands off the points!','Okay, okay, lucky click.','Caught? I let you catch me.','Rude. Impressive, but rude.','Unhand me, I\'m a star!'][Math.floor(Math.random()*4)]+' What\'s up?')}
@@ -170,9 +170,19 @@ addEventListener('pointermove',e=>{if(TOUCH||fight||home||scene||caught||tt<dodg
   if(d<60&&!flee&&Math.random()<.35){dodgeCool=tt+5;const ax=tl.x-e.clientX,ay=tl.y-e.clientY,n=Math.hypot(ax,ay)||1;flee={ph:'run',t:0,dx:ax/n,dy:ay/n};sass=1.2}});
 /* moods change Ache's body. Default is the pointy, annoying star; 'satisfied' (treats, pats, winning a fight) puffs him up into a chubby soft star for a while.
    Add a mood here and call setMood(name, seconds) wherever it should start */
-const MOODS={annoying:{inner:.34,round:0,eye:.32,pupil:.15,shade:0},satisfied:{inner:.52,round:.55,eye:.36,pupil:.17,shade:1}};
-const body={...MOODS.annoying};let moodName='annoying',moodUntil=0;
+/* body: inner = how fat the star is, round = soft points, eye/pupil sizes, shade = 3D shading, lid = how far the eyelid drops, dark = duller red, droop = sags down */
+const M0={inner:.34,round:0,eye:.32,pupil:.15,shade:0,lid:0,dark:0,droop:0};
+const MOODS={
+  annoying:M0,
+  satisfied:{...M0,inner:.52,round:.55,eye:.36,pupil:.17,shade:1},          // treat, pats, winning a fight
+  smug:{...M0,lid:.42,pupil:.12},                                              // you miss a catch, or he brags about Artache
+  sulky:{...M0,inner:.3,lid:.3,dark:.35,droop:.12},                            // staked to the page (lasts while staked)
+  sad:{...M0,inner:.4,round:.35,eye:.35,pupil:.19,dark:.55,droop:.18,shade:.5},// the news scene, and a while after it
+  sleepy:{...M0,round:.3,lid:.62,droop:.08},                                   // just woken up in his bed
+  dazed:{...M0,inner:.38,round:.2,pupil:.07,eye:.36}};                         // lying on the floor after tripping
+const body={...M0};let moodName='annoying',moodUntil=0;
 function setMood(n,sec){if(MOODS[n]){moodName=n;moodUntil=tt+sec}}
+function ambientMood(){return scene&&scene.cry?'sad':stake?'sulky':'annoying'}
 function starPath(g,R){const pts=[];for(let k=0;k<8;k++){const r=k%2?R*body.inner:R,a=k*Math.PI/4-Math.PI/2;pts.push([Math.cos(a)*r,Math.sin(a)*r])}
   g.beginPath();if(body.round<.02){pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.closePath();return}
   const m=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
@@ -184,7 +194,7 @@ function fleeStep(){const tl=pts[N-1],f=flee;f.t+=.016;
     if(tl.x<30||tl.x>innerWidth-30)f.dx=-f.dx;if(tl.y<80||tl.y>innerHeight-30)f.dy=-f.dy;tl.x+=f.dx*sp;tl.y+=f.dy*sp+Math.sin(f.t*22)*1.5;
     if(f.t>1.1){f.ph='trip';f.t=0;sfx('hurt');speak(nextLine('trip')||nextLine('sass'),2)}}
   else if(f.ph==='trip'){const k=Math.min(1,f.t/.35);daze=k;tl.x+=f.dx*3*(1-k);tl.y+=(1-k)*2+(k<1?1.5:0);if(f.t>.35){f.ph='down';f.t=0}}
-  else if(f.ph==='down'){daze=1;if(f.t>1.4){f.ph='up';f.t=0}}
+  else if(f.ph==='down'){daze=1;if(f.t<.02)setMood('dazed',1.6);if(f.t>1.4){f.ph='up';f.t=0}}
   else{daze=Math.max(0,1-f.t/.5);tl.y-=1.2*(1-f.t/.5);if(f.t>.5){flee=null;daze=0}}}
 
 function driveStake(){sfx('stake');const h=pts[0];stake={x:h.x+scrollX,y:h.y+scrollY}}
@@ -311,13 +321,13 @@ const slot=document.getElementById('slot');
 function slotPos(){const b=slot.getBoundingClientRect();return{x:b.left+b.width/2,y:b.top+b.height/2}}
 const sleepLines=['five more minutes…','zzz… four points… zzz','I was NOT asleep','ugh, daylight','*yawns in red*','I dreamt I won the fight','who woke the star?'];let sli2=0;
 function goSleep(){if(fight)return;sfx('sleep');caught=null;chat.hidden=true;stake=null;home=true;slot.setAttribute('aria-label','Wake Ache up');fsay('Bedtime? Fine. Don\'t touch my thread.',1600,3);try{localStorage.setItem('ache-asleep','1')}catch(e){}}
-function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');slot.setAttribute('aria-label','Put Ache to sleep');pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();
+function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');slot.setAttribute('aria-label','Put Ache to sleep');pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();setMood('sleepy',7);
   setTimeout(()=>fsay(sleepLines[sli2++%sleepLines.length],1800,3),400);try{localStorage.removeItem('ache-asleep')}catch(e){}}
 slot.addEventListener('click',e=>{e.stopPropagation();home?wakeAche():goSleep()});
 try{if(localStorage.getItem('ache-asleep')){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up')}}catch(e){}
 
 /* Ache can't help bragging about its home studio, then correcting itself */
-setInterval(()=>{if(!fight&&!home&&!caught&&!busy()&&Math.random()<.5)speak(nextLine('proud'),0)},28000);
+setInterval(()=>{if(!fight&&!home&&!caught&&!busy()&&Math.random()<.5&&speak(nextLine('proud'),0))setMood('smug',5)},28000);
 
 /* news awareness: the current story sets Ache's mood (swap this object when the news changes) */
 // News mood comes live from a Wix tag (see WIX.news); assets/news.json is only the fallback until that tag exists
@@ -379,7 +389,7 @@ function endScene(){if(!scene)return;const card=scene.card;card.classList.remove
   sfx('plug');fsay('Plugging you back in. Don\'t get used to being powered.',2200);
   setTimeout(()=>{dim.classList.remove('dark','flicker','dim2');collapse(false)},600);
   setTimeout(()=>{dim.classList.remove('on','block');unplug.hidden=true;document.body.classList.remove('scene');scene=null;
-    fsay('…okay. lights on. I\'m okay. the studio wrote a great article about it. a good article. let\'s keep going.',3200);setTimeout(pick,2500)},1600)}
+    setMood('sad',12);fsay('…okay. lights on. I\'m okay. the studio wrote a great article about it. a good article. let\'s keep going.',3200);setTimeout(pick,2500)},1600)}
 function finish(){scene?endScene():release()}
 
 let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.height);tt+=.016;if(!still)requestAnimationFrame(thread);return}tt+=.016;const h0=pts[0],gx=home?slotPos().x:stake?stake.x-scrollX:TOUCH?pts[N-1].x:hx===null?innerWidth*.6+Math.sin(tt*.4)*innerWidth*.25:hx,gy=home?slotPos().y:stake?stake.y-scrollY:TOUCH?pts[N-1].y:hy===null?160+Math.sin(tt*.7)*50:hy;if(stake&&!scene){h0.x=gx;h0.y=gy}
@@ -407,12 +417,13 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
   for(let i=1;i<N-1;i++){g.quadraticCurveTo(pts[i].x*dpr,pts[i].y*dpr,(pts[i].x+pts[i+1].x)/2*dpr,(pts[i].y+pts[i+1].y)/2*dpr)}g.stroke();}g.globalAlpha=1;
   const tl=pts[N-1],sp=Math.hypot(tl.x-tl.px,tl.y-tl.py);spin+=.02+sp*.04;squash+=(Math.min(.35,sp*.04)-squash)*.2;
   const R=(TOUCH?14:11)*dpr,ang=Math.sin(spin)*.5*(1-daze)+daze*(2.6+Math.sin(tt*3)*.08)+(caught?Math.sin(tt*10)*.15:0);g.save();g.translate(tl.x*dpr,tl.y*dpr);g.rotate(ang);g.scale(1+squash,1-squash*.6);
-  {const M=tt<moodUntil?MOODS[moodName]:MOODS.annoying;for(const k in M)body[k]+=(M[k]-body[k])*.06}
-  let fill='#D0021B';if(body.shade>.05){const gr=g.createRadialGradient(-R*.3,-R*.35,R*.1,0,0,R*1.1);gr.addColorStop(0,'#ec2a3d');gr.addColorStop(.6,'#D0021B');gr.addColorStop(1,'#9c0014');fill=gr}
+  {const M=MOODS[tt<moodUntil?moodName:ambientMood()];for(const k in M)body[k]+=(M[k]-body[k])*.06}g.scale(1,1-body.droop);g.translate(0,body.droop*R*.6);
+  const mix=(a,b)=>'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*body.dark)).join(',')+')',RED=mix([208,2,27],[122,40,58]);let fill=RED;if(body.shade>.05){const gr=g.createRadialGradient(-R*.3,-R*.35,R*.1,0,0,R*1.1);gr.addColorStop(0,mix([236,42,61],[150,60,78]));gr.addColorStop(.6,RED);gr.addColorStop(1,mix([156,0,20],[90,25,40]));fill=gr}
   g.fillStyle=fill;g.shadowColor='rgba(10,31,68,.25)';g.shadowBlur=6*dpr;g.shadowOffsetY=2*dpr;starPath(g,R);g.fill();g.shadowColor='transparent';
   const ex=(hx??tl.x)-tl.x,ey=(hy??tl.y)-tl.y,ed=Math.hypot(ex,ey)||1,look=Math.min(1,ed/60);blinkT-=.016;if(blinkT<-.12)blinkT=2+Math.random()*4;
   const open=blinkT<0?.15:1;g.fillStyle='#fff';g.beginPath();g.ellipse(0,0,R*body.eye,R*body.eye*open,0,0,7);g.fill();
   if(open>.5){g.fillStyle='#0A1F44';g.beginPath();g.arc(ex/ed*R*(body.eye-body.pupil)*.85*look,ey/ed*R*(body.eye-body.pupil)*.85*look,R*body.pupil,0,7);g.fill()}
+  if(body.lid>.02&&open>.5){const er=R*body.eye,y=-er+er*2*body.lid;g.save();g.beginPath();g.ellipse(0,0,er,er,0,0,7);g.clip();g.fillStyle=RED;g.fillRect(-er,-er,er*2,er*2*body.lid);g.restore();g.strokeStyle='#0A1F44';g.lineWidth=1.3*dpr;g.beginPath();g.moveTo(-er*.95,y);g.lineTo(er*.95,y);g.stroke()}
   if(sass>0){sass-=.016;g.strokeStyle='#0A1F44';g.lineWidth=1.4*dpr;g.beginPath();g.moveTo(-R*.3,-R*.48);g.lineTo(R*.25,-R*.4);g.stroke()}
   g.restore();
   if(scene&&scene.cry&&!still){if(Math.random()<.14)tears.push({x:tl.x+(Math.random()-.5)*4,y:tl.y+2,vx:(Math.random()-.5)*.8,vy:-.6,l:1});
