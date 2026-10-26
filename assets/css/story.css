@@ -89,21 +89,26 @@
 .chip{font-family:var(--mono);font-size:13px;padding:7px 13px;border-radius:99px;border:1px solid color-mix(in srgb,var(--b2) 45%,transparent);background:#fff;color:var(--ink)}
 .chip[aria-pressed=true]{background:var(--abyss);color:var(--sun);border-color:var(--abyss)}
 /* one wooden board under every row of cases: rows are the case height + a 24px gap that holds the 14px board */
-.tapes{--h:228px;--w:156px;list-style:none;margin:32px 0 0;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--w),1fr));grid-auto-rows:var(--h);gap:24px 12px;justify-items:center;background:repeating-linear-gradient(180deg,transparent 0 var(--h),#8a5a34 var(--h) calc(var(--h) + 14px),transparent calc(var(--h) + 14px) calc(var(--h) + 24px)) 0 0/100% calc(var(--h) + 24px) repeat-y;border-radius:12px}
+.tapes{--h:236px;--w:140px;list-style:none;margin:32px 0 0;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--w),1fr));grid-auto-rows:var(--h);gap:24px 12px;justify-items:center;background:repeating-linear-gradient(180deg,transparent 0 var(--h),#8a5a34 var(--h) calc(var(--h) + 14px),transparent calc(var(--h) + 14px) calc(var(--h) + 24px)) 0 0/100% calc(var(--h) + 24px) repeat-y;border-radius:12px}
 .tape-item{display:block;width:var(--w);height:var(--h);perspective:900px}
 .tape-item[hidden]{display:none}
 .case{display:block;width:100%;height:100%;color:inherit;text-decoration:none;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
 .case:hover,.case:focus-visible{transform:translateY(-8px)}
 .case-in{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,1.3,.5,1)}
 .case.flipped .case-in{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:6px 6px 3px 3px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:inset 5px 0 0 rgba(0,0,0,.16),0 10px 16px -10px rgba(10,31,68,.65)}
-.back{background:#fbf6ea;color:var(--ink);border-top:10px solid var(--k)}
+/* a VHS clamshell: black plastic frame, ribbed hinge on the left, the paper sleeve inside */
+.face{position:absolute;inset:0;display:flex;flex-direction:column;gap:7px;padding:9px 9px 9px 19px;border:4px solid #1c1a1f;border-radius:5px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 12px 18px -10px rgba(10,31,68,.7)}
+.face::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;z-index:2;background:repeating-linear-gradient(180deg,#2c2930 0 2px,#141216 2px 4px);box-shadow:1px 0 0 rgba(255,255,255,.12)}
+.back{background:#fbf6ea;color:var(--ink)}
 .front{transform:rotateY(180deg);background:var(--k);color:#fff;justify-content:flex-end}
 .k-anime{--k:var(--b3)}.k-game{--k:var(--b2)}.k-design{--k:var(--abyss)}.k-tidbit{--k:#7d8fa8}
-.case-band{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.case-band{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;background:var(--k);color:#fff;padding:3px 6px;border-radius:2px}
+.vhs-window{flex:none;height:28px;border-radius:6px;background:#26232a;display:flex;align-items:center;justify-content:space-around;box-shadow:inset 0 2px 6px rgba(0,0,0,.6)}
+.vhs-window i{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fbf6ea 0 3px,#1c1a1f 3px 4px,#5b4636 4px 9px,#3a2d23 9px 10px)}
 .back .tape-score{align-self:flex-start;font-size:10.5px;line-height:1.3;padding:2px 0 2px 7px;border-radius:0;background:none;color:var(--red);border-left:3px solid var(--red);font-weight:600}
 .case-hook{flex:1 1 auto;min-height:0;font-size:12.5px;line-height:1.35;font-style:italic;color:var(--soft);overflow:hidden;-webkit-mask-image:linear-gradient(180deg,#000 75%,transparent);mask-image:linear-gradient(180deg,#000 75%,transparent)}
-.case-foot{flex:none;margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:6px;font-family:var(--mono);font-size:9px;opacity:.7}
+.case-foot{flex:none;margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:6px;font-family:var(--mono);font-size:9px;opacity:.7;white-space:nowrap}
+.case-foot .barcode{width:44px}
 .barcode{width:58px;height:22px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 3px,var(--ink) 3px 4px,transparent 4px 6px,var(--ink) 6px 9px,transparent 9px 10px)}
 .case-hint{font-family:var(--mono);font-size:10px;text-align:center;opacity:.6}
 .front img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -111,12 +116,14 @@
 .ph3{position:absolute;inset:0;display:grid;place-items:center;font-size:48px;opacity:.5}
 .case-title,.front .case-hint{position:relative;z-index:1}
 .case-title{display:flex;flex-direction:column;gap:4px}
+.vhs-logo{position:absolute;z-index:1;top:8px;right:8px;font:italic 900 12px/1 var(--display);letter-spacing:.04em;color:#fff;border:2px solid #fff;border-radius:3px;padding:2px 5px;background:rgba(0,0,0,.35)}
+.vhs-house{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
 .case-title b{font-family:var(--display);font-size:17px;line-height:1.15;letter-spacing:-.01em}
 .case-title .tag{font-size:10px;color:var(--sun)!important}
 .front .case-hint{opacity:.85;color:var(--sun)}
 @media (prefers-reduced-motion:reduce){.case-in,.case{transition:none}}
 .tape-score{display:inline-block;font-family:var(--mono);font-size:13px;padding:4px 10px;border-radius:99px;background:var(--red);color:#fff}
-@media (max-width:560px){.tapes{--w:146px;--h:214px;padding:0 8px;gap:24px 8px}}
+@media (max-width:560px){.tapes{--w:140px;--h:236px;padding:0 8px;gap:24px 8px}}
 
 /* Save slots */
 .slots{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
@@ -154,3 +161,4 @@ a.slot-card h4::after{content:" →";color:var(--b2)}
 .rc-src{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:12px}
 .rc-src a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .rc-src a:hover{color:var(--red)}
+.polaroid img.whole{aspect-ratio:auto;height:auto;max-height:300px;object-fit:contain;background:#f3eee2}
