@@ -108,3 +108,24 @@ a.member:hover h4{color:var(--red)}
 @media (prefers-reduced-motion:reduce){.eq-heart,.paths path,.studio-title .h1-star,.av-ache svg{animation:none}}
 /* The current page in the header nav */
 nav a[aria-current=page]{color:var(--red)}
+
+/* Mission, Statement of Conduct and the project shelf */
+.mission{margin:0 0 18px;padding:18px 22px;border-left:4px solid var(--red);background:#fff;border-radius:0 12px 12px 0;display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 34px -24px rgba(26,90,166,.5)}
+.mission b{font-family:var(--display);font-size:clamp(20px,2.6vw,26px);line-height:1.2;letter-spacing:-.02em}
+.mission span{color:var(--soft);font-size:15px}
+.conduct{margin-top:22px}
+.conduct h3{font-family:var(--display);font-size:24px;margin:0;display:flex;align-items:center;gap:10px}
+.draft{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px dashed var(--red);color:var(--red)}
+.conduct .note{margin:4px 0 14px}
+.conduct-list{list-style:none;margin:0;padding:0;counter-reset:c;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.conduct-list li{counter-increment:c;position:relative;background:#fff;border-radius:12px;padding:16px 16px 16px 50px;display:flex;flex-direction:column;gap:4px;border:1px solid rgba(26,90,166,.12)}
+.conduct-list li::before{content:counter(c);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--abyss);color:var(--sun);font:600 13px var(--mono)}
+.conduct-list b{font-family:var(--display);font-size:17px}
+.conduct-list span{color:var(--soft);font-size:14px}
+.never-die{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.never-die span:not(.tb-label){font-size:14px;padding:6px 12px;border-radius:99px;background:#fff;border:1px solid color-mix(in srgb,var(--b2) 30%,transparent)}
+.projects{margin-top:22px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.project{border-top:4px solid var(--acc,var(--b2))}
+.project h4 small{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--soft)}
+.project p b{color:var(--ink)}
+.project .meta{margin-top:auto;color:var(--b3)}
