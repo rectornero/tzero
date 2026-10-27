@@ -10,4 +10,6 @@
 /redache                 /redache.html  200
 /story                   /story.html    200
 /ache                    /redache       301
+/scrapbook               /scrapbook.html 200
+/stickers                /scrapbook     301
 /*                       https://journal.tzero.live/:splat  301
