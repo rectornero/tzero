@@ -1,0 +1,691 @@
+[
+ {
+  "id": "miriam-1",
+  "item": "miriam",
+  "path": "/",
+  "anchor": "#latest",
+  "img": "/assets/img/caw/token/miriam.png",
+  "style": {
+   "top": "-14px",
+   "right": "8%"
+  },
+  "hint": "On the front page, where the newest stories wash up.",
+  "say": "Found Miriam! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "miriam-2",
+  "item": "miriam",
+  "path": "/studio",
+  "anchor": ".facts",
+  "img": "/assets/img/caw/token/miriam.png",
+  "style": {
+   "top": "-16px",
+   "right": "4%"
+  },
+  "hint": "On the studio page, next to the ninth floor.",
+  "say": "Found Miriam! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "miriam-3",
+  "item": "miriam",
+  "path": "/lab",
+  "anchor": "[data-idea=lmo-light]",
+  "img": "/assets/img/caw/token/miriam.png",
+  "style": {
+   "top": "-14px",
+   "right": "12px"
+  },
+  "hint": "In the Idea Lab, close to a warm light.",
+  "say": "Found Miriam! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "miriam-4",
+  "item": "miriam",
+  "path": "/posts/categories/devlog",
+  "anchor": ".shelf-head",
+  "img": "/assets/img/caw/token/miriam.png",
+  "style": {
+   "top": "-6px",
+   "right": "2%"
+  },
+  "hint": "On the Devlog shelf, where her game gets made.",
+  "say": "Found Miriam! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "free-1",
+  "item": "free",
+  "path": "/",
+  "anchor": "footer#publisher",
+  "img": "/assets/img/caw/token/free.png",
+  "style": {
+   "top": "-18px",
+   "left": "10%"
+  },
+  "hint": "At the very bottom of the front page. Nobody looks there. That's why he likes it.",
+  "say": "Found Free! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "free-2",
+  "item": "free",
+  "path": "/studio",
+  "anchor": "#people",
+  "img": "/assets/img/caw/token/free.png",
+  "style": {
+   "top": "-14px",
+   "right": "6%"
+  },
+  "hint": "Among the people on the studio page, standing very still.",
+  "say": "Found Free! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "free-3",
+  "item": "free",
+  "path": "/story",
+  "anchor": "#slots",
+  "img": "/assets/img/caw/token/free.png",
+  "style": {
+   "top": "-14px",
+   "left": "4%"
+  },
+  "hint": "On the story page, by the save slots.",
+  "say": "Found Free! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "free-4",
+  "item": "free",
+  "path": "/posts",
+  "anchor": ".shelf-head",
+  "img": "/assets/img/caw/token/free.png",
+  "style": {
+   "top": "-6px",
+   "right": "2%"
+  },
+  "hint": "In the list of all posts, at the top, being easy to miss.",
+  "say": "Found Free! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "kristoph-1",
+  "item": "kristoph",
+  "path": "/studio",
+  "anchor": "#method",
+  "img": "/assets/img/caw/token/kristoph.png",
+  "style": {
+   "top": "-14px",
+   "right": "3%"
+  },
+  "hint": "On the studio page, where the method is explained. He has opinions.",
+  "say": "Found Kristoph! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "kristoph-2",
+  "item": "kristoph",
+  "path": "/story",
+  "anchor": "#shelf",
+  "img": "/assets/img/caw/token/kristoph.png",
+  "style": {
+   "top": "-14px",
+   "right": "3%"
+  },
+  "hint": "On the story page, by the shelf. Inspecting it like an investor.",
+  "say": "Found Kristoph! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "kristoph-3",
+  "item": "kristoph",
+  "path": "/posts/categories/studio",
+  "anchor": ".shelf-head",
+  "img": "/assets/img/caw/token/kristoph.png",
+  "style": {
+   "top": "-6px",
+   "right": "2%"
+  },
+  "hint": "On the Studio shelf. Of course he went to the business section.",
+  "say": "Found Kristoph! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "kristoph-4",
+  "item": "kristoph",
+  "path": "/",
+  "anchor": "#sections",
+  "img": "/assets/img/caw/token/kristoph.png",
+  "style": {
+   "top": "-14px",
+   "left": "6%"
+  },
+  "hint": "On the front page, where the sections are laid out like a company chart.",
+  "say": "Found Kristoph! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "nero-1",
+  "item": "nero",
+  "path": "/post/contrary-quest-devlog-1",
+  "anchor": "#article",
+  "img": "/assets/img/caw/token/nero.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In the very first ContraryQuest devlog, in the Archive. Avoiding it.",
+  "say": "Found Nero of Fourleaves! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "nero-2",
+  "item": "nero",
+  "path": "/lab",
+  "anchor": "[data-idea=cnq-no]",
+  "img": "/assets/img/caw/token/nero.png",
+  "style": {
+   "top": "-14px",
+   "right": "12px"
+  },
+  "hint": "In the Idea Lab, next to the idea about saying no.",
+  "say": "Found Nero of Fourleaves! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "nero-3",
+  "item": "nero",
+  "path": "/",
+  "anchor": ".story-band",
+  "img": "/assets/img/caw/token/nero.png",
+  "style": {
+   "bottom": "-12px",
+   "left": "8%"
+  },
+  "hint": "Napping under the story band on the front page.",
+  "say": "Found Nero of Fourleaves! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "nero-4",
+  "item": "nero",
+  "path": "/scrapbook",
+  "anchor": ".scrap-intro",
+  "img": "/assets/img/caw/token/nero.png",
+  "style": {
+   "top": "-12px",
+   "right": "4%"
+  },
+  "hint": "In Ache's scrapbook. Not collecting anything. Just sitting.",
+  "say": "Found Nero of Fourleaves! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "agata-1",
+  "item": "agata",
+  "path": "/post/contrary-quest-devlog-1",
+  "anchor": ".post-side",
+  "img": "/assets/img/caw/token/agata.png",
+  "style": {
+   "top": "-14px",
+   "left": "8px"
+  },
+  "hint": "Next to the first ContraryQuest devlog, keeping an eye on her grandson.",
+  "say": "Found Agata! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "agata-2",
+  "item": "agata",
+  "path": "/studio",
+  "anchor": "#make",
+  "img": "/assets/img/caw/token/agata.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "On the studio page, where things get made. Something smells good.",
+  "say": "Found Agata! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "agata-3",
+  "item": "agata",
+  "path": "/story",
+  "anchor": "#saves",
+  "img": "/assets/img/caw/token/agata.png",
+  "style": {
+   "top": "-14px",
+   "right": "3%"
+  },
+  "hint": "On the story page, by the save points. Saves are like leftovers: always keep some.",
+  "say": "Found Agata! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "agata-4",
+  "item": "agata",
+  "path": "/posts/categories/archive",
+  "anchor": ".shelf-head",
+  "img": "/assets/img/caw/token/agata.png",
+  "style": {
+   "top": "-6px",
+   "right": "2%"
+  },
+  "hint": "On the Archive shelf, tidying it.",
+  "say": "Found Agata! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "prima-1",
+  "item": "prima",
+  "path": "/lab",
+  "anchor": "[data-idea=ice-handshake]",
+  "img": "/assets/img/caw/token/prima.png",
+  "style": {
+   "top": "-14px",
+   "right": "12px"
+  },
+  "hint": "In the Idea Lab, by the handshake.",
+  "say": "Found Prima! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "prima-2",
+  "item": "prima",
+  "path": "/story",
+  "anchor": "#loop",
+  "img": "/assets/img/caw/token/prima.png",
+  "style": {
+   "top": "-14px",
+   "right": "3%"
+  },
+  "hint": "On the story page, by the loop. She keeps doors open, even that one.",
+  "say": "Found Prima! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "prima-3",
+  "item": "prima",
+  "path": "/post/bushiroad-aiming-to-be-the-1-tcg-company",
+  "anchor": "#article",
+  "img": "/assets/img/caw/token/prima.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In an old Archive post about the card game business.",
+  "say": "Found Prima! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "prima-4",
+  "item": "prima",
+  "path": "/studio",
+  "anchor": "#workbench",
+  "img": "/assets/img/caw/token/prima.png",
+  "style": {
+   "top": "-14px",
+   "right": "3%"
+  },
+  "hint": "On the studio's workbench, where AI◆ICE is still being built.",
+  "say": "Found Prima! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "aqua-1",
+  "item": "aqua",
+  "path": "/",
+  "anchor": ".sea",
+  "img": "/assets/img/caw/token/aqua.png",
+  "style": {
+   "bottom": "64px",
+   "left": "12%"
+  },
+  "hint": "In the sea on the front page. Listen for the drums.",
+  "say": "Found Aqua Beat! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "aqua-2",
+  "item": "aqua",
+  "path": "/post/lets-talk-about-gacha-rhythm-games",
+  "anchor": "#article",
+  "img": "/assets/img/caw/token/aqua.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In an old Archive post about rhythm games.",
+  "say": "Found Aqua Beat! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "aqua-3",
+  "item": "aqua",
+  "path": "/post/how-not-to-play-rhythm-games",
+  "anchor": "#article",
+  "img": "/assets/img/caw/token/aqua.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In the Archive, in a post about how NOT to play rhythm games.",
+  "say": "Found Aqua Beat! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "aqua-4",
+  "item": "aqua",
+  "path": "/studio",
+  "anchor": "#follow",
+  "img": "/assets/img/caw/token/aqua.png",
+  "style": {
+   "top": "-14px",
+   "right": "6%"
+  },
+  "hint": "Where the studio says follow along. She's leading the parade.",
+  "say": "Found Aqua Beat! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "vesper-1",
+  "item": "vesper",
+  "path": "/lab",
+  "anchor": "[data-idea=ovg-night]",
+  "img": "/assets/img/caw/token/vesper.png",
+  "style": {
+   "top": "-14px",
+   "right": "12px"
+  },
+  "hint": "In the Idea Lab, out on Soul Street at night.",
+  "say": "Found Vesper Kade! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "vesper-2",
+  "item": "vesper",
+  "path": "/redache",
+  "anchor": ".ide-term",
+  "img": "/assets/img/caw/token/vesper.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In Ache's terminal. Making a deal with it.",
+  "say": "Found Vesper Kade! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "vesper-3",
+  "item": "vesper",
+  "path": "/posts/categories/archive",
+  "anchor": "#shelf-grid",
+  "img": "/assets/img/caw/token/vesper.png",
+  "style": {
+   "top": "-14px",
+   "left": "3%"
+  },
+  "hint": "Somewhere among the Archive posts, running a night market.",
+  "say": "Found Vesper Kade! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "vesper-4",
+  "item": "vesper",
+  "path": "/story",
+  "anchor": "#name",
+  "img": "/assets/img/caw/token/vesper.png",
+  "style": {
+   "top": "-14px",
+   "right": "3%"
+  },
+  "hint": "On the story page, where the name is explained. Everyone sees her Zone.",
+  "say": "Found Vesper Kade! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "bianca-1",
+  "item": "bianca",
+  "path": "/lab",
+  "anchor": "[data-idea=ded-rewind]",
+  "img": "/assets/img/caw/token/bianca.png",
+  "style": {
+   "top": "-14px",
+   "right": "12px"
+  },
+  "hint": "In the Idea Lab, by the dead ends that teach.",
+  "say": "Found Bianca! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "bianca-2",
+  "item": "bianca",
+  "path": "/post/quitting-gacha",
+  "anchor": "#article",
+  "img": "/assets/img/caw/token/bianca.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In an old Archive post about quitting gacha. She was glad to find it.",
+  "say": "Found Bianca! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "bianca-3",
+  "item": "bianca",
+  "path": "/scrapbook",
+  "anchor": "#book",
+  "img": "/assets/img/caw/token/bianca.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In Ache's scrapbook, on the cover.",
+  "say": "Found Bianca! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "bianca-4",
+  "item": "bianca",
+  "path": "/story",
+  "anchor": ".story-hero",
+  "img": "/assets/img/caw/token/bianca.png",
+  "style": {
+   "bottom": "-10px",
+   "right": "8%"
+  },
+  "hint": "At the top of the story page, where it all begins.",
+  "say": "Found Bianca! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "norman-1",
+  "item": "norman",
+  "path": "/lab",
+  "anchor": ".lab-board",
+  "img": "/assets/img/caw/token/norman.png",
+  "style": {
+   "top": "-14px",
+   "left": "6%"
+  },
+  "hint": "On the Idea Lab's board, reading it aloud.",
+  "say": "Found Norman! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "norman-2",
+  "item": "norman",
+  "path": "/redache",
+  "anchor": ".src-note",
+  "img": "/assets/img/caw/token/norman.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In Ache's source code, reading the comments like an old book.",
+  "say": "Found Norman! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "norman-3",
+  "item": "norman",
+  "path": "/studio",
+  "anchor": "#respect",
+  "img": "/assets/img/caw/token/norman.png",
+  "style": {
+   "top": "-14px",
+   "right": "3%"
+  },
+  "hint": "On the studio page, where respect for your time is promised.",
+  "say": "Found Norman! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "norman-4",
+  "item": "norman",
+  "path": "/posts/categories/archive",
+  "anchor": ".crumbs",
+  "img": "/assets/img/caw/token/norman.png",
+  "style": {
+   "top": "-10px",
+   "right": "2%"
+  },
+  "hint": "In the Archive. 'Twas a fine archive.",
+  "say": "Found Norman! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "ache-1",
+  "item": "ache",
+  "path": "/redache",
+  "anchor": "#code",
+  "img": "/assets/img/caw/token/ache.png",
+  "style": {
+   "top": "8px",
+   "right": "14px"
+  },
+  "hint": "Where he lives, in his own source code.",
+  "say": "Found Ache! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "ache-2",
+  "item": "ache",
+  "path": "/scrapbook",
+  "anchor": "#stats",
+  "img": "/assets/img/caw/token/ache.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In his scrapbook, counting your stickers.",
+  "say": "Found Ache! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "ache-3",
+  "item": "ache",
+  "path": "/story",
+  "anchor": ".thread-line",
+  "img": "/assets/img/caw/token/ache.png",
+  "style": {
+   "top": "-14px",
+   "right": "5%"
+  },
+  "hint": "On the story page, on the red thread.",
+  "say": "Found Ache! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "ache-4",
+  "item": "ache",
+  "path": "/",
+  "anchor": "#story",
+  "img": "/assets/img/caw/token/ache.png",
+  "style": {
+   "top": "-14px",
+   "right": "5%"
+  },
+  "hint": "On the front page, guarding the story.",
+  "say": "Found Ache! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "k-spinner-1",
+  "item": "k-spinner",
+  "path": "/posts/categories/devlog",
+  "anchor": "#shelf-grid",
+  "img": "/assets/img/caw/token/k-spinner.png",
+  "style": {
+   "top": "-14px",
+   "left": "3%"
+  },
+  "hint": "Spinning somewhere on the Devlog shelf.",
+  "say": "Found Red fidget spinner! A keepsake for your shelf. See them on /characters."
+ },
+ {
+  "id": "k-teacup-1",
+  "item": "k-teacup",
+  "path": "/studio",
+  "anchor": "#name",
+  "img": "/assets/img/caw/token/k-teacup.png",
+  "style": {
+   "top": "-14px",
+   "right": "3%"
+  },
+  "hint": "On the studio page, by the name. Still warm.",
+  "say": "Found Floral teacup! A keepsake for your shelf. See them on /characters."
+ },
+ {
+  "id": "k-intercom-1",
+  "item": "k-intercom",
+  "path": "/",
+  "anchor": ".shore",
+  "img": "/assets/img/caw/token/k-intercom.png",
+  "style": {
+   "top": "10px",
+   "right": "2%"
+  },
+  "hint": "On the front page, where the sea meets the shore. Press the buzzer.",
+  "say": "Found Brass intercom! A keepsake for your shelf. See them on /characters."
+ },
+ {
+  "id": "k-clover-1",
+  "item": "k-clover",
+  "path": "/post/contrary-quest-devlog-1",
+  "anchor": ".post-foot",
+  "img": "/assets/img/caw/token/k-clover.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "At the end of the first ContraryQuest devlog.",
+  "say": "Found Four-leaf clover charm! A keepsake for your shelf. See them on /characters."
+ },
+ {
+  "id": "k-pin-1",
+  "item": "k-pin",
+  "path": "/studio",
+  "anchor": ".toolbox",
+  "img": "/assets/img/caw/token/k-pin.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In the studio's toolbox.",
+  "say": "Found Wooden hairpin! A keepsake for your shelf. See them on /characters."
+ },
+ {
+  "id": "k-bow-1",
+  "item": "k-bow",
+  "path": "/lab",
+  "anchor": ".lab-rules",
+  "img": "/assets/img/caw/token/k-bow.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "By the Idea Lab's rules.",
+  "say": "Found Star's Reach! A keepsake for your shelf. See them on /characters."
+ },
+ {
+  "id": "k-pact-1",
+  "item": "k-pact",
+  "path": "/redache",
+  "anchor": ".term-head",
+  "img": "/assets/img/caw/token/k-pact.png",
+  "style": {
+   "top": "-12px",
+   "right": "30%"
+  },
+  "hint": "On top of Ache's terminal. Signed in public.",
+  "say": "Found Clique Peer pact! A keepsake for your shelf. See them on /characters."
+ },
+ {
+  "id": "k-file-1",
+  "item": "k-file",
+  "path": "/posts",
+  "anchor": "#crumbs",
+  "img": "/assets/img/caw/token/k-file.png",
+  "style": {
+   "top": "-10px",
+   "right": "2%"
+  },
+  "hint": "In the list of all posts. Filed, of course.",
+  "say": "Found Case file! A keepsake for your shelf. See them on /characters."
+ },
+ {
+  "id": "k-spool-1",
+  "item": "k-spool",
+  "path": "/redache",
+  "anchor": ".ide-tabs",
+  "img": "/assets/img/caw/token/k-spool.png",
+  "style": {
+   "top": "-12px",
+   "right": "4%"
+  },
+  "hint": "On the tabs of Ache's editor.",
+  "say": "Found Red thread spool! A keepsake for your shelf. See them on /characters."
+ }
+]

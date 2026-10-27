@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/characters.css">
+<title>Characters Across Worlds | TZERØ</title>
+<meta name="description" content="Characters from every Artache game, with spoiler-free data sheets and crossover meetings. Ache runs a star shop that teaches how gacha takes your money and time, then breaks it, and the characters scatter across the site for you to find.">
+<link rel="canonical" href="https://tzero.live/characters">
+<meta property="og:title" content="Characters Across Worlds">
+<meta property="og:description" content="Ache tried to sell you stars. Then he broke the machine. Now go find them.">
+<meta property="og:image" content="/assets/img/caw/banner/miriam.webp">
+</head><body class="caw-page">
+<canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
+<header><div class="wrap">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/characters" aria-current="page">Characters</a><a href="/studio">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+</div></header>
+
+<div class="sea">
+  <div class="sunball" aria-hidden="true"></div>
+  <canvas id="waves" aria-hidden="true"></canvas>
+  <div class="wrap hero caw-hero"><div>
+    <div class="kicker">Every Artache world, one shelf</div>
+    <h1 class="caw-title">Characters<br><span>Across Worlds</span></h1>
+    <p class="sub">Characters from every Artache game, with spoiler-free data sheets and crossover meetings. First, Ache has something to sell you.</p>
+    <p class="hero-links"><a class="btn" href="#lesson">Enter the shop <span>→</span></a> <a class="skip" href="#journey" id="skip">Skip to the journey</a></p>
+  </div></div>
+</div>
+
+<div class="shore"><div class="wrap">
+
+  <aside class="door">
+    <p><b>A note before you go in.</b> The shop below is a lesson: it shows how a gacha game takes money, attention and time, using pretend prices only. Nothing on this site costs anything, ever. If you're quitting gacha, you can <a href="#journey" id="skip2">skip straight to the journey</a>, and the <a href="/posts/tags/inside-the-loop">Inside the Loop</a> essays are here when you want them.</p>
+  </aside>
+
+  <section id="lesson" class="lesson">
+    <h2>Ache's star shop <small id="lesson-step">a lesson in six pulls of the lever</small></h2>
+    <div class="shop">
+      <div class="machine" id="machine">
+        <div class="m-banner" id="m-banner">
+          <div class="m-art" id="m-art"></div>
+          <span class="m-limited">LIMITED</span>
+          <div class="m-date" id="m-date"><span id="m-date-t">Miriam's banner ends 31 October</span><button type="button" class="unchain" id="unchain" hidden>Unchain time</button></div>
+        </div>
+        <div class="m-wallet">
+          <span class="gem" title="Gems"><i aria-hidden="true">◆</i><b id="gems">0</b> Gems</span>
+          <span class="tix"><i aria-hidden="true">✦</i><b id="tix">0</b> Tickets</span>
+          <span class="pity" id="pity">Pity: <b>hidden</b></span>
+          <button type="button" class="rates" id="rates">≡ Details</button>
+        </div>
+        <div class="m-rates" id="m-rates" hidden></div>
+        <div class="m-results" id="m-results" aria-live="polite"></div>
+        <div class="m-inv" id="m-inv"></div>
+        <button type="button" class="backroom-btn" id="backroom-btn" hidden>STAFF ONLY</button>
+        <div class="backroom" id="backroom" hidden>
+          <div class="term-head"><span>THE HOUSE'S CONTROLS</span><span>ache@shop:~/backroom</span></div>
+          <label class="slide"><span>★5</span><input type="range" min="0" max="100" step="0.1" id="o5"><b id="o5v"></b></label>
+          <label class="slide"><span>★4</span><input type="range" min="0" max="100" step="0.1" id="o4"><b id="o4v"></b></label>
+          <div class="br-row"><button type="button" id="br-gems">give 10,000 Gems</button><button type="button" id="br-gold">all gold</button><button type="button" id="br-reset">house odds</button></div>
+          <div class="br-row"><select id="br-target" aria-label="Character to hand over"></select><button type="button" id="br-take">just hand it over</button></div>
+          <p class="br-note" id="br-note">The house could always set these. You just never saw the panel.</p>
+        </div>
+        <div class="shards" id="shards" aria-hidden="true"></div>
+      </div>
+
+      <div class="seller" id="seller">
+        <div class="ache-seller" id="ache-seller" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><path class="hood" d="M60 6C30 6 14 34 14 62c0 22 8 40 16 50h60c8-10 16-28 16-50C106 34 90 6 60 6z"/><path class="star" d="M60 30l6.5 23.5L90 60l-23.5 6.5L60 90l-6.5-23.5L30 60l23.5-6.5z"/><circle class="eye" cx="60" cy="60" r="6"/><path class="grin" d="M48 76q12 9 24 0"/></svg>
+        </div>
+        <div class="bubble" id="bubble" aria-live="polite"></div>
+        <div class="clips" id="clips"></div>
+        <div class="seller-btns"><button type="button" class="btn next" id="next">Next</button><button type="button" class="btn act" id="act" hidden></button></div>
+        <ol class="manual" id="manual" aria-label="Ache's manual"></ol>
+      </div>
+
+      <div class="receipt-box" id="receipt">
+        <b>RECEIPT</b>
+        <dl><dt>Money</dt><dd id="r-eur">0.00 €</dd><dt>Time lent</dt><dd id="r-hours">0 h</dd><dt>Days you must log in</dt><dd id="r-days">0</dd><dt>Pulls</dt><dd id="r-pulls">0</dd></dl>
+        <small>Pretend prices. Nothing here can take a real cent.</small>
+      </div>
+    </div>
+  </section>
+
+  <section id="journey" class="journey" hidden>
+    <h2>The real journey <small id="journey-count"></small></h2>
+    <p class="journey-intro">The machine is gone. Its characters are hiding all over the site, each in places that belong to their world. Find a character and they follow you here. Every find is a copy: the second shows their notes, the third a quote, the fourth a secret outfit. Nothing expires, nothing costs, nothing is random.</p>
+    <div class="recent" id="recent"></div>
+    <div class="shelf" id="shelf"></div>
+
+    <h2 id="bonds">Crossover meetings <small>two worlds, one table</small></h2>
+    <p class="note">When two characters from different worlds are both on your shelf, they can meet. Find the right keepsake and they say one more thing.</p>
+    <div class="bonds">
+      <svg class="web" id="web" viewBox="0 0 400 400" role="img" aria-label="Who has met whom"></svg>
+      <ol class="meet-list" id="meet-list"></ol>
+    </div>
+    <h2 id="fire">The campfire <small id="fire-count"></small></h2>
+    <div class="campfire" id="campfire"></div>
+
+    <p class="note"><button type="button" class="linkish" id="replay">Visit Ache's shop again</button> (it's still broken, he made sure)</p>
+  </section>
+
+  <p class="note credits">Banner art: GPT redraws of each game's official art, made for this page. AI◆ICE is in development: cards, box and art will change. DeadenD sprites by Elzee (CC BY-NC-SA 4.0); the redrawn DeadenD banners are shared under the same licence. Overgame's Vesper Kade is an invented demo player. Final Fantasy, Mass Effect, Fire Emblem and Pokémon belong to their owners and are named here with love; the videos are the publishers' own uploads and load from YouTube only when you press play. Your collection lives in this browser's save file, next to Ache's scrapbook.</p>
+</div></div>
+
+<dialog class="sheet" id="sheet"><div class="sheet-in" id="sheet-in"></div></dialog>
+
+<footer id="publisher"><div class="wrap">
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
+</div></footer>
+<script src="/assets/js/scene.js" defer></script>
+<script src="/assets/js/characters.js" defer></script>
+</body></html>

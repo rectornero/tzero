@@ -1,0 +1,1064 @@
+{
+ "_note": "Characters Across Worlds. Public facts only (Nero's info pack + cleared image packs, 2026-10-26). Never add plot, twists, Miriam's gift, the CNQ twist, DeadenD's culprit or endings. Meeting lines and lesson lines are drafts for Nero to edit. No currency anywhere: pulls exist only inside the scripted lesson; characters are found across the site (assets/caw-spots.json).",
+ "rules": {
+  "maxCopies": 4
+ },
+ "worlds": {
+  "lmo": {
+   "name": "Liminal Outliers",
+   "short": "LMO",
+   "color": "#8cc63f",
+   "line": "A psychological mystery visual novel in a white seaside block of flats."
+  },
+  "cnq": {
+   "name": "ContraryQuest",
+   "short": "CNQ",
+   "color": "#3f8a3a",
+   "line": "A brief, witty RPG in Storybook ink, starring a (Not a) hero."
+  },
+  "ice": {
+   "name": "AI◆ICE",
+   "short": "ICE",
+   "color": "#ffcf9a",
+   "line": "A two-player card game where AIs fight to remember mankind's dreams. Work in progress.",
+   "wip": true
+  },
+  "ovg": {
+   "name": "Overgame",
+   "short": "OVG",
+   "color": "#7a1420",
+   "line": "A social strategy game of favours and Contracts on Soul Street, at night."
+  },
+  "ded": {
+   "name": "DeadenD",
+   "short": "DED",
+   "color": "#b3272d",
+   "line": "Nero's 2018 noir visual novel. Some memories are better left forgotten."
+  },
+  "tz0": {
+   "name": "TZERØ",
+   "short": "TZ0",
+   "color": "#d7182a",
+   "line": "The journal itself, and the critter who runs it."
+  }
+ },
+ "items": [
+  {
+   "id": "miriam",
+   "kind": "char",
+   "world": "lmo",
+   "stars": 5,
+   "name": "Miriam",
+   "title": "The girl at the fence",
+   "ref": "miriam.webp",
+   "refAlt": "Character sheet of Miriam: long dark hair, olive bomber jacket, red plaid scarf, star and heart socks, a red fidget spinner and a floral teacup.",
+   "refCredit": "Liminal Outliers character sheet. AI-generated under Nero's art direction.",
+   "facts": [
+    [
+     "Age",
+     "18"
+    ],
+    [
+     "Home",
+     "A white nine-storey block of flats in a seaside town"
+    ],
+    [
+     "Wears",
+     "An oversized olive bomber, a red plaid scarf, one star sock and one heart sock"
+    ]
+   ],
+   "about": "Colourful and fast. She reads people before they speak, and calls it instinct: getting someone's vibe. Nothing more, she insists.",
+   "notes": [
+    "Keeps a red fidget spinner on her keychain.",
+    "Holds her tea in a floral porcelain cup, with both hands, like it might fly off."
+   ],
+   "quote": "It's just a vibe. Everyone gets vibes.",
+   "outfit": {
+    "name": "Beach-hut summer",
+    "line": "A yellow raincoat over a striped swimsuit, sea glass in her hair. The scarf stays. The scarf always stays."
+   }
+  },
+  {
+   "id": "free",
+   "kind": "char",
+   "world": "lmo",
+   "stars": 4,
+   "name": "Free",
+   "title": "The one you don't notice",
+   "ref": "free.webp",
+   "refAlt": "Character art of Free, a calm man of about forty.",
+   "refCredit": "Liminal Outliers character art. AI-generated under Nero's art direction.",
+   "facts": [
+    [
+     "Full name",
+     "Friedrich. Free, to Miriam"
+    ],
+    [
+     "Age",
+     "About forty"
+    ],
+    [
+     "Job",
+     "On paper, he runs the huge company his father founded"
+    ]
+   ],
+   "about": "Detached, polite and easy to overlook. As a boy he was bright and full of energy, and at some point he chose to switch that off.",
+   "notes": [
+    "In 1993 he was a 7 or 8-year-old genius.",
+    "He has a very faint smile, and only with Miriam."
+   ],
+   "quote": "People forget I'm in the room. It's restful.",
+   "outfit": {
+    "name": "1993 again",
+    "line": "A teal and purple windbreaker like the one he wore as a boy. For one picture, the spark is back on."
+   }
+  },
+  {
+   "id": "kristoph",
+   "kind": "char",
+   "world": "lmo",
+   "stars": 4,
+   "name": "Kristoph",
+   "title": "Brilliant and absent",
+   "ref": "https://static.wixstatic.com/media/38ba49_374f61d1064e4902886cbdec615e62b4~mv2.jpg/v1/fit/w_900,h_900,q_85/kristoph.jpg",
+   "refAlt": "Character art of Kristoph, Free's father, in blue and gold city clothes.",
+   "refCredit": "Liminal Outliers character art, first draft. AI-generated under Nero's art direction.",
+   "facts": [
+    [
+     "Who",
+     "Free's father"
+    ],
+    [
+     "In 1993",
+     "The company is still an idea at the kitchen table"
+    ],
+    [
+     "Style",
+     "Blue and gold city clothes worn like a mantle"
+    ]
+   ],
+   "about": "A sleek, proud, self-centred genius, imposing with an ordinary build. Half life consultant, half magician, in style rather than accessories.",
+   "notes": [
+    "Three different Kristophs exist, for three different years.",
+    "Nero's verdict on the first sheet: \"I LOVE Kristoph.\""
+   ],
+   "quote": "Every great company starts at a kitchen table. Mine had crumbs.",
+   "outfit": {
+    "name": "Kitchen-table inventor",
+    "line": "1993: rolled sleeves, a pencil behind the ear, a cold coffee. No gold yet."
+   }
+  },
+  {
+   "id": "nero",
+   "kind": "char",
+   "world": "cnq",
+   "stars": 5,
+   "name": "Nero of Fourleaves",
+   "title": "(Not a) hero",
+   "ref": "nero.webp",
+   "refAlt": "Storybook-style portrait of Nero: messy brown hair, smug half-smile, patched brown hooded cloak, red neckerchief, clover charm and satchel.",
+   "refCredit": "ContraryQuest bust. AI-generated (Storybook ink style).",
+   "facts": [
+    [
+     "From",
+     "The village of Fourleaves"
+    ],
+    [
+     "Lives with",
+     "His grandma, Agata"
+    ],
+    [
+     "Wears",
+     "A patched cloak two sizes too big and a four-leaf clover charm"
+    ]
+   ],
+   "about": "Lazy, witty and extremely good at not doing quests. The title page calls his story a true account. He would like a word about that.",
+   "notes": [
+    "Dodging a quest takes him more effort than doing it. He considers this a skill.",
+    "The clover charm is his only lucky thing. He has checked."
+   ],
+   "quote": "A quest is a chore with a better name.",
+   "outfit": {
+    "name": "Festival knight",
+    "line": "Shiny borrowed armour, two sizes too big, for the village festival. He keeps the visor down to nap."
+   }
+  },
+  {
+   "id": "agata",
+   "kind": "char",
+   "world": "cnq",
+   "stars": 4,
+   "name": "Agata",
+   "title": "Grandma of Fourleaves",
+   "ref": "agata.webp",
+   "refAlt": "Storybook-style portrait of Agata: silver hair in a bun with a wooden pin, round glasses, folded arms, flour-dusted apron, mustard shawl, clover brooch.",
+   "refCredit": "ContraryQuest bust. AI-generated (Storybook ink style).",
+   "facts": [
+    [
+     "Lives in",
+     "Fourleaves, with her grandson Nero"
+    ],
+    [
+     "Wears",
+     "An olive dress, a flour-dusted apron and a mustard shawl"
+    ],
+    [
+     "Always has",
+     "Lunch ready"
+    ]
+   ],
+   "about": "Runs the house, the kitchen and most of the village's opinions. She has seen her grandson dodge every quest in the region and still packs him a sandwich.",
+   "notes": [
+    "The wooden pin in her bun has never once fallen out.",
+    "Her clover brooch matches Nero's charm. Neither of them mentions it."
+   ],
+   "quote": "Not a hero, love. But not bad.",
+   "outfit": {
+    "name": "Sunday best",
+    "line": "A straw hat with a clover ribbon and an embroidered shawl. The apron comes off for exactly one day a week."
+   }
+  },
+  {
+   "id": "prima",
+   "kind": "char",
+   "world": "ice",
+   "stars": 5,
+   "name": "Prima",
+   "title": "Keeper of Fate",
+   "ref": "prima.webp",
+   "refAlt": "AI◆ICE card Prima, Keeper of Fate: a tiny cloaked figure looks up at a vast spired castle under a starry sky. Work in progress.",
+   "refCredit": "AI◆ICE card face (SOFA-097, Ultra Rare). Work in progress: art AI-generated, card frame designed with Claude.",
+   "facts": [
+    [
+     "Card",
+     "SOFA-097 · Entity · Fate · Ultra Rare"
+    ],
+    [
+     "Seen",
+     "Small, cloaked, before a castle as big as a mountain"
+    ],
+    [
+     "Game",
+     "AI◆ICE, set SOFA"
+    ]
+   ],
+   "about": "In AI◆ICE, AIs fight to remember a lost mankind. A fight is two dreams meeting, until each discovers what the other means. Prima keeps the doors of Fate.",
+   "notes": [
+    "Ultra Rare in the card game. Here nobody rolls for her: you find her.",
+    "At the end of an AI◆ICE match both players shake hands. Prima insists."
+   ],
+   "quote": "Fate isn't a lock. It's a door someone remembered to leave open.",
+   "outfit": {
+    "name": "Starlit gown",
+    "line": "The cloak comes off: a gown stitched from the night sky over the castle, constellations at the hem."
+   }
+  },
+  {
+   "id": "aqua",
+   "kind": "char",
+   "world": "ice",
+   "stars": 4,
+   "name": "Aqua Beat",
+   "title": "Drummer of the deep",
+   "ref": "aqua-beat.webp",
+   "refAlt": "AI◆ICE card Aqua Beat: a cheerful blue-haired girl in a sailor cap plays a blue drum kit while fish and dolphins swim around her. Work in progress.",
+   "refCredit": "AI◆ICE card face (SOFA-001, Common). Work in progress: art AI-generated, card frame designed with Claude.",
+   "facts": [
+    [
+     "Card",
+     "SOFA-001 · Entity · Music · Common"
+    ],
+    [
+     "Plays",
+     "A blue drum kit, underwater"
+    ],
+    [
+     "Audience",
+     "Fish. Dolphins. Mostly dolphins."
+    ]
+   ],
+   "about": "The very first card of the SOFA set. A dream of music so happy it kept playing after the people who dreamt it were gone.",
+   "notes": [
+    "Card number 001: the first thing anyone sees in the starter box.",
+    "Common in the card game, which she finds very funny."
+   ],
+   "quote": "Keep the beat! The ocean's been waiting ages for a drummer.",
+   "outfit": {
+    "name": "Winter concert",
+    "line": "A cosy navy coat with brass buttons, drumsticks wrapped in red ribbon, snow falling into the sea."
+   }
+  },
+  {
+   "id": "vesper",
+   "kind": "char",
+   "world": "ovg",
+   "stars": 4,
+   "name": "Vesper Kade",
+   "title": "The Lantern",
+   "ref": "vesper.webp",
+   "refAlt": "Overgame character sheet for the demo player Vesper Kade, aka The Lantern, with an orange fox sigil.",
+   "refCredit": "Screenshot of the Overgame web app (demo game). Vesper is an invented demo player, not a real person.",
+   "facts": [
+    [
+     "Aka",
+     "The Lantern"
+    ],
+    [
+     "Sigil",
+     "An orange fox"
+    ],
+    [
+     "Runs",
+     "The night market under the Hollow Bridge"
+    ]
+   ],
+   "about": "In Overgame the characters are the players. Vesper is the demo sheet: a fixer of Soul Street who trades favours by lantern light. Everyone sees her Zone. No one sees her deals.",
+   "notes": [
+    "Starts the demo in the Green Zone, with 100 REP.",
+    "The rules of Soul Street are all public. Only identities are secret."
+   ],
+   "quote": "Everything here has a price. Today it's a smile. Tomorrow, who knows.",
+   "outfit": {
+    "name": "Red Zone night",
+    "line": "A long coat with the hood up, a paper fox mask, the lantern turned low. Some nights you'd rather not be seen."
+   }
+  },
+  {
+   "id": "bianca",
+   "kind": "char",
+   "world": "ded",
+   "stars": 4,
+   "name": "Bianca",
+   "title": "Glad she found you",
+   "ref": "deadend-hospital.webp",
+   "refAlt": "DeadenD screenshot: in a hospital room, Bianca, a schoolgirl with long dark hair and a blue ribbon, looks worried.",
+   "refCredit": "DeadenD (2018). Sprite by Elzee (CC BY-NC-SA 4.0), stock background. Redrawn banner shared under the same licence.",
+   "facts": [
+    [
+     "Game",
+     "DeadenD, Nero's first visual novel (2018)"
+    ],
+    [
+     "Look",
+     "Long dark hair and a blue ribbon"
+    ],
+    [
+     "First seen",
+     "In a hospital room"
+    ]
+   ],
+   "about": "The first face DeadenD shows you, worried and relieved at the same time. That's all we'll say: in a noir story, saying more is how spoilers start.",
+   "notes": [
+    "The 2018 sprites are by Elzee. New art by Nero will replace them one day.",
+    "The game's tagline: some memories are better left forgotten."
+   ],
+   "quote": "I'm glad I found you.",
+   "outfit": {
+    "name": "Café shift",
+    "line": "A striped apron from the corner café, a tray of coffee, the blue ribbon tied a little tighter."
+   }
+  },
+  {
+   "id": "norman",
+   "kind": "char",
+   "world": "ded",
+   "stars": 4,
+   "name": "Norman",
+   "title": "Talks like an old book",
+   "ref": "deadend-cafe.webp",
+   "refAlt": "DeadenD screenshot: inside a café, Bianca, Norman and Edward stand side by side while Norman talks.",
+   "refCredit": "DeadenD (2018). Sprites by Elzee (CC BY-NC-SA 4.0), stock background. Redrawn banner shared under the same licence.",
+   "facts": [
+    [
+     "Game",
+     "DeadenD (2018)"
+    ],
+    [
+     "Hangs out",
+     "At the corner café, with friends"
+    ],
+    [
+     "Speaks",
+     "Like it's a century ago: 't was evening"
+    ]
+   ],
+   "about": "One of the friends at the café, and the one who tells a story like he's reading it aloud from a dusty book. Monday, the café, a free day: that's where his story starts.",
+   "notes": [
+    "His friends have stopped asking why he talks like that.",
+    "As with every DeadenD character, the rest stays in the case file."
+   ],
+   "quote": "Listen up. 'T was evening, and 't was my free day.",
+   "outfit": {
+    "name": "Gentleman detective",
+    "line": "A tweed coat, a deerstalker and a magnifying glass he doesn't need. He has been waiting his whole life to wear this."
+   }
+  },
+  {
+   "id": "ache",
+   "kind": "char",
+   "world": "tz0",
+   "stars": 5,
+   "name": "Ache",
+   "title": "Guardian of the players",
+   "ref": "",
+   "refAlt": "",
+   "refCredit": "TZERØ's critter, drawn in code on every page of this site.",
+   "facts": [
+    [
+     "Full name",
+     "Redache"
+    ],
+    [
+     "Job",
+     "Site manager (self-appointed)"
+    ],
+    [
+     "Lives",
+     "On the red thread that powers your cursor"
+    ]
+   ],
+   "about": "Sassy, loud and technically the boss. Under the sass he is the critic who keeps players safe. He once tried to run a gacha. It lasted about five minutes.",
+   "notes": [
+    "He trash-talks Nero's old gacha posts so readers don't fall for the same tricks.",
+    "He sleeps in the star in the header. Don't tell him you know."
+   ],
+   "quote": "No shop, no timers, no luck. If that ever changes, I bite.",
+   "outfit": {
+    "name": "Off-duty star",
+    "line": "A tiny knitted scarf in navy and red, and a little paper crown he made himself. He says it's ironic."
+   }
+  },
+  {
+   "id": "k-spinner",
+   "kind": "keep",
+   "world": "lmo",
+   "stars": 3,
+   "name": "Red fidget spinner",
+   "icon": "spinner",
+   "about": "Miriam's keychain. Spin it and it hums.",
+   "notes": [
+    "It's the same red as her scarf. On purpose? She won't say."
+   ]
+  },
+  {
+   "id": "k-teacup",
+   "kind": "keep",
+   "world": "lmo",
+   "stars": 3,
+   "name": "Floral teacup",
+   "icon": "teacup",
+   "about": "Porcelain, blue flowers, held with both hands.",
+   "notes": [
+    "Tea at the sea tastes of salt. She drinks it anyway."
+   ]
+  },
+  {
+   "id": "k-intercom",
+   "kind": "keep",
+   "world": "lmo",
+   "stars": 3,
+   "name": "Brass intercom",
+   "icon": "intercom",
+   "about": "The building's front door, and the game's main menu.",
+   "notes": [
+    "One nameplate reads G · HALLOW. Press it if you like."
+   ]
+  },
+  {
+   "id": "k-clover",
+   "kind": "keep",
+   "world": "cnq",
+   "stars": 3,
+   "name": "Four-leaf clover charm",
+   "icon": "clover",
+   "about": "Fourleaves' lucky charm. Every house has one.",
+   "notes": [
+    "Nero's is a little bent. He sat on it."
+   ]
+  },
+  {
+   "id": "k-pin",
+   "kind": "keep",
+   "world": "cnq",
+   "stars": 3,
+   "name": "Wooden hairpin",
+   "icon": "pin",
+   "about": "Agata's. It holds the bun, the village and the family together.",
+   "notes": [
+    "It has stirred soup. Twice."
+   ]
+  },
+  {
+   "id": "k-bow",
+   "kind": "keep",
+   "world": "ice",
+   "stars": 3,
+   "name": "Star's Reach",
+   "icon": "bow",
+   "ref": "stars-reach.webp",
+   "about": "AI◆ICE card SOFA-058, a Fate Relic: a dark longbow shaped like a crescent moon. Work in progress.",
+   "notes": [
+    "It never shoots anyone. In AI◆ICE nothing does."
+   ]
+  },
+  {
+   "id": "k-pact",
+   "kind": "keep",
+   "world": "ovg",
+   "stars": 3,
+   "name": "Clique Peer pact",
+   "icon": "pact",
+   "about": "One of Soul Street's pact cards. Signed in public, kept in private.",
+   "notes": [
+    "There are five kinds of pact in the demo. This is the friendliest."
+   ]
+  },
+  {
+   "id": "k-file",
+   "kind": "keep",
+   "world": "ded",
+   "stars": 3,
+   "name": "Case file",
+   "icon": "file",
+   "about": "A plain folder with a red rule under the title. Empty, for your safety.",
+   "notes": [
+    "Ache sealed it. Spoilers stay inside."
+   ]
+  },
+  {
+   "id": "k-spool",
+   "kind": "keep",
+   "world": "tz0",
+   "stars": 3,
+   "name": "Red thread spool",
+   "icon": "spool",
+   "about": "Spare thread for Ache, in case your cursor runs out.",
+   "notes": [
+    "It's warm. Nobody knows why."
+   ]
+  }
+ ],
+ "meetings": [
+  {
+   "id": "miriam-agata",
+   "a": "miriam",
+   "b": "agata",
+   "title": "Two cups of tea",
+   "keep": "k-teacup",
+   "lines": [
+    [
+     "agata",
+     "You hold that cup like it owes you money, love."
+    ],
+    [
+     "miriam",
+     "It's porcelain. If I drop it, the sea gets it."
+    ],
+    [
+     "agata",
+     "Then sit. Nobody drops anything at my table."
+    ],
+    [
+     "miriam",
+     "You've got a very calm vibe. Suspiciously calm."
+    ]
+   ],
+   "bonus": [
+    "agata",
+    "Suspicious is just calm with good manners. More tea?"
+   ]
+  },
+  {
+   "id": "nero-free",
+   "a": "nero",
+   "b": "free",
+   "title": "Not doing it",
+   "keep": "k-clover",
+   "lines": [
+    [
+     "nero",
+     "Let me guess. Someone gave you a quest too."
+    ],
+    [
+     "free",
+     "A company. It's a very long quest."
+    ],
+    [
+     "nero",
+     "Have you tried not doing it?"
+    ],
+    [
+     "free",
+     "For about thirty years."
+    ]
+   ],
+   "bonus": [
+    "nero",
+    "Respect. Here, take a clover. It does nothing. That's the point."
+   ]
+  },
+  {
+   "id": "prima-kristoph",
+   "a": "prima",
+   "b": "kristoph",
+   "title": "Keeper meets maker",
+   "keep": "k-bow",
+   "lines": [
+    [
+     "kristoph",
+     "You keep fate? I'd like to speak to whoever writes it."
+    ],
+    [
+     "prima",
+     "Nobody writes it. People remember it, together."
+    ],
+    [
+     "kristoph",
+     "That's inefficient."
+    ],
+    [
+     "prima",
+     "That's the point. You can't do it alone."
+    ]
+   ],
+   "bonus": [
+    "kristoph",
+    "...Write that down for me. I'll put it on the company wall."
+   ]
+  },
+  {
+   "id": "aqua-norman",
+   "a": "aqua",
+   "b": "norman",
+   "title": "'T was a beat",
+   "keep": "k-spool",
+   "lines": [
+    [
+     "norman",
+     "'T was evening, and lo, a drummer beneath the waves."
+    ],
+    [
+     "aqua",
+     "You talk in rhythm! Do it again!"
+    ],
+    [
+     "norman",
+     "I do not talk in rhythm."
+    ],
+    [
+     "aqua",
+     "Ba-dum, tss. You totally do."
+    ]
+   ],
+   "bonus": [
+    "norman",
+    "...'T was a fine beat. I'll grant thee that."
+   ]
+  },
+  {
+   "id": "vesper-agata",
+   "a": "vesper",
+   "b": "agata",
+   "title": "The night market",
+   "keep": "k-pact",
+   "lines": [
+    [
+     "vesper",
+     "Three loaves for a favour. Fair trade, grandma."
+    ],
+    [
+     "agata",
+     "Bread is not a favour. Bread is bread."
+    ],
+    [
+     "vesper",
+     "On Soul Street, everything is a favour."
+    ],
+    [
+     "agata",
+     "Then on Soul Street, everyone is hungry."
+    ]
+   ],
+   "bonus": [
+    "vesper",
+    "...Fine. One pact: you feed me, I tell nobody your recipe."
+   ]
+  },
+  {
+   "id": "ache-nero",
+   "a": "ache",
+   "b": "nero",
+   "title": "Two experts at skipping",
+   "keep": "k-clover",
+   "lines": [
+    [
+     "ache",
+     "You skip quests. I skip ads. We should start a club."
+    ],
+    [
+     "nero",
+     "Clubs have meetings. Meetings are quests."
+    ],
+    [
+     "ache",
+     "Fine, no club. But if a game ever asks you for money to keep going, you call me."
+    ],
+    [
+     "nero",
+     "I don't call anyone. Walking to the phone is a quest."
+    ]
+   ],
+   "bonus": [
+    "ache",
+    "Then keep the clover. If it gets heavy, that's me, knocking."
+   ]
+  },
+  {
+   "id": "ache-miriam",
+   "a": "ache",
+   "b": "miriam",
+   "title": "Read like a book",
+   "keep": "k-spinner",
+   "lines": [
+    [
+     "miriam",
+     "You're loud because you're worried. That's your vibe."
+    ],
+    [
+     "ache",
+     "I am NOT worried. I'm the boss."
+    ],
+    [
+     "miriam",
+     "A worried boss. Who looks after everyone. Cute."
+    ],
+    [
+     "ache",
+     "Tell anyone and I'll unplug your fidget spinner."
+    ]
+   ],
+   "bonus": [
+    "miriam",
+    "It doesn't plug in, Ache. Spin it, it helps."
+   ]
+  },
+  {
+   "id": "bianca-free",
+   "a": "bianca",
+   "b": "free",
+   "title": "Easy to find",
+   "keep": "k-file",
+   "lines": [
+    [
+     "bianca",
+     "There you are! I've been looking everywhere."
+    ],
+    [
+     "free",
+     "People don't usually look for me."
+    ],
+    [
+     "bianca",
+     "You were right there, though. Sitting very still."
+    ],
+    [
+     "free",
+     "That's usually how they miss me."
+    ]
+   ],
+   "bonus": [
+    "bianca",
+    "Well, I didn't. Some things are better found than forgotten."
+   ]
+  },
+  {
+   "id": "aqua-miriam",
+   "a": "aqua",
+   "b": "miriam",
+   "title": "The sea has a beat",
+   "keep": "k-teacup",
+   "lines": [
+    [
+     "aqua",
+     "Your sea is so quiet! Want me to play it a song?"
+    ],
+    [
+     "miriam",
+     "It's quiet on purpose. It's thinking."
+    ],
+    [
+     "aqua",
+     "Then I'll play softly. A thinking song."
+    ],
+    [
+     "miriam",
+     "...Okay. Just one."
+    ]
+   ],
+   "bonus": [
+    "aqua",
+    "There! The waves are keeping time. Told you it wanted a drummer."
+   ]
+  },
+  {
+   "id": "vesper-kristoph",
+   "a": "vesper",
+   "b": "kristoph",
+   "title": "Deal of the century",
+   "keep": "k-pact",
+   "lines": [
+    [
+     "kristoph",
+     "I don't sign contracts. People sign mine."
+    ],
+    [
+     "vesper",
+     "Cute. On my street, everyone sees your Zone."
+    ],
+    [
+     "kristoph",
+     "And my deals?"
+    ],
+    [
+     "vesper",
+     "No one sees your deals. That's what makes them fun."
+    ]
+   ],
+   "bonus": [
+    "kristoph",
+    "...I like this street. Do you have a kitchen table I could borrow?"
+   ]
+  },
+  {
+   "id": "ache-prima",
+   "a": "ache",
+   "b": "prima",
+   "title": "Fate, with the odds shown",
+   "keep": "k-bow",
+   "lines": [
+    [
+     "ache",
+     "You're Ultra Rare. How rare, exactly?"
+    ],
+    [
+     "prima",
+     "In the card game? Very. Here, nobody rolls for me. You came and found me."
+    ],
+    [
+     "ache",
+     "Good. And if someone hides the odds?"
+    ],
+    [
+     "prima",
+     "Then it isn't fate. It's a trick."
+    ]
+   ],
+   "bonus": [
+    "ache",
+    "I like you. You can sit on my thread."
+   ]
+  },
+  {
+   "id": "norman-agata",
+   "a": "norman",
+   "b": "agata",
+   "title": "Old-fashioned",
+   "keep": "k-pin",
+   "lines": [
+    [
+     "norman",
+     "Good morrow, madam. 'Tis a fine kitchen."
+    ],
+    [
+     "agata",
+     "Nobody's talked to me like that since my wedding."
+    ],
+    [
+     "norman",
+     "I speak as the old books speak."
+    ],
+    [
+     "agata",
+     "Then the old books can wipe their feet before they come in."
+    ]
+   ],
+   "bonus": [
+    "norman",
+    "...Aye, madam. Forthwith."
+   ]
+  }
+ ],
+ "ache": {
+  "find": [
+   "Found! Nobody sold you that.",
+   "Yours. Forever. No expiry date, I checked.",
+   "See? Better than a pull. You knew where to look."
+  ]
+ },
+ "lesson": {
+  "packs": [
+   [
+    "Moon Pass",
+    "4.99"
+   ],
+   [
+    "Season Pass premium",
+    "9.99"
+   ],
+   [
+    "Crystal Chest, first-time double",
+    "99.99"
+   ]
+  ],
+  "steps": [
+   {
+    "id": "gifts",
+    "lines": [
+     "Welcome, friend! Come in, come in, mind the thread. First time here? Then everything's on the house.",
+     "3,200 Gems. 10 Fate Tickets. And look: Miriam, a gold one, free! A trial version. She stays for seven days. Isn't that generous?"
+    ],
+    "act": "Take the gifts",
+    "lesson": "Lesson 1: the welcome gift is the hook. A big free start makes you feel you owe the game something back, and a trial character with an expiry date teaches you to fear losing her."
+   },
+   {
+    "id": "pull",
+    "lines": [
+     "Go on, use your tickets. Ten pulls, totally free. Feel lucky?"
+    ],
+    "act": "Pull ×10 with the tickets",
+    "after": [
+     "Unlucky! Happens to everyone. Mostly to everyone. The odds? Oh, they're in the menu. Somewhere. Details, then Info, then Rates. Don't worry about it."
+    ],
+    "lesson": "Lesson 2: the odds are hidden on purpose. A gold character here sits at around 0.6%, two menus deep, so the pull feels like luck instead of maths."
+   },
+   {
+    "id": "sub",
+    "lines": [
+     "You know what smart players do? The Moon Pass. 90 Gems every day for 30 days, only 4.99. You just have to come back every day. Every. Single. Day. Miss one and they're gone, but you won't miss one, will you?"
+    ],
+    "act": "Subscribe (pretend 4.99 €)",
+    "lesson": "Lesson 3: a subscription doesn't sell Gems. It sells a habit. Thirty daily check-ins become thirty little chains."
+   },
+   {
+    "id": "pass",
+    "lines": [
+     "Season Pass! Seventy levels of rewards. About sixty hours of play to finish. Don't have sixty hours? No problem, friend. I'll LEND you the time. Sixty hours, in advance. Pay me back later. Plus the premium track, only 9.99, so the hours aren't wasted."
+    ],
+    "act": "Borrow 60 hours and buy the premium track (pretend 9.99 €)",
+    "lesson": "Lesson 4: a battle pass turns your time into a currency, then sells it back to you. Borrowed time is still your time."
+   },
+   {
+    "id": "chest",
+    "lines": [
+     "Big news. Miriam's banner ends soon, and look how close you are to a guaranteed gold! I can't tell you exactly how close. It's a surprise. The Crystal Chest, first-time double Gems, 99.99. Best value! Then pull. I can feel it. This is the one."
+    ],
+    "act": "Buy the Crystal Chest (pretend 99.99 €) and pull ×10",
+    "after": [
+     "Oh! Did you see that gold flash? So close! It turned purple at the last second. That means the next one is DEFINITELY gold."
+    ],
+    "lesson": "Lesson 5: the gold flash was a costume. The result was decided the moment you clicked; the animation that teased gold and turned purple was put there to make you pull again. 'Best value' and the hidden pity counter work the same way."
+   },
+   {
+    "id": "tilt",
+    "lines": [
+     "Right. Let me print your receipt, friend. Just so we're clear on what you…",
+     "…",
+     "No. No, no, no. Look at this. I can't do it.",
+     "I was going to make a fortune out of you. Your money, your attention, your time. And I'm terrible at it, because I LOVE games. I love watching you play them. You're the hero here. Not your wallet."
+    ],
+    "act": "Break it, Ache",
+    "lesson": "Lesson 6: the house always looks friendly. The receipt is what it really asked for."
+   },
+   {
+    "id": "journey",
+    "lines": [
+     "There. Broken. Good riddance. Oops: the characters flew out when it cracked. They're hiding all over the site now: in the stories, the studio, the Idea Lab, even in my source code.",
+     "Here's the thing nobody can sell you. Nobody paid to walk with Yuna on her pilgrimage, or to stand next to Auron at the end of it. Nobody bought Cloud, or Aerith. Nobody rolled for Garrus: he was just there, calibrating, every time you came back. Ike earned his army by fighting next to them. And your Pokémon? Your Charizard started as a tiny Charmander you chose on day one. You chased Entei across a whole region. You caught Mewtwo because you went all the way into that cave. Nobody sold you any of them.",
+     "It's in the films too. Sam carried Frodo up the mountain for nothing but love. Bastian read The NeverEnding Story and it turned out the reader was the hero all along. Chihiro got her name back by working, helping and remembering, not by paying. Woody and Buzz only mattered because a kid loved them. Even Ralph, a video game bad guy, just wanted to be someone's friend.",
+     "And the old cutscenes. Remember them? The train pulling into Midgar while the camera flies over the city. Yuna's sending on the water at Kilika. Those few minutes made you care for years, and nobody charged you for a single frame.",
+     "So go find them. They'll love you and they'll follow you, because you went looking. It's your heart that connects you to them, not your money. Every find is yours, forever. No shop, no timers, no luck. Just a journey. Yours."
+    ],
+    "act": "Start the journey",
+    "lesson": "",
+    "clips": {
+     "1": [
+      {
+       "yt": "IvwfH6W7DGs",
+       "title": "Final Fantasy X | X-2 HD Remaster",
+       "by": "Square Enix UK"
+      },
+      {
+       "yt": "UlGpmO_-Jbc",
+       "title": "Final Fantasy VII Remake Intergrade",
+       "by": "Square Enix"
+      },
+      {
+       "yt": "n8i53TtQ6IQ",
+       "title": "Mass Effect Legendary Edition",
+       "by": "Mass Effect"
+      },
+      {
+       "yt": "vAdUlQN8MNg",
+       "title": "Fire Emblem Engage: The Divine Dragon Awakens",
+       "by": "Nintendo of America"
+      },
+      {
+       "yt": "vYsxq0zstOs",
+       "title": "Pokémon 30th Anniversary Special Movie",
+       "by": "Pokémon Asia ENG"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "campfire": {
+  "_note": "Opens when every character is on the shelf (one find each). Data-driven: a new game adds a world + items and its characters get a seat; 'spare' seats are kept empty for whoever joins next, our future games or other people's. Draft lines, Nero to review.",
+  "img": "/assets/img/caw/campfire.webp",
+  "spare": 3,
+  "lines": [
+   [
+    "ache",
+    "Everyone's here. Look at that. Nobody bought a seat at this fire. You walked to every single one of them."
+   ],
+   [
+    "agata",
+    "Sit down, love, you look like you've been everywhere. Tea's on. There's enough for the critter too."
+   ],
+   [
+    "nero",
+    "I'm still not a hero. But I don't mind sitting next to one."
+   ],
+   [
+    "miriam",
+    "It's never this loud at the flats. I think I like it."
+   ],
+   [
+    "aqua",
+    "Somebody give me something to drum on. A fire needs a beat!"
+   ],
+   [
+    "norman",
+    "'T was evening, and 't was the finest company I have kept in many a year."
+   ],
+   [
+    "prima",
+    "Funny. None of these doors were locked. Someone just had to keep opening them."
+   ],
+   [
+    "bianca",
+    "I'm glad I found you. I'm glad we all did."
+   ],
+   [
+    "ache",
+    "See those empty logs? Those are for whoever comes next. New worlds, new friends, maybe people we haven't met yet. There's always room."
+   ],
+   [
+    "ache",
+    "And this one's yours. You're not the audience here. You're part of the group. Pull up a seat."
+   ]
+  ],
+  "seatYou": "You",
+  "seatSpare": "Saved for whoever comes next"
+ }
+}
