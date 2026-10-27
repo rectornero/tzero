@@ -55,12 +55,12 @@ const steps = () => D.lesson.steps;
 const money = n => n.toFixed(2) + ' €';
 
 /* the countdown: fake, and faster every time you hesitate. Prima's banner is the only one 'ending'. */
-const RATE = { gifts: 1, pull: 40, sub: 400, pass: 900, chest: 700, skin: 900, creep: 900 };
+const RATE = { gifts: 1, pull: 40, sub: 400, pass: 900, chest: 700, chase: 700, skin: 900, creep: 900 };
 let tick = null, lastAct = Date.now();
 const two = n => String(n).padStart(2, '0');
 function paintClock() {
   const t = $('#m-date-t'), b = $('#m-banner');
-  b.classList.toggle('ended', !!L.ended); b.classList.toggle('rerun', (L.step === 4 || L.step === 5) && !L.frozen && !L.broke);
+  b.classList.toggle('ended', !!L.ended); b.classList.toggle('rerun', L.step >= 4 && L.step <= 6 && !L.frozen && !L.broke);
   if (L.broke || L.frozen) return;
   if (L.ended) { t.textContent = 'EVENT ENDED · Prima is no longer available'; return }
   const c = Math.max(0, Math.round(L.clock)), d = Math.floor(c / 86400), h = Math.floor(c % 86400 / 3600), m = Math.floor(c % 3600 / 60);
@@ -111,7 +111,7 @@ function paintShop() {
   $('#r-eur').textContent = money(L.eur); $('#r-hours').textContent = L.hours + ' h' + (L.spilt ? ' (' + L.spilt + ' h dropped, still owed)' : ''); $('#r-days').textContent = L.days; $('#r-pulls').textContent = L.pulls;
   $('#lesson-step').textContent = L.step < steps().length ? 'page ' + (L.step + 1) + ' of ' + steps().length + ' of Ache\'s manual' : 'the manual, complete';
   const o = L.odds || HOUSE;
-  $('#m-rates').innerHTML = '<p class="crumb">Details › Info › Rates</p><table><tr><td>★5</td><td>' + o[5] + '%</td></tr><tr><td>★4</td><td>' + o[4] + '%</td></tr><tr><td>★3</td><td>' + Math.round((100 - o[5] - o[4]) * 10) / 10 + '%</td></tr></table><p class="small">' + (L.odds ? 'Your odds, set in the backroom.' : 'Typical of paid gacha. Pity at 90 pulls, a 50/50 on the featured character, and the counter is not shown.') + '</p>';
+  $('#m-rates').innerHTML = '<p class="crumb">Details › Info › Rates</p><table><tr><td>★5</td><td>' + o[5] + '%</td></tr><tr><td>★4</td><td>' + o[4] + '%</td></tr><tr><td>★3</td><td>' + Math.round((100 - o[5] - o[4]) * 10) / 10 + '%</td></tr></table><p class="small">' + (L.odds ? 'Your odds, set in the backroom.' : 'Typical of paid gacha. Pity at 60 pulls on this banner, then a 50/50: the gold may not be the featured character. The counter is not shown.') + '</p>';
   $('#m-rates').hidden = !L.rates;
   $('#o5').value = o[5]; $('#o4').value = o[4]; $('#o5v').textContent = o[5] + '%'; $('#o4v').textContent = o[4] + '%';
   const st = steps()[L.step], man = $('#manual');
@@ -119,7 +119,6 @@ function paintShop() {
   $('#machine').classList.toggle('smashed', !!L.broke);
   $('#seller').classList.toggle('unhooded', !!L.broke);
   $('#backroom-btn').hidden = L.step !== 4 || L.broke;
-  $('#unchain').hidden = L.step !== 4 || L.broke;
 }
 function showStep() {
   const st = steps()[L.step]; line = 0;
@@ -166,26 +165,36 @@ function clips(st, i) {
     box.append(b);
   }
 }
-function rollLesson(force) {
+function rollLesson(force, noGold) {
   const o = L.odds || HOUSE, r = Math.random() * 100;
   let tier = r < o[5] ? 5 : r < o[5] + o[4] ? 4 : 3;
   if (force) tier = Math.max(tier, force);
+  if (noGold && !L.odds) tier = Math.min(tier, 4);
   const pool = D.items.filter(i => i.stars === tier);
   return pick(pool.length ? pool : D.items);
 }
-function lessonPull(tease) {
-  const out = []; for (let i = 0; i < 10; i++) out.push(rollLesson(i === 9 && !out.some(x => x.stars >= 4) ? 4 : 0));
-  L.pulls += 10;
+function lessonPull(tease, n, gold) {
+  n = n || 10;
+  const out = []; for (let i = 0; i < n; i++) out.push(rollLesson(i % 10 === 9 && !out.slice(i - 9).some(x => x.stars >= 4) ? 4 : 0, n > 10));
+  if (gold) out[gold[1]] = ITEMS[gold[0]] || D.lesson.units[gold[0]]; // scripted gold: where pity lands, and on whom
+  L.pulls += n;
   const r = $('#m-results'); r.innerHTML = '';
-  out.forEach((it, i) => {
+  // a big chest shows its ten best results and counts the rest, as the real ones do
+  const shown = n > 10 ? out.map((it, i) => [it, i]).sort((a, b) => b[0].stars - a[0].stars || a[1] - b[1]).slice(0, 10).sort((a, b) => a[1] - b[1]).map(x => x[0]) : out;
+  shown.forEach((it, i) => {
     const c = el('div', 'res t' + it.stars); c.style.animationDelay = i * 60 + 'ms'; c.append(art(it));
     c.insertAdjacentHTML('beforeend', '<span class="rs">' + stars(it.stars) + '</span><b>' + esc(it.name) + '</b>');
     r.append(c);
   });
-  if (tease) { // the near-miss: a gold shine on a card that was always going to be purple
-    const t = [...r.children].find(c => c.classList.contains('t4')) || r.lastChild;
-    t.classList.add('tease'); setTimeout(() => t.classList.remove('tease'), 1600);
+  if (n > 10) {
+    const cnt = t => out.filter(x => x.stars === t).length, gold = out.filter(x => x.stars === 5);
+    r.insertAdjacentHTML('beforeend', '<p class="res-sum">' + n + ' pulls: ' + cnt(3) + ' ★3, ' + cnt(4) + ' ★4, ' + gold.length + ' ★5' + (gold.length ? ' (' + esc(gold.map(x => x.name).join(', ')) + ')' : '') + '. The best ten are shown.</p>');
   }
+  if (tease) { // the near-miss: a gold shine on a card that was always going to be purple
+    const t = [...r.children].find(c => c.classList.contains('t4')) || r.querySelector('.res');
+    if (t) { t.classList.add('tease'); setTimeout(() => t.classList.remove('tease'), 1600) }
+  }
+  return out;
 }
 function act() {
   const st = steps()[L.step]; lastAct = Date.now();
@@ -194,8 +203,9 @@ function act() {
     case 'pull': L.tix -= 10; lessonPull(); L.rates = false; break;
     case 'sub': L.eur += 4.99; L.days += 30; L.gems += 2700; break;
     case 'pass': L.eur += 9.99; L.hours += 60; L.gems += 1300; spill(); break;
-    case 'chest': L.eur += 99.99; L.gems += 12960 - 1600; lessonPull(true); break;
-    case 'skin': L.gems -= 1980; L.eur += 19.99; $('#m-inv').innerHTML = '<span class="trial">Miriam ★5 · TRIAL · 6 days left · wearing Star Specks</span>'; { const si = $('.shop-item'); if (si) si.classList.add('owned') } break;
+    case 'chest': L.eur += 99.99; L.gems += 12960 - 8000; lessonPull(true, 50, [D.lesson.pityLoss, 49]); break;
+    case 'chase': L.eur += 199.98; L.gems += 12960 - 12800; lessonPull(false, 80, ['prima', 77]); L.prima = true; $('#m-inv').insertAdjacentHTML('beforeend', '<span class="trial">Prima ★5 · yours (for now)</span>'); break;
+    case 'skin': L.gems -= 1980; L.eur += 19.99; $('#m-inv').innerHTML = '<span class="trial">Miriam ★5 · TRIAL · 6 days left · wearing Star Specks</span>' + (L.prima ? '<span class="trial">Prima ★5 · yours (for now)</span>' : ''); { const si = $('.shop-item'); if (si) si.classList.add('owned') } break;
     case 'tilt': smash(); return;
     case 'journey': L.done = true; write({ lesson: { done: 1 } }); startJourney(true); return;
   }
@@ -225,18 +235,12 @@ function smash() {
   });
   for (let i = 0; i < 14; i++) { const p = el('i', 'shard'); p.style.setProperty('--dx', (Math.random() * 360 - 180) + 'px'); p.style.setProperty('--dy', (Math.random() * 260 - 60) + 'px'); p.style.setProperty('--r', (Math.random() * 540 - 270) + 'deg'); sh.append(p) }
   $('#m-date-t').textContent = 'No more banners. No more clocks. Ever.';
-  L.gems = 0; L.tix = 0; $('#m-inv').innerHTML = '<span class="trial gone">Miriam (trial): gone with the machine, costume and all. She was never yours. The real one is out there, and Star Specks fell out of the wreck: find her and it\'s hers, free.</span>';
+  L.gems = 0; L.tix = 0; $('#m-inv').innerHTML = '<span class="trial gone">Miriam (trial): gone with the machine, costume and all. She was never yours. Neither was the Prima you paid 299.97 € for. The real ones are out there, and Star Specks fell out of the wreck: find Miriam and it\'s hers, free.</span>';
   advance();
 }
 function bindShop() {
   $('#next').onclick = nextLine; $('#act').onclick = act;
   $('#rates').onclick = () => { L.rates = !L.rates; paintShop(); if (L.rates && L.step <= 2) say('Ah. You found the rates. Most people don\'t. Let\'s not dwell on it, friend.') };
-  $('#unchain').onclick = () => {
-    const t = $('#m-date-t'); L.frozen = true; L.ended = false; paintClock(); t.textContent = 'Event has ended.'; $('#unchain').hidden = true;
-    setTimeout(() => { t.textContent = '...if we were evil!' }, 1400);
-    setTimeout(() => { t.textContent = 'Prima\'s banner: open forever.' }, 2800);
-    say('Hey! Who gave you the Unchain button? That\'s... that\'s the Statement of Conduct. Ugh. Fine. Nothing here ends. Not Prima, not anything. The clock was never real, friend. I just made it tick faster when you stopped to think.');
-  };
   $('#backroom-btn').onclick = () => { $('#backroom').hidden = false; $('#backroom-btn').hidden = true; say('HEY! Staff only! Put that... okay, fine. Look. Those are the odds. I set them. I can set them to anything. I always could.') };
   const setO = (a, b) => { a = Math.max(0, Math.min(100, +a)); b = Math.max(0, Math.min(100 - a, +b)); L.odds = a === HOUSE[5] && b === HOUSE[4] ? null : { 5: Math.round(a * 10) / 10, 4: Math.round(b * 10) / 10 }; paintShop() };
   $('#o5').oninput = () => setO($('#o5').value, $('#o4').value);
@@ -250,7 +254,7 @@ function bindShop() {
 }
 function bannerOf(it, extra) { const ma = $('#m-art'); ma.innerHTML = ''; ma.append(art(it)); ma.append(plate(it, extra)); $('#m-banner').classList.toggle('creep', !!L && (steps()[L.step] || {}).id === 'creep') }
 function startShop(replay) {
-  bannerOf(ITEMS.prima, '<span class="pl-up">LIMITED · RATE UP</span><span class="pl-gone">GONE</span>');
+  bannerOf(ITEMS.prima, '<span class="pl-up">TCG COLLAB · RATE UP</span><span class="pl-gone">GONE</span>');
   $('#m-results').innerHTML = ''; $('#m-inv').innerHTML = ''; $('#shards').innerHTML = ''; $('#backroom').hidden = true;
   $('#m-banner').querySelectorAll('.spill').forEach(x => x.remove());
   feedT.forEach(clearTimeout); feedT = []; fed = {}; $('#ph-list').innerHTML = ''; $('#ph-n').textContent = '';

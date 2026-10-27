@@ -236,8 +236,8 @@
    "refCredit": "AI◆ICE card face (SOFA-097, Ultra Rare). Work in progress: art AI-generated, card frame designed with Claude.",
    "facts": [
     [
-     "Card",
-     "SOFA-097 · Entity · Fate · Ultra Rare"
+     "Collab",
+     "A character from the AI◆ICE TCG collab (SOFA-097 · Entity · Fate · Ultra Rare)"
     ],
     [
      "Name",
@@ -249,7 +249,7 @@
     ],
     [
      "First",
-     "The first AI◆ICE card Nero made, and Claude's pick on the AI◆ICE project"
+     "The first character Nero made for the AI◆ICE TCG, and Claude's pick on the AI◆ICE project"
     ],
     [
      "Seen",
@@ -411,8 +411,8 @@
    ],
    "quote": "Listen up. 'T was evening, and 't was my free day.",
    "outfit": {
-    "name": "Gentleman detective",
-    "line": "A tweed coat, a deerstalker and a magnifying glass he doesn't need. He has been waiting his whole life to wear this."
+    "name": "Storyteller's tweed",
+    "line": "A tweed jacket, a long scarf and a battered leather-bound book he reads aloud from. 'T was evening, and 't was the best jacket he owns."
    }
   },
   {
@@ -953,7 +953,7 @@
     "lines": [
      "Welcome, friend! Come in, come in, mind the thread. First time here? Then everything's on the house.",
      "3,200 Gems. 10 Fate Tickets. And look: Miriam, a gold one, free! A trial version. She stays for seven days. Isn't that generous?",
-     "And see the banner? Prima, Keeper of Fate. Limited. Between us, friend: he's broken. The best card in the whole game. Everyone at the top of the leaderboard has him. And he's only here for three days. Prima, not Ultima, by the way: he's the first, and he's still the best. That's the problem."
+     "And see the banner? Prima, Keeper of Fate: a character from the AI◆ICE TCG collab. Limited. Between us, friend: he's broken. The best character in the whole game. Everyone at the top of the leaderboard has him. And he's only here for three days. Prima, not Ultima, by the way: he's the first, and he's still the best. That's the problem."
     ],
     "act": "Take the gifts",
     "lesson": "Lesson 1: the welcome gift is the hook. A big free start makes you feel you owe the game something back, a trial character with an expiry date teaches you to fear losing her, and the limited banner is already there on day one, so the clock starts before you've even played."
@@ -992,13 +992,24 @@
    {
     "id": "chest",
     "lines": [
-     "Hey. Hey, friend. Don't look at me like that. I made some calls. Prima is BACK. The final rerun. Ever. Forty-eight hours. And look how close you are to a guaranteed gold! I can't tell you exactly how close. It's a surprise. The Crystal Chest, first-time double Gems, 99.99. Best value! Then pull. I can feel it. This is the one."
+     "Hey. Hey, friend. Don't look at me like that. I made some calls. Prima is BACK. The final rerun. Ever. Forty-eight hours. And look how close you are to a guaranteed gold! I can't tell you exactly how close. It's a surprise. The Crystal Chest, first-time double Gems, 99.99. That's FIFTY pulls. Best value! Then pull. I can feel it. This is the one."
     ],
-    "act": "Buy the Crystal Chest (pretend 99.99 €) and pull ×10",
+    "act": "Buy the Crystal Chest (pretend 99.99 €) and pull ×50",
     "after": [
-     "Oh! Did you see that gold flash? So close! That was Prima, I swear. It turned purple at the last second. That means the next one is DEFINITELY gold."
+     "Did you see that gold flash? So close! It turned purple at the last second, but keep watching… the very last pull… GOLD! That's your pity, friend! It's… Sir Tossington. Knight of the Coin. Standard banner. Everyone has six of him, nobody uses him. You lost the 50/50. But good news: your NEXT gold is guaranteed Prima! Only about eighty more pulls."
     ],
-    "lesson": "Lesson 5: the gold flash was a costume. The result was decided the moment you clicked; the animation that teased gold and turned purple was put there to make you pull again. 'Best value', the hidden pity counter and the 'final rerun, 48 hours' work the same way: the same panic, sold twice. And 'broken' never lasts: next season's banner is built to beat him."
+    "lesson": "Lesson 5: fifty pulls for 99.99 €, and pity still let you down. The 'guaranteed' gold was only a coin toss: it landed on someone else, and the real guarantee starts counting from zero. The gold flash that turned purple was a costume too: the result was decided the moment you clicked. 'Best value', the hidden counter and the 'final rerun, 48 hours' work the same way: the same panic, sold twice. And 'broken' never lasts: next season's banner is built to beat him."
+   },
+   {
+    "id": "chase",
+    "lines": [
+     "Eighty pulls, friend. That's all that stands between you and Prima. GUARANTEED. The first-time bonus is used up, so a Crystal Chest is forty pulls now. Two chests. You've come this far: stopping now would waste the first 99.99, wouldn't it?"
+    ],
+    "act": "Buy two Crystal Chests (pretend 199.98 €) and pull ×80",
+    "after": [
+     "HE'S HOME! Prima! A hundred and forty pulls, 299.97 €, and look at him. The best character in the game, and he's finally yours. Enjoy him. Really. Enjoy him while it lasts."
+    ],
+    "lesson": "Lesson 6: the sunk cost. Once you've paid for half a guarantee, the other half feels like saving money. It isn't. The house counts on you not stopping, and the 'guarantee' was always another eighty pulls away."
    },
    {
     "id": "skin",
@@ -1010,7 +1021,7 @@
     "after": [
      "Wonderful choice! She's wearing it now. For six more days."
     ],
-    "lesson": "Lesson 6: a paid costume sells a feeling, attached to a character you might not even keep. Here, outfits are never sold: every secret outfit is found (four finds unlock one), and Star Specks is free the moment Miriam follows you."
+    "lesson": "Lesson 7: a paid costume sells a feeling, attached to a character you might not even keep. Here, outfits are never sold: every secret outfit is found (four finds unlock one), and Star Specks is free the moment Miriam follows you."
    },
    {
     "id": "creep",
@@ -1018,7 +1029,7 @@
      "Oh, one more thing before you go. Big announcement! Next month's banners. All four of them. They're a team.",
      "First, REDACHE. Six stars. The most OP of all. He's a support: he doesn't fight, he makes his carry broken. One carry only, mind you.",
      "That carry is Kristoph! Main DPS, brilliant and absent, and in this version he hits like a falling company stock. With Redache behind him: double turns, triple damage. Without Kristoph, Redache does... nothing. That's the point.",
-     "Then Norman, sub DPS. His whole kit starts with 'if Kristoph is on the field'. Four banners, one team. Your Prima? Benched. It's a single-player game, but without the full team? You lose, man!",
+     "Then Norman, sub DPS. His whole kit starts with 'if Kristoph is on the field'. Four banners, one team. Your Prima? The 299.97 € one? Benched. It's a single-player game, but without the full team? You lose, man!",
      "And the healer: Dr. Tater. Yes, he's a potato in a nurse's cap. Yes, his face is like that. Why him? The new endgame tower, friend. Floor 12 hits so hard you need BIG HEALS, and he heals four times more than Miriam. You know, Miriam? The one you just bought a costume for? Into the drawer she goes, star clips and all. Look at him instead. Every fight. Every top-hundred clear video runs him. Nobody likes him. Everybody needs him.",
      "And Kristoph needs his signature weapon, obviously. The Red Needle! Its own banner, its own pity, and a 'Fate Path' you must pick before you pull. Without it the team is only very broken.",
      "Oh, and one copy is just the start. Redache's sixth duplicate unlocks his special talent, Unravel: Kristoph acts twice. Kristoph's sixth unlocks Hostile Takeover: he takes the other team's turns as his own. Completely busted. Norman and Dr. Tater want their six too, and the Needle wants five copies. Per team. It's called commitment, friend. Pre-register now and get a free..."
@@ -1027,7 +1038,7 @@
     "after": [
      "...hang on. That's me. I'm the power creep. I'm selling you myself, so the thing you just bought stops mattering."
     ],
-    "lesson": "Lesson 7: power creep. Every new banner has to beat the last one or nobody pulls, so the character you paid for is built to be outclassed. Here the new 'broken' support only works with one carry, the carry's teammates only work with him, his weapon has a banner of its own, and the special talents that make the team truly busted sit behind six more copies each. One must-pull becomes dozens. A game you own doesn't do that to you.",
+    "lesson": "Lesson 8: power creep. Every new banner has to beat the last one or nobody pulls, so the character you paid for is built to be outclassed. Here the new 'broken' support only works with one carry, the carry's teammates only work with him, his weapon has a banner of its own, and the special talents that make the team truly busted sit behind six more copies each. One must-pull becomes dozens. A game you own doesn't do that to you.",
     "banners": {
      "2": "kristoph",
      "3": "norman",
@@ -1041,10 +1052,11 @@
      "Right. Let me print your receipt, friend. Just so we're clear on what you…",
      "…",
      "No. No, no, no. Look at this. I can't do it.",
+     "And the clock? Never real. I made it tick faster every time you stopped to think. Prima's banner could have stayed open forever.",
      "I was going to make a fortune out of you. Your money, your attention, your time. And I'm terrible at it, because I LOVE games. I love watching you play them. You're the hero here. Not your wallet."
     ],
     "act": "Break it, Ache",
-    "lesson": "Lesson 8: the house always looks friendly. The receipt is what it really asked for."
+    "lesson": "Lesson 9: the house always looks friendly. The receipt is what it really asked for."
    },
    {
     "id": "journey",
@@ -1111,6 +1123,14 @@
     "stars": 5,
     "name": "Dr. Tater",
     "title": "Healer · Team Thread · tier 0"
+   },
+   "sir-tossington": {
+    "id": "sir-tossington",
+    "kind": "lesson",
+    "world": "tz0",
+    "stars": 5,
+    "name": "Sir Tossington",
+    "title": "Knight of the Coin · standard banner"
    }
   },
   "feed": {
@@ -1274,8 +1294,31 @@
      "text": "Saved you a slice of birthday cake ❤",
      "kind": "friend"
     }
+   ],
+   "chase": [
+    {
+     "from": "whale_god",
+     "text": "lost to Tossington? 💀 classic",
+     "kind": "toxic"
+    },
+    {
+     "from": "Guild · Moonrise",
+     "text": "just keep going, you're past half pity now",
+     "kind": "guild"
+    },
+    {
+     "from": "Mum",
+     "text": "is everything ok? the bank sent a letter",
+     "kind": "friend"
+    },
+    {
+     "from": "grindlord",
+     "text": "took you 140 pulls? skill issue",
+     "kind": "toxic"
+    }
    ]
-  }
+  },
+  "pityLoss": "sir-tossington"
  },
  "campfire": {
   "_note": "Opens when every character is on the shelf (one find each). Data-driven: a new game adds a world + items and its characters get a seat; 'spare' seats are kept empty for whoever joins next, our future games or other people's. Draft lines, Nero to review.",
