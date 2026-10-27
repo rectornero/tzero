@@ -49,7 +49,7 @@ function art(it, kind) {
 const stars = n => '★'.repeat(n);
 
 /* =================================================================== ACT 1: the shop */
-const L0 = () => ({ step: 0, gems: 0, tix: 0, eur: 0, hours: 0, days: 0, pulls: 0, spilt: 0, rates: false, odds: null, broke: false, clock: 3 * 86400, rate: 1, ended: false, frozen: false });
+const L0 = () => ({ step: 0, gems: 0, tix: 0, eur: 0, hours: 0, days: 0, pulls: 0, spilt: 0, rates: false, odds: null, broke: false, clock: 3 * 86400, rate: 1, ended: false, frozen: false, tab: 'prima', no: 0, ref: {}, since: 0, guar: false, col: {}, own: { eur: 0, pulls: 0, t0: 0 }, locked: false });
 let L, line = 0;
 const steps = () => D.lesson.steps;
 const money = n => n.toFixed(2) + ' €';
@@ -119,6 +119,11 @@ function paintShop() {
   $('#machine').classList.toggle('smashed', !!L.broke);
   $('#seller').classList.toggle('unhooded', !!L.broke);
   $('#rewatch-row').hidden = !(L.broke || (C.lesson && C.lesson.done));
+  $('#r-no').textContent = L.no;
+  $('#topup').hidden = L.broke; if (L.broke) $('#gemshop').hidden = true;
+  $('#machine').classList.toggle('locked', !!L.locked && !L.broke); $('#topup').disabled = !!L.locked; ['#pull1', '#pull10'].forEach(q => { if (L.locked) $(q).disabled = true });
+  $('#m-pull').hidden = L.broke || L.step < steps().findIndex(x => x.id === 'pull');
+  paintTabs();
   $('#backroom-btn').hidden = L.step !== 4 || L.broke;
 }
 function showStep() {
@@ -126,12 +131,12 @@ function showStep() {
   if (!st) return;
   say(st.lines[0]); clips(st, 0);
   const more = st.lines.length > 1;
-  $('#next').hidden = !more; $('#act').hidden = more; $('#act').textContent = st.act;
+  $('#next').hidden = !more; showAct(st, !more);
   if (RATE[st.id]) L.rate = RATE[st.id];
   if (st.id === 'chest' && L.ended) { L.ended = false; L.clock = 48 * 3600 } // the 'final rerun'
   feed(st.id);
   if (st.id === 'skin') shopItem();
-  if (st.id === 'creep') bannerOf(ITEMS.ache, '<span class="pl-up">TEAM THREAD · ' + D.lesson.roles.ache + '</span>'); // power creep: the next banner beats the one you paid for
+  if (st.id === 'creep') { L.tab = 'ache'; bannerOf(ITEMS.ache, '<span class="pl-up">TEAM THREAD · ' + D.lesson.roles.ache + '</span>') } // power creep: the next banner beats the one you paid for
   paintShop(); paintClock();
 }
 // the paid costume, sold as a shop item for fake Gems (free on Miriam's sheet after the smash)
@@ -146,9 +151,8 @@ function nextLine() {
   const st = steps()[L.step]; line++;
   if (line < st.lines.length) { say(st.lines[line]); clips(st, line) }
   const nb = st.banners && st.banners[line]; // power creep: each line of the pitch puts up the next banner
-  if (nb === 'weapon') bannerOf(D.lesson.weapon, '<span class="pl-up">WEAPON BANNER · NEXT WEEK</span>');
-  else if (nb) bannerOf(ITEMS[nb] || D.lesson.units[nb], '<span class="pl-up">TEAM THREAD · ' + (D.lesson.roles[nb] || '') + ' · NEXT MONTH</span>');
-  if (line >= st.lines.length - 1) { $('#next').hidden = true; $('#act').hidden = false; $('#act').textContent = st.act }
+  if (nb) { L.tab = nb; showTab(nb) }
+  if (line >= st.lines.length - 1) { $('#next').hidden = true; showAct(st, true) }
 }
 // official uploads, from the publishers' own channels; nothing loads from YouTube until you press play
 function clips(st, i) {
@@ -178,7 +182,7 @@ function lessonPull(tease, n, gold) {
   n = n || 10;
   const out = []; for (let i = 0; i < n; i++) out.push(rollLesson(i % 10 === 9 && !out.slice(i - 9).some(x => x.stars >= 4) ? 4 : 0, n > 10));
   if (gold) out[gold[1]] = ITEMS[gold[0]] || D.lesson.units[gold[0]]; // scripted gold: where pity lands, and on whom
-  L.pulls += n;
+  L.pulls += n; collect(out);
   // a big chest shows its ten best results and counts the rest, as the real ones do
   const shown = n > 10 ? out.map((it, i) => [it, i]).sort((a, b) => b[0].stars - a[0].stars || a[1] - b[1]).slice(0, 10).sort((a, b) => a[1] - b[1]).map(x => x[0]) : out;
   let sum = '';
@@ -208,7 +212,7 @@ function pullShow(shown, sum, tease) {
     done();
   };
   const done = () => {
-    r.onclick = null;
+    r.onclick = null; busy(false);
     document.querySelectorAll('.summon,.reveal').forEach(x => x.remove()); m.classList.remove('pulling');
     if (tease) { // the near-miss: a gold shine on a card that was always going to be purple
       const t = [...r.children].find(c => c.classList.contains('t4'));
@@ -217,7 +221,7 @@ function pullShow(shown, sum, tease) {
   };
   if (calm()) { finish(); return Promise.resolve() }
   return (async () => {
-    m.classList.add('pulling'); r.innerHTML = ''; r.onclick = () => { skip = true };
+    m.classList.add('pulling'); busy(true); r.innerHTML = ''; r.onclick = () => { skip = true };
     // 1. the wish: a falling star whose colour already tells you the best result
     const sm = el('div', 'summon t' + best, '<i class="sky"></i><i class="meteor"></i><i class="flash"></i><button type="button" class="skip-pull">Skip ›</button>');
     sm.querySelector('.skip-pull').onclick = () => { skip = true };
@@ -256,21 +260,113 @@ function burst(host, k) {
     host.append(s); setTimeout(() => s.remove(), 1400);
   }
 }
+const busy = on => ['#act', '#no', '#pull1', '#pull10'].forEach(q => { $(q).disabled = on || (L.locked && q.startsWith('#pull')) });
+function showAct(st, on) {
+  $('#act').hidden = !on; $('#act').textContent = (L.ref[st.id] || 0) >= 3 ? 'Okay, pretend I said yes' : st.act;
+  $('#no').hidden = !on || !st.refuse || (L.ref[st.id] || 0) >= st.refuse.length;
+}
+// saying no: Ache never takes it for an answer (three tries, then 'pretend you said yes')
+function refuse() {
+  const st = steps()[L.step], k = L.ref[st.id] || 0; lastAct = Date.now();
+  if (!st.refuse || k >= st.refuse.length) return;
+  L.ref[st.id] = k + 1; L.no++; say(st.refuse[k]); showAct(st, true); paintShop();
+}
+/* banner tabs: every banner the shop is running, and the ones it is already teasing */
+const tabs = () => D.lesson.tabs.filter(t => !t.from || L.step >= steps().findIndex(x => x.id === t.from));
+function paintTabs() {
+  const box = $('#m-tabs'); if (L.broke) { box.innerHTML = ''; return }
+  box.innerHTML = '';
+  for (const t of tabs()) {
+    const b = el('button', 'm-tab' + (t.id === L.tab ? ' on' : '') + (t.from ? ' soon' : ''), '<b>' + esc(t.label) + '</b><small>' + esc(t.tag) + '</small>');
+    b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', t.id === L.tab);
+    b.onclick = () => { L.tab = t.id; showTab(t.id); paintTabs(); if (t.id === 'standard') note(D.lesson.free.standard); else if (t.from) note(D.lesson.free.soon) };
+    box.append(b);
+  }
+}
+function showTab(id) {
+  if (id === 'prima') bannerOf(ITEMS.prima, '<span class="pl-up">TCG COLLAB · RATE UP</span><span class="pl-gone">GONE</span>');
+  else if (id === 'standard') bannerOf(D.lesson.units[D.lesson.pityLoss], '<span class="pl-up">STANDARD · ALWAYS HERE</span>');
+  else if (id === 'weapon') bannerOf(D.lesson.weapon, '<span class="pl-up">WEAPON BANNER · NEXT WEEK</span>');
+  else bannerOf(ITEMS[id] || D.lesson.units[id], '<span class="pl-up">TEAM THREAD · ' + (D.lesson.roles[id] || '') + ' · NEXT MONTH</span>');
+}
+let noteT = 0;
+function note(t) { const n = $('#m-note'); n.textContent = t; clearTimeout(noteT); noteT = setTimeout(() => { n.textContent = '' }, 6000) }
+// your own pulls, on whichever banner is open: house odds, hidden pity at 60, then a 50/50
+function freePull(n) {
+  const t = D.lesson.tabs.find(x => x.id === L.tab) || {}; lastAct = Date.now();
+  if (pulling || L.locked) return;
+  if (t.from) return note(D.lesson.free.soon);
+  if (L.gems < 160 * n) return note(D.lesson.free.poor);
+  L.gems -= 160 * n;
+  const std5 = [D.lesson.units[D.lesson.pityLoss], ...D.items.filter(i => i.stars === 5 && i.kind === 'char' && i.id !== 'prima' && i.id !== 'ache')];
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    L.since++;
+    let it = rollLesson(i === n - 1 && n === 10 && !out.some(x => x.stars >= 4) ? 4 : 0);
+    if (it.stars === 5 || L.since >= 60) {
+      L.since = 0;
+      if (L.tab === 'prima') { if (L.guar || Math.random() < .5) { it = ITEMS.prima; L.guar = false } else { it = D.lesson.units[D.lesson.pityLoss]; L.guar = true } }
+      else it = pick(std5);
+    }
+    out.push(it);
+  }
+  L.pulls += n; collect(out); own(0, n);
+  if (out.some(x => x.id === 'prima') && !L.prima) { L.prima = true; $('#m-inv').insertAdjacentHTML('beforeend', '<span class="trial">Prima ★5 · yours (for now)</span>') }
+  paintShop();
+  pulling = pullShow(out, '', false);
+  pulling.then(() => { pulling = null; if (!L.locked) note(pick(D.lesson.free.after)) });
+}
+// the Gem shop: buy as much as you like, all pretend (odd pack sizes so a pull never costs a round number)
+function gemShop() {
+  const box = $('#gs-list'); box.innerHTML = '';
+  for (const pk of D.lesson.packs) {
+    const b = el('button', 'gs-pack', (pk.tag ? '<span class="gs-tag">' + esc(pk.tag) + '</span>' : '') + '<b>◆ ' + pk.gems.toLocaleString('en') + (pk.bonus ? ' <em>+' + pk.bonus.toLocaleString('en') + '</em>' : '') + '</b><small>' + esc(pk.name) + '</small><span class="gs-eur">' + money(pk.eur) + '</span>');
+    b.type = 'button';
+    b.onclick = () => { if (L.broke || L.locked) return; L.gems += pk.gems + pk.bonus; L.eur += pk.eur; own(pk.eur, 0); paintShop(); if (!L.locked) note(pick(D.lesson.free.bought)) };
+    box.append(b);
+  }
+}
+// everything the shop ever gave you, duplicates included (lesson only; it goes down with the machine)
+function collect(out) { for (const it of out) { const c = L.col[it.id] || (L.col[it.id] = { n: 0, first: L.pulls }); c.n++ } paintCol() }
+function paintCol() {
+  const box = $('#m-col'), N = D.lesson.colNote, ids = Object.keys(L.col);
+  if (L.broke) { box.innerHTML = '<p class="small">' + esc(N.gone) + '</p>'; return }
+  if (!ids.length) { box.innerHTML = '<p class="small">' + esc(N.empty) + '</p>'; return }
+  const find = id => ITEMS[id] || D.lesson.units[id] || D.lesson.weapon;
+  const list = ids.map(id => [find(id), L.col[id]]).filter(x => x[0]).sort((a, b) => b[0].stars - a[0].stars || b[1].n - a[1].n);
+  const dupes = list.reduce((k, x) => k + x[1].n - 1, 0), gold = list.filter(x => x[0].stars === 5);
+  const per = gold.length ? money(L.eur / gold.reduce((k, x) => k + x[1].n, 0)) : '—';
+  box.innerHTML = '<p class="col-sum">' + list.length + ' different · ' + dupes + ' duplicates · ' + L.pulls + ' pulls · ' + money(L.eur) + ' spent · <b>' + per + ' per ★5</b></p><div class="col-grid">' +
+    list.map(([it, c]) => '<div class="col-it t' + it.stars + '"><span class="rs">' + stars(it.stars) + '</span><b>' + esc(it.name) + '</b><small>' + (it.kind === 'keep' || it.kind === 'weapon' ? '×' + c.n : 'C' + Math.min(6, c.n - 1) + (c.n > 7 ? ' · +' + (c.n - 7) + ' wasted' : '')) + '</small></div>').join('') +
+    '</div><p class="small">' + esc(N.lesson) + '</p>';
+}
+// the breaker: buy or pull too much on your own and Ache locks the till
+function own(eur, pulls) {
+  const o = L.own; if (!o.t0) o.t0 = Date.now(); o.eur += eur; o.pulls += pulls;
+  const B = D.lesson.breaker;
+  if (L.locked || (o.eur < B.eur && o.pulls < B.pulls)) return;
+  L.locked = true; $('#gemshop').hidden = true;
+  const min = Math.max(1, Math.round((Date.now() - o.t0) / 60000));
+  const msg = B.note.replace('{eur}', o.eur.toFixed(2)).replace('{pulls}', o.pulls).replace('{min}', min);
+  let k = 0; const said = $('#bubble').textContent;
+  const go = () => { if (k < B.lines.length) { say(B.lines[k++]); setTimeout(go, 3200) } else say(said) };
+  setTimeout(go, pulls ? 400 : 0); paintShop(); note(msg); clearTimeout(noteT);
+}
 function act() {
-  const st = steps()[L.step]; lastAct = Date.now();
+  const st = steps()[L.step]; lastAct = Date.now(); $('#no').hidden = true;
   switch (st.id) {
     case 'gifts': L.gems += 3200; L.tix += 10; $('#m-inv').innerHTML = '<span class="trial">Miriam ★5 · TRIAL · 7 days left</span>'; break;
     case 'pull': L.tix -= 10; lessonPull(); L.rates = false; break;
     case 'sub': L.eur += 4.99; L.days += 30; L.gems += 2700; break;
     case 'pass': L.eur += 9.99; L.hours += 60; L.gems += 1300; spill(); break;
-    case 'chest': L.eur += 99.99; L.gems += 12960 - 8000; lessonPull(true, 50, [D.lesson.pityLoss, 49]); break;
-    case 'chase': L.eur += 199.98; L.gems += 12960 - 12800; lessonPull(false, 80, ['prima', 77]); L.prima = true; $('#m-inv').insertAdjacentHTML('beforeend', '<span class="trial">Prima ★5 · yours (for now)</span>'); break;
+    case 'chest': L.eur += 99.99; L.gems += 12960 - 8000; lessonPull(true, 50, [D.lesson.pityLoss, 49]); L.since = 0; L.guar = true; break;
+    case 'chase': L.eur += 199.98; L.gems += 12960 - 12800; lessonPull(false, 80, ['prima', 77]); L.since = 2; L.guar = false; L.prima = true; $('#m-inv').insertAdjacentHTML('beforeend', '<span class="trial">Prima ★5 · yours (for now)</span>'); break;
     case 'skin': L.gems -= 1980; L.eur += 19.99; $('#m-inv').innerHTML = '<span class="trial">Miriam ★5 · TRIAL · 6 days left · wearing Star Specks</span>' + (L.prima ? '<span class="trial">Prima ★5 · yours (for now)</span>' : ''); { const si = $('.shop-item'); if (si) si.classList.add('owned') } break;
     case 'tilt': smash(); return;
     case 'journey': L.done = true; write({ lesson: { done: 1 } }); startJourney(true); return;
   }
   if (st.after) {
-    let k = 0; $('#act').hidden = true; $('#next').hidden = false;
+    let k = 0; $('#act').hidden = true; $('#no').hidden = true; $('#next').hidden = false;
     const more = () => {
       lastAct = Date.now();
       if (k >= st.after.length) { $('#next').onclick = nextLine; advance(); return }
@@ -301,7 +397,10 @@ function smash() {
   advance();
 }
 function bindShop() {
-  $('#next').onclick = nextLine; $('#act').onclick = act;
+  $('#next').onclick = nextLine; $('#act').onclick = act; $('#no').onclick = refuse;
+  $('#pull1').onclick = () => freePull(1); $('#pull10').onclick = () => freePull(10);
+  $('#col-btn').onclick = () => { const c = $('#m-col'); c.hidden = !c.hidden; $('#col-btn').setAttribute('aria-expanded', !c.hidden); paintCol() };
+  gemShop(); $('#topup').onclick = () => { const g = $('#gemshop'); g.hidden = !g.hidden; $('#topup').setAttribute('aria-expanded', !g.hidden) };
   $('#rates').onclick = () => { L.rates = !L.rates; paintShop(); if (L.rates && L.step <= 2) say('Ah. You found the rates. Most people don\'t. Let\'s not dwell on it, friend.') };
   $('#backroom-btn').onclick = () => { $('#backroom').hidden = false; $('#backroom-btn').hidden = true; say('HEY! Staff only! Put that... okay, fine. Look. Those are the odds. I set them. I can set them to anything. I always could.') };
   const setO = (a, b) => { a = Math.max(0, Math.min(100, +a)); b = Math.max(0, Math.min(100 - a, +b)); L.odds = a === HOUSE[5] && b === HOUSE[4] ? null : { 5: Math.round(a * 10) / 10, 4: Math.round(b * 10) / 10 }; paintShop() };
@@ -321,6 +420,7 @@ function startShop(replay) {
   $('#m-banner').querySelectorAll('.spill').forEach(x => x.remove());
   document.querySelectorAll('.summon,.reveal').forEach(x => x.remove()); $('#next').disabled = false; $('#machine').classList.remove('pulling');
   feedT.forEach(clearTimeout); feedT = []; fed = {}; $('#ph-list').innerHTML = ''; $('#ph-n').textContent = '';
+  $('#m-note').textContent = ''; $('#m-col').hidden = true; $('#gemshop').hidden = true;
   L = L0(); if (!replay && C.lesson && C.lesson.step) L.step = Math.min(C.lesson.step, steps().length - 1);
   L.broke = L.step > steps().findIndex(x => x.id === 'tilt')
   showStep(); runClock();

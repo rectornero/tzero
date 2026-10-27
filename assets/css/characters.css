@@ -297,3 +297,35 @@
 .ph-friend{background:#3b82c4}.ph-guild{background:#5b3a8c}.ph-toxic{background:#3a1f26;border:1px solid #d7182a66;color:#ffd2d2}
 .ph-list:empty::before{content:"No new messages.";display:block;font:12px var(--mono);opacity:.5;padding:6px}
 @media (prefers-reduced-motion:reduce){.ph-list li{animation:none}}
+
+/* banner tabs, own pulls, gem shop, collection, the breaker (lesson only) */
+.m-tabs{display:flex;gap:6px;overflow-x:auto;margin:0 0 10px;padding-bottom:2px;scrollbar-width:thin}
+.m-tab{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:1px;font:inherit;color:#e6eefb;background:#ffffff12;border:1px solid #ffffff25;border-radius:8px;padding:6px 10px;cursor:pointer}
+.m-tab b{font:600 13px var(--body)}.m-tab small{font:10px var(--mono);letter-spacing:.12em;opacity:.7}
+.m-tab.on{background:#f3efe4;color:#13224b;border-color:#f3efe4}
+.m-tab.soon:not(.on){border-style:dashed}
+.m-pull{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 10px}
+.m-pull button{font:600 14px var(--body);color:#13224b;background:#ffcf9a;border:0;border-radius:99px;padding:8px 16px;cursor:pointer}
+.m-pull button small{font:12px var(--mono);opacity:.75;margin-left:4px}
+.m-pull button:disabled{opacity:.45;cursor:default}
+.m-note{flex:1 1 200px;font:12px var(--mono);color:#8ff0d0;min-height:1em}
+.topup{margin-left:6px;width:22px;height:22px;border-radius:50%;border:0;background:#8ff0d0;color:#13224b;font:800 15px/1 var(--body);cursor:pointer;vertical-align:1px}
+.topup:disabled{background:#ffffff30;color:#fff8;cursor:not-allowed}
+.gemshop{margin:0 0 10px;border:1px solid #ffffff25;border-radius:10px;background:#0a1430;overflow:hidden}
+.gemshop .term-head{display:flex;justify-content:space-between;padding:7px 12px;font:11px var(--mono);letter-spacing:.12em;opacity:.7;border-bottom:1px solid #ffffff20}
+.gs-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:10px}
+.gs-pack{position:relative;display:flex;flex-direction:column;gap:2px;align-items:flex-start;font:inherit;color:#e6eefb;background:linear-gradient(160deg,#24407a,#13224b);border:1px solid #8ff0d055;border-radius:8px;padding:10px;cursor:pointer;text-align:left}
+.gs-pack b{font:700 14px var(--mono);color:#8ff0d0}.gs-pack em{font-style:normal;color:#ffcf9a;font-size:12px}
+.gs-pack small{font-size:12px;opacity:.8}.gs-eur{margin-top:4px;font:600 13px var(--mono);color:#fff}
+.gs-tag{position:absolute;top:-7px;right:6px;font:700 9px var(--mono);letter-spacing:.12em;background:#d7182a;color:#fff;border-radius:4px;padding:2px 5px}
+.gs-pack:active{transform:scale(.97)}
+.m-col{background:#0c1733;border-radius:8px;padding:10px 14px;font:13px var(--mono);margin-bottom:8px}
+.m-col .small{font-size:11px;opacity:.7;margin:6px 0 0}
+.col-sum{margin:0 0 8px;font-size:12px}.col-sum b{color:#ffcf9a}
+.col-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px}
+.col-it{display:flex;flex-direction:column;gap:1px;background:#ffffff0d;border-left:3px solid var(--tc);border-radius:4px;padding:5px 8px}
+.col-it .rs{font-size:10px;color:var(--tc)}.col-it b{font:600 12px var(--body);color:#fff}.col-it small{font-size:11px;opacity:.75}
+.machine.locked .m-pull,.machine.locked .gem{position:relative}
+.machine.locked .m-pull::after{content:"LOCKED BY ACHE";position:absolute;inset:0;display:grid;place-items:center;font:700 12px var(--mono);letter-spacing:.24em;color:#fff;background:repeating-linear-gradient(135deg,#d7182acc 0 10px,#13224bcc 10px 20px);border-radius:8px}
+@media (max-width:560px){.gs-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.seller-btns .no{background:transparent;color:var(--ink,#13224b);box-shadow:inset 0 0 0 2px currentColor}

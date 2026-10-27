@@ -934,18 +934,44 @@
  },
  "lesson": {
   "packs": [
-   [
-    "Moon Pass",
-    "4.99"
-   ],
-   [
-    "Season Pass premium",
-    "9.99"
-   ],
-   [
-    "Crystal Chest, first-time double",
-    "99.99"
-   ]
+   {
+    "gems": 60,
+    "bonus": 0,
+    "eur": 0.99,
+    "name": "A pinch"
+   },
+   {
+    "gems": 300,
+    "bonus": 30,
+    "eur": 4.99,
+    "name": "A pouch"
+   },
+   {
+    "gems": 980,
+    "bonus": 110,
+    "eur": 14.99,
+    "name": "A purse"
+   },
+   {
+    "gems": 1980,
+    "bonus": 260,
+    "eur": 29.99,
+    "name": "A chest"
+   },
+   {
+    "gems": 3280,
+    "bonus": 600,
+    "eur": 49.99,
+    "name": "A vault",
+    "tag": "POPULAR"
+   },
+   {
+    "gems": 6480,
+    "bonus": 1600,
+    "eur": 99.99,
+    "name": "A dragon's hoard",
+    "tag": "BEST VALUE"
+   }
   ],
   "steps": [
    {
@@ -956,7 +982,12 @@
      "And see the banner? Prima, Keeper of Fate: a character from the AI◆ICE TCG collab. Limited. Between us, friend: he's broken. The best character in the whole game. Everyone at the top of the leaderboard has him. And he's only here for three days. Prima, not Ultima, by the way: he's the first, and he's still the best. That's the problem."
     ],
     "act": "Take the gifts",
-    "lesson": "Lesson 1: the welcome gift is the hook. A big free start makes you feel you owe the game something back, a trial character with an expiry date teaches you to fear losing her, and the limited banner is already there on day one, so the clock starts before you've even played."
+    "lesson": "Lesson 1: the welcome gift is the hook. A big free start makes you feel you owe the game something back, a trial character with an expiry date teaches you to fear losing her, and the limited banner is already there on day one, so the clock starts before you've even played.",
+    "refuse": [
+     "No? It's FREE, friend. Nobody says no to free!",
+     "Okay, okay: ten more tickets on top. Free gifts, free!",
+     "You can't refuse a gift here. It's already in your inventory. That's how gifts work in my shop."
+    ]
    },
    {
     "id": "pull",
@@ -967,7 +998,12 @@
     "after": [
      "Unlucky! Happens to everyone. Mostly to everyone. The odds? Oh, they're in the menu. Somewhere. Details, then Info, then Rates. Don't worry about it. Do keep an eye on the clock, though. It doesn't stop because you lost."
     ],
-    "lesson": "Lesson 2: the odds are hidden on purpose. A gold character here sits at around 0.6%, two menus deep, so the pull feels like luck instead of maths."
+    "lesson": "Lesson 2: the odds are hidden on purpose. A gold character here sits at around 0.6%, two menus deep, so the pull feels like luck instead of maths.",
+    "refuse": [
+     "Not even the free ones? Everyone else already pulled today, you know.",
+     "Imagine Prima comes on your very first pull and you never even tried.",
+     "Fine. Let's pretend you pressed it, for the lesson. In a real shop that button would glow at you until you did."
+    ]
    },
    {
     "id": "sub",
@@ -975,7 +1011,12 @@
      "You know what smart players do? The Moon Pass. 90 Gems every day for 30 days, only 4.99. You just have to come back every day. Every. Single. Day. Miss one and they're gone, but you won't miss one, will you? Every day you log in is one more shot at Prima before she leaves."
     ],
     "act": "Subscribe (pretend 4.99 €)",
-    "lesson": "Lesson 3: a subscription doesn't sell Gems. It sells a habit. Thirty daily check-ins become thirty little chains."
+    "lesson": "Lesson 3: a subscription doesn't sell Gems. It sells a habit. Thirty daily check-ins become thirty little chains.",
+    "refuse": [
+     "Four ninety-nine is less than a coffee, friend. You do drink coffee?",
+     "First month at half price, just for you. Don't tell the others.",
+     "Fine, pretend you said yes, for the lesson. In a real game this offer follows you for weeks, on every login screen."
+    ]
    },
    {
     "id": "pass",
@@ -987,6 +1028,11 @@
     "after": [
      "Whoops. Some of those hours spilled all over the banner. Never mind the mess, keep grinding, you're doing great. You still owe them, of course.",
      "...wait. What time is it? Oh no. Oh NO. The banner. It ended while you were grinding. Prima's gone. No more pulls, no more chances, not even a look. You'll never get him now. Everyone else has him, and you were busy paying me back."
+    ],
+    "refuse": [
+     "Without the pass, all those hours you play are worth half. Why waste your own time?",
+     "Okay, I'll add a free level-up skip. That's ten hours saved! Hours you can spend grinding the rest.",
+     "Fine, pretend you said yes, for the lesson. Real games just keep the pass greyed out in front of you, every single day, until it ends."
     ]
    },
    {
@@ -998,7 +1044,12 @@
     "after": [
      "Did you see that gold flash? So close! It turned purple at the last second, but keep watching… the very last pull… GOLD! That's your pity, friend! It's… Sir Tossington. Knight of the Coin. Standard banner. Everyone has six of him, nobody uses him. You lost the 50/50. But good news: your NEXT gold is guaranteed Prima! Only about eighty more pulls."
     ],
-    "lesson": "Lesson 5: fifty pulls for 99.99 €, and pity still let you down. The 'guaranteed' gold was only a coin toss: it landed on someone else, and the real guarantee starts counting from zero. The gold flash that turned purple was a costume too: the result was decided the moment you clicked. 'Best value', the hidden counter and the 'final rerun, 48 hours' work the same way: the same panic, sold twice. And 'broken' never lasts: next season's banner is built to beat him."
+    "lesson": "Lesson 5: fifty pulls for 99.99 €, and pity still let you down. The 'guaranteed' gold was only a coin toss: it landed on someone else, and the real guarantee starts counting from zero. The gold flash that turned purple was a costume too: the result was decided the moment you clicked. 'Best value', the hidden counter and the 'final rerun, 48 hours' work the same way: the same panic, sold twice. And 'broken' never lasts: next season's banner is built to beat him.",
+    "refuse": [
+     "The FINAL rerun, friend. Ever. You'll regret this for the rest of your life.",
+     "Best value! First-time double Gems! It will never be this cheap again. I'm practically losing money.",
+     "Fine, pretend you said yes, for the lesson. A real shop would pop this chest up again the moment you close the game."
+    ]
    },
    {
     "id": "chase",
@@ -1009,7 +1060,12 @@
     "after": [
      "HE'S HOME! Prima! A hundred and forty pulls, 299.97 €, and look at him. The best character in the game, and he's finally yours. Enjoy him. Really. Enjoy him while it lasts."
     ],
-    "lesson": "Lesson 6: the sunk cost. Once you've paid for half a guarantee, the other half feels like saving money. It isn't. The house counts on you not stopping, and the 'guarantee' was always another eighty pulls away."
+    "lesson": "Lesson 6: the sunk cost. Once you've paid for half a guarantee, the other half feels like saving money. It isn't. The house counts on you not stopping, and the 'guarantee' was always another eighty pulls away.",
+    "refuse": [
+     "You're SO close. Stop now and the first 99.99 was for nothing.",
+     "Everyone in your guild says go for it. And they're right. They're always right.",
+     "Fine, pretend you said yes, for the lesson. Sunk cost is the house's best friend: it does the selling for me."
+    ]
    },
    {
     "id": "skin",
@@ -1021,7 +1077,12 @@
     "after": [
      "Wonderful choice! She's wearing it now. For six more days."
     ],
-    "lesson": "Lesson 7: a paid costume sells a feeling, attached to a character you might not even keep. Here, outfits are never sold: every secret outfit is found (four finds unlock one), and Star Specks is free the moment Miriam follows you."
+    "lesson": "Lesson 7: a paid costume sells a feeling, attached to a character you might not even keep. Here, outfits are never sold: every secret outfit is found (four finds unlock one), and Star Specks is free the moment Miriam follows you.",
+    "refuse": [
+     "She looks so plain next to the others, don't you think?",
+     "Okay, a little discount: and it comes with a FRAME for your profile. A frame!",
+     "Fine, pretend you said yes, for the lesson. Real shops put a 'last day' badge on it and a red dot that never goes away."
+    ]
    },
    {
     "id": "creep",
@@ -1044,7 +1105,12 @@
      "3": "norman",
      "4": "dr-tater",
      "5": "weapon"
-    }
+    },
+    "refuse": [
+     "No pre-register? Then you'll be the only one without him on day one.",
+     "Pre-register and you get a free frame. Everyone loves frames.",
+     "Fine, pretend you said yes, for the lesson. Hm. Why do I feel strange saying that one?"
+    ]
    },
    {
     "id": "tilt",
@@ -1318,7 +1384,81 @@
     }
    ]
   },
-  "pityLoss": "sir-tossington"
+  "pityLoss": "sir-tossington",
+  "tabs": [
+   {
+    "id": "prima",
+    "label": "Prima",
+    "tag": "LIMITED"
+   },
+   {
+    "id": "standard",
+    "label": "Standard",
+    "tag": "ALWAYS"
+   },
+   {
+    "id": "ache",
+    "label": "Redache",
+    "tag": "NEXT MONTH",
+    "from": "creep"
+   },
+   {
+    "id": "kristoph",
+    "label": "Kristoph",
+    "tag": "NEXT MONTH",
+    "from": "creep"
+   },
+   {
+    "id": "norman",
+    "label": "Norman",
+    "tag": "NEXT MONTH",
+    "from": "creep"
+   },
+   {
+    "id": "dr-tater",
+    "label": "Dr. Tater",
+    "tag": "NEXT MONTH",
+    "from": "creep"
+   },
+   {
+    "id": "weapon",
+    "label": "Red Needle",
+    "tag": "WEAPON",
+    "from": "creep"
+   }
+  ],
+  "free": {
+   "poor": "Short on Gems, friend? Press the little + next to your Gems. The shop is always open.",
+   "soon": "Opens next month. Pre-register so you don't miss it!",
+   "standard": "The standard banner. Always here, never exciting. That's where Sir Tossington lives.",
+   "after": [
+    "Again! You've got the feeling now.",
+    "See? Your own choice. Nobody pushed you. Much.",
+    "One more ten-pull and something good is bound to happen. Bound to.",
+    "The gold is coming, I can feel it in my thread."
+   ],
+   "bought": [
+    "Thank you, friend! Pull while they're warm.",
+    "Look at that shine. Doesn't it feel good?",
+    "See, that wasn't so hard. The next one is even easier.",
+    "You're one of my best customers. I mean that."
+   ]
+  },
+  "breaker": {
+   "eur": 250,
+   "pulls": 120,
+   "lines": [
+    "Stop. STOP. Put the wallet down, friend.",
+    "You did that on your own. I didn't even have to ask. That's the part that scares me: the shop doesn't need to push you once you're in the habit.",
+    "I'm locking the till. No more packs, no more pulls of your own. If you want to keep going, it's my script or nothing, and you'll see where my script ends."
+   ],
+   "note": "Till locked by Ache. Spending on your own: {eur} € and {pulls} pulls in {min} minutes."
+  },
+  "colNote": {
+   "empty": "Nothing yet. Every pull lands here, duplicates and all.",
+   "lesson": "Duplicates count as levels (C0 to C6). Every level is another copy you paid for.",
+   "gone": "The collection went down with the machine. None of it was ever yours: it lived on the shop's server."
+  }
  },
  "campfire": {
   "_note": "Opens when every character is on the shelf (one find each). Data-driven: a new game adds a world + items and its characters get a seat; 'spare' seats are kept empty for whoever joins next, our future games or other people's. Draft lines, Nero to review.",

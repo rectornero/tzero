@@ -42,18 +42,22 @@
     <h2>Ache's star shop <small id="lesson-step">a lesson in seven pages</small></h2>
     <div class="shop">
       <div class="machine" id="machine">
+        <div class="m-tabs" id="m-tabs" role="tablist" aria-label="Banners"></div>
         <div class="m-banner" id="m-banner">
           <div class="m-art" id="m-art"></div>
           <span class="m-limited">LIMITED</span>
           <div class="m-date" id="m-date"><span id="m-date-t">Prima's banner ends in 3 days</span></div>
         </div>
         <div class="m-wallet">
-          <span class="gem" title="Gems"><i aria-hidden="true">◆</i><b id="gems">0</b> Gems</span>
+          <span class="gem" title="Gems"><i aria-hidden="true">◆</i><b id="gems">0</b> Gems<button type="button" class="topup" id="topup" aria-label="Buy Gems (pretend)" aria-expanded="false">+</button></span>
           <span class="tix"><i aria-hidden="true">✦</i><b id="tix">0</b> Tickets</span>
           <span class="pity" id="pity">Pity: <b>hidden</b></span>
-          <button type="button" class="rates" id="rates">≡ Details</button>
+          <button type="button" class="rates col-btn" id="col-btn" aria-expanded="false">▦ Collection</button><button type="button" class="rates" id="rates">≡ Details</button>
         </div>
+        <div class="gemshop" id="gemshop" hidden><div class="term-head"><span>GEM SHOP</span><span>pretend prices</span></div><div class="gs-list" id="gs-list"></div></div>
+        <div class="m-pull" id="m-pull" hidden><button type="button" id="pull1">Pull ×1 <small>◆ 160</small></button><button type="button" id="pull10">Pull ×10 <small>◆ 1,600</small></button><span class="m-note" id="m-note" aria-live="polite"></span></div>
         <div class="m-rates" id="m-rates" hidden></div>
+        <div class="m-col" id="m-col" hidden></div>
         <div class="m-results" id="m-results" aria-live="polite"></div>
         <div class="m-inv" id="m-inv"></div>
         <button type="button" class="backroom-btn" id="backroom-btn" hidden>STAFF ONLY</button>
@@ -72,12 +76,12 @@
         <div class="ache-seller" id="ache-seller"><img class="as-shop" src="/assets/img/caw/shop/ache-seller.webp" alt="Ache in a long merchant's coat full of star packs, grinning over a shop counter" width="150" height="150"><img class="as-free" src="/assets/img/caw/token/ache.png" alt="" width="150" height="150"></div>
         <div class="bubble" id="bubble" aria-live="polite"></div>
         <div class="clips" id="clips"></div>
-        <div class="seller-btns"><button type="button" class="btn next" id="next">Next</button><button type="button" class="btn act" id="act" hidden></button></div>
+        <div class="seller-btns"><button type="button" class="btn next" id="next">Next</button><button type="button" class="btn act" id="act" hidden></button><button type="button" class="btn no" id="no" hidden>No thanks</button></div>
       </div>
 
       <div class="receipt-box" id="receipt">
         <b>RECEIPT</b>
-        <dl><dt>Money</dt><dd id="r-eur">0.00 €</dd><dt>Time lent</dt><dd id="r-hours">0 h</dd><dt>Days you must log in</dt><dd id="r-days">0</dd><dt>Pulls</dt><dd id="r-pulls">0</dd></dl>
+        <dl><dt>Money</dt><dd id="r-eur">0.00 €</dd><dt>Time lent</dt><dd id="r-hours">0 h</dd><dt>Days you must log in</dt><dd id="r-days">0</dd><dt>Pulls</dt><dd id="r-pulls">0</dd><dt>Times you said no</dt><dd id="r-no">0</dd></dl>
         <small>Pretend prices. Nothing here can take a real cent.</small>
       </div>
 
