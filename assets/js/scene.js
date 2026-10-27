@@ -429,7 +429,7 @@ const mem=['the first save file','summer 2004, a borrowed console','blowing on a
 function memory(e){const d=document.createElement('div');d.className='memory';d.textContent=mem[mi++%mem.length];d.style.left=e.clientX+'px';d.style.top=e.clientY-24+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),3700)}
 
 /* sound: everything is synthesized live with Web Audio (no files, no licences). Off by default, toggle in the header */
-const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,timer=null,lastVoice=0;
+const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,timer=null,lastVoice=0,phase=null;
   try{on=localStorage.getItem('tz-sound')==='1'}catch(e){}
   const sb=document.getElementById('snd');
   function init(){if(ac)return;ac=new(window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=.8;master.connect(ac.destination);
@@ -446,9 +446,9 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
   const PROG={sea:[[53,57,60,64],[52,55,59,62],[50,53,57,60],[48,52,55,59]],autumn:[[45,48,52,55],[41,45,48,52],[43,47,50,53],[40,43,47,52]]};
   const PENTA={sea:[72,74,76,79,81,84],autumn:[69,72,74,76,79,81]};
   const mf=m=>440*Math.pow(2,(m-69)/12);
-  function sched(){if(!ac||!on)return;const bpm=fight?132:skin==='autumn'?76:88,s16=60/bpm/4;
+  function sched(){if(!ac||!on)return;const bpm=fight?132:phase==='rush'?116:phase==='creep'?80:phase==='shop'?96:skin==='autumn'?76:88,s16=60/bpm/4;
     while(nextT<ac.currentTime+.25){const t=nextT,bar=Math.floor(step/16)%4,i=step%16,k=skin==='autumn'?'autumn':'sea',ch=PROG[k][bar];
-      if(scene){if(i===0&&step%32===0)tone(mf(33),t,s16*32,{type:'sawtooth',vol:.06,bus:music,att:1,q:180})}
+      if(scene||phase==='broken'){if(i===0&&step%32===0)tone(mf(33),t,s16*32,{type:'sawtooth',vol:.06,bus:music,att:1,q:180})}
       else if(fight){if(i%2===0)tone(mf(ch[0]-12+(i%8===6?7:0)),t,s16*1.6,{type:'square',vol:.07,bus:music,q:700});if(i%4===0)noise(t,.06,{vol:.12,f:90,type:'lowpass',bus:music});if(i%8===4)noise(t,.08,{vol:.1,f:2500,bus:music});
         if(i%3===0)tone(mf(ch[i%4]+12),t,s16*.9,{type:'triangle',vol:.05,bus:music})}
       else{if(i===0)ch.forEach((n,j)=>tone(mf(n),t+j*.02,s16*16,{type:'triangle',vol:.035,bus:music,att:.8,q:900}));
@@ -456,7 +456,13 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
         else{const P=PENTA[k];if(Math.random()<(k==='autumn'?.32:.42)&&i%2===0)tone(mf(P[Math.floor(Math.random()*P.length)]),t,k==='autumn'?1.1:.5,{type:k==='autumn'?'sine':'triangle',vol:k==='autumn'?.05:.04,bus:music});
           if(i===8&&bar%2===1)tone(mf(ch[0]-12),t,s16*8,{vol:.06,bus:music,att:.05})}
         if(k==='sea'&&i===0&&bar%2===0)noise(t,3.2,{vol:.025,f:500,to:1400,type:'lowpass',bus:music});
-        if(k==='autumn'&&i===0&&bar===2)noise(t,2.4,{vol:.02,f:300,to:900,Q:4,bus:music})}
+        if(k==='autumn'&&i===0&&bar===2)noise(t,2.4,{vol:.02,f:300,to:900,Q:4,bus:music});
+        /* page phases (TZ.bgm): the same loop, bent a little. shop = a glittering arpeggio that never resolves; rush = a ticking clock
+           and a pushing bass; creep = a sour detuned layer and a bass that slides down; journey = campfire crackles */
+        if(phase==='shop'&&i%2===0)tone(mf(ch[(i/2)%4]+24),t,.18,{vol:.022,bus:music});
+        if(phase==='rush'){noise(t,.03,{vol:i%4===0?.06:.03,f:7000,Q:.8,bus:music});if(i%4===0)tone(mf(ch[0]-24),t,s16*2,{type:'square',vol:.045,bus:music,q:400})}
+        if(phase==='creep'){if(i===0)ch.forEach((n,j)=>tone(mf(n)*.97,t+j*.02,s16*16,{type:'sawtooth',vol:.016,bus:music,att:.8,q:600}));if(i%8===0)tone(mf(ch[0]-24),t,s16*6,{type:'sawtooth',vol:.045,bus:music,to:mf(ch[0]-26),q:300})}
+        if(phase==='journey'&&i%4===2&&Math.random()<.5)noise(t,.05,{vol:.03,f:1800+Math.random()*2000,Q:6,bus:music})}
       nextT+=s16;step++}}
   function setOn(v){on=v;try{localStorage.setItem('tz-sound',v?'1':'0')}catch(e){}sb.textContent=v?'♪ Sound on':'♪ Sound off';sb.setAttribute('aria-pressed',v);
     if(v){init();ac.resume();nextT=ac.currentTime+.05;clearInterval(timer);timer=setInterval(sched,80);fx('wake')}else{clearInterval(timer);ac&&ac.suspend()}}
@@ -492,8 +498,22 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
     case 'crash':noise(t,.9,{vol:.35,f:900,to:60,type:'lowpass'});tone(160,t,.8,{type:'sawtooth',vol:.12,to:40,q:800});break;
     case 'crt':tone(15000,t,.05,{vol:.04});tone(400,t,.6,{type:'sawtooth',vol:.12,to:30,q:1200});noise(t,.5,{vol:.15,f:3000,to:100});break;
     case 'buzz':tone(110,t,.22,{type:'square',vol:.1,q:600});tone(116,t,.22,{type:'square',vol:.1,q:600});break;
-    case 'plug':noise(t,.05,{vol:.25,f:2000,Q:3});tone(200,t+.05,.5,{type:'triangle',vol:.12,to:900});tone(1200,t+.5,.15,{vol:.08});break}}
-  return{voice,fx}})();
+    case 'plug':noise(t,.05,{vol:.25,f:2000,Q:3});tone(200,t+.05,.5,{type:'triangle',vol:.12,to:900});tone(1200,t+.5,.15,{vol:.08});break
+    /* Ache's star shop (characters page): every sound a paid gacha uses to make a result feel like a prize */
+    case 'wish':noise(t,1.5,{vol:.16,f:300,to:5000,Q:1.2});tone(220,t,1.5,{type:'sawtooth',vol:.05,to:880,q:1600});break;
+    case 'wish4':[659,784,988,1319].forEach((f,i)=>tone(f,t+.9+i*.07,.5,{type:'triangle',vol:.09}));break;
+    case 'wish5':[523,659,784,1047,1319,1568].forEach((f,i)=>tone(f,t+1.1+i*.08,.9,{type:'triangle',vol:.11}));noise(t+1.5,.8,{vol:.12,f:6000,Q:.6});break;
+    case 'flip':noise(t,.05,{vol:.18,f:2600,Q:2});tone(700,t,.05,{type:'triangle',vol:.05,to:1000});break;
+    case 'flip4':noise(t,.05,{vol:.18,f:2600,Q:2});[880,1175,1480].forEach((f,i)=>tone(f,t+.03+i*.05,.35,{vol:.08}));break;
+    case 'charge':tone(330,t,.65,{type:'sawtooth',vol:.06,to:1320,q:2400});noise(t,.65,{vol:.08,f:800,to:7000,Q:2});break;
+    case 'flip5':noise(t,.3,{vol:.22,f:5000,Q:.7});[1047,1319,1568,2093].forEach((f,i)=>tone(f,t+i*.05,.7,{type:'triangle',vol:.1}));break;
+    case 'stage4':[587,740,880,1175].forEach((f,i)=>tone(f,t+i*.1,.8,{type:'triangle',vol:.1}));noise(t,.6,{vol:.08,f:5000,Q:.8});break;
+    case 'stage5':[[523,659,784],[587,740,880],[659,831,988],[784,988,1175,1568]].forEach((c,i)=>c.forEach(f=>tone(f,t+i*.2,i===3?1.6:.35,{type:'triangle',vol:.07})));noise(t+.6,1.2,{vol:.1,f:7000,Q:.5});break;
+    case 'coin':tone(1568,t,.08,{type:'square',vol:.05,q:5000});tone(2093,t+.07,.35,{type:'square',vol:.05,q:5000});break;
+    case 'stamp':noise(t,.14,{vol:.32,f:220,type:'lowpass'});tone(140,t,.16,{type:'square',vol:.08,to:70,q:700});break;
+    case 'pop':tone(600,t,.09,{type:'triangle',vol:.08,to:1200});break;
+    case 'lock':noise(t,.08,{vol:.3,f:1500,Q:4});tone(300,t+.06,.2,{type:'square',vol:.08,to:150,q:900});break}}
+  return{voice,fx,phase:p=>{phase=p||null}}})();
 new MutationObserver(()=>{if(say.classList.contains('on'))SND.voice(say.textContent)}).observe(say,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']});
 new MutationObserver(()=>{const p=chat.querySelector('p');if(p&&!chat.hidden)SND.voice(p.textContent)}).observe(chat,{childList:true});
 
@@ -503,6 +523,6 @@ function sfx(k){try{SND.fx(k)}catch(e){}}
 // Pages can add their own lines (Ache notes on frozen posts) without touching lines.json
 window.TZ={bindTilt,addLines:(k,a)=>{XLINES[k]=a}};
 // The reader save file and Ache's sticker scrapbook (save.js) watch Ache through these and talk through him
-Object.assign(window.TZ,{speak,sfx,menu:t=>{if(!chat.hidden)menu(t)},setMood});
+Object.assign(window.TZ,{speak,sfx,bgm:p=>{try{SND.phase(p)}catch(e){}},menu:t=>{if(!chat.hidden)menu(t)},setMood});
 {const s=document.createElement('script');s.src='/assets/js/save.js';s.defer=true;document.head.appendChild(s)}
 })();

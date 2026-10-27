@@ -1051,7 +1051,11 @@
      "No? It's FREE, friend. Nobody says no to free!",
      "Okay, okay: ten more tickets on top. Free gifts, free!",
      "You can't refuse a gift here. It's already in your inventory. That's how gifts work in my shop."
-    ]
+    ],
+    "fx": {
+     "1": "gifts",
+     "2": "hype"
+    }
    },
    {
     "id": "pull",
@@ -1067,7 +1071,10 @@
      "Not even the free ones? Everyone else already pulled today, you know.",
      "Imagine Prima comes on your very first pull and you never even tried.",
      "Fine. Let's pretend you pressed it, for the lesson. In a real shop that button would glow at you until you did."
-    ]
+    ],
+    "fx": {
+     "0": "tickets"
+    }
    },
    {
     "id": "sub",
@@ -1080,7 +1087,10 @@
      "Four ninety-nine is less than a coffee, friend. You do drink coffee?",
      "First month at half price, just for you. Don't tell the others.",
      "Fine, pretend you said yes, for the lesson. In a real game this offer follows you for weeks, on every login screen."
-    ]
+    ],
+    "fx": {
+     "0": "calendar"
+    }
    },
    {
     "id": "pass",
@@ -1097,7 +1107,10 @@
      "Without the pass, all those hours you play are worth half. Why waste your own time?",
      "Okay, I'll add a free level-up skip. That's ten hours saved! Hours you can spend grinding the rest.",
      "Fine, pretend you said yes, for the lesson. Real games just keep the pass greyed out in front of you, every single day, until it ends."
-    ]
+    ],
+    "fx": {
+     "0": "pass"
+    }
    },
    {
     "id": "chest",
@@ -1113,7 +1126,10 @@
      "The FINAL rerun, friend. Ever. You'll regret this for the rest of your life.",
      "Best value! First-time double Gems! It will never be this cheap again. I'm practically losing money.",
      "Fine, pretend you said yes, for the lesson. A real shop would pop this chest up again the moment you close the game."
-    ]
+    ],
+    "fx": {
+     "0": "pity"
+    }
    },
    {
     "id": "chase",
@@ -1129,7 +1145,10 @@
      "You're SO close. Stop now and the first 99.99 was for nothing.",
      "Everyone in your guild says go for it. And they're right. They're always right.",
      "Fine, pretend you said yes, for the lesson. Sunk cost is the house's best friend: it does the selling for me."
-    ]
+    ],
+    "fx": {
+     "0": "sunk"
+    }
    },
    {
     "id": "skin",
@@ -1174,7 +1193,17 @@
      "No pre-register? Then you'll be the only one without him on day one.",
      "Pre-register and you get a free frame. Everyone loves frames.",
      "Fine, pretend you said yes, for the lesson. Hm. Why do I feel strange saying that one?"
-    ]
+    ],
+    "fx": {
+     "0": "prereg",
+     "1": "redache",
+     "2": "meter",
+     "3": "bench",
+     "4": "drawer",
+     "5": "needle",
+     "6": "bill"
+    },
+    "afterFx": "registered"
    },
    {
     "id": "tilt",
@@ -1186,7 +1215,11 @@
      "I was going to make a fortune out of you. Your money, your attention, your time. And I'm terrible at it, because I LOVE games. I love watching you play them. You're the hero here. Not your wallet."
     ],
     "act": "Break it, Ache",
-    "lesson": "Lesson 9: the house always looks friendly. The receipt is what it really asked for."
+    "lesson": "Lesson 9: the house always looks friendly. The receipt is what it really asked for.",
+    "fx": {
+     "0": "receipt",
+     "3": "clock"
+    }
    },
    {
     "id": "journey",
