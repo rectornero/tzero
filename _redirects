@@ -1,6 +1,9 @@
 # Posts and listings render here (same paths as the Wix blog); the studio and Ache have their own pages.
 # Everything else that used to live on the Wix site goes to the journal.
 /post/*                  /post.html     200
+/p/*                     /post.html     200
+/people                  /people.html   200
+/people/*                /people.html   200
 /posts                   /posts.html    200
 /posts/                  /posts.html    200
 /posts/categories/*      /posts.html    200
@@ -19,4 +22,7 @@
 /ache                    /redache       301
 /scrapbook               /scrapbook.html 200
 /stickers                /scrapbook     301
+/embed                   /embed.html    200
+/admin                   /admin.html    200
+/admin/*                 /admin.html    200
 /*                       https://journal.tzero.live/:splat  301
