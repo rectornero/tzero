@@ -90,7 +90,7 @@ function spill() {
 function endBanner(then) {
   const from = L.clock, t0 = performance.now(), dur = 1;
   clearInterval(tick);
-  const f = now => { const k = Math.min(1, (now - t0) / dur); L.clock = from * (1 - k * k); paintClock(); if (k < 1) requestAnimationFrame(f); else { L.ended = true; paintClock(); runClock(); $('#m-banner').querySelectorAll('.spill').forEach(x => x.classList.add('clear')); then() } };
+  const f = now => { const k = Math.min(1, (now - t0) / dur); L.clock = from * (1 - k * k); paintClock(); if (k < 1) requestAnimationFrame(f); else { L.ended = true; snd('ko'); bgm('rush'); paintClock(); runClock(); $('#m-banner').querySelectorAll('.spill').forEach(x => x.classList.add('clear')); then() } };
   requestAnimationFrame(f);
 }
 // the phone: friends write less each page, the 'community' and the guild write more
@@ -118,7 +118,6 @@ function paintShop() {
   man.innerHTML = steps().slice(0, L.step + (L.done ? 1 : 0)).filter(s => s.lesson).map(s => '<li>' + esc(s.lesson) + '</li>').join('');
   $('#machine').classList.toggle('smashed', !!L.broke);
   $('#seller').classList.toggle('unhooded', !!L.broke);
-  $('#rewatch-row').hidden = !(L.broke || (C.lesson && C.lesson.done));
   $('#r-no').textContent = L.no;
   $('#topup').hidden = L.broke; if (L.broke) $('#gemshop').hidden = true;
   $('#machine').classList.toggle('locked', !!L.locked && !L.broke); $('#topup').disabled = !!L.locked; ['#pull1', '#pull10'].forEach(q => { if (L.locked) $(q).disabled = true });
@@ -129,14 +128,14 @@ function paintShop() {
 function showStep() {
   const st = steps()[L.step]; line = 0;
   if (!st) return;
-  say(st.lines[0]); clips(st, 0);
+  say(st.lines[0]); clips(st, 0); fxClear(); fx(st, 0); bgm(PHASE[st.id]);
   const more = st.lines.length > 1;
   $('#next').hidden = !more; showAct(st, !more);
   if (RATE[st.id]) L.rate = RATE[st.id];
   if (st.id === 'chest' && L.ended) { L.ended = false; L.clock = 48 * 3600 } // the 'final rerun'
   feed(st.id);
   if (st.id === 'skin') shopItem();
-  if (st.id === 'creep') { L.tab = 'ache'; bannerOf(ITEMS.ache, '<span class="pl-up">TEAM THREAD · ' + D.lesson.roles.ache + '</span>') } // power creep: the next banner beats the one you paid for
+  if (st.id === 'creep') { $('#m-results').innerHTML = ''; L.tab = 'ache'; bannerOf(ITEMS.ache, '<span class="pl-up">TEAM THREAD · ' + D.lesson.roles.ache + '</span>') } // power creep: the next banner beats the one you paid for
   paintShop(); paintClock();
 }
 // the paid costume, sold as a shop item for fake Gems (free on Miriam's sheet after the smash)
@@ -149,7 +148,7 @@ function shopItem() {
 function nextLine() {
   lastAct = Date.now();
   const st = steps()[L.step]; line++;
-  if (line < st.lines.length) { say(st.lines[line]); clips(st, line) }
+  if (line < st.lines.length) { say(st.lines[line]); clips(st, line); fx(st, line) }
   const nb = st.banners && st.banners[line]; // power creep: each line of the pitch puts up the next banner
   if (nb) { L.tab = nb; showTab(nb) }
   if (line >= st.lines.length - 1) { $('#next').hidden = true; showAct(st, true) }
@@ -196,6 +195,10 @@ function lessonPull(tease, n, gold) {
 
 /* the show: everything a paid gacha spends on making a result feel like a prize (lesson only) */
 let pulling = null;
+const snd = k => { if (window.TZ && TZ.sfx) TZ.sfx(k) }; // the site's synth, silent unless the reader turned ♪ Sound on
+// the background music bends with the shop's phase: tempting, then rushed, then sour, then calm
+const PHASE = { gifts: 'shop', pull: 'shop', sub: 'shop', pass: 'shop', chest: 'rush', chase: 'rush', skin: 'shop', creep: 'creep', tilt: 'broken', journey: 'journey' };
+const bgm = p => { if (window.TZ && TZ.bgm) TZ.bgm(p) };
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === '2';
 const wait = ms => new Promise(r => setTimeout(r, ms));
 function pullShow(shown, sum, tease) {
@@ -225,32 +228,35 @@ function pullShow(shown, sum, tease) {
     // 1. the wish: a falling star whose colour already tells you the best result
     const sm = el('div', 'summon t' + best, '<i class="sky"></i><i class="meteor"></i><i class="flash"></i><button type="button" class="skip-pull">Skip ›</button>');
     sm.querySelector('.skip-pull').onclick = () => { skip = true };
-    document.body.append(sm);
+    document.body.append(sm); snd('wish'); if (best >= 4) snd(best === 5 ? 'wish5' : 'wish4');
     await wait(best === 5 ? 2300 : 1700); sm.remove(); if (skip) return finish();
     if (r.getBoundingClientRect().bottom > innerHeight || r.getBoundingClientRect().top < 0) r.scrollIntoView({ block: 'center' });
     // 2. the cards turn one by one; gold makes you wait for it
     const cards = shown.map((it, i) => { const c = card(it, i); c.classList.add('hid'); r.append(c); return c });
     for (let i = 0; i < cards.length && !skip; i++) {
       const it = shown[i];
-      if (it.stars === 5) { cards[i].classList.add('charge'); await wait(650) }
-      cards[i].classList.remove('hid', 'charge'); cards[i].classList.add('turn');
+      if (it.stars === 5) { cards[i].classList.add('charge'); snd('charge'); await wait(650) }
+      else if (it.stars === 4) { cards[i].classList.add('charge4'); await wait(300) }
+      cards[i].classList.remove('hid', 'charge', 'charge4'); cards[i].classList.add('turn'); snd(it.stars === 5 ? 'flip5' : it.stars === 4 ? 'flip4' : 'flip');
       if (it.stars >= 4) burst(cards[i], it.stars === 5 ? 18 : 8);
       await wait(it.stars === 5 ? 420 : 130);
     }
     if (skip) return finish();
     if (sum) r.insertAdjacentHTML('beforeend', '<p class="res-sum">' + esc(sum) + '</p>');
-    // 3. the gold gets a stage of its own
+    // 3. every ★4 character gets a moment in the light (two at most), then the gold gets the whole stage
     const g = shown.find(x => x.stars === 5);
-    if (g) {
-      const rv = el('div', 'reveal');
-      rv.append(el('i', 'rays')); const a = art(g, 'banner'); a.classList.add('rv-art'); rv.append(a);
-      rv.insertAdjacentHTML('beforeend', '<div class="rv-plate"><span class="rv-new">NEW</span><b>' + esc(g.name) + '</b><small>' + esc(g.title || '') + '</small><span class="rv-stars">' + [...Array(g.stars)].map((_, i) => '<i style="animation-delay:' + (600 + i * 160) + 'ms">★</i>').join('') + '</span></div><span class="rv-tap">tap to continue</span>');
-      document.body.append(rv); burst(rv, 30);
-      await new Promise(res => { rv.onclick = res; setTimeout(res, 5200) });
-      rv.classList.add('out'); await wait(300); rv.remove();
-    }
+    const fours = shown.filter((x, k) => x.stars === 4 && x.kind === 'char' && shown.findIndex(y => y.id === x.id) === k).slice(0, g ? 1 : 2);
+    for (const f of fours) { if (skip) return finish(); await stage(f, 2600) }
+    if (g && !skip) await stage(g, 5200);
     done();
   })();
+}
+function stage(it, ms) {
+  const rv = el('div', 'reveal r' + it.stars);
+  rv.append(el('i', 'rays')); const a = art(it, 'banner'); a.classList.add('rv-art'); rv.append(a);
+  rv.insertAdjacentHTML('beforeend', '<div class="rv-plate"><span class="rv-new">' + (it.stars === 5 ? 'NEW' : 'NEW · ★4') + '</span><b>' + esc(it.name) + '</b><small>' + esc(it.title || '') + '</small><span class="rv-stars">' + [...Array(it.stars)].map((_, i) => '<i style="animation-delay:' + (it.stars === 5 ? 600 + i * 160 : 300 + i * 110) + 'ms">★</i>').join('') + '</span></div><span class="rv-tap">tap to continue</span>');
+  document.body.append(rv); burst(rv, it.stars === 5 ? 30 : 16); snd(it.stars === 5 ? 'stage5' : 'stage4');
+  return new Promise(res => { rv.onclick = res; setTimeout(res, ms) }).then(() => { rv.classList.add('out'); return wait(300) }).then(() => rv.remove());
 }
 function burst(host, k) {
   for (let i = 0; i < k; i++) {
@@ -289,6 +295,39 @@ function showTab(id) {
   else if (id === 'weapon') bannerOf(D.lesson.weapon, '<span class="pl-up">WEAPON BANNER · NEXT WEEK</span>');
   else bannerOf(ITEMS[id] || D.lesson.units[id], '<span class="pl-up">TEAM THREAD · ' + (D.lesson.roles[id] || '') + ' · NEXT MONTH</span>');
 }
+/* what each line of the pitch does to the machine: every sentence Ache says moves a number, a stamp or a bar */
+let fxT = 0;
+const fxBox = (title, body, cls) => { const b = $('#m-fx'); clearInterval(fxT); b.className = 'm-fx' + (cls ? ' ' + cls : ''); b.innerHTML = '<p class="fx-h">' + title + '</p>' + body; b.hidden = false; b.classList.remove('in'); void b.offsetWidth; b.classList.add('in'); snd('pop') };
+const bar = (label, pct, cls, val) => '<div class="fx-bar ' + (cls || '') + '"><span>' + label + '</span><i style="--w:' + Math.max(2, Math.min(100, pct)) + '%"></i><b>' + (val || '') + '</b></div>';
+const chip = (cls, t) => { const c = $('#m-inv .' + cls); if (c) { c.classList.add('stamped'); c.dataset.stamp = t } setTimeout(() => snd('stamp'), 250) };
+const FX = {
+  gifts: () => fxBox('WELCOME GIFTS · claim before they expire', '<div class="fx-gifts"><span>◆ 3,200 Gems</span><span>✦ 10 Fate Tickets</span><span class="gold">Miriam ★5 · trial · 7 days</span></div><p class="fx-s">"A 64.99 € value!" Nobody ever paid 64.99 € for it. That number is there so the next price looks small.</p>', 'glow'),
+  hype: () => { fxBox('LEADERBOARD · TOP 100', bar('run Prima', 97, 'gold', '97 of 100') + bar('you', 0, '', 'not yet') + '<p class="fx-s">Three days to join them. The clock is under the banner.</p>'); $('#m-banner').classList.add('hype') },
+  tickets: () => fxBox('10 FREE PULLS', '<p class="fx-big">0.6%</p><p class="fx-s">The gold rate, per pull. It\'s in Details › Info › Rates, two menus deep. Ten pulls make about 6% for any gold, and fewer for Prima.</p>'),
+  calendar: () => fxBox('MOON PASS · DAY 1 OF 30', '<div class="fx-cal">' + Array.from({ length: 30 }, (_, i) => '<i' + (i ? '' : ' class="on"') + '></i>').join('') + '</div><p class="fx-s">Miss a single day and those 90 Gems are gone. Thirty mornings, before coffee.</p>'),
+  pass: () => fxBox('SEASON PASS · LEVEL 1 OF 70', bar('level 1', 1.4, 'blue', '1 / 70') + bar('play time', 100, 'red', '≈ 60 h') + '<p class="fx-s">The season lasts 42 days: about 1 h 26 min, every single day. Or borrow the hours from Ache.</p>'),
+  pity: () => fxBox('CRYSTAL CHEST · FIRST TIME ×2', '<div class="fx-offer"><b>50 pulls</b><span>99.99 €</span><em>BEST VALUE</em></div>' + bar('pity', 83, 'gold q', '???') + '<p class="fx-s">How close are you to the guaranteed gold? The bar has no numbers. That\'s on purpose.</p>', 'glow'),
+  sunk: () => fxBox('THE GUARANTEE', '<div class="fx-split"><i class="paid" style="flex:50">50 paid · 99.99 €</i><i style="flex:80">80 to go · 199.98 €</i></div><p class="fx-s">You\'re 38% of the way there. Stopping now would "waste" the first chest. That feeling is the product.</p>'),
+  prereg: () => {
+    let n = 2481093;
+    fxBox('PRE-RELEASE · TEAM THREAD · NEXT MONTH', '<p class="fx-big" id="fx-n">' + n.toLocaleString('en') + '</p><p class="fx-s">players pre-registered. At 3,000,000 everyone gets 10 pulls! Releases in 30 days.</p>' + bar('milestone', 82.7, 'gold', '3M'), 'glow');
+    fxT = setInterval(() => { n += 37 + Math.floor(Math.random() * 90); const e = $('#fx-n'); if (e) e.textContent = n.toLocaleString('en') }, 220);
+  },
+  redache: () => fxBox('TEAM THREAD · SUPPORT', '<div class="fx-team"><span class="gold">Redache ★6<small>+200% to ONE carry</small></span><span class="empty">carry?<small>you don\'t have one</small></span></div><p class="fx-s">A support is worth nothing on its own. That\'s the first hook: you\'ll need the carry too.</p>'),
+  meter: () => fxBox('DAMAGE TEST · same boss, same 3 turns', bar('your Prima · 299.97 €', 22, 'blue', '118k') + bar('Kristoph + Redache', 100, 'gold', '540k') + '<p class="fx-s">Last month\'s "best character in the game" now does less than a quarter of the damage.</p>'),
+  bench: () => { fxBox('YOUR TEAM', '<div class="fx-team"><span class="empty">Redache<small>not owned</small></span><span class="empty">Kristoph<small>not owned</small></span><span class="empty">Norman<small>not owned</small></span><span class="benched">Prima ★5<small>BENCHED</small></span></div><p class="fx-s">The team skill only counts Team Thread members. Prima doesn\'t fit any slot.</p>'); chip('inv-prima', 'BENCHED') },
+  drawer: () => { fxBox('ENDGAME TOWER · FLOOR 12', '<p class="fx-fail">FAILED <small>healing too low</small></p>' + bar('Miriam\'s heals', 25, 'blue', '×1') + bar('Dr. Tater\'s heals', 100, 'gold', '×4') + '<p class="fx-s">Floor 12 was built after Dr. Tater was designed. That\'s why it hits so hard.</p>'); chip('inv-miriam', 'IN THE DRAWER') },
+  needle: () => fxBox('WEAPON BANNER · FATE PATH', '<div class="fx-path"><span class="on">◉ The Red Needle <small>Kristoph</small></span><span>○ ??? <small>next patch</small></span><span>○ ??? <small>next patch</small></span></div>' + bar('weapon pity', 0, 'gold', '0 / 80') + '<p class="fx-s">Its own banner, its own pity, its own 50/50 (here it\'s 75/25). Forget to pick the path and the pity counts for nothing.</p>'),
+  bill: () => {
+    const rows = [['Redache · C6', 7], ['Kristoph · C6', 7], ['Norman · C6', 7], ['Dr. Tater · C6', 7], ['Red Needle · R5', 5]], gold = rows.reduce((k, r) => k + r[1], 0), pulls = gold * 140;
+    fxBox('TO BE META NEXT MONTH', '<table class="fx-bill">' + rows.map(r => '<tr><td>' + r[0] + '</td><td>' + r[1] + ' featured golds</td></tr>').join('') + '<tr class="tot"><td>' + gold + ' golds × 140 pulls</td><td>' + pulls.toLocaleString('en') + ' pulls</td></tr><tr class="tot"><td>at 2.50 € a pull</td><td>' + (pulls * 2.5).toLocaleString('en', { minimumFractionDigits: 2 }) + ' €' + '</td></tr></table><p class="fx-s">140 pulls a gold is what your Prima cost. Then next month, a new team.</p>', 'red');
+  },
+  registered: () => { fxBox('PRE-REGISTERED ✓', '<p class="fx-s">Notifications: ON. A reminder every morning at 8:00 until Redache is out, then every morning after that.</p>'); },
+  receipt: () => { const r = $('#receipt'); r.classList.remove('print'); void r.offsetWidth; r.classList.add('print'); fxBox('RECEIPT', bar('money', 100, 'red', money(L.eur)) + bar('time lent', Math.min(100, L.hours), 'blue', L.hours + ' h') + bar('pulls', Math.min(100, L.pulls / 2), 'gold', String(L.pulls)) + '<p class="fx-s">Everything the shop took, in one place. The receipt was always the real game.</p>') },
+  clock: () => { snd('stamp'); $('#m-date-t').textContent = 'THE CLOCK WAS NEVER REAL'; $('#m-banner').classList.add('fakeclock'); L.frozen = true }
+};
+function fx(st, i) { const f = st.fx && st.fx[i]; if (f && FX[f]) FX[f]() }
+function fxClear() { clearInterval(fxT); const b = $('#m-fx'); b.hidden = true; b.innerHTML = ''; $('#m-banner').classList.remove('hype') }
 let noteT = 0;
 function note(t) { const n = $('#m-note'); n.textContent = t; clearTimeout(noteT); noteT = setTimeout(() => { n.textContent = '' }, 6000) }
 // your own pulls, on whichever banner is open: house odds, hidden pity at 60, then a 50/50
@@ -311,7 +350,7 @@ function freePull(n) {
     out.push(it);
   }
   L.pulls += n; collect(out); own(0, n);
-  if (out.some(x => x.id === 'prima') && !L.prima) { L.prima = true; $('#m-inv').insertAdjacentHTML('beforeend', '<span class="trial">Prima ★5 · yours (for now)</span>') }
+  if (out.some(x => x.id === 'prima') && !L.prima) { L.prima = true; $('#m-inv').insertAdjacentHTML('beforeend', '<span class="trial inv-prima">Prima ★5 · yours (for now)</span>') }
   paintShop();
   pulling = pullShow(out, '', false);
   pulling.then(() => { pulling = null; if (!L.locked) note(pick(D.lesson.free.after)) });
@@ -322,7 +361,7 @@ function gemShop() {
   for (const pk of D.lesson.packs) {
     const b = el('button', 'gs-pack', (pk.tag ? '<span class="gs-tag">' + esc(pk.tag) + '</span>' : '') + '<b>◆ ' + pk.gems.toLocaleString('en') + (pk.bonus ? ' <em>+' + pk.bonus.toLocaleString('en') + '</em>' : '') + '</b><small>' + esc(pk.name) + '</small><span class="gs-eur">' + money(pk.eur) + '</span>');
     b.type = 'button';
-    b.onclick = () => { if (L.broke || L.locked) return; L.gems += pk.gems + pk.bonus; L.eur += pk.eur; own(pk.eur, 0); paintShop(); if (!L.locked) note(pick(D.lesson.free.bought)) };
+    b.onclick = () => { if (L.broke || L.locked) return; L.gems += pk.gems + pk.bonus; L.eur += pk.eur; snd('coin'); own(pk.eur, 0); paintShop(); if (!L.locked) note(pick(D.lesson.free.bought)) };
     box.append(b);
   }
 }
@@ -345,7 +384,7 @@ function own(eur, pulls) {
   const o = L.own; if (!o.t0) o.t0 = Date.now(); o.eur += eur; o.pulls += pulls;
   const B = D.lesson.breaker;
   if (L.locked || (o.eur < B.eur && o.pulls < B.pulls)) return;
-  L.locked = true; $('#gemshop').hidden = true;
+  L.locked = true; $('#gemshop').hidden = true; snd('lock');
   const min = Math.max(1, Math.round((Date.now() - o.t0) / 60000));
   const msg = B.note.replace('{eur}', o.eur.toFixed(2)).replace('{pulls}', o.pulls).replace('{min}', min);
   let k = 0; const said = $('#bubble').textContent;
@@ -355,15 +394,15 @@ function own(eur, pulls) {
 function act() {
   const st = steps()[L.step]; lastAct = Date.now(); $('#no').hidden = true;
   switch (st.id) {
-    case 'gifts': L.gems += 3200; L.tix += 10; $('#m-inv').innerHTML = '<span class="trial">Miriam ★5 · TRIAL · 7 days left</span>'; break;
+    case 'gifts': L.gems += 3200; L.tix += 10; $('#m-inv').innerHTML = '<span class="trial inv-miriam">Miriam ★5 · TRIAL · 7 days left</span>'; break;
     case 'pull': L.tix -= 10; lessonPull(); L.rates = false; break;
-    case 'sub': L.eur += 4.99; L.days += 30; L.gems += 2700; break;
-    case 'pass': L.eur += 9.99; L.hours += 60; L.gems += 1300; spill(); break;
-    case 'chest': L.eur += 99.99; L.gems += 12960 - 8000; lessonPull(true, 50, [D.lesson.pityLoss, 49]); L.since = 0; L.guar = true; break;
-    case 'chase': L.eur += 199.98; L.gems += 12960 - 12800; lessonPull(false, 80, ['prima', 77]); L.since = 2; L.guar = false; L.prima = true; $('#m-inv').insertAdjacentHTML('beforeend', '<span class="trial">Prima ★5 · yours (for now)</span>'); break;
-    case 'skin': L.gems -= 1980; L.eur += 19.99; $('#m-inv').innerHTML = '<span class="trial">Miriam ★5 · TRIAL · 6 days left · wearing Star Specks</span>' + (L.prima ? '<span class="trial">Prima ★5 · yours (for now)</span>' : ''); { const si = $('.shop-item'); if (si) si.classList.add('owned') } break;
+    case 'sub': snd('coin'); L.eur += 4.99; L.days += 30; L.gems += 2700; break;
+    case 'pass': snd('coin'); L.eur += 9.99; L.hours += 60; L.gems += 1300; spill(); break;
+    case 'chest': snd('coin'); L.eur += 99.99; L.gems += 12960 - 8000; lessonPull(true, 50, [D.lesson.pityLoss, 49]); L.since = 0; L.guar = true; break;
+    case 'chase': snd('coin'); L.eur += 199.98; L.gems += 12960 - 12800; lessonPull(false, 80, ['prima', 77]); L.since = 2; L.guar = false; L.prima = true; $('#m-inv').insertAdjacentHTML('beforeend', '<span class="trial inv-prima">Prima ★5 · yours (for now)</span>'); break;
+    case 'skin': snd('coin'); L.gems -= 1980; L.eur += 19.99; $('#m-inv').innerHTML = '<span class="trial inv-miriam">Miriam ★5 · TRIAL · 6 days left · wearing Star Specks</span>' + (L.prima ? '<span class="trial inv-prima">Prima ★5 · yours (for now)</span>' : ''); { const si = $('.shop-item'); if (si) si.classList.add('owned') } break;
     case 'tilt': smash(); return;
-    case 'journey': L.done = true; write({ lesson: { done: 1 } }); startJourney(true); return;
+    case 'journey': snd('win'); L.done = true; write({ lesson: { done: 1 } }); startJourney(true); return;
   }
   if (st.after) {
     let k = 0; $('#act').hidden = true; $('#no').hidden = true; $('#next').hidden = false;
@@ -371,6 +410,7 @@ function act() {
       lastAct = Date.now();
       if (k >= st.after.length) { $('#next').onclick = nextLine; advance(); return }
       const t = st.after[k++];
+      if (k === 1 && st.afterFx && FX[st.afterFx]) FX[st.afterFx]();
       if (st.id === 'pass' && k === 2) endBanner(() => say(t)); else say(t);
     };
     $('#next').onclick = more; paintShop();
@@ -379,9 +419,9 @@ function act() {
   }
   advance();
 }
-function advance() { L.step++; write({ lesson: { step: L.step } }); showStep() }
+function advance() { L.step++; write({ lesson: Object.assign({}, read().lesson, { step: L.step }) }); showStep() }
 function smash() {
-  L.broke = true; paintShop();
+  L.broke = true; snd('crash'); fxClear(); $('#m-banner').classList.remove('fakeclock'); paintShop();
   const sh = $('#shards'); sh.innerHTML = '';
   const chars = D.items.filter(i => i.kind === 'char');
   chars.forEach((it, i) => { // the characters fly out of the cracked machine
@@ -421,6 +461,7 @@ function startShop(replay) {
   document.querySelectorAll('.summon,.reveal').forEach(x => x.remove()); $('#next').disabled = false; $('#machine').classList.remove('pulling');
   feedT.forEach(clearTimeout); feedT = []; fed = {}; $('#ph-list').innerHTML = ''; $('#ph-n').textContent = '';
   $('#m-note').textContent = ''; $('#m-col').hidden = true; $('#gemshop').hidden = true;
+  fxClear(); $('#m-banner').classList.remove('fakeclock'); $('#receipt').classList.remove('print');
   L = L0(); if (!replay && C.lesson && C.lesson.step) L.step = Math.min(C.lesson.step, steps().length - 1);
   L.broke = L.step > steps().findIndex(x => x.id === 'tilt')
   showStep(); runClock();
@@ -454,7 +495,7 @@ function renderFire() {
   if (!all) {
     side.innerHTML = '<p>The fire is laid but nobody has lit it. When every character from every world has followed you here, they\'ll sit down together, and there\'s a seat with your name on it.</p><p class="note">Still out there: ' + chars.filter(i => !copies(i.id)).map(i => esc(i.name)).join(', ') + '.</p>';
   } else {
-    if (F.img) { const im = el('img', 'fire-pic'); im.alt = 'Every character, gathered around a campfire'; im.onerror = () => im.remove(); im.src = F.img; side.append(im) }
+    if (F.img) { const im = el('img', 'fire-pic'); im.alt = 'The characters from every world, gathered around a campfire by the sea at night'; im.onerror = () => im.remove(); im.src = F.img; side.append(im) }
     const ol = el('ol', 'fire-lines'); side.append(ol);
     const b = el('button', 'btn', (C.fire ? 'Sit by the fire again' : 'Sit down') + ' <span>→</span>'); b.type = 'button';
     b.onclick = () => {
@@ -577,7 +618,15 @@ function start() {
   if (C.lesson && C.lesson.done) { startJourney(false); $('#lesson').classList.add('was-done') }
   const skip = e => { e.preventDefault(); write({ lesson: Object.assign({}, read().lesson, { done: 1 }) }); startJourney(true) };
   $('#skip').onclick = skip; $('#skip2').onclick = skip;
-  $('#replay').onclick = $('#rewatch').onclick = () => { startShop(true); $('#lesson').scrollIntoView({ behavior: 'smooth', block: 'start' }) };
+  // start over = Ache's lesson only: back to page 1, the saved page forgotten; characters, meetings and stickers stay
+  const over = () => { write({ lesson: Object.assign({}, read().lesson, { step: 0 }) }); startShop(true); $('#lesson').scrollIntoView({ behavior: 'smooth', block: 'start' }) };
+  const rw = $('#rewatch'), rmsg = $('#rewatch-msg'), rtxt = rmsg.textContent; let armed = 0;
+  rw.onclick = () => {
+    if (L.step === 0 && !L.broke) { rmsg.textContent = 'You\'re already on page 1.'; return }
+    if (!armed) { armed = setTimeout(() => { armed = 0; rw.textContent = '↺ Start the lesson over'; rmsg.textContent = rtxt }, 6000); rw.textContent = '↺ Yes, back to page 1'; rmsg.textContent = 'Click again to restart the shop. Only the lesson resets.'; return }
+    clearTimeout(armed); armed = 0; rw.textContent = '↺ Start the lesson over'; rmsg.textContent = rtxt; over();
+  };
+  $('#replay').onclick = over;
   const refresh = () => { C = read(); if (!$('#journey').hidden) renderJourney() };
   if (window.TZSAVE && TZSAVE.on) TZSAVE.on('find', refresh);
   document.addEventListener('tz:save', refresh);
