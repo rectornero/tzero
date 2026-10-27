@@ -19,7 +19,7 @@
 <canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
 <header><div class="wrap">
   <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
-  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/studio" aria-current="page">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/characters">Characters</a><a href="/studio" aria-current="page">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
 </div></header>
 
 <div class="sea">
@@ -102,6 +102,7 @@
 
   <section id="respect">
     <h2>Our one rule <small>the reason behind the name TZERØ</small></h2>
+    <blockquote class="mission" data-say="motto"><b>“Walk the gachafication of games backwards, up to the valley.”</b><span>Nero’s words for the studio’s mission: retrace live-service gacha back to collecting you earn by playing, keeping the modern interfaces.</span></blockquote>
     <div class="respect tilt" data-say="studio">
       <div>
         <h3>Games that respect your time.</h3>
@@ -113,6 +114,25 @@
         <li><b>Your attention is yours</b><span>You play when you want, for as long as you want, and stop without losing anything.</span></li>
       </ul>
     </div>
+    <div class="conduct" data-say="studio">
+      <h3>Statement of Conduct <span class="draft">draft</span></h3>
+      <p class="note">What the rule means in practice. It’s still being written, so the wording may change. <a class="try" href="/conduct">Try each rule →</a></p>
+      <ol class="grid conduct-list">
+        <li><b>No timed mechanics, ever</b><span>No dailies, streaks, energy, expiry, countdowns or login rewards.</span></li>
+        <li><b>Dates you can unchain</b><span>An event may show a date, with an “Unchain time” button that removes it. When the date passes, it says “Event has ended.”, then “…if we were evil!”, and opens again.</span></li>
+        <li><b>No money on chance</b><span>Nothing paid is left to luck, and the odds are always shown.</span></li>
+        <li><b>Everything reachable by play</b><span>Nothing locks your starting choices. In a card game, every card is there for deckbuilding.</span></li>
+        <li><b>Rewards from play</b><span>No presentation tricks to make a reward feel bigger than it is.</span></li>
+        <li><b>Released stays released</b><span>Updates and new content are welcome, and what came out stays available for good.</span></li>
+      </ol>
+      <div class="never-die">
+        <span class="tb-label">Games that never die</span>
+        <span>an offline core in every game</span>
+        <span>nothing that expires: no licensed music, required accounts or outside live servers</span>
+        <span>no premium currencies</span>
+        <span>an end-of-life plan</span>
+      </div>
+    </div>
   </section>
 
   <section id="workbench">
@@ -122,10 +142,18 @@
       <div>
         <span class="tag">Episodic visual novel · Ren'Py</span>
         <h3>Liminal Outliers</h3>
-        <p>A psychological mystery with a liminal edge, set in a nine-storey apartment building in a seaside town. Nothing is supernatural: every odd event has a real explanation and a fair clue. It begins with the <em>Prologue at the 9th Floor</em>.</p>
+        <p>An episodic psychological mystery with a liminal edge. Miriam, 18, lives in a white nine-storey block of flats in a seaside town, and things there feel surreal, uncanny, slightly off. It begins with the <em>Prologue at the 9th Floor</em>. This is where Nero’s writing hours go right now.</p>
         <a class="btn" href="/posts/categories/devlog">Follow the devlog <span>→</span></a>
       </div>
     </div>
+    <div class="grid projects" id="projects">
+      <a class="card tilt project has-pic" data-say="devlog" href="/post/contrary-quest-devlog-1" style="--acc:var(--b2)"><img class="card-pic" src="/assets/img/games/cnq-title.webp" alt="Title screen on aged parchment: Contrary Quest, the subtitle Being a true account of Nero of Fourleaves, a clover emblem in a laurel wreath, and a menu." loading="lazy" decoding="async"><span class="tag">RPG · RPG Maker MV · building now</span><h4>ContraryQuest</h4><p>A mature and very short RPG. The hero is a lazy, witty “(Not a) hero” from the village of Fourleaves, who lives with his grandma Agata. It’s drawn in a “Storybook ink” style, so it shouldn’t look like any RPG Maker game you’ve seen.</p><span class="meta">Read the first devlog →</span></a>
+      <div class="card tilt project has-pic" data-say="save" style="--acc:#ffcf9a"><img class="card-pic contain" src="/assets/img/games/ice-prima.webp" alt="AI◆ICE card Prima, Keeper of Fate, an Ultra Rare Fate Entity: a tiny cloaked figure looks up at a vast spired castle on a mountain beneath a starry sky. Work in progress." loading="lazy" decoding="async"><span class="tag">Card game · 2 players · in the works</span><h4>AI◆ICE <small>said “Alice”</small></h4><p>AIs try to remember a lost mankind. In a match, two dreams clash and merge until you discover what the other one means, then they fill yours too and both players shake hands. No dice, no boards. Collecting is “open gacha”: the familiar screens, everything easy to unlock, no paid draws.</p><span class="pic-note"><b>Work in progress.</b> AI◆ICE is in development; cards, box and art will change. Card art is AI-generated.</span></div>
+      <a class="card tilt project has-pic" data-say="studio" href="https://soulstreet.vercel.app" target="_blank" rel="noopener" style="--acc:#7a1420"><img class="card-pic" src="/assets/img/games/ovg-pacts.webp" alt="Overgame Sign a Pact screen: five pact cards in a row, each with a one-line description, above a menu to choose a player and a Send the offer button." loading="lazy" decoding="async"><span class="tag">Social strategy · lasts weeks</span><h4>Overgame</h4><p><b>Everyone sees your Zone. No one sees your deals.</b> Players trade favours, sign Contracts and betray each other to stay out of the Red Zone on Soul Street, a street-fantasy city at night. The rules are all public; only identities are secret.</p><span class="meta">Open Soul Street ↗</span></a>
+      <div class="card tilt project" data-say="motto" style="--acc:var(--b3)"><span class="tag">Artache Suite · coming</span><h4>Artache Intent</h4><p>A script editor for writers on Ren’Py and RPG Maker MV. Each script lives in three linked versions: Draft (prose), Play (script) and Code (engine). Character and Place sheets keep names linked everywhere, and Claude can help using your own API key. For Windows and Android. Nero writes in it every day.</p></div>
+      <div class="card tilt project has-pic" data-say="cover" style="--acc:var(--ink)"><img class="card-pic" src="/assets/img/games/ded-hospital.webp" alt="DeadenD screenshot: in a hospital room, Bianca, a schoolgirl with long dark hair and a blue ribbon, looks worried and says: Alex! I am glad I found you." loading="lazy" decoding="async"><span class="tag">Noir visual novel · 2018</span><h4>DeadenD</h4><p>Nero’s first visual novel, written alone in 2018, where the thrillers started. It’s being looked after again.</p><span class="pic-note">Sprites by Elzee (CC BY-NC-SA 4.0). Backgrounds: Café Memoria set (royalty-free). Made with Ren’Py.</span></div>
+    </div>
+    <p class="note">Also from the studio: Novaula, a class platform in daily use, and a book on the studio’s way of working, in progress. Games for players and tools for people making games with AI: a free course on that is planned, on YouTube and here on TZERØ.</p>
   </section>
 
   <section id="people">
@@ -142,6 +170,7 @@
       <div><h3>Follow along</h3><p>Results will come when they come. The making is the point.</p></div>
       <div class="follow-links">
         <a class="btn" href="/posts/categories/studio">Studio notes <span>→</span></a>
+        <a class="btn ghost" href="/lab">Idea Lab: try and ❤ our ideas</a>
         <a class="btn ghost" href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a>
         <a class="btn ghost" href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Support on Ko-fi</a>
       </div>
@@ -151,7 +180,7 @@
 
 <footer id="publisher"><div class="wrap">
   <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
-  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
+  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/conduct">Statement of Conduct</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
 </div></footer>
 <script src="/assets/js/scene.js" defer></script>
 <script src="/assets/js/wix.js" defer></script>

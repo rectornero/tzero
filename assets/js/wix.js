@@ -72,13 +72,30 @@ window.WIX = (() => {
   function mediaUrl(id) { return /^https?:/.test(id) ? id : 'https://static.wixstatic.com/media/' + id }
 
   const LIST_FIELDS = '&fieldsets=URL';
+  const byDate = (a, b) => (b.firstPublishedDate || '').localeCompare(a.firstPublishedDate || '');
+
+  // Posts written here since the move away from Wix: their cards, newest first (/post-data/index.json)
+  let ownCards;
+  function own() {
+    ownCards = ownCards || fetch('/post-data/index.json').then(r => r.ok ? r.json() : []).catch(() => []);
+    return ownCards;
+  }
+
+  const WIX_MEDIA = 'https://static.wixstatic.com/media/';
+  let picsP;
+  function cardPics() {
+    return picsP || (picsP = fetch('/assets/card-pics.json').then(r => r.ok ? r.json() : {}).catch(() => ({})));
+  }
 
   return {
     JOURNAL,
     CATEGORIES,
+    // Own posts and the newest TZERØ-tagged posts on Wix, merged by date
     async latest(n = 3) {
-      const j = await get('/blog/v3/posts?tagIds=' + TAG_TZERO + '&paging.limit=' + n + '&fieldsets=URL');
-      return j.posts || [];
+      const [mine, wix] = await Promise.allSettled([own(), get('/blog/v3/posts?tagIds=' + TAG_TZERO + '&paging.limit=' + n + '&fieldsets=URL')]);
+      const posts = (mine.value || []).filter(p => (p.tagIds || []).includes(TAG_TZERO)).concat(wix.status === 'fulfilled' ? wix.value.posts || [] : []);
+      if (!posts.length && wix.status === 'rejected') throw wix.reason;
+      return posts.sort(byDate).slice(0, n);
     },
     // A frozen archive post: the same post object, saved in the site at /post-data/<slug>.json
     async frozen(slug) {
@@ -90,13 +107,17 @@ window.WIX = (() => {
       const j = await get('/blog/v3/posts/slugs/' + encodeURIComponent(slug) + '?fieldsets=RICH_CONTENT&fieldsets=URL&fieldsets=SEO');
       return j.post;
     },
-    // One page of a listing: all posts, a category or a tag. Resolves { posts, total }
+    // One page of a listing: all posts, a category or a tag. Resolves { posts, total }.
+    // The own posts that match come first (they're the newest), then the pages from Wix.
     async list({ category, tag, offset = 0, limit = 24 } = {}) {
-      let q = '/blog/v3/posts?paging.limit=' + limit + '&paging.offset=' + offset + LIST_FIELDS;
+      const mine = (await own()).filter(p => (!category || (p.categoryIds || []).includes(category)) && (!tag || (p.tagIds || []).includes(tag)));
+      const skip = Math.max(0, offset - mine.length);
+      let q = '/blog/v3/posts?paging.limit=' + limit + '&paging.offset=' + skip + LIST_FIELDS;
       if (category) q += '&categoryIds=' + category;
       if (tag) q += '&tagIds=' + tag;
-      const j = await get(q);
-      return { posts: j.posts || [], total: (j.metaData && j.metaData.total) || 0 };
+      let j;
+      try { j = await get(q) } catch (e) { if (offset || !mine.length) throw e; j = {} }
+      return { posts: (offset ? [] : mine).concat(j.posts || []), total: mine.length + ((j.metaData && j.metaData.total) || 0) };
     },
     async categoryBySlug(slug) {
       for (const id in CATEGORIES) if (CATEGORIES[id].key === slug) return { id, label: CATEGORIES[id].label };
@@ -130,7 +151,7 @@ window.WIX = (() => {
     mediaUrl,
     author: post => AUTHORS[post.memberId] || 'TZERØ',
     lineKey,
-    // The post on Wix. Wix reports its own primary address, so this follows the domain switch by itself
+    // The post on Wix (own posts have none). Wix reports its own primary address, so this follows the domain switch by itself
     wixUrl: post => (post.url && post.url.base && new URL(post.url.base).host !== location.host ? post.url.base + post.url.path : JOURNAL + '/post/' + post.slug),
     date: iso => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
     categoryUrl: post => '/posts/categories/' + category(post).key,
@@ -146,6 +167,22 @@ window.WIX = (() => {
       const meta = document.createElement('span'); meta.className = 'meta';
       meta.textContent = this.date(post.firstPublishedDate) + ' · by ' + this.author(post);
       a.append(tag, h, p, meta);
+      // A picture on top: the cover, else the post's video thumbnail or first picture (assets/card-pics.json)
+      const pic = url => {
+        const img = document.createElement('img');
+        img.className = 'card-pic';
+        // Wix crops to 16:9 so the card only downloads what it shows
+        img.src = url.startsWith(WIX_MEDIA) ? url.split('/v1/')[0] + '/v1/fill/w_640,h_360,al_c,q_80/' + encodeURIComponent(post.slug) + '.jpg' : url;
+        img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+        img.onerror = () => { img.remove(); a.classList.remove('has-pic') };
+        // YouTube answers a removed video with a 120px grey stand-in instead of an error
+        img.onload = () => img.naturalWidth <= 120 && img.onerror();
+        a.prepend(img);
+        a.classList.add('has-pic');
+      };
+      const c = cover(post);
+      if (c) pic(c.url);
+      else cardPics().then(m => m[post.slug] && pic(m[post.slug]));
       return a;
     },
   };

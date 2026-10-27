@@ -5,7 +5,7 @@
 
 .ide{--bg:color-mix(in srgb,var(--abyss) 94%,#000);--line:color-mix(in srgb,var(--b1) 16%,transparent);--dim:color-mix(in srgb,var(--sky) 45%,var(--abyss));
   max-width:1180px;margin:0 auto;background:var(--bg);color:#e6eefb;border-radius:14px;overflow:clip;border:1px solid color-mix(in srgb,var(--b1) 30%,transparent);
-  box-shadow:0 40px 80px -40px rgba(10,31,68,.7),0 0 0 6px color-mix(in srgb,#fff 35%,transparent);font-family:var(--mono);font-size:14px;line-height:1.65}
+  box-shadow:0 40px 80px -40px rgba(19,34,75,.7),0 0 0 6px color-mix(in srgb,#fff 35%,transparent);font-family:var(--mono);font-size:14px;line-height:1.65}
 .ide.shake{animation:ideshake .5s}
 @keyframes ideshake{20%{transform:translateX(-8px) rotate(-.4deg)}40%{transform:translateX(7px) rotate(.3deg)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
 
@@ -50,7 +50,7 @@
 .sel{color:#ffd98a}
 .hx{color:#ffb38a}
 .sw{text-decoration:none;border-bottom:3px solid var(--c);border-radius:1px}
-.me{color:#ff4d61;font-weight:500;font-style:normal;text-shadow:0 0 12px rgba(208,2,27,.6)}
+.me{color:#ff4d61;font-weight:500;font-style:normal;text-shadow:0 0 12px rgba(215,24,42,.6)}
 .eye{display:inline-block;color:#fff;font-style:normal;text-shadow:0 0 10px #fff;animation:blinkeye 4.5s infinite}
 @keyframes blinkeye{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 .live-cm{color:var(--red);font-style:normal;animation:pulse 1.8s infinite}
@@ -82,7 +82,7 @@
 .src-note a:hover{color:var(--red)}
 
 @media (max-width:700px){
-  .ide{font-size:12.5px;border-radius:10px;box-shadow:0 30px 60px -30px rgba(10,31,68,.7)}
+  .ide{font-size:12.5px;border-radius:10px;box-shadow:0 30px 60px -30px rgba(19,34,75,.7)}
   .ro,#st-lang,.ide-status span:nth-last-child(2),.ide-status .blame{display:none}
   .ln{grid-template-columns:calc(var(--gw) + 26px) minmax(0,1fr)}
   .g{padding-right:12px}

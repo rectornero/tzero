@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/save.css">
+<link rel="stylesheet" href="/assets/css/scrapbook.css">
+<title>Ache's scrapbook · TZERØ</title>
+<meta name="description" content="Ache's sticker scrapbook: 24 stickers hidden across TZERØ, found by exploring. No timers, no dailies, no random drops. Your save file stays in your browser.">
+<meta property="og:title" content="Ache's scrapbook">
+<meta property="og:description" content="24 stickers hidden across TZERØ, found by exploring. No timers. Nothing expires.">
+</head><body class="scrap-page">
+<canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
+<header><div class="wrap">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/characters">Characters</a><a href="/studio">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+</div></header>
+
+<div class="sea post-sea" aria-hidden="true"><div class="sunball"></div><canvas id="waves"></canvas></div>
+<main class="wrap scrap">
+  <section class="scrap-hero">
+    <div class="kicker">Ache's scrapbook</div>
+    <h1>Stickers found by exploring</h1>
+    <p class="scrap-intro" data-say="scrapbook">I hid 24 stickers all over this site. Under photos, in terminals, at the bottom of things nobody reads to the bottom. Find them, they stick here. I'll comment on each one. Obviously.</p>
+    <div class="scrap-count" id="count" aria-live="polite"><b id="count-n">0</b><span>of 24 found</span><ol class="scrap-stars" id="stars" aria-hidden="true"></ol></div>
+  </section>
+
+  <div class="book" id="book" aria-label="The scrapbook">
+    <noscript><p class="scrap-note">The scrapbook needs JavaScript: your stickers live in your browser.</p></noscript>
+  </div>
+  <div class="book-tools"><button type="button" class="skin" id="tidy">Tidy up the stickers</button><span class="scrap-tip">Found stickers can be dragged around their page. Click one and Ache tells you about it.</span></div>
+
+  <section class="rules tilt" data-say="rules">
+    <span class="tag">House rules</span>
+    <h2>No clock in here</h2>
+    <ul>
+      <li>Every sticker is hidden somewhere on this site and is found by exploring or playing.</li>
+      <li>No timers, no dailies, no streaks, no login rewards. Nothing expires.</li>
+      <li>No random drops and no duplicates: each sticker is in one place, waiting.</li>
+      <li>Every empty slot has a hint. Ache wrote them. Some are honest.</li>
+    </ul>
+    <p class="rules-sign">It's how Artache wants games to work: rewards from play, time that stays yours.</p>
+  </section>
+
+  <section class="savefile" id="save" aria-labelledby="save-h">
+    <div class="save-head">
+      <span class="tag">Your save file</span>
+      <h2 id="save-h">What this browser remembers</h2>
+      <p>No account. Your save file lives only in this browser and is never sent anywhere. It remembers the articles you've finished, where you stopped, and your stickers, so Ache can say hi when you come back.</p>
+    </div>
+    <dl class="save-stats" id="stats"></dl>
+    <div class="save-open" id="open" hidden></div>
+    <div class="save-read">
+      <h3>Articles you finished</h3>
+      <ol id="read-list"></ol>
+    </div>
+    <div class="save-tools">
+      <div class="save-code">
+        <h3>Save code</h3>
+        <p>Carry your save to another browser: copy the code here, paste it there.</p>
+        <textarea id="code" rows="3" spellcheck="false" aria-label="Save code" placeholder="Paste a save code here"></textarea>
+        <div class="save-btns"><button type="button" class="skin" id="copy">Copy my save code</button><button type="button" class="skin" id="load">Load this code</button></div>
+        <p class="save-msg" id="code-msg" aria-live="polite"></p>
+      </div>
+      <div class="save-wipe">
+        <h3>Start over</h3>
+        <p>Deletes the save file in this browser: articles, stickers, everything. Ache will pretend not to know you.</p>
+        <button type="button" class="skin wipe" id="wipe">Delete my save file</button>
+        <p class="save-msg" id="wipe-msg" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="publisher"><div class="wrap">
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
+</div></footer>
+<script src="/assets/js/scene.js" defer></script>
+<script src="/assets/js/scrapbook.js" defer></script>
+</body></html>
