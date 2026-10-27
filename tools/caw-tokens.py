@@ -3,7 +3,7 @@
 import json, os
 from PIL import Image, ImageDraw, ImageFont
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FACE = {'miriam': (.733, .14, .1), 'agata': (.667, .155, .1), 'free': (.743, .068, .07), 'kristoph': (.736, .075, .075), 'nero': (.772, .245, .075), 'prima': (.664, .204, .08), 'aqua': (.75, .169, .075), 'vesper': (.65, .13, .085), 'bianca': (.69, .07, .085), 'norman': (.75, .156, .075), 'ache': (.693, .3, .11)}
+FACE = {'miriam': (.733, .14, .1), 'agata': (.667, .155, .1), 'free': (.743, .068, .07), 'kristoph': (.736, .075, .075), 'nero': (.772, .245, .075), 'prima': (.664, .204, .08), 'aqua': (.75, .169, .075), 'vesper': (.65, .13, .085), 'bianca': (.745, .11, .07), 'norman': (.636, .09, .07), 'ache': (.693, .3, .11)}
 D = json.load(open(R + '/assets/caw.json'))
 out = R + '/assets/img/caw/token/'; os.makedirs(out, exist_ok=True)
 S = 184
