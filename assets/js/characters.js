@@ -118,6 +118,7 @@ function paintShop() {
   man.innerHTML = steps().slice(0, L.step + (L.done ? 1 : 0)).filter(s => s.lesson).map(s => '<li>' + esc(s.lesson) + '</li>').join('');
   $('#machine').classList.toggle('smashed', !!L.broke);
   $('#seller').classList.toggle('unhooded', !!L.broke);
+  $('#rewatch-row').hidden = !(L.broke || (C.lesson && C.lesson.done));
   $('#backroom-btn').hidden = L.step !== 4 || L.broke;
 }
 function showStep() {
@@ -178,23 +179,82 @@ function lessonPull(tease, n, gold) {
   const out = []; for (let i = 0; i < n; i++) out.push(rollLesson(i % 10 === 9 && !out.slice(i - 9).some(x => x.stars >= 4) ? 4 : 0, n > 10));
   if (gold) out[gold[1]] = ITEMS[gold[0]] || D.lesson.units[gold[0]]; // scripted gold: where pity lands, and on whom
   L.pulls += n;
-  const r = $('#m-results'); r.innerHTML = '';
   // a big chest shows its ten best results and counts the rest, as the real ones do
   const shown = n > 10 ? out.map((it, i) => [it, i]).sort((a, b) => b[0].stars - a[0].stars || a[1] - b[1]).slice(0, 10).sort((a, b) => a[1] - b[1]).map(x => x[0]) : out;
-  shown.forEach((it, i) => {
-    const c = el('div', 'res t' + it.stars); c.style.animationDelay = i * 60 + 'ms'; c.append(art(it));
-    c.insertAdjacentHTML('beforeend', '<span class="rs">' + stars(it.stars) + '</span><b>' + esc(it.name) + '</b>');
-    r.append(c);
-  });
+  let sum = '';
   if (n > 10) {
-    const cnt = t => out.filter(x => x.stars === t).length, gold = out.filter(x => x.stars === 5);
-    r.insertAdjacentHTML('beforeend', '<p class="res-sum">' + n + ' pulls: ' + cnt(3) + ' ★3, ' + cnt(4) + ' ★4, ' + gold.length + ' ★5' + (gold.length ? ' (' + esc(gold.map(x => x.name).join(', ')) + ')' : '') + '. The best ten are shown.</p>');
+    const cnt = t => out.filter(x => x.stars === t).length, g = out.filter(x => x.stars === 5);
+    sum = n + ' pulls: ' + cnt(3) + ' ★3, ' + cnt(4) + ' ★4, ' + g.length + ' ★5' + (g.length ? ' (' + g.map(x => x.name).join(', ') + ')' : '') + '. The best ten are shown.';
   }
-  if (tease) { // the near-miss: a gold shine on a card that was always going to be purple
-    const t = [...r.children].find(c => c.classList.contains('t4')) || r.querySelector('.res');
-    if (t) { t.classList.add('tease'); setTimeout(() => t.classList.remove('tease'), 1600) }
-  }
+  pulling = pullShow(shown, sum, tease);
   return out;
+}
+
+/* the show: everything a paid gacha spends on making a result feel like a prize (lesson only) */
+let pulling = null;
+const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === '2';
+const wait = ms => new Promise(r => setTimeout(r, ms));
+function pullShow(shown, sum, tease) {
+  const r = $('#m-results'), m = $('#machine'), best = Math.max(...shown.map(x => x.stars));
+  let skip = false;
+  const card = (it, i) => {
+    const c = el('div', 'res t' + it.stars); c.append(art(it));
+    c.insertAdjacentHTML('beforeend', '<span class="rs">' + stars(it.stars) + '</span><b>' + esc(it.name) + '</b>');
+    return c;
+  };
+  const finish = () => { // skipped, or motion off: straight to the results
+    r.innerHTML = ''; shown.forEach((it, i) => r.append(card(it, i)));
+    if (sum) r.insertAdjacentHTML('beforeend', '<p class="res-sum">' + esc(sum) + '</p>');
+    done();
+  };
+  const done = () => {
+    r.onclick = null;
+    document.querySelectorAll('.summon,.reveal').forEach(x => x.remove()); m.classList.remove('pulling');
+    if (tease) { // the near-miss: a gold shine on a card that was always going to be purple
+      const t = [...r.children].find(c => c.classList.contains('t4'));
+      if (t) { t.classList.add('tease'); setTimeout(() => t.classList.remove('tease'), 1600) }
+    }
+  };
+  if (calm()) { finish(); return Promise.resolve() }
+  return (async () => {
+    m.classList.add('pulling'); r.innerHTML = ''; r.onclick = () => { skip = true };
+    // 1. the wish: a falling star whose colour already tells you the best result
+    const sm = el('div', 'summon t' + best, '<i class="sky"></i><i class="meteor"></i><i class="flash"></i><button type="button" class="skip-pull">Skip ›</button>');
+    sm.querySelector('.skip-pull').onclick = () => { skip = true };
+    document.body.append(sm);
+    await wait(best === 5 ? 2300 : 1700); sm.remove(); if (skip) return finish();
+    if (r.getBoundingClientRect().bottom > innerHeight || r.getBoundingClientRect().top < 0) r.scrollIntoView({ block: 'center' });
+    // 2. the cards turn one by one; gold makes you wait for it
+    const cards = shown.map((it, i) => { const c = card(it, i); c.classList.add('hid'); r.append(c); return c });
+    for (let i = 0; i < cards.length && !skip; i++) {
+      const it = shown[i];
+      if (it.stars === 5) { cards[i].classList.add('charge'); await wait(650) }
+      cards[i].classList.remove('hid', 'charge'); cards[i].classList.add('turn');
+      if (it.stars >= 4) burst(cards[i], it.stars === 5 ? 18 : 8);
+      await wait(it.stars === 5 ? 420 : 130);
+    }
+    if (skip) return finish();
+    if (sum) r.insertAdjacentHTML('beforeend', '<p class="res-sum">' + esc(sum) + '</p>');
+    // 3. the gold gets a stage of its own
+    const g = shown.find(x => x.stars === 5);
+    if (g) {
+      const rv = el('div', 'reveal');
+      rv.append(el('i', 'rays')); const a = art(g, 'banner'); a.classList.add('rv-art'); rv.append(a);
+      rv.insertAdjacentHTML('beforeend', '<div class="rv-plate"><span class="rv-new">NEW</span><b>' + esc(g.name) + '</b><small>' + esc(g.title || '') + '</small><span class="rv-stars">' + [...Array(g.stars)].map((_, i) => '<i style="animation-delay:' + (600 + i * 160) + 'ms">★</i>').join('') + '</span></div><span class="rv-tap">tap to continue</span>');
+      document.body.append(rv); burst(rv, 30);
+      await new Promise(res => { rv.onclick = res; setTimeout(res, 5200) });
+      rv.classList.add('out'); await wait(300); rv.remove();
+    }
+    done();
+  })();
+}
+function burst(host, k) {
+  for (let i = 0; i < k; i++) {
+    const s = el('i', 'spark'), a = Math.random() * Math.PI * 2, d = 40 + Math.random() * 90;
+    s.style.setProperty('--dx', Math.round(Math.cos(a) * d) + 'px'); s.style.setProperty('--dy', Math.round(Math.sin(a) * d) + 'px');
+    s.style.animationDelay = Math.round(Math.random() * 200) + 'ms';
+    host.append(s); setTimeout(() => s.remove(), 1400);
+  }
 }
 function act() {
   const st = steps()[L.step]; lastAct = Date.now();
@@ -217,7 +277,9 @@ function act() {
       const t = st.after[k++];
       if (st.id === 'pass' && k === 2) endBanner(() => say(t)); else say(t);
     };
-    $('#next').onclick = more; more(); paintShop(); return
+    $('#next').onclick = more; paintShop();
+    $('#next').disabled = true; // Ache waits for the show to end
+    (pulling || Promise.resolve()).then(() => { pulling = null; $('#next').disabled = false; more() }); return
   }
   advance();
 }
@@ -257,6 +319,7 @@ function startShop(replay) {
   bannerOf(ITEMS.prima, '<span class="pl-up">TCG COLLAB · RATE UP</span><span class="pl-gone">GONE</span>');
   $('#m-results').innerHTML = ''; $('#m-inv').innerHTML = ''; $('#shards').innerHTML = ''; $('#backroom').hidden = true;
   $('#m-banner').querySelectorAll('.spill').forEach(x => x.remove());
+  document.querySelectorAll('.summon,.reveal').forEach(x => x.remove()); $('#next').disabled = false; $('#machine').classList.remove('pulling');
   feedT.forEach(clearTimeout); feedT = []; fed = {}; $('#ph-list').innerHTML = ''; $('#ph-n').textContent = '';
   L = L0(); if (!replay && C.lesson && C.lesson.step) L.step = Math.min(C.lesson.step, steps().length - 1);
   L.broke = L.step > steps().findIndex(x => x.id === 'tilt')
@@ -414,7 +477,7 @@ function start() {
   if (C.lesson && C.lesson.done) { startJourney(false); $('#lesson').classList.add('was-done') }
   const skip = e => { e.preventDefault(); write({ lesson: Object.assign({}, read().lesson, { done: 1 }) }); startJourney(true) };
   $('#skip').onclick = skip; $('#skip2').onclick = skip;
-  $('#replay').onclick = () => { startShop(true); $('#lesson').scrollIntoView({ behavior: 'smooth', block: 'start' }) };
+  $('#replay').onclick = $('#rewatch').onclick = () => { startShop(true); $('#lesson').scrollIntoView({ behavior: 'smooth', block: 'start' }) };
   const refresh = () => { C = read(); if (!$('#journey').hidden) renderJourney() };
   if (window.TZSAVE && TZSAVE.on) TZSAVE.on('find', refresh);
   document.addEventListener('tz:save', refresh);
