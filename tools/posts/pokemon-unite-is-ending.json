@@ -1968,6 +1968,64 @@
    },
    {
     "type": "PARAGRAPH",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "textData": {
+       "text": "And Nero in their own words: ",
+       "decorations": [
+        {
+         "type": "ITALIC",
+         "italicData": true
+        },
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#13224b"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "TEXT",
+      "textData": {
+       "text": "Nero on the end of UNITE",
+       "decorations": [
+        {
+         "type": "BOLD",
+         "fontWeightValue": 700
+        },
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#d7182a"
+         }
+        },
+        {
+         "type": "LINK",
+         "linkData": {
+          "link": {
+           "url": "https://www.tzero.live/post/nero-on-the-end-of-unite",
+           "target": "BLANK",
+           "rel": {
+            "noreferrer": true
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "paragraphData": {
+     "textStyle": {
+      "textAlignment": "CENTER"
+     }
+    }
+   },
+   {
+    "type": "PARAGRAPH",
     "nodes": [],
     "paragraphData": {}
    },
