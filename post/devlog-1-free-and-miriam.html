@@ -57,12 +57,40 @@ html,body{height:100%;overflow:hidden;background:#cfe6f1}
 #card .k{font:500 13px 'Barlow Semi Condensed',sans-serif;letter-spacing:.4em;margin-bottom:12px;color:#f2c96b}
 #card .t{font-style:italic;font-size:clamp(24px,6vw,36px)}
 #card .s{margin-top:18px;font:500 11px 'Barlow Semi Condensed',sans-serif;letter-spacing:.24em;color:#9fb6c8}
+.dood{position:absolute;bottom:128px;height:58%;max-height:250px;transition:opacity .4s,transform .4s,filter .4s;filter:saturate(.55) brightness(.9);opacity:.85;pointer-events:none}
+.dood.on{filter:none;opacity:1;transform:translateY(-6px)}
+#dM{left:14%}#dF{right:12%}
+#ph{position:absolute;left:12px;top:12px;padding:3px 8px;border:1.5px dashed #1d3b5288;border-radius:4px;font:500 10px 'Barlow Semi Condensed',sans-serif;letter-spacing:.2em;color:#1d3b52aa;background:#f7f4ec99}
 .snap{animation:snap .25s}
 @keyframes snap{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
 </style>
 <div id=&quot;g&quot;>
   <div class=&quot;sc&quot; id=&quot;sea&quot;><div id=&quot;sun&quot;></div><div id=&quot;rail&quot;></div></div>
   <div class=&quot;sc&quot; id=&quot;lift&quot;><div id=&quot;ray&quot;></div></div>
+  <svg class=&quot;dood&quot; id=&quot;dM&quot; viewBox=&quot;0 0 120 260&quot; fill=&quot;none&quot; stroke=&quot;#2a2420&quot; stroke-width=&quot;3&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+<path d=&quot;M38 52c-8 20-10 52-6 70l14-4 4-60z&quot; fill=&quot;#3a2a22&quot;/><path d=&quot;M82 50c8 22 9 50 5 72l-14-4-2-62z&quot; fill=&quot;#3a2a22&quot;/>
+<path d=&quot;M42 30c4-16 34-18 40 2 4 14 2 32-6 40-10 8-24 6-32-4-6-10-5-26-2-38z&quot; fill=&quot;#f4dcc8&quot;/>
+<path d=&quot;M38 40c2-24 44-30 48 0-10-10-18-6-22-14-4 10-14 8-26 14z&quot; fill=&quot;#3a2a22&quot;/>
+<path d=&quot;M71 30l8 8m0-8l-8 8&quot; stroke=&quot;#d9d9d9&quot; stroke-width=&quot;2.5&quot;/>
+<circle cx=&quot;53&quot; cy=&quot;48&quot; r=&quot;2.4&quot; fill=&quot;#2a2420&quot;/><circle cx=&quot;69&quot; cy=&quot;47&quot; r=&quot;2.4&quot; fill=&quot;#2a2420&quot;/><path d=&quot;M57 60c3 2 6 2 8 0&quot;/>
+<path d=&quot;M30 92c4-10 16-14 30-14 16 0 28 4 32 16l6 60-16 4-4-30-2 30H44l-2-30-4 30-14-4z&quot; fill=&quot;#5c6b3a&quot;/>
+<path d=&quot;M40 80c10 8 30 8 42-2l2 10c-12 8-34 8-46 0z&quot; fill=&quot;#c8323a&quot;/><path d=&quot;M76 86l6 40 8-2-6-38&quot; fill=&quot;#c8323a&quot;/>
+<path d=&quot;M40 150l-2 24h46l-4-24z&quot; fill=&quot;#b8323a&quot;/><path d=&quot;M46 156l2 14m10-14v14m10-14l-1 14m9-12l-2 12&quot; stroke=&quot;#7a1f25&quot; stroke-width=&quot;2&quot;/>
+<path d=&quot;M48 174l-2 46m26-46l2 46&quot; stroke=&quot;#f4dcc8&quot; stroke-width=&quot;7&quot;/>
+<path d=&quot;M46 196v22m28-22v22&quot; stroke=&quot;#33498a&quot; stroke-width=&quot;8&quot;/><path d=&quot;M44 202h5m20 6h8&quot; stroke=&quot;#fff&quot; stroke-width=&quot;2&quot;/>
+<path d=&quot;M38 222c0-6 14-6 14 0v8H36zm32 0c0-6 14-6 14 0v8H68z&quot; fill=&quot;#222&quot;/>
+</svg>
+<svg class=&quot;dood&quot; id=&quot;dF&quot; viewBox=&quot;0 0 120 300&quot; fill=&quot;none&quot; stroke=&quot;#2a2420&quot; stroke-width=&quot;3&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+<path d=&quot;M44 28c2-14 30-16 36 0 4 12 2 30-6 38-8 6-18 6-26-2-6-8-6-24-4-36z&quot; fill=&quot;#f0d6bf&quot;/>
+<path d=&quot;M40 34c-2-22 38-28 46-6 2 6 0 12-2 16-4-8-8-14-14-16-2 8-16 10-30 6z&quot; fill=&quot;#7a5236&quot;/>
+<path d=&quot;M52 44l8-1m10 0l7 1&quot;/><circle cx=&quot;56&quot; cy=&quot;48&quot; r=&quot;2&quot; fill=&quot;#2a2420&quot;/><circle cx=&quot;72&quot; cy=&quot;48&quot; r=&quot;2&quot; fill=&quot;#2a2420&quot;/><path d=&quot;M58 60h10&quot;/>
+<path d=&quot;M30 84c6-10 18-12 32-12s26 2 32 12l6 120-14 4-2-90-6 120H44l-4-120-2 90-14-4z&quot; fill=&quot;#2f2b2e&quot;/>
+<path d=&quot;M54 74l8 10 8-10&quot; fill=&quot;#fff&quot;/><path d=&quot;M61 80l-2 30 4 4 2-34&quot; fill=&quot;#5a2a22&quot;/>
+<path d=&quot;M46 76c-4 30-6 60-4 80l8-2c-2-24 0-52 4-76m22 2c2 30 2 56 0 76l-8-2c2-24 2-50 0-74&quot; fill=&quot;#7b6448&quot;/>
+<path d=&quot;M48 222l-2 52m30-52l2 52&quot; stroke-width=&quot;8&quot;/><path d=&quot;M36 276c0-6 14-6 14 0v6H34zm34 0c0-6 14-6 14 0v6H68z&quot; fill=&quot;#2a1a14&quot;/>
+<path d=&quot;M16 196h26v24H16z&quot; fill=&quot;#5a3322&quot;/><path d=&quot;M24 196c0-6 10-6 10 0&quot;/>
+</svg>
+  <div id=&quot;ph&quot;>PLACEHOLDER ART</div>
   <div id=&quot;floors&quot;></div>
   <div id=&quot;band&quot;><div id=&quot;who&quot;></div><div id=&quot;txt&quot;></div><div id=&quot;hint&quot;>TAP ▸</div><div id=&quot;seaStrip&quot;></div></div>
   <div id=&quot;card&quot;><div class=&quot;k&quot;>PROLOGUE</div><div class=&quot;t&quot;>What the Sea Has Taken</div><div class=&quot;s&quot;>TAP TO BEGIN</div></div>
@@ -132,6 +160,7 @@ function show(){
  if(s[5]==='snap'){$('g').classList.remove('snap');void $('g').offsetWidth;$('g').classList.add('snap')}
  $('ray').style.opacity=(s[5]==='snap'||s[5]==='ray')?1:0;
  var who=$('who');who.className=s[1].toUpperCase();who.textContent=NAMES[s[1]]||'';
+ $('dM').classList.toggle('on',s[1]==='M'||s[1]==='m');$('dF').classList.toggle('on',s[1]==='F');
  $('txt').textContent=s[1]==='M'||s[1]==='F'?'“'+s[2]+'”':s[2];
 }
 function end(){var c=$('card');c.querySelector('.k').textContent='SEVENTH FLOOR';c.querySelector('.t').textContent='The tea is next.';c.querySelector('.s').textContent='LIMINAL OUTLIERS · TAP TO REPLAY';c.style.opacity=1;c.style.pointerEvents='auto';clearInterval(timer)}
