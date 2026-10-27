@@ -139,3 +139,38 @@ body:not(.role-owner) .for-owner{display:none!important}
 .ad-inbox-item p{margin:0;white-space:pre-wrap}
 .ad-inbox-item.done{opacity:.6}
 .ad-thumbs{display:flex;gap:6px;flex-wrap:wrap}.ad-thumbs img{width:64px;height:48px;object-fit:cover;border-radius:6px}
+
+/* /admin/lines: Ache's script book. Topic index on the left, the lines as handwritten bubbles to rewrite, mute and annotate */
+.al-app{max-width:1180px;margin:0 auto;padding:16px 18px 60px;display:grid;gap:12px}
+.al-bar{position:sticky;top:var(--al-top,48px);z-index:10;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:10px 0;background:var(--sun);box-shadow:0 -12px 0 var(--sun)}
+.al-bar input{font:inherit;padding:8px 10px;border:1px solid rgba(26,90,166,.3);border-radius:10px;background:#fff;color:var(--ink);width:min(280px,100%)}
+.al-count,.al-live{font-family:var(--mono);font-size:12px;color:var(--soft)}
+.al-help{margin:0;color:var(--soft);font-size:14px;max-width:80ch}
+.al-wrap{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px;align-items:start}
+.al-nav{position:sticky;top:120px;max-height:calc(100vh - 140px);overflow:auto;display:grid;gap:2px}
+.al-nav h3{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:12px 0 4px}
+.al-nav a{display:flex;justify-content:space-between;gap:8px;padding:5px 8px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+.al-nav a:hover{background:#fff}.al-nav a span{font-family:var(--mono);font-size:12px;color:var(--soft)}.al-nav a span.ch{color:var(--red)}
+.al-main{display:grid;gap:22px;min-width:0}
+.al-set{background:#fff;border:1px solid rgba(26,90,166,.15);border-radius:14px;padding:16px 18px;display:grid;gap:10px;min-width:0;scroll-margin-top:120px}
+.al-sh{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
+.al-sh h2{margin:0;font-family:var(--mono);font-size:15px;color:var(--red);font-weight:400}
+.al-sh p{margin:0;color:var(--soft);font-size:14px;flex:1 1 220px}
+.al-set textarea{font:inherit;font-size:14px;width:100%;box-sizing:border-box;border:1px dashed rgba(26,90,166,.3);border-radius:8px;background:#fff8d6;color:var(--ink);padding:7px 10px;resize:vertical}
+.al-set ol{list-style:none;margin:0;padding:0;display:grid}
+.al-set li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:2px 10px;align-items:start;padding:4px 0;border-top:1px solid rgba(26,90,166,.1)}
+.al-set li:first-child{border-top:0}
+.al-set .n{font-family:var(--mono);font-size:12px;color:var(--soft);padding-top:8px;text-align:right}
+.al-set .t{font-family:'Caveat',cursive;font-size:23px;line-height:1.15;padding:3px 6px;border-radius:6px;min-width:0;overflow-wrap:anywhere}
+.al-set .t:hover{background:var(--sun)}.al-set .t:empty::before{content:"type a new line…";color:var(--soft)}
+.al-set .t:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.al-set li.off .t{text-decoration:line-through;color:var(--soft)}
+.al-set li.ed .n{color:var(--red)}.al-set li.ed .n::after{content:" •"}
+.al-set .acts{display:flex;gap:4px;padding-top:5px}
+.al-set .acts button{font:inherit;font-size:12px;padding:3px 8px;border-radius:7px;border:1px solid rgba(26,90,166,.2);background:#fff;color:var(--soft);cursor:pointer}
+.al-set .acts button:hover{color:var(--red);border-color:var(--red)}
+.al-set li textarea{grid-column:2/4}
+.al-set>.btn{justify-self:start}
+.al-empty{color:var(--soft)}
+@media (max-width:760px){.al-live,.al-help{display:none}.ad-where{white-space:nowrap}.al-page .ad-bar{flex-wrap:wrap;row-gap:4px}.al-page .ad-status{flex-basis:100%;min-width:0}.al-wrap{grid-template-columns:minmax(0,1fr)}.al-nav{position:static;max-height:190px;border:1px solid rgba(26,90,166,.15);border-radius:12px;padding:4px 8px;background:color-mix(in srgb,#fff 60%,transparent);grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.al-nav h3{grid-column:1/-1}.al-set li{grid-template-columns:26px minmax(0,1fr)}.al-set .acts{grid-column:2}}
+a.ad-item{text-decoration:none;box-sizing:border-box}

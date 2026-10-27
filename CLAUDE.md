@@ -28,6 +28,10 @@ burned almost a whole month.
   (`netlify/functions/auth.mjs`, needs `TZ_GITHUB_CLIENT_ID` and `TZ_GITHUB_CLIENT_SECRET`); Nero invites
   collaborators and admins (`netlify/functions/people.mjs`, profiles at /people). Collaborators publish directly but
   never get scene code or pages. Claude saves drafts with `TZ_CLAUDE_KEY` through `tools/editor-api.mjs`, never publishes.
+- Ache's lines: every set is in `assets/lines.json` (sets used by fights, chat, stake, sleep, therapy and the news
+  scene also keep a default copy in `scene.js`). Nero edits them at `/admin/lines` (owner only); Publish stores the
+  sets he changed in Blobs and `scene.js` lays `/api/lines` over lines.json, no deploy. That is one more CDN-cached
+  request per page view, about 2 credits per 10,000 views. Read his notes there before changing lines in the repo.
 - Scene code (interactive HTML in articles) only ever runs in the scene box: `/embed` in an iframe with
   `sandbox="allow-scripts"` and nothing else (never add `allow-same-origin`), under the no-network policy in
   `netlify.toml`. When handing Nero scene code, also give its fingerprint (`node tools/editor-api.mjs fingerprint f.html`).

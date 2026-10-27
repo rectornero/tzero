@@ -24,5 +24,6 @@
 /stickers                /scrapbook     301
 /embed                   /embed.html    200
 /admin                   /admin.html    200
+/admin/lines             /admin-lines.html 200
 /admin/*                 /admin.html    200
 /*                       https://journal.tzero.live/:splat  301

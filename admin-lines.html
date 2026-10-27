@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,wght@0,400;1,400&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/admin.css">
+<title>Ache's lines · TZERØ</title>
+</head><body class="admin al-page">
+<header class="ad-top"><div class="ad-bar">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <a class="ad-where" href="/admin">Editor</a><span class="ad-where">/ Ache's lines</span>
+  <span class="ad-grow"></span>
+  <span class="ad-status" id="status" role="status"></span>
+</div></header>
+
+<section class="ad-gate" id="gate" hidden>
+  <div class="ad-gate-card">
+    <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg>
+    <h1>Ache's script book</h1>
+    <p id="gate-msg">Loading…</p>
+    <a class="btn" href="/api/auth/login">Sign in with GitHub</a>
+  </div>
+</section>
+
+<div class="al-app" id="app" hidden>
+  <div class="al-bar">
+    <input id="q" type="search" placeholder="Search lines and notes" aria-label="Search lines and notes">
+    <span class="al-count" id="count"></span>
+    <span class="ad-grow"></span>
+    <span class="al-live" id="live"></span>
+    <button class="btn ghost" id="save" type="button">Save draft</button>
+    <button class="btn" id="publish" type="button">Publish</button>
+  </div>
+  <p class="al-help">Click a line to rewrite it. Mute hides a line without losing it. Notes are for Claude. <b>Save draft</b> keeps your work here; <b>Publish</b> puts it on the site straight away, no deploy.</p>
+  <div class="al-wrap"><nav class="al-nav" id="nav" aria-label="Sets of lines"></nav><main class="al-main" id="main"></main></div>
+</div>
+
+<script src="/assets/js/admin-lines.js" defer></script>
+</body></html>
