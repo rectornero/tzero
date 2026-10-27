@@ -33,6 +33,7 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 nav{display:flex;gap:6px;flex-wrap:wrap;font-family:var(--mono);font-size:13px}
 nav a{padding:6px 12px;border-radius:99px;border:1px solid transparent;transition:.2s}
 nav a:hover{border-color:var(--b2);background:color-mix(in srgb,var(--b1) 25%,transparent)}
+@media (min-width:900px){nav{gap:4px}nav a{padding:6px 9px}nav .skin{padding:6px 10px}}
 
 .sea{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--sun) 0%,var(--sky) 62%,var(--b1) 100%)}
 .sunball{position:absolute;width:520px;height:520px;max-width:120vw;border-radius:50%;left:var(--sx,62%);top:var(--sy,-10%);transform:translate(-50%,-30%);background:radial-gradient(circle,#fffbe6 0%,#ffe9a0 30%,transparent 68%);transition:left 1.6s cubic-bezier(.2,.7,.2,1),top 1.6s cubic-bezier(.2,.7,.2,1);pointer-events:none}
