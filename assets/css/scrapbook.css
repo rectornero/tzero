@@ -12,14 +12,13 @@
 .scrap-count.done{background:linear-gradient(135deg,#fffaf0,#fff0b8);box-shadow:0 0 0 2px #e8c35a,0 10px 24px -14px rgba(19,34,75,.45)}
 
 /* the book: pages in pairs, rings down the middle on wide screens */
-.book{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;max-width:1080px;margin:0 auto;filter:drop-shadow(0 26px 30px rgba(19,34,75,.22))}
+.book{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 0;align-items:stretch;max-width:1080px;margin:0 auto;filter:drop-shadow(0 26px 30px rgba(19,34,75,.22))}
 .page{position:relative;min-height:420px;padding:30px clamp(18px,3vw,36px) 46px;background:#fffaf0;
   background-image:radial-gradient(circle,rgba(19,34,75,.09) 1px,transparent 1.4px);background-size:22px 22px;background-position:11px 11px}
 .page.pl{border-radius:14px 4px 4px 14px;box-shadow:inset -18px 0 24px -20px rgba(19,34,75,.35)}
 .page.pr{border-radius:4px 14px 14px 4px;box-shadow:inset 18px 0 24px -20px rgba(19,34,75,.35)}
 .page.pl::after{content:"";position:absolute;right:-9px;top:26px;bottom:26px;width:18px;z-index:2;
   background:radial-gradient(circle at 50% 50%,#fff 0 3px,#8a93ad 3.5px 5.5px,transparent 6px) 0 0/18px 34px repeat-y}
-.page:nth-child(n+3){margin-top:26px}
 .page-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:18px}
 .page h2{margin:0;font-family:"Caveat",cursive;font-weight:700;font-size:34px;line-height:1;color:#13224b}
 .page-n{font-family:var(--mono);font-size:12px;color:#d7182a}
@@ -43,7 +42,7 @@
 .stk:focus-visible{outline:2px solid #d7182a;outline-offset:4px;border-radius:14px}
 
 /* the last page: the crown */
-.crown-page{grid-column:1/-1;margin-top:26px;min-height:0;border-radius:14px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.crown-page{grid-column:1/-1;min-height:0;border-radius:14px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
 .crown-page h2{margin:0}
 .crown-page .sb-slot{min-height:0}
 .crown-page .stk{max-width:200px}
@@ -75,7 +74,8 @@
 .save-open[hidden]{display:none}
 .save-open{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:14px 16px;border-radius:12px;background:#fff1f2}
 .save-open p{margin:0;color:#13224b}
-.save-open .btn{font-family:var(--mono);font-size:13px;color:#d7182a}
+.save-open .btn{font-family:var(--mono);font-size:13px;color:#fff;background:#d7182a;padding:8px 14px;border-radius:99px}
+.save-open .btn:hover{background:#13224b}
 .save-read{grid-column:1/-1}
 .savefile h3{margin:0 0 10px;font-family:var(--display);font-size:18px;color:#13224b}
 .save-read ol{margin:0;padding-left:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 28px;max-height:340px;overflow:auto}
