@@ -352,17 +352,17 @@
    "stars": 4,
    "name": "Bianca",
    "title": "Glad she found you",
-   "ref": "deadend-hospital.webp",
-   "refAlt": "DeadenD screenshot: in a hospital room, Bianca, a schoolgirl with long dark hair and a blue ribbon, looks worried.",
-   "refCredit": "DeadenD (2018). Sprite by Elzee (CC BY-NC-SA 4.0), stock background. Redrawn banner shared under the same licence.",
+   "ref": "bianca.webp",
+   "refAlt": "DeadenD's new Bianca: long black hair with a silver clip, a navy school blazer with gold trim, a plaid skirt, a small notebook held close.",
+   "refCredit": "DeadenD (2026 character design). The 2018 sprites were by Elzee; these new designs replace them.",
    "facts": [
     [
      "Game",
-     "DeadenD, Nero's first visual novel (2018)"
+     "DeadenD, Nero's first visual novel (2018, revived 2026)"
     ],
     [
      "Look",
-     "Long dark hair and a blue ribbon"
+     "Long black hair, a silver clip, a notebook she keeps close"
     ],
     [
      "First seen",
@@ -371,13 +371,13 @@
    ],
    "about": "The first face DeadenD shows you, worried and relieved at the same time. That's all we'll say: in a noir story, saying more is how spoilers start.",
    "notes": [
-    "The 2018 sprites are by Elzee. New art by Nero will replace them one day.",
+    "DeadenD's characters were redesigned in 2026, replacing the 2018 sprites.",
     "The game's tagline: some memories are better left forgotten."
    ],
    "quote": "I'm glad I found you.",
    "outfit": {
-    "name": "Café shift",
-    "line": "A striped apron from the corner café, a tray of coffee, the blue ribbon tied a little tighter."
+    "name": "Rainy Sunday",
+    "line": "An oversized knitted cardigan, the silver clip, her notebook open by a rainy window. No school, no case, just tea."
    }
   },
   {
@@ -387,17 +387,17 @@
    "stars": 5,
    "name": "Norman",
    "title": "Talks like an old book",
-   "ref": "deadend-cafe.webp",
-   "refAlt": "DeadenD screenshot: inside a café, Bianca, Norman and Edward stand side by side while Norman talks.",
-   "refCredit": "DeadenD (2018). Sprites by Elzee (CC BY-NC-SA 4.0), stock background. Redrawn banner shared under the same licence.",
+   "ref": "norman.webp",
+   "refAlt": "DeadenD's new Norman: messy dark blue hair, a brown café apron over a white shirt and a loose purple tie, his school blazer over one shoulder, phone in hand.",
+   "refCredit": "DeadenD (2026 character design). The 2018 sprites were by Elzee; these new designs replace them.",
    "facts": [
     [
      "Game",
-     "DeadenD (2018)"
+     "DeadenD (2018, revived 2026)"
     ],
     [
-     "Hangs out",
-     "At the corner café, with friends"
+     "Wears",
+     "A café apron, a loose purple tie, his blazer over one shoulder"
     ],
     [
      "Speaks",
