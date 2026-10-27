@@ -47,6 +47,17 @@ red as an accent only, white cards, no Discord, English only. Canonical URLs sta
 Any static server works, for example `npx serve .`. Wix requests go straight from the browser
 to `www.wixapis.com`.
 
+## Reader save file and Ache's scrapbook
+
+`assets/js/save.js` (loaded by scene.js on every page, styles in `assets/css/save.css`) keeps a save file in the visitor's
+browser only (localStorage `tz-save`): finished articles, the unfinished one, visits, stickers. Returning readers get a
+"save file loaded" note and a line from Ache. 24 stickers are hidden across the site (list, hints and Ache's lines at
+the top of save.js; pictures in `assets/img/stickers/`, made with ChatGPT); `/scrapbook` (`scrapbook.html`,
+`assets/js/scrapbook.js`) shows them with the save code export/import and delete. House rules from the Statement of
+Conduct: no timers, dailies, streaks or random drops. Other features keep their own block in the same save with
+`TZSAVE.get/set(ns)` and follow `TZSAVE.on('read'|'sticker'|'find'|'visit')`; character finds come from
+`assets/caw-spots.json`.
+
 ## Ache's news mood
 
 Ache reacts to the newest Wix post tagged **Ache grief** (tag slug `ache-grief`): the first time Ache reaches

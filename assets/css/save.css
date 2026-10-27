@@ -1,0 +1,66 @@
+/* Reader save file and Ache's sticker scrapbook: the bits save.js adds to every page (sticker pop-up, save toast,
+   hidden stickers, read stamps). The scrapbook page itself is in scrapbook.css. Brand: navy #13224b, red #d7182a. */
+:root{--stk-navy:#13224b;--stk-red:#d7182a}
+
+/* a sticker peeking out of the page */
+.stk-host{position:relative}
+.stk-spot{position:absolute;z-index:3;width:46px;height:46px;padding:0;border:0;background:none;cursor:pointer;transform:rotate(-14deg);filter:drop-shadow(0 3px 4px rgba(19,34,75,.3));transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.stk-spot img{width:100%;height:100%;display:block;object-fit:contain;clip-path:polygon(0 0,100% 0,100% 62%,62% 100%,0 100%)}
+/* the folded-up corner, like a sticker someone started to peel */
+.stk-spot::after{content:"";position:absolute;right:0;bottom:0;width:38%;height:38%;background:linear-gradient(135deg,#e9e4d6 0 50%,transparent 50%);border-radius:0 0 0 4px;box-shadow:-1px -1px 2px rgba(0,0,0,.12)}
+.stk-spot:hover,.stk-spot:focus-visible{transform:rotate(-4deg) scale(1.15)}
+.stk-spot.under{z-index:0;width:58px;height:58px}
+.stk-spot.peel{pointer-events:none;animation:stk-peel .55s ease-in forwards}
+@keyframes stk-peel{40%{transform:rotate(10deg) scale(1.25) translateY(-8px)}100%{transform:rotate(30deg) scale(.2) translateY(-60px);opacity:0}}
+
+/* things you can poke: the Ø on the front page, the heart on the studio page */
+.stk-poke{cursor:pointer}
+.stk-poke.boop{animation:stk-boop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes stk-boop{30%{transform:scale(1.3) rotate(-12deg)}60%{transform:scale(.92) rotate(6deg)}}
+
+/* the new-sticker pop-up */
+.stk-pop{position:fixed;left:50%;top:50%;z-index:40;display:flex;align-items:center;gap:18px;width:min(420px,calc(100vw - 32px));padding:18px 22px 18px 18px;background:#fff;border-radius:18px;
+  box-shadow:0 30px 60px -24px rgba(19,34,75,.6),0 0 0 1px rgba(19,34,75,.08);transform:translate(-50%,-50%);animation:stk-in .6s cubic-bezier(.3,1.5,.5,1)}
+.stk-pop.from{animation:stk-from .7s cubic-bezier(.3,1.3,.5,1)}
+.stk-pop img{width:112px;height:112px;flex:none;object-fit:contain;animation:stk-wobble 1.2s .5s ease-in-out;filter:drop-shadow(0 6px 8px rgba(19,34,75,.25))}
+.stk-pop-txt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.stk-pop-kick{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--stk-red)}
+.stk-pop b{font-family:"Caveat",cursive;font-size:32px;line-height:1;color:var(--stk-navy)}
+.stk-pop-open{font-family:var(--mono);font-size:13px;color:var(--stk-navy);margin-top:6px}
+.stk-pop-open:hover{color:var(--stk-red)}
+.stk-pop-x{position:absolute;right:8px;top:6px;border:0;background:none;font-size:22px;line-height:1;color:var(--stk-navy);opacity:.5;cursor:pointer;padding:4px 8px}
+.stk-pop-x:hover{opacity:1}
+.stk-pop.gold{background:linear-gradient(135deg,#fffaf0,#fff3c8);box-shadow:0 30px 60px -24px rgba(19,34,75,.6),0 0 0 2px #e8c35a}
+.stk-pop.gold img{width:150px;height:150px}
+.stk-pop.away{animation:stk-away .45s ease-in forwards}
+@keyframes stk-in{from{transform:translate(-50%,-40%) scale(.6) rotate(-6deg);opacity:0}}
+@keyframes stk-from{from{transform:translate(calc(-50% + var(--fx)),calc(-50% + var(--fy))) scale(.2) rotate(-30deg);opacity:.4}}
+@keyframes stk-away{to{transform:translate(-50%,-50%) translate(calc(-50vw + 80px),calc(50vh - 40px)) scale(.15) rotate(20deg);opacity:0}}
+@keyframes stk-wobble{25%{transform:rotate(-8deg) scale(1.08)}50%{transform:rotate(6deg)}75%{transform:rotate(-3deg)}}
+
+/* "save file loaded" toast for returning readers */
+.stk-toast{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;max-width:min(440px,calc(100vw - 32px));
+  padding:12px 40px 12px 16px;background:var(--stk-navy);color:#fff;border-radius:14px;box-shadow:0 20px 40px -18px rgba(19,34,75,.7);font-family:var(--mono);font-size:12px;animation:stk-toast .5s cubic-bezier(.3,1.5,.5,1)}
+.stk-toast-kick{color:#ffd56b;letter-spacing:.06em;text-transform:uppercase;animation:stk-blink 1s steps(2) 3}
+.stk-toast-stats{opacity:.85}
+.stk-toast a{flex-basis:100%;color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stk-toast a:hover{color:#ffb3ba}
+.stk-toast-book{flex-basis:auto!important}
+.stk-toast-x{position:absolute;right:6px;top:6px;border:0;background:none;color:#fff;opacity:.6;font-size:18px;line-height:1;padding:4px 8px;cursor:pointer}
+.stk-toast.away{transition:transform .4s,opacity .4s;transform:translateY(20px);opacity:0}
+@keyframes stk-toast{from{transform:translateY(30px);opacity:0}}
+@keyframes stk-blink{50%{opacity:.2}}
+
+/* posts you've finished */
+a.card.is-read{position:relative}
+a.card.is-read::after{content:attr(data-read-on);position:absolute;right:12px;top:12px;z-index:2;padding:3px 9px;border:2px solid var(--stk-red);border-radius:6px;color:var(--stk-red);background:rgba(255,255,255,.85);
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transform:rotate(6deg)}
+.save-posts a.is-read::after,.side-fresh a.is-read b::after{content:" ✓";color:var(--stk-red)}
+.stk-readbefore{margin:0;font-family:"Caveat",cursive;font-size:21px;color:var(--stk-red)}
+
+.stk-foot{color:#ffd56b}
+.stk-foot:hover{color:#fff}
+.chat button.stk-opt{border-color:var(--stk-red)}
+
+@media (prefers-reduced-motion:reduce){.stk-pop,.stk-pop img,.stk-toast,.stk-toast-kick,.stk-poke.boop,.stk-spot.peel{animation:none}.stk-pop.away{animation:none;opacity:0}}
+:root[data-motion="2"] .stk-pop,:root[data-motion="2"] .stk-pop img,:root[data-motion="2"] .stk-toast{animation:none}
