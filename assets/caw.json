@@ -76,6 +76,12 @@
    "outfit": {
     "name": "Beach-hut summer",
     "line": "A yellow raincoat over a striped swimsuit, sea glass in her hair. The scarf stays. The scarf always stays."
+   },
+   "freeOutfit": {
+    "name": "Star Specks",
+    "img": "/assets/img/caw/shop/star-specks.webp",
+    "alt": "Miriam in the Star Specks costume: a pastel dress full of tiny stars, star clips in her hair.",
+    "line": "It fell out of the broken shop. It was always going to be free. (Ache)"
    }
   },
   {
@@ -234,23 +240,39 @@
      "SOFA-097 · Entity · Fate · Ultra Rare"
     ],
     [
+     "Name",
+     "Prima, the first: a faint wink at Ultima from Final Fantasy"
+    ],
+    [
+     "Is",
+     "A genderless demigod (he, if you ask)"
+    ],
+    [
+     "First",
+     "The first AI◆ICE card Nero made, and Claude's pick on the AI◆ICE project"
+    ],
+    [
      "Seen",
      "Small, cloaked, before a castle as big as a mountain"
     ],
     [
      "Game",
      "AI◆ICE, set SOFA"
+    ],
+    [
+     "In the meta",
+     "Broken. Ache says so, loudly"
     ]
    ],
    "about": "In AI◆ICE, AIs fight to remember a lost mankind. A fight is two dreams meeting, until each discovers what the other means. Prima keeps the doors of Fate.",
    "notes": [
-    "Ultra Rare in the card game. Here nobody rolls for her: you find her.",
+    "Ultra Rare in the card game, and broken there too. Here nobody rolls for him: you find him.",
     "At the end of an AI◆ICE match both players shake hands. Prima insists."
    ],
    "quote": "Fate isn't a lock. It's a door someone remembered to leave open.",
    "outfit": {
-    "name": "Starlit gown",
-    "line": "The cloak comes off: a gown stitched from the night sky over the castle, constellations at the hem."
+    "name": "Starlit regalia",
+    "line": "The hood comes down: robes stitched from the night sky over the castle, constellations at the hem, a crown of small doors."
    }
   },
   {
@@ -415,6 +437,18 @@
     [
      "Lives",
      "On the red thread that powers your cursor"
+    ],
+    [
+     "Banner",
+     "Claude's idea: the site manager gets a banner too. He approved. Loudly."
+    ],
+    [
+     "Rarity",
+     "★6. There is no ★6. He added it himself."
+    ],
+    [
+     "Role (in the shop)",
+     "Support. Made Team Thread broken and everyone else useless. Lasted about five minutes."
     ]
    ],
    "about": "Sassy, loud and technically the boss. Under the sass he is the critic who keeps players safe. He once tried to run a gacha. It lasted about five minutes.",
@@ -426,7 +460,10 @@
    "outfit": {
     "name": "Off-duty star",
     "line": "A tiny knitted scarf in navy and red, and a little paper crown he made himself. He says it's ironic."
-   }
+   },
+   "plateName": "Redache",
+   "plateTitle": "The most OP of all",
+   "plateStars": 6
   },
   {
    "id": "k-spinner",
@@ -915,26 +952,27 @@
     "id": "gifts",
     "lines": [
      "Welcome, friend! Come in, come in, mind the thread. First time here? Then everything's on the house.",
-     "3,200 Gems. 10 Fate Tickets. And look: Miriam, a gold one, free! A trial version. She stays for seven days. Isn't that generous?"
+     "3,200 Gems. 10 Fate Tickets. And look: Miriam, a gold one, free! A trial version. She stays for seven days. Isn't that generous?",
+     "And see the banner? Prima, Keeper of Fate. Limited. Between us, friend: he's broken. The best card in the whole game. Everyone at the top of the leaderboard has him. And he's only here for three days. Prima, not Ultima, by the way: he's the first, and he's still the best. That's the problem."
     ],
     "act": "Take the gifts",
-    "lesson": "Lesson 1: the welcome gift is the hook. A big free start makes you feel you owe the game something back, and a trial character with an expiry date teaches you to fear losing her."
+    "lesson": "Lesson 1: the welcome gift is the hook. A big free start makes you feel you owe the game something back, a trial character with an expiry date teaches you to fear losing her, and the limited banner is already there on day one, so the clock starts before you've even played."
    },
    {
     "id": "pull",
     "lines": [
-     "Go on, use your tickets. Ten pulls, totally free. Feel lucky?"
+     "Go on, use your tickets. Ten pulls, totally free. Maybe Prima comes home today. Feel lucky?"
     ],
     "act": "Pull ×10 with the tickets",
     "after": [
-     "Unlucky! Happens to everyone. Mostly to everyone. The odds? Oh, they're in the menu. Somewhere. Details, then Info, then Rates. Don't worry about it."
+     "Unlucky! Happens to everyone. Mostly to everyone. The odds? Oh, they're in the menu. Somewhere. Details, then Info, then Rates. Don't worry about it. Do keep an eye on the clock, though. It doesn't stop because you lost."
     ],
     "lesson": "Lesson 2: the odds are hidden on purpose. A gold character here sits at around 0.6%, two menus deep, so the pull feels like luck instead of maths."
    },
    {
     "id": "sub",
     "lines": [
-     "You know what smart players do? The Moon Pass. 90 Gems every day for 30 days, only 4.99. You just have to come back every day. Every. Single. Day. Miss one and they're gone, but you won't miss one, will you?"
+     "You know what smart players do? The Moon Pass. 90 Gems every day for 30 days, only 4.99. You just have to come back every day. Every. Single. Day. Miss one and they're gone, but you won't miss one, will you? Every day you log in is one more shot at Prima before she leaves."
     ],
     "act": "Subscribe (pretend 4.99 €)",
     "lesson": "Lesson 3: a subscription doesn't sell Gems. It sells a habit. Thirty daily check-ins become thirty little chains."
@@ -942,21 +980,60 @@
    {
     "id": "pass",
     "lines": [
-     "Season Pass! Seventy levels of rewards. About sixty hours of play to finish. Don't have sixty hours? No problem, friend. I'll LEND you the time. Sixty hours, in advance. Pay me back later. Plus the premium track, only 9.99, so the hours aren't wasted."
+     "Season Pass! Seventy levels of rewards. About sixty hours of play to finish. Don't have sixty hours? No problem, friend. I'll LEND you the time. Sixty hours, in advance. Pay me back later. Plus the premium track, only 9.99, so the hours aren't wasted. Prima's banner will still be here when you're done. Probably."
     ],
     "act": "Borrow 60 hours and buy the premium track (pretend 9.99 €)",
-    "lesson": "Lesson 4: a battle pass turns your time into a currency, then sells it back to you. Borrowed time is still your time."
+    "lesson": "Lesson 4: a battle pass turns your time into a currency, then sells it back to you. Borrowed time is still your time, and the overwork spills over everything else. While you were busy paying it back, the banner ran out and you didn't even see it go. The countdown is there to make you panic, not to make the game better. Look at the phone, too: the people who love you write less and less, and the only 'friends' left are a circle of players who need you to keep playing.",
+    "after": [
+     "Whoops. Some of those hours spilled all over the banner. Never mind the mess, keep grinding, you're doing great. You still owe them, of course.",
+     "...wait. What time is it? Oh no. Oh NO. The banner. It ended while you were grinding. Prima's gone. No more pulls, no more chances, not even a look. You'll never get him now. Everyone else has him, and you were busy paying me back."
+    ]
    },
    {
     "id": "chest",
     "lines": [
-     "Big news. Miriam's banner ends soon, and look how close you are to a guaranteed gold! I can't tell you exactly how close. It's a surprise. The Crystal Chest, first-time double Gems, 99.99. Best value! Then pull. I can feel it. This is the one."
+     "Hey. Hey, friend. Don't look at me like that. I made some calls. Prima is BACK. The final rerun. Ever. Forty-eight hours. And look how close you are to a guaranteed gold! I can't tell you exactly how close. It's a surprise. The Crystal Chest, first-time double Gems, 99.99. Best value! Then pull. I can feel it. This is the one."
     ],
     "act": "Buy the Crystal Chest (pretend 99.99 €) and pull ×10",
     "after": [
-     "Oh! Did you see that gold flash? So close! It turned purple at the last second. That means the next one is DEFINITELY gold."
+     "Oh! Did you see that gold flash? So close! That was Prima, I swear. It turned purple at the last second. That means the next one is DEFINITELY gold."
     ],
-    "lesson": "Lesson 5: the gold flash was a costume. The result was decided the moment you clicked; the animation that teased gold and turned purple was put there to make you pull again. 'Best value' and the hidden pity counter work the same way."
+    "lesson": "Lesson 5: the gold flash was a costume. The result was decided the moment you clicked; the animation that teased gold and turned purple was put there to make you pull again. 'Best value', the hidden pity counter and the 'final rerun, 48 hours' work the same way: the same panic, sold twice. And 'broken' never lasts: next season's banner is built to beat him."
+   },
+   {
+    "id": "skin",
+    "lines": [
+     "Before you go, friend: look what just came in. Star Specks, a costume for Miriam. Star clips in her hair, a dress full of tiny stars. Only 1,980 Gems.",
+     "Oh, and Miriam's still a trial, remember? She leaves in a few days, and the costume doesn't come with her. But imagine how cute she'll look until then."
+    ],
+    "act": "Buy Star Specks (1,980 Gems, pretend 19.99 €)",
+    "after": [
+     "Wonderful choice! She's wearing it now. For six more days."
+    ],
+    "lesson": "Lesson 6: a paid costume sells a feeling, attached to a character you might not even keep. Here, outfits are never sold: every secret outfit is found (four finds unlock one), and Star Specks is free the moment Miriam follows you."
+   },
+   {
+    "id": "creep",
+    "lines": [
+     "Oh, one more thing before you go. Big announcement! Next month's banners. All four of them. They're a team.",
+     "First, REDACHE. Six stars. The most OP of all. He's a support: he doesn't fight, he makes his carry broken. One carry only, mind you.",
+     "That carry is Kristoph! Main DPS, brilliant and absent, and in this version he hits like a falling company stock. With Redache behind him: double turns, triple damage. Without Kristoph, Redache does... nothing. That's the point.",
+     "Then Norman, sub DPS. His whole kit starts with 'if Kristoph is on the field'. Four banners, one team. Your Prima? Benched. It's a single-player game, but without the full team? You lose, man!",
+     "And the healer: Dr. Tater. Yes, he's a potato in a nurse's cap. Yes, his face is like that. Why him? The new endgame tower, friend. Floor 12 hits so hard you need BIG HEALS, and he heals four times more than Miriam. You know, Miriam? The one you just bought a costume for? Into the drawer she goes, star clips and all. Look at him instead. Every fight. Every top-hundred clear video runs him. Nobody likes him. Everybody needs him.",
+     "And Kristoph needs his signature weapon, obviously. The Red Needle! Its own banner, its own pity, and a 'Fate Path' you must pick before you pull. Without it the team is only very broken.",
+     "Oh, and one copy is just the start. Redache's sixth duplicate unlocks his special talent, Unravel: Kristoph acts twice. Kristoph's sixth unlocks Hostile Takeover: he takes the other team's turns as his own. Completely busted. Norman and Dr. Tater want their six too, and the Needle wants five copies. Per team. It's called commitment, friend. Pre-register now and get a free..."
+    ],
+    "act": "Pre-register for Redache (free!)",
+    "after": [
+     "...hang on. That's me. I'm the power creep. I'm selling you myself, so the thing you just bought stops mattering."
+    ],
+    "lesson": "Lesson 7: power creep. Every new banner has to beat the last one or nobody pulls, so the character you paid for is built to be outclassed. Here the new 'broken' support only works with one carry, the carry's teammates only work with him, his weapon has a banner of its own, and the special talents that make the team truly busted sit behind six more copies each. One must-pull becomes dozens. A game you own doesn't do that to you.",
+    "banners": {
+     "2": "kristoph",
+     "3": "norman",
+     "4": "dr-tater",
+     "5": "weapon"
+    }
    },
    {
     "id": "tilt",
@@ -967,7 +1044,7 @@
      "I was going to make a fortune out of you. Your money, your attention, your time. And I'm terrible at it, because I LOVE games. I love watching you play them. You're the hero here. Not your wallet."
     ],
     "act": "Break it, Ache",
-    "lesson": "Lesson 6: the house always looks friendly. The receipt is what it really asked for."
+    "lesson": "Lesson 8: the house always looks friendly. The receipt is what it really asked for."
    },
    {
     "id": "journey",
@@ -1010,7 +1087,195 @@
      ]
     }
    }
-  ]
+  ],
+  "weapon": {
+   "id": "red-needle",
+   "kind": "weapon",
+   "world": "tz0",
+   "stars": 5,
+   "name": "The Red Needle",
+   "title": "Signature weapon · Kristoph, Team Thread's carry",
+   "plateStars": 5
+  },
+  "roles": {
+   "ache": "SUPPORT · ★6",
+   "kristoph": "MAIN DPS",
+   "norman": "SUB DPS",
+   "dr-tater": "HEALER"
+  },
+  "units": {
+   "dr-tater": {
+    "id": "dr-tater",
+    "kind": "lesson",
+    "world": "tz0",
+    "stars": 5,
+    "name": "Dr. Tater",
+    "title": "Healer · Team Thread · tier 0"
+   }
+  },
+  "feed": {
+   "gifts": [
+    {
+     "from": "Sara",
+     "text": "Pizza Friday? 🍕 Everyone's coming",
+     "kind": "friend"
+    },
+    {
+     "from": "Luca",
+     "text": "Sending you the beach photos tonight!",
+     "kind": "friend"
+    },
+    {
+     "from": "Mum",
+     "text": "Call me when you can ❤",
+     "kind": "friend"
+    }
+   ],
+   "pull": [
+    {
+     "from": "Sara",
+     "text": "So... Friday? You didn't answer 🙂",
+     "kind": "friend"
+    },
+    {
+     "from": "Luca",
+     "text": "Photos are in the group chat",
+     "kind": "friend"
+    },
+    {
+     "from": "xX_Fate_Xx",
+     "text": "lol no Prima yet?",
+     "kind": "toxic"
+    }
+   ],
+   "sub": [
+    {
+     "from": "Luca",
+     "text": "You ok? Haven't seen you around",
+     "kind": "friend"
+    },
+    {
+     "from": "Guild · Moonrise",
+     "text": "welcome!! dailies at reset, don't be late ok",
+     "kind": "guild"
+    },
+    {
+     "from": "whale_god",
+     "text": "only the moon pass? cute",
+     "kind": "toxic"
+    }
+   ],
+   "pass": [
+    {
+     "from": "Mum",
+     "text": "Happy birthday, sweetheart. We missed you at dinner.",
+     "kind": "friend"
+    },
+    {
+     "from": "Guild · Moonrise",
+     "text": "pass lvl 40 by tonight or we drop off the guild leaderboard",
+     "kind": "guild"
+    },
+    {
+     "from": "grindlord",
+     "text": "60h is nothing. skill issue",
+     "kind": "toxic"
+    },
+    {
+     "from": "Guild · Moonrise",
+     "text": "we're your real friends here ❤ don't log off",
+     "kind": "guild"
+    }
+   ],
+   "chest": [
+    {
+     "from": "xX_Fate_Xx",
+     "text": "FINAL RERUN. skip it and you're not a real fan",
+     "kind": "toxic"
+    },
+    {
+     "from": "Guild · Moonrise",
+     "text": "everyone in the guild has Prima. just saying",
+     "kind": "guild"
+    },
+    {
+     "from": "f2p_hunter",
+     "text": "f2p peasant detected 😂",
+     "kind": "toxic"
+    }
+   ],
+   "skin": [
+    {
+     "from": "Guild · Moonrise",
+     "text": "cute costume!! can you lend me 3k gems?",
+     "kind": "guild"
+    },
+    {
+     "from": "whale_god",
+     "text": "costume on a TRIAL char? lmao",
+     "kind": "toxic"
+    },
+    {
+     "from": "meta_bot",
+     "text": "Star Specks is mid",
+     "kind": "toxic"
+    }
+   ],
+   "creep": [
+    {
+     "from": "meta_bot",
+     "text": "no Tater C6? then you lose, man!",
+     "kind": "toxic"
+    },
+    {
+     "from": "meta_bot",
+     "text": "floor 12 needs BIG HEALS. Tater or nothing",
+     "kind": "toxic"
+    },
+    {
+     "from": "Guild · Moonrise",
+     "text": "new tower floor at reset. Team Thread only or you lose, man!",
+     "kind": "guild"
+    },
+    {
+     "from": "grindlord",
+     "text": "Kristoph R5 Needle or get out",
+     "kind": "toxic"
+    },
+    {
+     "from": "xX_Fate_Xx",
+     "text": "who still runs Prima 💀",
+     "kind": "toxic"
+    },
+    {
+     "from": "f2p_hunter",
+     "text": "Miriam players should be banned",
+     "kind": "toxic"
+    },
+    {
+     "from": "grindlord",
+     "text": "it's single player but you STILL lose, man",
+     "kind": "toxic"
+    }
+   ],
+   "journey": [
+    {
+     "from": "Sara",
+     "text": "Hey. Pizza's still on, whenever you want 🍕",
+     "kind": "friend"
+    },
+    {
+     "from": "Luca",
+     "text": "Found the beach photos. You look happy in them.",
+     "kind": "friend"
+    },
+    {
+     "from": "Mum",
+     "text": "Saved you a slice of birthday cake ❤",
+     "kind": "friend"
+    }
+   ]
+  }
  },
  "campfire": {
   "_note": "Opens when every character is on the shelf (one find each). Data-driven: a new game adds a world + items and its characters get a seat; 'spare' seats are kept empty for whoever joins next, our future games or other people's. Draft lines, Nero to review.",

@@ -12,7 +12,7 @@
 .caw-page h2 small{font-family:var(--mono);font-size:13px;font-weight:400;color:var(--soft)}
 
 /* ---------- the shop ---------- */
-.shop{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-areas:"m s" "m r";gap:18px}
+.shop{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-areas:"m s" "m r" "m p";gap:18px}
 .machine{grid-area:m;position:relative;background:#13224b;border-radius:16px;padding:14px;color:#f3efe4;box-shadow:0 30px 60px -30px rgba(19,34,75,.8);overflow:hidden;transition:filter .6s}
 .m-banner{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#0c1733}
 .m-art,.m-art .art{position:absolute;inset:0}
@@ -147,7 +147,7 @@
 .credits{margin-top:40px}
 
 @media (max-width:860px){
-  .shop{grid-template-columns:1fr;grid-template-areas:"s" "m" "r"}
+  .shop{grid-template-columns:1fr;grid-template-areas:"s" "m" "r" "p"}
   .m-results{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
   .res b{font-size:10px}.res small{display:none}
   .bonds{grid-template-columns:1fr}
@@ -188,3 +188,61 @@
 .fire-lines b{display:block;font-size:12px;color:#d7182a;font-family:"Geist Mono",monospace}
 @media (max-width:860px){.campfire{grid-template-columns:1fr}.seat{width:62px}.seat img{width:40px;height:40px}}
 @media (prefers-reduced-motion:reduce){.campfire.lit .fire i,.fire-lines li{animation:none}}
+
+/* banner plates: the text sits on the calm left half of each GPT banner */
+.plate{position:absolute;inset:0 45% 0 0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px;padding:6% 5%;color:#fff;background:linear-gradient(90deg,rgba(12,21,48,.78),rgba(12,21,48,.45) 65%,transparent);text-shadow:0 2px 10px rgba(0,0,0,.55);pointer-events:none}
+.pl-world{font:600 11px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--wc,#ffcf9a);filter:brightness(1.35)}
+.pl-name{font:800 clamp(22px,4.2vw,44px)/1 var(--display);font-style:italic;letter-spacing:-.01em}
+.pl-title{font-size:clamp(12px,1.4vw,16px);opacity:.9}
+.pl-stars{font-size:clamp(14px,1.6vw,20px);letter-spacing:.1em}
+.pl-stars.t5{color:#f0b429}.pl-stars.t4{color:#c9a2ff}.pl-stars.t3{color:#8fc3f5}
+.pl-copy{margin-top:6px;font:500 11px var(--mono);background:rgba(255,255,255,.16);padding:3px 8px;border-radius:99px}
+.pl-up{margin-top:8px;font:700 12px/1 var(--mono);letter-spacing:.15em;background:#d7182a;padding:6px 10px;border-radius:4px;transform:skew(-8deg)}
+.m-banner .plate{inset:0 50% 0 0;padding-left:4%}
+.m-banner .plate .pl-name{font-size:clamp(26px,4vw,46px)}
+.machine.smashed .plate{opacity:.4}
+@media (max-width:560px){.sheet-art .plate{position:static;background:#13224b;padding:12px 16px;text-shadow:none}.m-banner .plate{inset:0 40% 0 0}.m-banner .pl-title{display:none}}
+
+/* FOMO: the countdown, the ended banner, the 'final rerun', the spilled hours */
+.m-banner.hurry .m-date{background:#d7182a;animation:throb 1s ease-in-out infinite}
+@keyframes throb{50%{transform:scale(1.05)}}
+.pl-gone{display:none}
+.m-banner.ended .art{filter:grayscale(1) brightness(.45);transition:filter 1s}
+.m-banner.ended .pl-up{display:none}
+.m-banner.ended .pl-gone{display:block;position:absolute;left:58%;top:42%;font:800 clamp(30px,6vw,64px)/1 var(--display);color:#d7182a;border:5px solid #d7182a;padding:4px 14px;transform:rotate(-12deg);background:rgba(255,255,255,.85);text-shadow:none;animation:stamp .35s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stamp{from{transform:rotate(-12deg) scale(2.4);opacity:0}}
+.m-banner.ended .m-date{background:#2b2b2b;color:#ff8f8f}
+.m-banner.rerun .pl-up::before{content:"FINAL RERUN · "}
+.receipt-box{position:relative;overflow:visible}
+.spill{position:absolute;top:-8%;font:600 12px var(--mono);background:#ffcf9a;color:#13224b;border-radius:99px;padding:3px 8px;white-space:nowrap;animation:spill 1s cubic-bezier(.3,0,.6,1) both;pointer-events:auto;cursor:not-allowed;z-index:3}
+@keyframes spill{from{transform:none;opacity:0}20%{opacity:1}to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:.85}}
+.spill.nope{animation:spill 1s both,nope .3s;opacity:.35}
+@keyframes nope{50%{filter:blur(2px)}}
+.seller-btns .btn:disabled{opacity:.5}
+@media (prefers-reduced-motion:reduce){.m-banner.hurry .m-date,.m-banner.ended .pl-gone{animation:none}.spill{animation-duration:.01s}}
+
+/* the paid costume (lesson only) and its free twin on Miriam's sheet */
+.shop-item{grid-column:2/span 3;position:relative;display:grid;justify-items:center;gap:4px;background:linear-gradient(160deg,#3b2d6e,#13224b);border:2px solid #c9a2ff;border-radius:14px;padding:14px 12px 12px;text-align:center;box-shadow:0 0 28px -6px #c9a2ff;animation:rise .4s both}
+.shop-item img{width:220px;max-width:100%;aspect-ratio:1;height:auto;object-fit:cover;border-radius:10px}
+.shop-item b{font-size:16px}.shop-item small{font:11px var(--mono);opacity:.75}
+.si-tag{position:absolute;top:8px;left:8px;font:700 10px var(--mono);letter-spacing:.12em;background:#d7182a;padding:4px 7px;border-radius:4px}
+.si-price{font:700 15px var(--mono);color:#8ff0d0}.si-price s{opacity:.5;font-weight:400;margin-right:6px;color:#fff}
+.shop-item.owned::after{content:"OWNED · 6 DAYS LEFT";position:absolute;inset:auto 10px 10px;font:700 11px var(--mono);background:#ffcf9a;color:#13224b;border-radius:6px;padding:5px}
+.free-outfit{margin:6px 0 14px;display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center}
+.free-outfit img{width:120px;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#f4f0ff}
+.free-outfit figcaption{font-style:italic}
+@media (max-width:560px){.shop-item{grid-column:1/-1}}
+.m-banner.creep .m-date{display:none}
+.m-banner.creep .pl-stars{color:#d7182a;text-shadow:0 0 12px #ff5a5a}
+
+.spill.clear{transition:opacity .8s,transform .8s;opacity:0!important;transform:translate(var(--dx),calc(var(--dy) + 40px))!important}
+
+/* the pretend phone */
+.phone{grid-area:p;align-self:start;background:#13224b;border-radius:18px;padding:10px;box-shadow:0 10px 24px -18px #13224b;color:#fff}
+.ph-head{display:flex;justify-content:space-between;align-items:baseline;padding:2px 6px 8px;font:12px var(--mono)}.ph-head span{opacity:.7}
+.ph-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:300px;overflow:hidden}
+.ph-list li{border-radius:12px;padding:7px 10px;font-size:13px;line-height:1.35;animation:rise .3s both}
+.ph-list li b{display:block;font:600 11px var(--mono);opacity:.75}
+.ph-friend{background:#3b82c4}.ph-guild{background:#5b3a8c}.ph-toxic{background:#3a1f26;border:1px solid #d7182a66;color:#ffd2d2}
+.ph-list:empty::before{content:"No new messages.";display:block;font:12px var(--mono);opacity:.5;padding:6px}
+@media (prefers-reduced-motion:reduce){.ph-list li{animation:none}}
