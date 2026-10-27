@@ -2,6 +2,7 @@
 //   TZ_CLAUDE_KEY=… node tools/editor-api.mjs inbox                      what Nero and the admins dropped in the inbox
 //   TZ_CLAUDE_KEY=… node tools/editor-api.mjs draft <post.json> [slug]    saves a draft (signed by Claude, never published)
 //   TZ_CLAUDE_KEY=… node tools/editor-api.mjs done <inbox-id> <slug> [note]
+//   TZ_CLAUDE_KEY=… node tools/editor-api.mjs lines                      Nero's changes and notes on Ache's lines (/admin/lines)
 //   node tools/editor-api.mjs fingerprint <scene.html>                     the 8 characters /admin shows for scene code
 // TZ_SITE picks the site (default https://artache-tzero.netlify.app). The key is TZ_CLAUDE_KEY in Netlify's settings.
 import fs from 'node:fs';
@@ -31,6 +32,13 @@ if (cmd === 'fingerprint') {
   console.log('Draft is in Nero\'s editor: ' + SITE + '/admin');
 } else if (cmd === 'done') {
   console.log(await call('/api/admin/inbox/' + encodeURIComponent(a), { method: 'POST', body: JSON.stringify({ status: 'done', draft: b, note: rest.join(' ') || undefined }) }));
+} else if (cmd === 'lines') {
+  const { draft, published } = await call('/api/admin/lines');
+  if (!draft) console.log('Nero has not saved any line changes yet');
+  for (const [k, t] of Object.entries((draft && draft.topics) || {})) {
+    console.log(`\n== ${k}${published && published.lines && published.lines[k] ? ' (live)' : ' (draft)'}${t.note ? '\nNOTE: ' + t.note : ''}`);
+    for (const l of t.lines) console.log(`${l.off ? '  [muted] ' : '  '}${l.t}${l.note ? '\n      note: ' + l.note : ''}`);
+  }
 } else {
-  console.log('Commands: inbox | draft <post.json> [slug] | done <inbox-id> <slug> [note] | fingerprint <scene.html>');
+  console.log('Commands: inbox | lines | draft <post.json> [slug] | done <inbox-id> <slug> [note] | fingerprint <scene.html>');
 }
