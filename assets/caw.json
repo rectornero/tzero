@@ -416,6 +416,41 @@
    }
   },
   {
+   "id": "elise",
+   "kind": "char",
+   "world": "ded",
+   "stars": 4,
+   "name": "Elise",
+   "title": "The girl from the same night",
+   "ref": "elise.webp",
+   "refAlt": "DeadenD's new Elise: long wavy lavender hair with a small braid and a white flower clip, purple eyes, a navy school blazer with gold trim, a burgundy bow and a plaid skirt, hands held together shyly.",
+   "refCredit": "DeadenD (2026 character design). The 2018 sprites were by Elzee; these new designs replace them.",
+   "facts": [
+    [
+     "Game",
+     "DeadenD (2018, revived 2026)"
+    ],
+    [
+     "Nickname",
+     "Lily. The café gossip gave her that name before anyone knew hers"
+    ],
+    [
+     "Look",
+     "Lavender hair, purple eyes, a white flower clip"
+    ]
+   ],
+   "about": "A gentle, soft-spoken girl who lost her memory on the same Friday night you did, in the alley behind the café. She's polite, a little shy, and holds her hands together when she isn't sure what to say. Everything else is in the case file, and the case file stays closed.",
+   "notes": [
+    "She keeps a list of small good things, so the good days don't slip away.",
+    "Her 2026 design comes with a weekend look too. Find her four times and you'll see it."
+   ],
+   "quote": "I keep a list of small good things. Today, you're on it.",
+   "outfit": {
+    "name": "Weekend lavender",
+    "line": "An oversized dark hoodie over a grey knit, a lilac skirt and chunky white boots: her 2026 casual design. No school, no case, just a sunny Saturday and a bunch of white lilies."
+   }
+  },
+  {
    "id": "ache",
    "kind": "char",
    "world": "tz0",
@@ -922,6 +957,35 @@
    "bonus": [
     "norman",
     "...Aye, madam. Forthwith."
+   ]
+  },
+  {
+   "id": "elise-nero",
+   "a": "elise",
+   "b": "nero",
+   "title": "Not a hero, written down",
+   "keep": "k-file",
+   "lines": [
+    [
+     "elise",
+     "Excuse me. I'm sorry, I'm not very good with names lately. Who are you?"
+    ],
+    [
+     "nero",
+     "Nero. Don't worry, nobody remembers me. I'm not a hero."
+    ],
+    [
+     "elise",
+     "Then I'll write you down. Nero, not a hero. There."
+    ],
+    [
+     "nero",
+     "That's the first time anyone's put me on a list for a good reason."
+    ]
+   ],
+   "bonus": [
+    "elise",
+    "It's in the case file now, so it can't slip away. Nero: not a hero. Kind. Shared his seat."
    ]
   }
  ],
@@ -1496,6 +1560,10 @@
    [
     "bianca",
     "I'm glad I found you. I'm glad we all did."
+   ],
+   [
+    "elise",
+    "It's warm here. I'm writing this one down, so I keep it."
    ],
    [
     "ache",

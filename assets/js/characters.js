@@ -118,7 +118,6 @@ function paintShop() {
   man.innerHTML = steps().slice(0, L.step + (L.done ? 1 : 0)).filter(s => s.lesson).map(s => '<li>' + esc(s.lesson) + '</li>').join('');
   $('#machine').classList.toggle('smashed', !!L.broke);
   $('#seller').classList.toggle('unhooded', !!L.broke);
-  $('#rewatch-row').hidden = !(L.broke || (C.lesson && C.lesson.done));
   $('#r-no').textContent = L.no;
   $('#topup').hidden = L.broke; if (L.broke) $('#gemshop').hidden = true;
   $('#machine').classList.toggle('locked', !!L.locked && !L.broke); $('#topup').disabled = !!L.locked; ['#pull1', '#pull10'].forEach(q => { if (L.locked) $(q).disabled = true });
@@ -379,7 +378,7 @@ function act() {
   }
   advance();
 }
-function advance() { L.step++; write({ lesson: { step: L.step } }); showStep() }
+function advance() { L.step++; write({ lesson: Object.assign({}, read().lesson, { step: L.step }) }); showStep() }
 function smash() {
   L.broke = true; paintShop();
   const sh = $('#shards'); sh.innerHTML = '';
@@ -454,7 +453,7 @@ function renderFire() {
   if (!all) {
     side.innerHTML = '<p>The fire is laid but nobody has lit it. When every character from every world has followed you here, they\'ll sit down together, and there\'s a seat with your name on it.</p><p class="note">Still out there: ' + chars.filter(i => !copies(i.id)).map(i => esc(i.name)).join(', ') + '.</p>';
   } else {
-    if (F.img) { const im = el('img', 'fire-pic'); im.alt = 'Every character, gathered around a campfire'; im.onerror = () => im.remove(); im.src = F.img; side.append(im) }
+    if (F.img) { const im = el('img', 'fire-pic'); im.alt = 'The characters from every world, gathered around a campfire by the sea at night'; im.onerror = () => im.remove(); im.src = F.img; side.append(im) }
     const ol = el('ol', 'fire-lines'); side.append(ol);
     const b = el('button', 'btn', (C.fire ? 'Sit by the fire again' : 'Sit down') + ' <span>→</span>'); b.type = 'button';
     b.onclick = () => {
@@ -577,7 +576,15 @@ function start() {
   if (C.lesson && C.lesson.done) { startJourney(false); $('#lesson').classList.add('was-done') }
   const skip = e => { e.preventDefault(); write({ lesson: Object.assign({}, read().lesson, { done: 1 }) }); startJourney(true) };
   $('#skip').onclick = skip; $('#skip2').onclick = skip;
-  $('#replay').onclick = $('#rewatch').onclick = () => { startShop(true); $('#lesson').scrollIntoView({ behavior: 'smooth', block: 'start' }) };
+  // start over = Ache's lesson only: back to page 1, the saved page forgotten; characters, meetings and stickers stay
+  const over = () => { write({ lesson: Object.assign({}, read().lesson, { step: 0 }) }); startShop(true); $('#lesson').scrollIntoView({ behavior: 'smooth', block: 'start' }) };
+  const rw = $('#rewatch'), rmsg = $('#rewatch-msg'), rtxt = rmsg.textContent; let armed = 0;
+  rw.onclick = () => {
+    if (L.step === 0 && !L.broke) { rmsg.textContent = 'You\'re already on page 1.'; return }
+    if (!armed) { armed = setTimeout(() => { armed = 0; rw.textContent = '↺ Start the lesson over'; rmsg.textContent = rtxt }, 6000); rw.textContent = '↺ Yes, back to page 1'; rmsg.textContent = 'Click again to restart the shop. Only the lesson resets.'; return }
+    clearTimeout(armed); armed = 0; rw.textContent = '↺ Start the lesson over'; rmsg.textContent = rtxt; over();
+  };
+  $('#replay').onclick = over;
   const refresh = () => { C = read(); if (!$('#journey').hidden) renderJourney() };
   if (window.TZSAVE && TZSAVE.on) TZSAVE.on('find', refresh);
   document.addEventListener('tz:save', refresh);

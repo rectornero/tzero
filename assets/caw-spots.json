@@ -520,6 +520,58 @@
   "say": "Found Norman! They'll follow you now. See them on /characters."
  },
  {
+  "id": "elise-1",
+  "item": "elise",
+  "path": "/story",
+  "anchor": "#tapes",
+  "img": "/assets/img/caw/token/elise.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "On the story page, among the tapes. She listens to every one twice, so she won't forget.",
+  "say": "Found Elise! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "elise-2",
+  "item": "elise",
+  "path": "/scrapbook",
+  "anchor": "#read-list",
+  "img": "/assets/img/caw/token/elise.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In Ache's scrapbook, by your reading list. She keeps a list too.",
+  "say": "Found Elise! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "elise-3",
+  "item": "elise",
+  "path": "/post/game-design-bits-ren-py-visual-novel-making",
+  "anchor": "#article",
+  "img": "/assets/img/caw/token/elise.png",
+  "style": {
+   "top": "-14px",
+   "right": "4%"
+  },
+  "hint": "In an old Archive post about making visual novels in Ren'Py, the engine her game runs on.",
+  "say": "Found Elise! They'll follow you now. See them on /characters."
+ },
+ {
+  "id": "elise-4",
+  "item": "elise",
+  "path": "/posts/categories/studio",
+  "anchor": "#shelf-grid",
+  "img": "/assets/img/caw/token/elise.png",
+  "style": {
+   "top": "-14px",
+   "left": "3%"
+  },
+  "hint": "Somewhere among the Studio posts, reading quietly.",
+  "say": "Found Elise! They'll follow you now. See them on /characters."
+ },
+ {
   "id": "ache-1",
   "item": "ache",
   "path": "/redache",
