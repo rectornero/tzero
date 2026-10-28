@@ -85,6 +85,7 @@ footer strong{color:var(--sun);font-family:var(--display)}
 @keyframes pulse{50%{opacity:.35}}
 @media (max-width:700px){.cover{grid-template-columns:minmax(0,1fr)}.hero{padding-block:56px 170px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:root[data-motion="2"] *{animation:none!important;transition:none!important}
 
 .hero2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:30px;align-items:center}
 .coverlink{display:block;margin-top:18px;font-family:var(--mono);font-size:13px;color:var(--ink);opacity:.8}
