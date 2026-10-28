@@ -39,6 +39,43 @@
     }).catch(() => {});
   }
 
+  // Share row under every article: plain links, no third-party scripts or trackers (and no Discord)
+  function share(post) {
+    const url = 'https://tzero.live/post/' + post.slug, title = post.title + ' · TZERØ';
+    const u = encodeURIComponent(url), t = encodeURIComponent(title), tu = encodeURIComponent(title + ' ' + url);
+    const box = el('div', 'share'); box.dataset.say = 'share';
+    box.append(el('span', 'share-label', 'Share this'));
+    if (navigator.share) {
+      const native = el('button', 'share-btn share-native', 'Share…'); native.type = 'button';
+      native.onclick = () => navigator.share({ title, url }).catch(() => {});
+      box.append(native);
+    }
+    const copy = el('button', 'share-btn', 'Copy link'); copy.type = 'button';
+    copy.onclick = () => { navigator.clipboard && navigator.clipboard.writeText(url).then(() => { copy.textContent = 'Link copied'; setTimeout(() => { copy.textContent = 'Copy link' }, 1800) }) };
+    box.append(copy);
+    [['Bluesky', 'https://bsky.app/intent/compose?text=' + tu],
+     ['X', 'https://x.com/intent/post?text=' + t + '&url=' + u],
+     ['Reddit', 'https://www.reddit.com/submit?url=' + u + '&title=' + t],
+     ['Facebook', 'https://www.facebook.com/sharer/sharer.php?u=' + u],
+     ['WhatsApp', 'https://wa.me/?text=' + tu],
+     ['Telegram', 'https://t.me/share/url?url=' + u + '&text=' + t],
+     ['Email', 'mailto:?subject=' + t + '&body=' + u]].forEach(([name, href]) => {
+      const a = el('a', 'share-btn', name); a.href = href;
+      if (name !== 'Email') { a.target = '_blank'; a.rel = 'noopener noreferrer' }
+      box.append(a);
+    });
+    // Ache's lines for the share row (kept here, so the script book in lines.json stays untouched)
+    if (window.TZ && TZ.addLines) TZ.addLines('share', [
+      "share it. tell them a star sent you.", "one tap and a friend gets smarter. you're welcome.",
+      "no trackers in these buttons. I checked. personally.", "Bluesky, X, a carrier pigeon. I'm not picky.",
+      "copy the link. paste it somewhere nice. not in a gacha chat.", "sharing is caring. I care a normal amount.",
+      "if this helped you, it'll help someone else. probably.", "send it to the friend who just pulled again. gently.",
+      "tell them Artache made it. the best studio in the universe. in Italy. a good studio.",
+      "email works too. very vintage. I respect it.", "I did not approve this article. share it anyway.",
+      "one share = one pat for me. that's the rule now."]);
+    return box;
+  }
+
   // Desktop sidebar: what the article covers (its section headings) and where it came from
   function side(post, body) {
     const aside = document.getElementById('side');
@@ -158,7 +195,7 @@
 
     sheet.append(head);
     if (post.ache) sheet.append(acheNote(post));
-    sheet.append(body, foot);
+    sheet.append(body, share(post), foot);
     parts.push(sheet);
     art.replaceChildren(...parts);
     art.removeAttribute('aria-busy');
