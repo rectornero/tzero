@@ -526,9 +526,10 @@ function renderShelf() {
     const row = el('div', 'world-row');
     for (const it of D.items.filter(i => i.world === wid)) {
       const n = copies(it.id), max = it.kind === 'keep' ? 1 : D.rules.maxCopies, h = nextHint(it.id);
-      const c = el('button', 'slot-card t' + it.stars + (n ? '' : ' locked') + ' k-' + it.kind); c.type = 'button'; c.setAttribute('data-say', 'caw-card');
+      // no rarity on the journey: every character is worth the same here, so the card wears its world's colour, not a star count
+      const c = el('button', 'slot-card' + (n ? '' : ' locked') + ' k-' + it.kind); c.type = 'button'; c.setAttribute('data-say', 'caw-card'); c.style.setProperty('--tc', w.color);
       c.append(art(it, n >= 4 ? 'outfit' : 'banner'));
-      c.insertAdjacentHTML('beforeend', '<span class="rs">' + stars(it.stars) + '</span><b>' + esc(it.name) + '</b><small>' + (it.kind === 'keep' ? (n ? 'found' : 'keepsake, not found yet') : n + ' of ' + max + (n ? ': ' + LAYERS[n - 1] : ' · not found yet')) + '</small>' + (h ? '<em class="hint">' + esc(h.hint) + '</em>' : '<em class="hint done">All found.</em>'));
+      c.insertAdjacentHTML('beforeend', '<b>' + esc(it.name) + '</b><small>' + (it.kind === 'keep' ? (n ? 'found' : 'keepsake, not found yet') : n + ' of ' + max + (n ? ': ' + LAYERS[n - 1] : ' · not found yet')) + '</small>' + (h ? '<em class="hint">' + esc(h.hint) + '</em>' : '<em class="hint done">All found.</em>'));
       c.onclick = () => openSheet(it);
       row.append(c);
     }
@@ -537,9 +538,9 @@ function renderShelf() {
 }
 const pageName = p => ({ '/': 'the front page', '/studio': 'the studio page', '/story': 'the story page', '/redache': 'Ache\'s source', '/lab': 'the Idea Lab', '/scrapbook': 'the scrapbook', '/posts': 'all posts' })[p] || (p.startsWith('/posts/categories/') ? 'the ' + p.split('/').pop() + ' shelf' : p.startsWith('/post/') ? 'an article' : p);
 // the banner text: live page text over the calm left half of the art, never painted into the picture
-function plate(it, extra) {
+function plate(it, extra, noStars) {
   const w = D.worlds[it.world], p = el('div', 'plate');
-  p.innerHTML = '<span class="pl-world">' + esc(w.name) + (w.wip ? ' · in development' : '') + '</span><b class="pl-name">' + esc(it.plateName || it.name) + '</b>' + (it.title ? '<span class="pl-title">' + esc(it.plateTitle || it.title) + '</span>' : '') + '<span class="pl-stars t' + it.stars + '">' + stars(it.plateStars || it.stars) + '</span>' + (extra || '');
+  p.innerHTML = '<span class="pl-world">' + esc(w.name) + (w.wip ? ' · in development' : '') + '</span><b class="pl-name">' + esc(it.plateName || it.name) + '</b>' + (it.title ? '<span class="pl-title">' + esc(it.plateTitle || it.title) + '</span>' : '') + (noStars ? '' : '<span class="pl-stars t' + it.stars + '">' + stars(it.plateStars || it.stars) + '</span>') + (extra || '');
   return p;
 }
 function openSheet(it) {
@@ -551,9 +552,9 @@ function openSheet(it) {
     t.onclick = () => { o = !o; head.firstChild.replaceWith(art(it, o ? 'outfit' : 'banner')); t.textContent = o ? 'See the banner' : 'See the secret outfit' };
     head.append(t);
   }
-  if (it.kind === 'char') head.append(plate(it, n ? '<span class="pl-copy">' + n + ' of ' + D.rules.maxCopies + ' · ' + esc(LAYERS[n - 1]) + '</span>' : ''));
+  if (it.kind === 'char') head.append(plate(it, n ? '<span class="pl-copy">' + n + ' of ' + D.rules.maxCopies + ' · ' + esc(LAYERS[n - 1]) + '</span>' : '', true));
   box.append(head);
-  let h = '<span class="tag">' + esc(w.name) + ' · ' + stars(it.stars) + (it.kind === 'keep' ? ' keepsake' : '') + '</span><h2>' + esc(it.name) + '</h2>' + (it.title ? '<p class="ttl">' + esc(it.title) + '</p>' : '');
+  let h = '<span class="tag">' + esc(w.name) + (it.kind === 'keep' ? ' · keepsake' : '') + '</span><h2>' + esc(it.name) + '</h2>' + (it.title ? '<p class="ttl">' + esc(it.title) + '</p>' : '');
   if (!n) h += '<p class="lockline">Not found yet. They\'re hiding somewhere on the site.</p>';
   else if (it.kind === 'keep') {
     h += '<p>' + esc(it.about) + '</p><p class="note2">' + esc(it.notes[0]) + '</p>';

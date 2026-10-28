@@ -1,0 +1,130 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,wght@0,400;1,400&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/blocks.css">
+<link rel="stylesheet" href="/assets/css/admin.css">
+<title>Editor · TZERØ</title>
+</head><body class="admin">
+<header class="ad-top"><div class="ad-bar">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <span class="ad-where">Editor</span>
+  <span class="ad-grow"></span>
+  <span class="ad-status" id="status" role="status"></span>
+  <span class="ad-who" id="who"></span>
+  <button class="ad-link" id="signout" type="button" hidden>Sign out</button>
+</div></header>
+
+<section class="ad-gate" id="gate" hidden>
+  <div class="ad-gate-card">
+    <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg>
+    <h1>The writers' desk</h1>
+    <p id="gate-msg">For Nero and the people he invited. Sign in with GitHub to open the editor.</p>
+    <a class="btn" id="signin" href="/api/auth/login">Sign in with GitHub</a>
+    <button class="ad-link" id="local" type="button">Or try it here without signing in (drafts stay in this browser)</button>
+  </div>
+</section>
+
+<div class="ad-app" id="app" hidden>
+  <aside class="ad-side">
+    <div class="ad-new"><button class="btn" id="new-article" type="button">+ Article</button><button class="btn ghost for-admins" id="new-page" type="button">+ Page</button></div>
+    <div class="ad-panels">
+      <button class="ad-item" id="open-profile" type="button"><b>My profile</b><span class="ad-chip" id="me-role">…</span></button>
+      <button class="ad-item for-admins" id="open-inbox" type="button"><b>Claude inbox</b><span class="ad-chip" id="inbox-count">Material for Claude</span></button>
+      <button class="ad-item for-owner" id="open-team" type="button"><b>People</b><span class="ad-chip">Invite and manage</span></button>
+      <a class="ad-item for-owner" href="/admin/lines"><b>Ache's lines</b><span class="ad-chip">His script book</span></a>
+    </div>
+    <nav id="items" aria-label="Your articles and pages"></nav>
+  </aside>
+
+  <main class="ad-main">
+    <div class="ad-tools" id="tools" role="toolbar" aria-label="Formatting">
+      <select id="t-block" aria-label="Text style">
+        <option value="p">Text</option><option value="h2">Heading</option><option value="h3">Subheading</option><option value="kicker">Kicker (red line)</option><option value="blockquote">Quote</option>
+      </select>
+      <button type="button" data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+      <button type="button" data-cmd="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+      <button type="button" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+      <button type="button" data-cmd="link" title="Link">🔗</button>
+      <button type="button" data-cmd="red" title="Red ink" class="sw red"></button>
+      <button type="button" data-cmd="navy" title="Navy ink" class="sw navy"></button>
+      <button type="button" data-cmd="big" title="Bigger text">A+</button>
+      <button type="button" data-cmd="clear" title="Plain text">Tx</button>
+      <span class="sep"></span>
+      <button type="button" data-cmd="ul" title="Bulleted list">• List</button>
+      <button type="button" data-cmd="ol" title="Numbered list">1. List</button>
+      <button type="button" data-cmd="hr" title="Divider">—</button>
+      <button type="button" data-cmd="hr2" title="Double divider">═</button>
+      <span class="sep"></span>
+      <span class="ad-insert">
+        <button type="button" data-add="image">🖼 Picture</button>
+        <button type="button" data-add="gallery">▦ Gallery</button>
+        <button type="button" data-add="video">▶ YouTube</button>
+        <button type="button" data-add="button">⬚ Button</button>
+        <button type="button" data-add="vn">💬 Visual novel</button>
+        <button type="button" data-add="hotspots">◉ Hotspots</button>
+        <button type="button" data-add="compare">⟷ Before/after</button>
+        <button type="button" data-add="cards">★ Flip cards</button>
+        <button type="button" data-add="slides">▤ Story slides</button>
+        <button type="button" data-add="scene" class="for-admins">⌘ Scene code</button>
+      </span>
+    </div>
+
+    <details class="ad-meta" id="meta" open>
+      <summary>Settings</summary>
+      <div class="ad-grid">
+        <label>Address<span class="ad-slug"><span id="slug-pre">/post/</span><input id="f-slug" pattern="[a-z0-9-]+" spellcheck="false"></span></label>
+        <label>Section<select id="f-cat"><option value="986847d2-3b96-464b-8b8b-338e07845d9c">Devlog</option><option value="de8055a9-ce06-426e-a47f-d860d026981f" selected>Studio</option></select></label>
+        <label class="for-admins">Written by<select id="f-author"><option value="self">Me</option><option value="1c53b988-3af9-4c8b-b6d4-0db133c2b09c">Claude</option><option value="keep">Keep the current author</option></select></label>
+        <label>Go live at<input id="f-when" type="datetime-local"><small>Empty = as soon as you publish</small></label>
+        <label class="wide">Search title<input id="f-seo" maxlength="70" placeholder="Same as the title"></label>
+      </div>
+    </details>
+
+    <article class="post ad-sheet" id="sheet">
+      <figure class="post-cover ad-cover" id="cover"><button type="button" class="ad-cover-btn" id="cover-btn">+ Cover picture</button></figure>
+      <div class="post-sheet">
+        <div class="post-head">
+          <div class="post-meta"><span class="tag" id="m-cat">Studio</span><span id="m-date">Today</span><span id="m-by">by Nero</span></div>
+          <h1 id="f-title" contenteditable="plaintext-only" data-ph="Title" spellcheck="true"></h1>
+          <p class="post-dek" id="f-dek" contenteditable="plaintext-only" data-ph="Standfirst: one or two sentences that make people want to read on"></p>
+        </div>
+        <div class="post-body ad-body" id="body" contenteditable="true" spellcheck="true"></div>
+      </div>
+    </article>
+  </main>
+
+  <aside class="ad-right">
+    <div class="ad-actions">
+      <button class="btn" id="publish" type="button">Publish</button>
+      <button class="btn ghost" id="save" type="button">Save draft</button>
+      <button class="btn ghost" id="preview" type="button" aria-pressed="false">Preview</button>
+      <button class="btn ghost" id="history" type="button">History</button>
+      <button class="btn ghost" id="unpublish" type="button" hidden>Unpublish</button>
+      <a class="ad-link" id="open-live" target="_blank" rel="noopener" hidden>Open the live page ↗</a>
+    </div>
+    <section class="ad-ache" aria-label="Ache's notes">
+      <h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg> Ache checks your draft</h2>
+      <ul id="checks"></ul>
+    </section>
+    <section class="ad-safety for-admins" aria-label="How scenes stay safe">
+      <h2>Scene code safety</h2>
+      <p>Code you paste runs in a sealed box: no network, no cookies, no popups, no way into this site or your login. Each scene shows a fingerprint; Claude posts the same one in the thread when it hands you code.</p>
+      <button class="ad-link for-owner" id="everywhere" type="button">Sign out everyone, everywhere</button>
+    </section>
+  </aside>
+</div>
+
+<dialog class="ad-dlg" id="dlg"><form method="dialog" id="dlg-form"><h2 id="dlg-title"></h2><div id="dlg-body"></div><div class="ad-dlg-foot"><button class="btn ghost" value="cancel" type="submit" formnovalidate>Cancel</button><button class="btn" id="dlg-ok" value="ok" type="submit">Insert</button></div></form></dialog>
+
+<script src="/assets/js/wix.js" defer></script>
+<script src="/assets/js/blocks.js" defer></script>
+<script src="/assets/js/ricos.js" defer></script>
+<script src="/assets/js/admin-crafts.js" defer></script>
+<script src="/assets/js/admin.js" defer></script>
+<script src="/assets/js/admin-people.js" defer></script>
+</body></html>
