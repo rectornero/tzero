@@ -174,3 +174,12 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 
 /* "[text lost in a move]": a sentence that broke off when an old post moved between sites */
 .post .cut{font-family:var(--mono);font-size:.78em;color:var(--ink);opacity:.65;border:1px dashed currentColor;border-radius:4px;padding:0 .35em;white-space:nowrap;cursor:help}
+
+/* Share row under each article */
+.share{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:40px}
+.share-label{margin-right:6px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.share-btn{padding:7px 14px;border-radius:99px;border:1px solid color-mix(in srgb,var(--b2) 40%,transparent);background:#fff;color:var(--ink);font-family:var(--mono);font-size:12px;line-height:1.4;cursor:pointer;text-decoration:none;transition:border-color .2s,color .2s,transform .2s}
+.share-btn:hover,.share-btn:focus-visible{border-color:var(--red);color:var(--red);transform:translateY(-1px)}
+.share-native{background:var(--abyss);border-color:var(--abyss);color:var(--sun)}
+.share-native:hover{color:#fff}
+.share+.post-foot{margin-top:24px}
