@@ -63,6 +63,7 @@ SERIES = [
   ('starchasers-devlog-3-weary-reach', 'Starchasers devlog #3: landing on Weary Reach'),
   ('starchasers-devlog-4-the-whole-crew', 'Starchasers devlog #4: the whole crew comes aboard'),
   ('starchasers-devlog-5-coming-in-v0-9-0', 'Starchasers devlog #5: what\'s coming in v0.9.0'),
+  ('starchasers-devlog-6-road-to-1-0', 'Starchasers devlog #6: v0.9.0 tested, and the road to 1.0'),
 ]
 def series_nav(i):
     out = heading('The Starchasers devlog')
@@ -232,6 +233,45 @@ posts.append(post(4, ("2026-11-06T13:00:00Z", "V0.9.0, IN TESTING  ·  6 NOVEMBE
   + P("Big labelled buttons, an in-game Codex book, a Bag with \"where to find\" links for every item, and a Settings screen.")
   + heading('Status')
   + P("Starchasers is in development, for Android and PC. It starts free, then each boss arrives as a story chapter. No release date yet: we'll say it here first.")
+  + P("Update: Nero has played it. His verdict, and the road to 1.0, are in [devlog #6](/post/starchasers-devlog-6-road-to-1-0).")
+))
+
+# 6 ─ v0.9.0 tested, road to 1.0
+posts.append(post(5, ("2026-11-06T20:00:00Z", "V0.9.0 TESTED  ·  6 NOVEMBER 2026"),
+  "Nero played v0.9.0 from start to finish and called it mature. What he loved, what he'd change, and everything that stands between Starchasers and 1.0.",
+  5, ('grid-break-25d.webp', 960, 540),
+  "“I think the build is finally mature.” Nero tested v0.9.0 for an afternoon and came back happy, and with a very long list. Both are good news.",
+  P("This is the sixth Starchasers devlog. [Devlog #5](/post/starchasers-devlog-5-coming-in-v0-9-0) was the preview; this one is the verdict. v0.9.0 went out as one build for Android and Windows, and Nero played it carefully, the way a player would, from the opening to the end of chapter 1, then through the summer event and the new roguelite.")
+  + quote("I think the build is finally mature: it has a lot of stuff I dreamed about having, and I'm happy with it.")
+  + image('grid-break-25d.webp', 960, 540, "Grid-Break on the 2.5D stage: pixel crew fighting a swarm in a lit forest clearing, damage numbers flying, the crew's portraits along the bottom.", "Grid-Break on its small lit 2.5D stage. Nero's whole note on it: “BEAUTIFUL.”")
+  + heading('What went into v0.9.0')
+  + bullets(["**Chapter 1, rewritten as a real story** on Weary Reach, with big busts at the centre of every conversation and the locals as full figures with their own moods.",
+             "**Inside the Machine**, the new roguelite: 20 to 30 minute dives down a branching star chart, a mini summon of broken gacha mechanics after every win, seed and score codes, and a Wardrobe of skins and frames.",
+             "**Battle and growth:** ultimates come from Signature weapons, gear finally counts in fights, and you can swap places on the grid.",
+             "**Ship and menus:** a Galley and an Engine Room deck, a Settings screen, and drag-to-swap on the Team.",
+             "**Art and sound:** HD banners, cards and story scenes, Aria's banner redrawn, and nine tracks made in-house."])
+  + heading('What Nero loved')
+  + P("The cast introduction at the start of the game:")
+  + quote("Super-cute! I love it.")
+  + P("The crew's mission, as the story puts it:")
+  + quote("Where others don't dare to go is a great beginning.")
+  + P("He also liked the new crew cards and the crew visits (“The system now works very well!”), and he's glad the button-timing rings in fights are gone. He suspects Charlotte's and Mara's ultimates are too strong, and admits he kind of likes it.")
+  + heading('What he would change')
+  + P("Nero is an honest tester. Some sounds are “one of our weakest”, the opening trailer is, in his single word, “terrible”, and the first fights look beautiful but are “quite repetitive”: auto-battle feels better than playing them, because there's too little strategy. Grid-Break, which he loves, is too easy for now.")
+  + P("He also dropped one of our own ideas. We had planned an interface that changes as the gacha breaks. Instead, the game starts with the best interface we can make, with at most small touches like glows changing over time. The story does the breaking; the menus don't have to suffer for it.")
+  + heading('The road to 1.0')
+  + P("Nero's message with the notes ended like this:")
+  + quote("We're going towards the 1.0, but we need all those things to be done first.")
+  + P("Here's “all those things”, grouped, without the spoilers:")
+  + bullets(["**A bigger first planet.** Chapter 1 gets longer and wider, with a proper town, markers for places still to find, and real treasure chests that fit where you find them.",
+             "**Fights with more strategy.** Early fights need more to think about, Grid-Break needs more tactics, and the after-fight and combo screens need to show what happened instead of a page of numbers.",
+             "**A summer that feels like summer.** Halcyon Days gets brighter music, weird and cute sea creatures, event outfits on the map, sea-themed chests, and fights built around event gimmicks.",
+             "**Menus with character.** The Codex becomes an encyclopedia on paper, with research notes and the crew's scribbles. The Bag becomes a knapsack with pockets. Trophies become a trophy room you can visit. Mail becomes real mail.",
+             "**Growing your crew, clearly.** Every crew member gets their own level, dupes unlock talents, and the step from 4★ to 5★ explains itself.",
+             "**Summons that show off.** Full-screen splash art behind every 4★ and 5★, and a highlight of each 5★'s ultimate.",
+             "**Polish everywhere.** A more readable text box, new sound effects where the old ones fall flat, and a new trailer."])
+  + heading("What's next")
+  + P("The offices are already splitting the list between them, and Nero's open questions are on the studio's Desk. We'll follow the road to 1.0 here, one stop at a time.")
 ))
 
 os.makedirs(OUT, exist_ok=True)

@@ -1514,6 +1514,48 @@
         "paragraphData": {}
        }
       ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Starchasers devlog #6: v0.9.0 tested, and the road to 1.0",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            },
+            {
+             "type": "COLOR",
+             "colorData": {
+              "foreground": "#d7182a"
+             }
+            },
+            {
+             "type": "LINK",
+             "linkData": {
+              "link": {
+               "url": "/post/starchasers-devlog-6-road-to-1-0",
+               "target": "SELF"
+              }
+             }
+            }
+           ]
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
      }
     ],
     "bulletedListData": {

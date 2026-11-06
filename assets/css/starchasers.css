@@ -124,7 +124,7 @@ section h2 small{font-weight:400}
 @media (max-width:520px){.sc-shots{grid-template-columns:minmax(0,1fr)}}
 
 /* The devlog road: five stops, the last one still ahead */
-.sc-road{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;position:relative}
+.sc-road{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
 .sc-road li{position:relative;z-index:1}
 .sc-road a{display:flex;flex-direction:column;gap:4px;height:100%;box-sizing:border-box;padding:0 0 14px;border-radius:12px;overflow:hidden;background:#fff;color:inherit;text-decoration:none;box-shadow:0 14px 34px -22px rgba(26,90,166,.5);border-top:3px solid #6a3fb5}
 .sc-road img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin-bottom:6px}
@@ -135,7 +135,7 @@ section h2 small{font-weight:400}
 .sc-road a:hover b{color:var(--red)}
 .sc-road .next a{background:#1f1a3f;border-top-color:#f1c96b}
 .sc-road .next b{color:#fff6cf}.sc-road .next .sc-ver{color:#f1c96b}.sc-road .next a>span:last-child{color:#d9cdf5}
-@media (max-width:1000px){.sc-road{grid-template-columns:repeat(2,minmax(0,1fr))}.sc-road .next{grid-column:1/-1}}
+@media (max-width:1000px){.sc-road{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.sc-road{grid-template-columns:minmax(0,1fr)}}
 .sc-reach{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:900px){.sc-reach{grid-template-columns:minmax(0,1fr)}}
@@ -219,3 +219,4 @@ section h2 small{font-weight:400}
 .sc-shore-map{margin-top:20px}
 .sc-aboard-pics{grid-template-columns:repeat(2,minmax(0,1fr))}
 .sc-aboard-pics figure:first-child{grid-column:1/-1}
+.sc-roadmap{margin-top:18px}
