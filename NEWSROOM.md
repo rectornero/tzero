@@ -23,8 +23,9 @@ update the Slate below in the same commit as your work. It's Markdown, so editin
 6. **Pages belong to their owner.** `/starchasers` belongs to WEB: TZERØ and the Starchasers Press office
    together; other section pages to WEB: TZERØ. Shared files (`site.css`, `scene.js`, `lines.json`, nav) are
    WEB: TZERØ's: ask in the Slate notes before touching them.
-7. **Spoiler-free, sincere, by Claude.** Posts say who wrote them; Nero's own words are quoted as his.
-8. **Dates:** `firstPublishedDate` is when the post goes live, except devlog catch-ups, which may carry the date
+7. **Spoilers hidden (Nero, 2026-11-06).** No story spoilers anywhere public. Gameplay details (how the gacha breaks, how fights work, secrets, bond skills), boss names and boss art are allowed only inside a spoiler gate: on pages wrap them in `<div class="spoiler" data-spoiler="what it hides">` (with `assets/js/spoiler.js` + `assets/css/spoiler.css`; images inside use `data-spoiler-src`, not `src`), blur short lines with `class="spoil-txt"`. Devlog posts open with the spoiler-warning block from `tools/starchasers-devlog.py` (`SPOILER_NOTE`). Don't ship boss shots as loose files nobody links (they are public by URL).
+8. **Sincere, by Claude.** Posts say who wrote them; Nero's own words are quoted as his.
+9. **Dates:** `firstPublishedDate` is when the post goes live, except devlog catch-ups, which may carry the date
    of the work they describe.
 
 ## Slate
@@ -33,6 +34,7 @@ Newest first. Status: `drafting` → `on branch` (ready for Nero's review) → `
 
 | Slug | Project | Branch | Status | Notes |
 |---|---|---|---|---|
+| spoiler gates on `/starchasers` + devlog warnings | WEB: TZERØ (UI office) | `claude/project-thread-g3nthc` | on branch | Nero asked to hide spoilers. Gates on "How the gacha breaks" and "How a fight works", blurred bond skills, warning block atop devlogs #1-#5, unused `showdown.webp` removed. Keep these when you push again. |
 | `starchasers-devlog-5-coming-in-v0-9-0` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.9.0 preview. Update when v0.9.0 ships. |
 | `starchasers-devlog-4-the-whole-crew` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.8.0 to v0.8.4 |
 | `starchasers-devlog-3-weary-reach` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.7 |

@@ -73,10 +73,15 @@ def series_nav(i):
     out += P('More about the game and its crew: [the Starchasers page](/starchasers).')
     return out
 
+# Nero 2026-11-06: gameplay details count as spoilers; every devlog opens with this warning.
+SPOILER_NOTE = [{"type": "BLOCKQUOTE", "id": "", "nodes": [para(t("Spoiler warning: ", BOLD, COL(RED)),
+    t("this devlog shows how Starchasers plays, from battles to how the gacha breaks. If you'd rather find out in the game, the ", COL(INK)),
+    t("Starchasers page", BOLD, COL(RED), LINK("/starchasers")), t(" keeps those parts hidden until you tap.", COL(INK)))], "blockquoteData": {"indentation": 1}}, BLANK]
+
 def post(i, date, excerpt, minutes, cover, lead, body):
     slug, title = SERIES[i]
     head = f"STARCHASERS DEVLOG #{i+1}  ·  {date[1]}"
-    nodes = [para(t(head, BOLD, COL(RED), SIZE(13))), BLANK, para(t(lead, ITAL, COL(INK), SIZE(22))), BLANK] + body + series_nav(i) + footer()
+    nodes = [para(t(head, BOLD, COL(RED), SIZE(13))), BLANK, para(t(lead, ITAL, COL(INK), SIZE(22))), BLANK] + SPOILER_NOTE + body + series_nav(i) + footer()
     return {"id": "own-" + slug, "slug": slug, "title": title, "excerpt": excerpt,
             "firstPublishedDate": date[0], "lastPublishedDate": date[0], "categoryIds": [DEVLOG], "tagIds": [TAG], "memberId": MEMBER,
             "minutesToRead": minutes,
