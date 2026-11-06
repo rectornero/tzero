@@ -19,4 +19,6 @@
 /ache                    /redache       301
 /scrapbook               /scrapbook.html 200
 /stickers                /scrapbook     301
+/starchasers             /starchasers.html 200
+/contrary-quest-starchasers /starchasers 301
 /*                       https://journal.tzero.live/:splat  301

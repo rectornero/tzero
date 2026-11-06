@@ -1,0 +1,142 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="/assets/img/star.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/starchasers.css">
+<title>Contrary Quest: Starchasers | TZERØ</title>
+<meta name="description" content="A cosy space-fantasy gacha RPG where the crew of the starship Contrary sets out to break the gacha itself, one boss at a time. Pixel art, made in Godot, for Android and PC. In development at Artache.">
+<link rel="canonical" href="https://tzero.live/starchasers">
+<meta property="og:title" content="Contrary Quest: Starchasers">
+<meta property="og:description" content="Lazy geniuses, a warm ship, and a galaxy full of questions.">
+<meta property="og:image" content="/assets/img/starchasers/crew-key-visual-960.webp">
+</head><body class="sc-page">
+<!-- Starchasers section. Copy and art come from the approved, spoiler-free Starchasers website pack (6 Nov 2026).
+     Keep it spoiler-free: no boss names, ending, late twists or secret modes. Art is used as given; credit "Starchasers art team". -->
+<canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
+<header><div class="wrap">
+  <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
+  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/characters">Characters</a><a href="/studio">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+</div></header>
+
+<div class="sea sc-sky">
+  <canvas id="waves" aria-hidden="true"></canvas>
+  <div class="sc-stars" aria-hidden="true"></div>
+  <div class="wrap sc-hero">
+    <div class="sc-intro">
+      <div class="kicker">A new Artache world · in development</div>
+      <h1 class="sc-title"><small>Contrary Quest:</small><span>Starchasers</span><svg class="h1-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></h1>
+      <p class="sub">A cosy space-fantasy gacha RPG where the crew of the starship <em>Contrary</em> sets out to break the gacha itself, one boss at a time.</p>
+      <ul class="sc-chips" aria-label="At a glance"><li>Pixel art</li><li>Made in Godot</li><li>Android + PC</li></ul>
+      <p class="sc-links"><a class="btn" href="#next">What's coming <span>→</span></a> <a class="btn ghost" href="#gallery">See the art</a></p>
+    </div>
+    <figure class="sc-key tilt" data-say="cover">
+      <img src="/assets/img/starchasers/crew-key-visual-960.webp" srcset="/assets/img/starchasers/crew-key-visual-960.webp 960w, /assets/img/starchasers/crew-key-visual.webp 1920w" sizes="(max-width:900px) 100vw, 640px" width="1920" height="1080" alt="The crew of the starship Contrary gathered on deck around the ship's wheel under a starry purple sky." fetchpriority="high">
+      <figcaption>The crew of the <i>Contrary</i> · Starchasers art team</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="shore sc-shore"><div class="wrap">
+
+  <section id="pitch">
+    <h2>The pitch <small>sincere first</small></h2>
+    <blockquote class="sc-quote" data-say="motto"><b>“Lazy geniuses, a warm ship, and a galaxy full of questions.”</b></blockquote>
+    <div class="sc-hook tilt" data-say="loop">
+      <div class="sc-machine" aria-hidden="true">
+        <svg viewBox="0 0 120 150"><rect class="m-body" x="18" y="58" width="84" height="80" rx="10"/><circle class="m-globe" cx="60" cy="44" r="36"/><circle class="m-ball b1" cx="46" cy="40" r="9"/><circle class="m-ball b2" cx="70" cy="34" r="8"/><circle class="m-ball b3" cx="62" cy="58" r="8"/><rect class="m-slot" x="44" y="100" width="32" height="16" rx="4"/><circle class="m-knob" cx="60" cy="80" r="9"/><path class="m-crack" d="M60 8l-8 18 12 8-10 16 9 9-6 14"/></svg>
+      </div>
+      <div>
+        <span class="tag">The hook</span>
+        <h3>Each boss the crew befriends permanently breaks one gacha mechanic, for every player.</h3>
+        <p>One boss at a time, the crew sets out to break the gacha itself.</p>
+      </div>
+    </div>
+    <ul class="grid sc-promises">
+      <li data-say="save"><b>Nothing paid is random</b></li>
+      <li data-say="save"><b>Odds are always shown</b></li>
+      <li data-say="studio"><b>The shop is a secret world</b><span>You unlock it through quests rather than a checkout.</span></li>
+    </ul>
+  </section>
+
+  <section id="crew">
+    <h2>The crew <small>nine, all playable</small></h2>
+    <p class="sc-lead">Diligent geniuses who are secretly lazy in a genius way, with Nero as the captain. Tap a crew member to see them out exploring.</p>
+    <ul class="sc-crew">
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Nero: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/nero-ship.webp" width="720" height="405" alt="Nero relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/nero-out.webp" width="720" height="405" alt="Nero out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/nero-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Nero</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Aria: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/aria-ship.webp" width="720" height="405" alt="Aria relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/aria-out.webp" width="720" height="405" alt="Aria out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/aria-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Aria</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Charlotte: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/charlotte-ship.webp" width="720" height="405" alt="Charlotte relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/charlotte-out.webp" width="720" height="405" alt="Charlotte out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/charlotte-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Charlotte</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Laura: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/laura-ship.webp" width="720" height="405" alt="Laura relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/laura-out.webp" width="720" height="405" alt="Laura out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/laura-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Laura</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Mara: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/mara-ship.webp" width="720" height="405" alt="Mara relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/mara-out.webp" width="720" height="405" alt="Mara out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/mara-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Mara</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Martin: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/martin-ship.webp" width="720" height="405" alt="Martin relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/martin-out.webp" width="720" height="405" alt="Martin out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/martin-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Martin</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Matilda: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/matilda-ship.webp" width="720" height="405" alt="Matilda relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/matilda-out.webp" width="720" height="405" alt="Matilda out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/matilda-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Matilda</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Wilhelm: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/wilhelm-ship.webp" width="720" height="405" alt="Wilhelm relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/wilhelm-out.webp" width="720" height="405" alt="Wilhelm out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/wilhelm-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Wilhelm</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Zephir: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/zephir-ship.webp" width="720" height="405" alt="Zephir relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/zephir-out.webp" width="720" height="405" alt="Zephir out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/zephir-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Zephir</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
+    </ul>
+  </section>
+
+  <section id="next">
+    <h2>Coming in the next build <small><span class="dot"></span>v0.9.0, in testing</small></h2>
+    <div class="grid sc-features">
+      <div class="card tilt sc-feat sc-two" data-say="story"><span class="tag">Story</span><h4>Chapter 1</h4><p>On the first planet, Weary Reach: three explorable pixel maps, dialogue choices that shape how the crew sees you (heart, wonder, resolve), and visual-novel scenes with expressive character busts.</p></div>
+      <div class="card tilt sc-feat sc-two" data-say="loop"><span class="tag">New roguelite mode</span><h4>“Inside the Machine”</h4><p>20 to 30 minute runs where your power-ups are broken gacha mechanics. Branching star-chart routes, a mini summon inside each run, optional challenges, and shareable seed and score codes.</p></div>
+      <div class="card tilt sc-feat sc-wide sc-two" data-say="devlog"><span class="tag">Battle</span><h4>Grid tactics, then Grid-Break</h4><p>Grid tactics at the core, plus Grid-Break, our signature. When the gauge fills, the grid vanishes and the team fights in real time on a small lit 2.5D stage. The strongest foe is a turn-based showdown with ultimates and cut-ins. Auto-play everywhere.</p>
+        <div class="sc-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="card tilt sc-feat" data-say="banner"><span class="tag">Crew</span><h4>All nine crew playable</h4><p>Each with skills, an ultimate, a passive and a team combo.</p></div>
+      <div class="card tilt sc-feat" data-say="season-sea"><span class="tag">Music</span><h4>Original soundtrack</h4><p>Made in-house, in a handheld-era tactics-RPG style.</p></div>
+      <div class="card tilt sc-feat" data-say="image"><span class="tag">Art</span><h4>HD splash art</h4><p>For banners, cards and story scenes; true pixel art in the world.</p></div>
+      <div class="card tilt sc-feat" data-say="recharge"><span class="tag">Ship life</span><h4>A walkable ship</h4><p>Crew chats and chores, and bond visits (now with pajama costumes).</p></div>
+      <div class="card tilt sc-feat sc-two" data-say="studio"><span class="tag">Menus</span><h4>Phone-first menus</h4><p>Big labelled buttons, an in-game Codex book, a bag with “where to find” links, and a login calendar that never resets on missed days.</p></div>
+    </div>
+  </section>
+
+  <section id="reach">
+    <h2>First stop: Weary Reach <small>chapter 1</small></h2>
+    <div class="sc-reach">
+      <figure class="tilt" data-say="trip"><img src="/assets/img/starchasers/weary-reach-landing.webp" width="1280" height="720" alt="Pixel map of a grassy landing on Weary Reach: a stone well, mossy ruins and old trees under a lilac sky." loading="lazy" decoding="async"><figcaption>The landing</figcaption></figure>
+      <figure class="tilt" data-say="trip"><img src="/assets/img/starchasers/weary-reach-mossway.webp" width="1280" height="720" alt="Pixel map of a mossy forest path on Weary Reach, with ruined arches, a stream and glowing crystals." loading="lazy" decoding="async"><figcaption>The mossway</figcaption></figure>
+    </div>
+    <p class="note">True pixel art in the world: two of chapter 1's three explorable maps.</p>
+  </section>
+
+  <section id="gallery">
+    <h2>From the ship's album <small>summer</small></h2>
+    <figure class="sc-summer tilt" data-say="image"><a href="/assets/img/starchasers/key-art.webp"><img src="/assets/img/starchasers/key-art-960.webp" srcset="/assets/img/starchasers/key-art-960.webp 960w, /assets/img/starchasers/key-art.webp 1920w" sizes="(max-width:1100px) 100vw, 1100px" width="1920" height="1080" alt="Four crew members of the Contrary relaxing on the rocks of a sunny alien beach at dusk, with two moons in the sky and their ship moored at a pier." loading="lazy" decoding="async"></a><figcaption><b>Summer key art</b></figcaption></figure>
+    <div class="sc-gallery">
+      <figure class="tilt" data-say="image"><a href="/assets/img/starchasers/aria-dayoff.webp"><img src="/assets/img/starchasers/aria-dayoff-960.webp" srcset="/assets/img/starchasers/aria-dayoff-960.webp 960w, /assets/img/starchasers/aria-dayoff.webp 1920w" sizes="(max-width:760px) 100vw, 540px" width="1920" height="1080" alt="Aria laughing in a hammock between palm trees on her day off, a pink drink in hand, the sea and two moons behind her." loading="lazy" decoding="async"></a><figcaption><b>Aria, day off</b></figcaption></figure>
+      <figure class="tilt" data-say="image"><a href="/assets/img/starchasers/aria-lantern.webp"><img src="/assets/img/starchasers/aria-lantern-960.webp" srcset="/assets/img/starchasers/aria-lantern-960.webp 960w, /assets/img/starchasers/aria-lantern.webp 1920w" sizes="(max-width:760px) 100vw, 540px" width="1920" height="1080" alt="Aria wading at the edge of a night sea, holding up a star-shaped lantern, with floating crystal lanterns on the water and a festival on the shore." loading="lazy" decoding="async"></a><figcaption><b>Aria at the lantern festival</b></figcaption></figure>
+    </div>
+    <p class="note">All art on this page: Starchasers art team.</p>
+  </section>
+
+  <section id="status">
+    <div class="sc-status" data-say="studio">
+      <img class="sc-emblem" src="/assets/img/starchasers/logo-emblem.webp" width="256" height="245" alt="Starchasers emblem: the starship Contrary under sail inside a golden compass ring." loading="lazy" decoding="async">
+      <div>
+        <span class="tag">Status</span>
+        <h3>In development.</h3>
+        <p>Free start, then each boss arrives as a story chapter. Release date to be announced.</p>
+      </div>
+      <div class="follow-links">
+        <a class="btn" href="/posts/categories/devlog">Follow the devlog <span>→</span></a>
+        <a class="btn ghost" href="/studio#workbench">More from Artache</a>
+        <a class="btn ghost" href="/conduct">Statement of Conduct</a>
+      </div>
+    </div>
+  </section>
+</div></div>
+
+<footer id="publisher"><div class="wrap">
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/starchasers">Starchasers</a> · <a href="/conduct">Statement of Conduct</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>Starchasers art: Starchasers art team. TZERØ is a publication of Artache Creative Studio, 2026</div>
+</div></footer>
+<script src="/assets/js/scene.js" defer></script>
+<script>/* The gacha machine on "The hook" cracks once it scrolls into view */
+addEventListener('DOMContentLoaded',()=>{const el=document.querySelector('.sc-hook');if(!el)return;if(!window.IntersectionObserver){el.classList.add('broken');return}new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){el.classList.add('broken');o.disconnect()}},{threshold:.6}).observe(el)});
+/* Crew cards: tap to switch between "at home on the ship" and "out exploring" */
+document.querySelectorAll('.sc-member button').forEach(b=>b.addEventListener('click',()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')==='true'?'false':'true')));</script>
+</body></html>
