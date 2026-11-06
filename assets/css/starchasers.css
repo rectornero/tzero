@@ -1,0 +1,106 @@
+/* Starchasers section (/starchasers): Contrary Quest: Starchasers, a game in development at Artache.
+   The hero is the dusk sky of the game's summer key art, sinking into the site's own sea and shore below. */
+.sc-sky{background:linear-gradient(180deg,#1f1a3f 0%,#3b2e6e 26%,#7a5aa8 52%,#e3a2b6 74%,var(--b1) 100%)}
+.sc-stars{position:absolute;inset:0 0 40%;pointer-events:none;background-image:
+  radial-gradient(1.6px 1.6px at 12% 18%,#fff 60%,transparent),radial-gradient(1.2px 1.2px at 28% 42%,#fff 60%,transparent),
+  radial-gradient(1.8px 1.8px at 47% 12%,#fff6cf 60%,transparent),radial-gradient(1.2px 1.2px at 63% 30%,#fff 60%,transparent),
+  radial-gradient(1.6px 1.6px at 81% 10%,#fff 60%,transparent),radial-gradient(1.2px 1.2px at 92% 36%,#fff6cf 60%,transparent),
+  radial-gradient(1.4px 1.4px at 6% 52%,#fff 60%,transparent),radial-gradient(1.2px 1.2px at 38% 24%,#fff 60%,transparent);
+  animation:sc-twinkle 4.8s ease-in-out infinite alternate}
+@keyframes sc-twinkle{from{opacity:.55}to{opacity:1}}
+:root[data-motion="2"] .sc-stars{animation:none}
+.sc-hero{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(24px,4vw,48px);align-items:center;padding-block:64px 190px}
+.sc-intro{color:#f4effc}
+.sc-sky .kicker{color:#d9cdf5}
+.sc-title{margin:10px 0 14px;display:flex;flex-direction:column;align-items:flex-start;position:relative;font-family:var(--display);font-weight:800;line-height:.95;letter-spacing:-.04em;color:#fff6cf;font-size:clamp(46px,6.4vw,84px)}
+.sc-title small{font-size:.3em;font-weight:600;letter-spacing:.02em;color:#d9cdf5}
+.sc-title .h1-star{position:absolute;right:-.3em;top:.2em;width:.26em;height:.26em;fill:var(--red);animation:spin 9s linear infinite}
+.sc-intro .sub{color:#f4effc;max-width:34ch;font-size:clamp(17px,2vw,22px)}
+.sc-intro .sub em{font-style:normal;font-family:"Caveat",cursive;font-size:1.3em;color:#fff6cf}
+.sc-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0}
+.sc-chips li{font-family:var(--mono);font-size:12px;padding:5px 11px;border-radius:99px;border:1px solid rgba(255,246,207,.45);color:#fff6cf;background:rgba(31,26,63,.35)}
+.sc-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 0}
+.sc-links .btn{background:#fff6cf;color:#1f1a3f}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid color-mix(in srgb,var(--b2) 45%,transparent)}
+.btn.ghost:hover{border-color:var(--red);color:var(--red)}
+.sc-links .btn.ghost{background:transparent;color:#fff6cf;border-color:rgba(255,246,207,.55)}
+.sc-key{margin:0;border-radius:14px;overflow:hidden;background:#1f1a3f;box-shadow:0 30px 60px -28px rgba(15,10,40,.8);border:1px solid rgba(255,246,207,.25)}
+.sc-key img,.sc-gallery img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.sc-key figcaption{font-family:var(--mono);font-size:12px;color:#d9cdf5;padding:8px 12px}
+@media (max-width:900px){.sc-hero{grid-template-columns:minmax(0,1fr);padding-block:40px 150px}.sc-title .h1-star{right:auto;left:calc(100% - .1em)}}
+
+/* The pitch */
+section h2 small{font-weight:400}
+.sc-quote{margin:0 0 22px;padding:18px 24px;border-left:4px solid var(--red);background:color-mix(in srgb,var(--sun) 70%,#fff);border-radius:0 12px 12px 0}
+.sc-quote b{font-family:var(--display);font-size:clamp(22px,3vw,34px);letter-spacing:-.02em;line-height:1.15}
+.sc-hook{display:grid;grid-template-columns:120px minmax(0,1fr);gap:24px;align-items:center;background:#1f1a3f;color:#d9cdf5;border-radius:14px;padding:clamp(20px,3.4vw,34px);overflow:hidden}
+.sc-hook .tag{color:#b596ff}
+.sc-hook h3{font-family:var(--display);font-size:clamp(22px,3vw,32px);letter-spacing:-.03em;line-height:1.12;color:#fff6cf;margin:6px 0 8px}
+.sc-hook p{margin:0}
+.sc-machine svg{width:100%;height:auto;overflow:visible}
+.m-body{fill:#6a3fb5}.m-globe{fill:rgba(181,150,255,.18);stroke:#b596ff;stroke-width:3}.m-slot{fill:#1f1a3f}.m-knob{fill:#fff6cf}
+.m-ball{transition:transform 1s cubic-bezier(.3,1.4,.5,1)}.b1{fill:#d7182a}.b2{fill:#8cc8f2}.b3{fill:#fff6cf}
+.m-crack{fill:none;stroke:#fff6cf;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:90;stroke-dashoffset:90;transition:stroke-dashoffset .9s cubic-bezier(.2,.7,.2,1)}
+.sc-hook.broken .m-crack,.sc-hook:hover .m-crack{stroke-dashoffset:0}
+.sc-hook.broken .b1{transform:translate(-30px,-34px)}.sc-hook.broken .b2{transform:translate(34px,-40px)}.sc-hook.broken .b3{transform:translate(28px,18px)}
+.sc-hook.broken .m-ball{transition-delay:.7s}
+@media (max-width:560px){.sc-hook{grid-template-columns:minmax(0,1fr)}.sc-machine{width:96px}}
+.sc-promises{list-style:none;margin:20px 0 0;padding:0;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.sc-promises li{border-top:2px solid #6a3fb5;padding-top:12px;display:flex;flex-direction:column;gap:4px}
+.sc-promises b{font-family:var(--display);font-size:18px}
+.sc-promises span{color:var(--soft);font-size:15px}
+
+/* Coming in v0.9.0 */
+.sc-features{grid-template-columns:repeat(4,minmax(0,1fr))}
+.sc-two{grid-column:span 2}
+@media (max-width:980px){.sc-features{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.sc-features{grid-template-columns:minmax(0,1fr)}.sc-two{grid-column:auto}}
+.sc-feat{position:relative;--acc:#6a3fb5;border-top:3px solid var(--acc)}
+.sc-feat .tag{color:#6a3fb5}
+.sc-feat h4{margin:0;font-family:var(--display);font-size:20px;letter-spacing:-.02em}
+.sc-feat p{margin:0;color:var(--soft)}
+.sc-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;max-width:360px;margin-top:6px}
+.sc-grid i{aspect-ratio:1;border-radius:3px;background:color-mix(in srgb,#6a3fb5 16%,#fff);transition:transform .5s cubic-bezier(.3,1.6,.5,1),opacity .5s}
+.sc-wide:hover .sc-grid i{opacity:0;transform:translateY(-14px) rotate(20deg)}
+.sc-wide:hover .sc-grid i:nth-child(3n){transition-delay:.08s}.sc-wide:hover .sc-grid i:nth-child(3n+1){transition-delay:.16s}
+
+/* Gallery */
+.sc-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.sc-gallery figure{margin:0;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 14px 34px -22px rgba(26,90,166,.5)}
+.sc-gallery figcaption{padding:10px 14px;font-size:15px}
+@media (max-width:760px){.sc-gallery{grid-template-columns:minmax(0,1fr)}}
+
+/* Status */
+.sc-status{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;background:#fff;border-radius:14px;padding:clamp(22px,3.4vw,34px);box-shadow:0 24px 50px -30px rgba(26,90,166,.5)}
+.sc-status h3{font-family:var(--display);font-size:clamp(24px,3.2vw,34px);letter-spacing:-.03em;margin:6px 0}
+.sc-status p{margin:0;color:var(--soft);max-width:46ch}
+.follow-links{display:flex;flex-wrap:wrap;gap:10px}
+.follow-links .btn{margin-top:0}
+
+/* The crew: tap a card to swap the cosy ship banner for the exploring art */
+.sc-lead{margin:0 0 18px;color:var(--soft);max-width:60ch}
+.sc-crew{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.sc-crew{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.sc-crew{grid-template-columns:minmax(0,1fr)}}
+.sc-member button{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 14px 34px -22px rgba(26,90,166,.5);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.sc-member button:hover{transform:translateY(-4px)}
+.sc-member button:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.sc-pics{position:relative;display:block;aspect-ratio:16/9;background:#1f1a3f}
+.sc-pics img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .5s}
+.sc-pics .out{opacity:0}
+[aria-pressed="true"] .sc-pics .out{opacity:1}[aria-pressed="true"] .sc-pics .ship{opacity:0}
+.sc-name{display:flex;align-items:center;gap:10px;padding:8px 12px 10px;position:relative}
+.sc-name img{width:44px;height:44px;margin-top:-26px;filter:drop-shadow(0 4px 6px rgba(31,26,63,.35));transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.sc-member button:hover .sc-name img{transform:rotate(-8deg) scale(1.1)}
+.sc-name b{font-family:var(--display);font-size:18px}
+.sc-name small{margin-left:auto;font-family:var(--mono);font-size:11px;color:#6a3fb5}
+.lbl-out,[aria-pressed="true"] .lbl-ship{display:none}[aria-pressed="true"] .lbl-out{display:inline}
+
+/* Weary Reach maps and the summer album */
+.sc-reach{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.sc-reach figure,.sc-summer{margin:0;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 14px 34px -22px rgba(26,90,166,.5)}
+.sc-reach img,.sc-summer img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;image-rendering:auto}
+.sc-reach figcaption,.sc-summer figcaption{padding:10px 14px;font-size:15px}
+.sc-summer{margin-bottom:20px}
+@media (max-width:760px){.sc-reach{grid-template-columns:minmax(0,1fr)}}
+.sc-emblem{width:110px;height:auto;border-radius:12px;flex:none}
