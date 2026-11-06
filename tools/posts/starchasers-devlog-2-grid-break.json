@@ -867,6 +867,264 @@
       "id": "",
       "nodes": [],
       "textData": {
+       "text": "Also in these builds",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#13224b"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "headingData": {
+     "level": 2
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "BULLETED_LIST",
+    "id": "",
+    "nodes": [
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Gacha noise:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " a test switch for big random numbers early on and small exact ones later, as the gacha cracks.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Icons everywhere:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " wherever text stood alone (banner kinds, crew filters, meters, toasts, timers) it got an icon, one style on every screen.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Story rework:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " a compact dialogue box with round mood faces and emotes, and scenes staged right on the Bridge map.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Pull sounds in three eras:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " the summon music starts cold and shiny and grows into warm chiptune as the story moves on.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Anti-clump kit:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " foes that punish a huddled team, so spreading out is a real decision.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     }
+    ],
+    "bulletedListData": {
+     "indentation": 0
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "DIVIDER",
+    "id": "",
+    "nodes": [],
+    "dividerData": {
+     "lineStyle": "SINGLE",
+     "width": "SMALL",
+     "alignment": "CENTER"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "HEADING",
+    "id": "",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "✦ ",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#d7182a"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
        "text": "What's next",
        "decorations": [
         {

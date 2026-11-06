@@ -139,3 +139,66 @@ section h2 small{font-weight:400}
 @media (max-width:520px){.sc-road{grid-template-columns:minmax(0,1fr)}}
 .sc-reach{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:900px){.sc-reach{grid-template-columns:minmax(0,1fr)}}
+
+/* Crew bios under each card */
+.sc-bio{display:flex;flex-direction:column;gap:6px;padding:0 14px 14px;font-size:14.5px;line-height:1.45;color:var(--soft)}
+.sc-bio i{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#6a3fb5}
+.sc-bio q{font-family:"Caveat",cursive;font-size:20px;line-height:1.15;color:var(--ink)}
+.sc-bio em{font-style:normal;font-size:13px;border-top:1px dashed color-mix(in srgb,#6a3fb5 35%,transparent);padding-top:7px}
+.sc-bio em b{color:#6a3fb5}
+
+/* Why this game */
+.sc-why{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:22px 32px;align-items:start}
+.sc-why p{margin:0;color:var(--soft)}
+.sc-why .sc-big{font-family:var(--display);font-size:clamp(20px,2.3vw,26px);line-height:1.25;letter-spacing:-.02em;color:var(--ink)}
+@media (max-width:900px){.sc-why{grid-template-columns:minmax(0,1fr)}}
+.sc-pillars{list-style:none;margin:26px 0 0;padding:0;grid-template-columns:repeat(4,minmax(0,1fr))}
+.sc-pillars li{background:#fff;border-radius:12px;padding:16px 16px 18px;display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 34px -22px rgba(26,90,166,.5);border-top:3px solid #6a3fb5}
+.sc-pillars .tag{color:#6a3fb5}
+.sc-pillars b{font-family:var(--display);font-size:18px;letter-spacing:-.02em}
+.sc-pillars li>span:last-child{color:var(--soft);font-size:14.5px}
+@media (max-width:980px){.sc-pillars{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.sc-pillars{grid-template-columns:minmax(0,1fr)}}
+
+/* How the gacha breaks */
+.sc-break{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center}
+.sc-break p{margin:0 0 12px;color:var(--soft)}
+.sc-steps{margin:0;padding:0;list-style:none;counter-reset:st;display:flex;flex-direction:column;gap:10px}
+.sc-steps li{counter-increment:st;position:relative;padding-left:40px;color:var(--soft)}
+.sc-steps li::before{content:counter(st);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:#1f1a3f;color:#fff6cf;font-family:var(--mono);font-size:13px;display:grid;place-items:center}
+.sc-steps b{color:var(--ink)}
+.sc-break figure,.sc-aboard-pics figure{margin:0;border-radius:12px;overflow:hidden;background:#1f1a3f;color:#d9cdf5;box-shadow:0 14px 34px -22px rgba(31,26,63,.7)}
+.sc-break img,.sc-aboard-pics img,.sc-modes img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.sc-break figcaption,.sc-aboard-pics figcaption{padding:9px 12px 11px;font-size:14px}
+@media (max-width:860px){.sc-break{grid-template-columns:minmax(0,1fr)}}
+
+/* How a fight works */
+.sc-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.sc-modes figure{margin:0;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 14px 34px -22px rgba(26,90,166,.5)}
+.sc-modes figcaption{display:flex;flex-direction:column;gap:4px;padding:12px 14px 16px;font-size:14.5px;line-height:1.45;color:var(--soft)}
+.sc-modes figcaption .tag{color:#6a3fb5}
+.sc-modes figcaption b{font-family:var(--display);font-size:19px;letter-spacing:-.02em;color:var(--ink)}
+@media (max-width:900px){.sc-modes{grid-template-columns:minmax(0,1fr)}}
+
+/* Life aboard */
+.sc-aboard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.sc-aboard-txt p{margin:0 0 12px;color:var(--soft)}
+.sc-aboard-pics{display:grid;gap:14px}
+@media (max-width:860px){.sc-aboard{grid-template-columns:minmax(0,1fr)}}
+.sc-mini{margin:14px 0;padding:12px 18px;border-left:3px solid #6a3fb5;background:color-mix(in srgb,#6a3fb5 7%,#fff);border-radius:0 10px 10px 0;display:flex;flex-direction:column;gap:2px}
+.sc-mini q{font-family:"Caveat",cursive;font-size:24px;line-height:1.15;color:var(--ink)}
+.sc-mini span{font-family:var(--mono);font-size:12px;color:#6a3fb5}
+.sc-forge{margin-top:20px;background:#1f1a3f;color:#d9cdf5;border-radius:12px;padding:18px 22px}
+.sc-forge .tag{color:#f1c96b}
+.sc-forge p{margin:6px 0 0}.sc-forge b{color:#fff6cf}
+#reach > p{color:var(--soft);max-width:70ch}
+
+/* Questions */
+.sc-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.sc-faq{grid-template-columns:minmax(0,1fr)}}
+.sc-faq details{background:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 14px 34px -24px rgba(26,90,166,.5)}
+.sc-faq summary{cursor:pointer;font-family:var(--display);font-size:18px;letter-spacing:-.02em;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.sc-faq summary::-webkit-details-marker{display:none}
+.sc-faq summary::after{content:"+";color:#6a3fb5;font-family:var(--mono);transition:transform .3s}
+.sc-faq details[open] summary::after{transform:rotate(45deg)}
+.sc-faq p{margin:10px 0 0;color:var(--soft)}

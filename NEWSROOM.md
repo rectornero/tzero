@@ -38,7 +38,7 @@ Newest first. Status: `drafting` → `on branch` (ready for Nero's review) → `
 | `starchasers-devlog-3-weary-reach` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.7 |
 | `starchasers-devlog-2-grid-break` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.3 to v0.6 |
 | `starchasers-devlog-1-a-gacha-that-breaks-itself` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.1 to v0.2 |
-| `/starchasers` page polish | Starchasers Press | `claude/project-thread-g3nthc` | on branch | Title-art hero backdrop, third Weary Reach map, test-build screenshots, devlog road. Built on PR #28. |
+| `/starchasers` page expansion | Starchasers Press | `claude/project-thread-g3nthc` | on branch | Title-art hero; new sections Why this game, How the gacha breaks, How a fight works, Life aboard, Questions; crew bios with bond skills; all three Weary Reach maps; devlog road. Built on PR #28. |
 
 ## Coming up (claimed ideas, not started)
 

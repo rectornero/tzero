@@ -107,6 +107,12 @@ posts.append(post(0, ("2026-11-03T14:00:00Z", "V0.1 TO V0.2  ·  2 TO 3 NOVEMBER
   + P("The story player arrived the same day, with mood busts for every speaker and the first two scripts: the Prologue, *Pull Day*, and *Aria's Double Shift*. Aria hosts the Summoning Hall and also works as the ship's diplomat, and her two jobs are where the story's theme of burnout starts.")
   + gallery([('pull-day.webp', 960, 538, 'Aria welcoming a crowd in the Summoning Hall on Pull Day'), ('double-shift.webp', 960, 538, 'Aria cheerful at work, and asleep at her desk after her second shift')],
             "Pull Day, and Aria's Double Shift: the first two story scenes.")
+  + heading('Also in these builds')
+  + bullets(["**Crew screen:** a roster with filters, locked crew, and a showcase with level, bond and the wishes each member is hoping for.",
+             "**The Bridge in HD:** full-size props, swivel chairs at the consoles, lamps and a window on the stars; Nero's lazy yawns while walking.",
+             "**A ship that lands:** after a pull, a painted landing ship comes down with its gear out, a lit hatch, jets, dust and venting steam.",
+             "**Wishes with pictures:** 3★ pulls became the crew's own wishes, each with its own little item art, like the Little Tin Figurine.",
+             "**Faces in dialogue:** speaker busts, then sharp 2x crew busts and chibi stickers when someone talks on the Bridge."])
   + heading("What's next")
   + P("With the look settled, the next question was the big one: how should a fight in Starchasers feel? That's [devlog #2](/post/starchasers-devlog-2-grid-break).")
 ))
@@ -133,6 +139,12 @@ posts.append(post(1, ("2026-11-04T21:00:00Z", "V0.3 TO V0.6  ·  3 TO 4 NOVEMBER
   + P("v0.6.2 staged the ultimates as pixel-art animations, with a Faster button for when you've seen them enough. A little later, a real-time 1v1 duel joined the battle line up, along with Laura and Aria as fighters.")
   + gallery([('duel.webp', 960, 540, 'A 1v1 duel on a round lit stage aboard the ship, with HP bars and skill buttons'), ('pixel-cutin.webp', 960, 540, "A diagonal cut-in band with Laura's pixel portrait and her ultimate's name, Balanced Books")],
             "The 1v1 duel, and Laura's ultimate cut-in.")
+  + heading('Also in these builds')
+  + bullets(["**Gacha noise:** a test switch for big random numbers early on and small exact ones later, as the gacha cracks.",
+             "**Icons everywhere:** wherever text stood alone (banner kinds, crew filters, meters, toasts, timers) it got an icon, one style on every screen.",
+             "**Story rework:** a compact dialogue box with round mood faces and emotes, and scenes staged right on the Bridge map.",
+             "**Pull sounds in three eras:** the summon music starts cold and shiny and grows into warm chiptune as the story moves on.",
+             "**Anti-clump kit:** foes that punish a huddled team, so spreading out is a real decision."])
   + heading("What's next")
   + P("With fights that feel like something, the crew needed somewhere to go. In [devlog #3](/post/starchasers-devlog-3-weary-reach) they land on their first planet.")
 ))
@@ -157,6 +169,13 @@ posts.append(post(2, ("2026-11-05T09:30:00Z", "V0.7.0 TO V0.7.25  ·  4 TO 5 NOV
   + heading('v0.7.16 to v0.7.25: a phone, and full-body pixel art')
   + P("v0.7.16 was the first Android build. Nero tests every build on his phone since then, so the next ones were about living there: screens that fill a 20:9 phone, bigger text and bigger touch areas.")
   + P("At the same time the cast came to life in pixel art. Nero asked for large full-body figures, pixel only, and by v0.7.23 the whole cast stood in story scenes that way, with pixel faces in dialogue and in battle, pixel backdrops for the story, a Gallery with a picture viewer, and an Outfit button on the Crew screen.")
+  + heading('Also in these builds')
+  + bullets(["**Goals and treasures:** places to find on the Bridge and on Weary Reach, all saved on the device.",
+             "**Locals:** pixel NPCs on Weary Reach, each with their own small trouble.",
+             "**Growing the crew:** crew XP from exploring and fights, level breakers where you choose a class, and Signature gear forged in battle.",
+             "**The odds board flickers:** the first visible crack in the gacha, right on the banner.",
+             "**Gear Bench and Gallery:** a bench for gear that fits a phone, and a gallery with a picture viewer.",
+             "**Fixes that matter:** a softlock on the Mossway and the Hollow is gone, and every SVG icon now ships in exported builds."])
   + heading("What's next")
   + P("The upgrade list Nero wrote after v0.7 was long, and it became the biggest single build yet. That's [devlog #4](/post/starchasers-devlog-4-the-whole-crew).")
 ))
@@ -179,6 +198,12 @@ posts.append(post(3, ("2026-11-06T10:30:00Z", "V0.8.0 TO V0.8.4  ·  5 TO 6 NOVE
             "At home on the ship: four of the nine summon banners.")
   + heading('v0.8.3 to v0.8.4: busts and a 2.5D stage')
   + P("The last two builds were tests that won. Big waist-up pixel busts with four expressions each became the default look of the character sheet (Nero's verdict: \"much better!\"). And Grid-Break moved onto a small lit 3D stage, with the pixel sprites inside it and a camera that swoops around the fight.")
+  + heading('Also in these builds')
+  + bullets(["**Story hub:** one screen for the main story, crew stories and events, so you always know what to play next.",
+             "**Forge Planets:** gear tiers, painted backdrops and a vault, and clearing early as the challenge.",
+             "**Pixel crew cards** and painted icons for gear, Signatures and Cheat Sheets.",
+             "**Bond poses** for visits, and smoother walking on the maps.",
+             "**Sharper art:** banners, level-up sheets and cards re-cut at 960 px for phones."])
   + heading("What's next")
   + P("v0.8.4 is the build on the main line today. The next one is bigger than everything so far, and it's the one Nero will test as a whole: [devlog #5](/post/starchasers-devlog-5-coming-in-v0-9-0).")
 ))

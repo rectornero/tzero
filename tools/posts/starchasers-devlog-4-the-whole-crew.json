@@ -776,6 +776,264 @@
       "id": "",
       "nodes": [],
       "textData": {
+       "text": "Also in these builds",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#13224b"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "headingData": {
+     "level": 2
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "BULLETED_LIST",
+    "id": "",
+    "nodes": [
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Story hub:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " one screen for the main story, crew stories and events, so you always know what to play next.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Forge Planets:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " gear tiers, painted backdrops and a vault, and clearing early as the challenge.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Pixel crew cards",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " and painted icons for gear, Signatures and Cheat Sheets.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Bond poses",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " for visits, and smoother walking on the maps.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Sharper art:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " banners, level-up sheets and cards re-cut at 960 px for phones.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     }
+    ],
+    "bulletedListData": {
+     "indentation": 0
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "DIVIDER",
+    "id": "",
+    "nodes": [],
+    "dividerData": {
+     "lineStyle": "SINGLE",
+     "width": "SMALL",
+     "alignment": "CENTER"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "HEADING",
+    "id": "",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "✦ ",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#d7182a"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
        "text": "What's next",
        "decorations": [
         {

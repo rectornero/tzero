@@ -735,6 +735,264 @@
       "id": "",
       "nodes": [],
       "textData": {
+       "text": "Also in these builds",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#13224b"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "headingData": {
+     "level": 2
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "BULLETED_LIST",
+    "id": "",
+    "nodes": [
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Crew screen:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " a roster with filters, locked crew, and a showcase with level, bond and the wishes each member is hoping for.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "The Bridge in HD:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " full-size props, swivel chairs at the consoles, lamps and a window on the stars; Nero's lazy yawns while walking.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "A ship that lands:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " after a pull, a painted landing ship comes down with its gear out, a lit hatch, jets, dust and venting steam.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Wishes with pictures:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " 3★ pulls became the crew's own wishes, each with its own little item art, like the Little Tin Figurine.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Faces in dialogue:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " speaker busts, then sharp 2x crew busts and chibi stickers when someone talks on the Bridge.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     }
+    ],
+    "bulletedListData": {
+     "indentation": 0
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "DIVIDER",
+    "id": "",
+    "nodes": [],
+    "dividerData": {
+     "lineStyle": "SINGLE",
+     "width": "SMALL",
+     "alignment": "CENTER"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "HEADING",
+    "id": "",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "✦ ",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#d7182a"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
        "text": "What's next",
        "decorations": [
         {

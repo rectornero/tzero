@@ -868,6 +868,300 @@
       "id": "",
       "nodes": [],
       "textData": {
+       "text": "Also in these builds",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#13224b"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "headingData": {
+     "level": 2
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "BULLETED_LIST",
+    "id": "",
+    "nodes": [
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Goals and treasures:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " places to find on the Bridge and on Weary Reach, all saved on the device.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Locals:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " pixel NPCs on Weary Reach, each with their own small trouble.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Growing the crew:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " crew XP from exploring and fights, level breakers where you choose a class, and Signature gear forged in battle.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "The odds board flickers:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " the first visible crack in the gacha, right on the banner.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Gear Bench and Gallery:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " a bench for gear that fits a phone, and a gallery with a picture viewer.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Fixes that matter:",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            }
+           ]
+          }
+         },
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": " a softlock on the Mossway and the Hollow is gone, and every SVG icon now ships in exported builds.",
+           "decorations": []
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     }
+    ],
+    "bulletedListData": {
+     "indentation": 0
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "DIVIDER",
+    "id": "",
+    "nodes": [],
+    "dividerData": {
+     "lineStyle": "SINGLE",
+     "width": "SMALL",
+     "alignment": "CENTER"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "HEADING",
+    "id": "",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "✦ ",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#d7182a"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
        "text": "What's next",
        "decorations": [
         {
