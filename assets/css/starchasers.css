@@ -104,3 +104,38 @@ section h2 small{font-weight:400}
 .sc-summer{margin-bottom:20px}
 @media (max-width:760px){.sc-reach{grid-template-columns:minmax(0,1fr)}}
 .sc-emblem{width:110px;height:auto;border-radius:12px;flex:none}
+
+/* Hero backdrop: the title art, the Contrary on its star route, fading into the dusk and the sea */
+.sea.sc-sky,[data-skin] .sea.sc-sky{background:
+  linear-gradient(180deg,rgba(15,11,38,.55) 0%,rgba(31,26,63,.15) 38%,rgba(122,90,168,.55) 62%,#e3a2b6 82%,var(--b1) 100%),
+  url(/assets/img/starchasers/title-key-art.webp) center 30%/cover no-repeat,#1f1a3f}
+.sc-title span{background:linear-gradient(180deg,#fff6cf 30%,#f1c96b 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 18px rgba(15,10,40,.55))}
+.sc-intro .sub{text-shadow:0 2px 12px rgba(15,10,40,.6)}
+
+/* From the test builds: one big shot, four small */
+.sc-shots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.sc-shots figure{margin:0;border-radius:12px;overflow:hidden;background:#1f1a3f;color:#d9cdf5;box-shadow:0 14px 34px -22px rgba(31,26,63,.7)}
+.sc-shots img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.sc-shots figcaption{padding:9px 12px 11px;font-size:14px;line-height:1.35}
+.sc-shots figcaption b{color:#fff6cf}
+.sc-shot-main{grid-column:1/-1}
+.sc-shot-main figcaption{font-size:16px;padding:12px 16px 14px}
+@media (max-width:900px){.sc-shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.sc-shots{grid-template-columns:minmax(0,1fr)}}
+
+/* The devlog road: five stops, the last one still ahead */
+.sc-road{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;position:relative}
+.sc-road li{position:relative;z-index:1}
+.sc-road a{display:flex;flex-direction:column;gap:4px;height:100%;box-sizing:border-box;padding:0 0 14px;border-radius:12px;overflow:hidden;background:#fff;color:inherit;text-decoration:none;box-shadow:0 14px 34px -22px rgba(26,90,166,.5);border-top:3px solid #6a3fb5}
+.sc-road img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin-bottom:6px}
+.sc-road .sc-ver,.sc-road b,.sc-road a>span:last-child{padding-inline:12px}
+.sc-road .sc-ver{font-family:var(--mono);font-size:11px;color:#6a3fb5}
+.sc-road b{font-family:var(--display);font-size:17px;letter-spacing:-.02em;line-height:1.15}
+.sc-road a>span:last-child{color:var(--soft);font-size:14px;line-height:1.35}
+.sc-road a:hover b{color:var(--red)}
+.sc-road .next a{background:#1f1a3f;border-top-color:#f1c96b}
+.sc-road .next b{color:#fff6cf}.sc-road .next .sc-ver{color:#f1c96b}.sc-road .next a>span:last-child{color:#d9cdf5}
+@media (max-width:1000px){.sc-road{grid-template-columns:repeat(2,minmax(0,1fr))}.sc-road .next{grid-column:1/-1}}
+@media (max-width:520px){.sc-road{grid-template-columns:minmax(0,1fr)}}
+.sc-reach{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.sc-reach{grid-template-columns:minmax(0,1fr)}}
