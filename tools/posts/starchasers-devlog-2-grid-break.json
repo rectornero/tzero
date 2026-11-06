@@ -1519,6 +1519,48 @@
         "paragraphData": {}
        }
       ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Breaking the gacha to be free of it: an interview with Nero",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            },
+            {
+             "type": "COLOR",
+             "colorData": {
+              "foreground": "#d7182a"
+             }
+            },
+            {
+             "type": "LINK",
+             "linkData": {
+              "link": {
+               "url": "/post/starchasers-interview-nero-breaking-the-gacha",
+               "target": "SELF"
+              }
+             }
+            }
+           ]
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
      }
     ],
     "bulletedListData": {

@@ -35,6 +35,7 @@ Newest first. Status: `drafting` → `on branch` (ready for Nero's review) → `
 | Slug | Project | Branch | Status | Notes |
 |---|---|---|---|---|
 | spoiler gates on `/starchasers` | WEB: TZERØ (UI office) | `claude/project-thread-g3nthc` | on branch | Nero asked to hide spoilers. Breakable seals (8 taps, pity counter, Ache comments) on "How the gacha breaks" and "How a fight works", blurred bond skills, devlogs left open, unused `showdown.webp` removed. Keep these when you push again. |
+| `starchasers-interview-nero-breaking-the-gacha` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | Nero's Desk answers, his words with light grammar fixes. Includes the Statement of Conduct exception (Nero chose: say it openly). WEB: TZERØ: you may want a one-line pointer on /conduct to this post. |
 | `starchasers-devlog-6-road-to-1-0` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | Nero's v0.9.0 test verdict and the road to 1.0 (spoiler-free summary of his notes). `/starchasers` got a Road to 1.0 section, devlog #6 on the road, and the 'interface that changes' pillar rewritten (Nero dropped that idea). |
 | `starchasers-devlog-5-coming-in-v0-9-0` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.9.0 preview; links to #6. |
 | `starchasers-devlog-4-the-whole-crew` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.8.0 to v0.8.4 |
@@ -47,5 +48,4 @@ Newest first. Status: `drafting` → `on branch` (ready for Nero's review) → `
 
 | Idea | Project | Notes |
 |---|---|---|
-| Interview: Nero on why a gacha should break itself | Starchasers Press | Questions on the Starchasers Desk |
 | Design bit: Grid-Break, from playtest note to signature | Starchasers Press | |

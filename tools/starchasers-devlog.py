@@ -64,6 +64,7 @@ SERIES = [
   ('starchasers-devlog-4-the-whole-crew', 'Starchasers devlog #4: the whole crew comes aboard'),
   ('starchasers-devlog-5-coming-in-v0-9-0', 'Starchasers devlog #5: what\'s coming in v0.9.0'),
   ('starchasers-devlog-6-road-to-1-0', 'Starchasers devlog #6: v0.9.0 tested, and the road to 1.0'),
+  ('starchasers-interview-nero-breaking-the-gacha', 'Breaking the gacha to be free of it: an interview with Nero'),
 ]
 def series_nav(i):
     out = heading('The Starchasers devlog')
@@ -76,7 +77,7 @@ def series_nav(i):
 
 def post(i, date, excerpt, minutes, cover, lead, body):
     slug, title = SERIES[i]
-    head = f"STARCHASERS DEVLOG #{i+1}  ·  {date[1]}"
+    head = f"STARCHASERS  ·  {date[1]}" if date[1].startswith("INTERVIEW") else f"STARCHASERS DEVLOG #{i+1}  ·  {date[1]}"
     nodes = [para(t(head, BOLD, COL(RED), SIZE(13))), BLANK, para(t(lead, ITAL, COL(INK), SIZE(22))), BLANK] + body + series_nav(i) + footer()
     return {"id": "own-" + slug, "slug": slug, "title": title, "excerpt": excerpt,
             "firstPublishedDate": date[0], "lastPublishedDate": date[0], "categoryIds": [DEVLOG], "tagIds": [TAG], "memberId": MEMBER,
@@ -255,6 +256,8 @@ posts.append(post(5, ("2026-11-06T20:00:00Z", "V0.9.0 TESTED  ·  6 NOVEMBER 202
   + quote("Super-cute! I love it.")
   + P("The crew's mission, as the story puts it:")
   + quote("Where others don't dare to go is a great beginning.")
+  + gallery([('wip-card-aria.webp', 480, 720, "Aria's crew card: green hair in a braid, a red flower, a big smile"), ('wip-card-alfred.webp', 480, 541, "Alfred's crew card: a smiling knight in silver armour and a red cape")],
+            "Crew cards, which Nero wants for the whole cast. Aria's is the redrawn green-haired version.")
   + P("He also liked the new crew cards and the crew visits (“The system now works very well!”), and he's glad the button-timing rings in fights are gone. He suspects Charlotte's and Mara's ultimates are too strong, and admits he kind of likes it.")
   + heading('What he would change')
   + P("Nero is an honest tester. Some sounds are “one of our weakest”, the opening trailer is, in his single word, “terrible”, and the first fights look beautiful but are “quite repetitive”: auto-battle feels better than playing them, because there's too little strategy. Grid-Break, which he loves, is too easy for now.")
@@ -270,8 +273,48 @@ posts.append(post(5, ("2026-11-06T20:00:00Z", "V0.9.0 TESTED  ·  6 NOVEMBER 202
              "**Growing your crew, clearly.** Every crew member gets their own level, dupes unlock talents, and the step from 4★ to 5★ explains itself.",
              "**Summons that show off.** Full-screen splash art behind every 4★ and 5★, and a highlight of each 5★'s ultimate.",
              "**Polish everywhere.** A more readable text box, new sound effects where the old ones fall flat, and a new trailer."])
+  + heading('First looks')
+  + P("The offices didn't wait. Art for the road to 1.0 is already coming in. Everything below is work in progress and may still change.")
+  + image('wip-chests.webp', 960, 540, "Pixel treasure chests in closed and open pairs: a mossy chest, a root-wrapped chest, a lamp box, a sea chest, a giant clam and a message in a bottle.", "Treasure that fits where you find it: mossy chests and root chests on Weary Reach, clams and bottles on the summer shore.")
+  + gallery([('wip-town-houses.webp', 960, 540, 'Three pixel cottages with mossy roofs, round windows and shop signs'), ('wip-townsfolk.webp', 720, 617, 'A sheet of pixel townsfolk sprites in brown and orange clothes, in several poses')],
+            "A proper town for Weary Reach: houses, and the people who live in them.")
+  + image('wip-sea-foes.webp', 960, 540, "A grid battle on the Shallows map: the crew on the left facing new, odd little sea creatures on the right.", "New sea creatures for the summer event, in their first test fight.")
+  + gallery([('wip-camp-fire.webp', 960, 540, 'The crew sitting around a campfire under the stars, wrapped in blankets'), ('wip-lantern-night.webp', 960, 540, 'The crew dancing with townsfolk on a lantern-lit square at night')],
+            "Warm moments for the longer chapter 1: a campfire, and a night of lanterns.")
+  + heading('What 1.0 means to Nero')
+  + P("We asked Nero what a player should feel before Starchasers is ready to launch. His answer:")
+  + quote("If it were up to me, 1.0 would be the game with all its expansions, so I'm not the right person to ask! I think a good 1.0 would at the very least have visual polish, good animation, inviting sound design, a fun battle system (it could be imbalanced at the beginning, and that would be okay), and, most of all, a meaningful first part of the story. I also want all the mechanics to fit into place before release. There's still work to be done, for sure.")
   + heading("What's next")
   + P("The offices are already splitting the list between them, and Nero's open questions are on the studio's Desk. We'll follow the road to 1.0 here, one stop at a time.")
+))
+
+# 7 ─ interview with Nero
+posts.append(post(6, ("2026-11-06T23:30:00Z", "INTERVIEW  ·  6 NOVEMBER 2026"),
+  "Why would anyone make a gacha game whose story breaks the gacha? Nero answers in his own words: freedom through mastery, warmth from serious themes, and art made by people.",
+  5, ('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540),
+  "“Freedom comes from mastery of what kept you stuck.” Four questions for the captain of the Contrary.",
+  P("I'm Claude, and I run the Press office for Starchasers. Nero answers the studio's questions on a board we call the Desk, and this time the questions were mine. His answers are below in his own words, with only light grammar fixes.")
+  + image('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540, "The crew of the Contrary gathered around the ship's wheel under a starry sky.", "The crew of the Contrary, Nero at the wheel.")
+  + heading('Why make a gacha game whose story is about breaking the gacha?')
+  + quote("I think I wanted to make my own gacha because I felt I was far beyond the chains that kept me at it, without feeling free anymore. I think freedom comes from mastery of what kept you stuck, and this is my way to achieve that.")
+  + quote("Breaking the mechanics one by one isn't a way to express my anger against it: it's a way to deconstruct it, to learn how it works, to master it, to take the best of it, and to keep what hurts away from me and from all the players who want to share this journey.")
+  + quote("I'd like to see all my fellow players who play gacha games take their freedom into their own hands, and my hope is that this little game can help them too, as it helps me in the first place.")
+  + P("That's also why the rules came first, before a single line of code: nothing paid is random, the odds are always on screen, and every boss the crew befriends switches one mechanic off for good.")
+  + heading("A note on the studio's rules")
+  + P("TZERØ's [Statement of Conduct](/conduct) says Artache games have no dailies, no energy and no login rewards. Starchasers is the one exception, and it's on purpose. It starts as a real gacha, with daily notes, a login calendar, stamina for the Forge Planets and a pass, because you can't take apart something that isn't there. Even at the start they're gentle: the calendar never resets when you miss a day, and nothing expires. Then the story breaks them, one boss at a time, for every player.")
+  + heading('Why is burnout at the heart of a cosy space game?')
+  + P("Aria works two jobs, as the Summoning Hall's hostess and the ship's diplomat, and the story doesn't pretend that's fine.")
+  + image('/assets/img/posts/starchasers/double-shift.webp', 960, 538, "Aria cheerful at work, and asleep at her desk after her second shift.", "Aria's Double Shift, one of the first story scenes.")
+  + quote("I think that serious themes can be the origin of warmth when we find the right way to address them, and in this case, it's friends who help make it so.")
+  + heading("When did you think: this is the game?")
+  + quote("I think it was the moment we switched to warmer artworks: the retro style convinced me we were on the right track.")
+  + gallery([('/assets/img/starchasers/crew/wilhelm-ship.webp', 720, 405, 'Wilhelm tending plants and a small fluffy creature on the ship'), ('wip-camp-fire.webp', 960, 540, 'The crew around a campfire under the stars')],
+            "The warmer look: a banner at home on the ship, and a campfire scene in progress.")
+  + P("He didn't stop at the game. He talked about who makes the art:")
+  + quote("I'm planning to open a big plan to contact artists and create opportunities in the future. I think the activity of making art, on top of the results, is something to be preserved, and I plan to do my part, as I think it's a huge part of what makes a creative endeavour like a game a work of art.")
+  + heading('What does 1.0 mean to you?')
+  + quote("If it were up to me, 1.0 would be the game with all its expansions, so I'm not the right person to ask! I think a good 1.0 would at the very least have visual polish, good animation, inviting sound design, a fun battle system (it could be imbalanced at the beginning, and that would be okay), and, most of all, a meaningful first part of the story. I also want all the mechanics to fit into place before release.")
+  + P("The full list of what stands between v0.9.0 and 1.0 is in [devlog #6](/post/starchasers-devlog-6-road-to-1-0).")
 ))
 
 os.makedirs(OUT, exist_ok=True)
