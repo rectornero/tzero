@@ -34,7 +34,7 @@ Newest first. Status: `drafting` → `on branch` (ready for Nero's review) → `
 
 | Slug | Project | Branch | Status | Notes |
 |---|---|---|---|---|
-| spoiler gates on `/starchasers` | WEB: TZERØ (UI office) | `claude/project-thread-g3nthc` | on branch | Nero asked to hide spoilers. Gates on "How the gacha breaks" and "How a fight works", blurred bond skills, devlogs left open, unused `showdown.webp` removed. Keep these when you push again. |
+| spoiler gates on `/starchasers` | WEB: TZERØ (UI office) | `claude/project-thread-g3nthc` | on branch | Nero asked to hide spoilers. Breakable seals (8 taps, pity counter, Ache comments) on "How the gacha breaks" and "How a fight works", blurred bond skills, devlogs left open, unused `showdown.webp` removed. Keep these when you push again. |
 | `starchasers-devlog-5-coming-in-v0-9-0` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.9.0 preview. Update when v0.9.0 ships. |
 | `starchasers-devlog-4-the-whole-crew` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.8.0 to v0.8.4 |
 | `starchasers-devlog-3-weary-reach` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | v0.7 |
