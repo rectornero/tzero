@@ -535,11 +535,19 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
     g.fillStyle='#6b4325';g.fillRect(-5*dpr,-18*dpr,10*dpr,3*dpr);g.strokeStyle='#d7182a';g.lineWidth=2*dpr;g.beginPath();g.ellipse(0,-6*dpr,5.5*dpr,2.2*dpr,0,0,7);g.stroke();g.restore()}
   placeSay(tl.x,tl.y,18);
   if(!still)requestAnimationFrame(thread)})();
-/* draggable polaroids */
-let zz=10;document.querySelectorAll('.polaroid').forEach(p=>{let sx,sy,ox,oy,drag=false;
-  p.addEventListener('pointerdown',e=>{drag=true;p.setPointerCapture(e.pointerId);sx=e.clientX;sy=e.clientY;ox=p.offsetLeft;oy=p.offsetTop;p.style.zIndex=++zz;p.style.transition='none'});
-  p.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-sx;p.style.left=ox+dx+'px';p.style.top=oy+(e.clientY-sy)+'px';p.style.transform=`rotate(${Math.max(-14,Math.min(14,dx*.05))}deg) scale(1.04)`});
-  p.addEventListener('pointerup',()=>{drag=false;p.style.transition='transform .5s cubic-bezier(.3,1.5,.5,1)';p.style.transform=`rotate(${(Math.random()*10-5).toFixed(1)}deg)`})});
+/* draggable polaroids: tap a pick to flip it, pin one to keep its spot (remembered per browser) */
+let zz=10;const PINS=(()=>{try{return JSON.parse(localStorage.getItem('tz-pins'))||{}}catch(e){return {}}})();
+const savePins=()=>{try{localStorage.setItem('tz-pins',JSON.stringify(PINS))}catch(e){}};
+document.querySelectorAll('.polaroid').forEach(p=>{let sx,sy,ox,oy,drag=false,moved=false;const id=p.dataset.pick,pin=p.querySelector('.pin');
+  const setPin=on=>{p.classList.toggle('pinned',on);if(pin){pin.setAttribute('aria-pressed',on);pin.title=on?'Unpin':'Pin it here';pin.setAttribute('aria-label',on?'Unpin this photo':'Pin this photo here')}};
+  if(id&&PINS[id]){const b=p.parentElement,x=Math.max(0,Math.min(PINS[id].l,b.clientWidth-p.offsetWidth)),y=Math.max(-20,Math.min(PINS[id].t,b.clientHeight-40));p.style.right='auto';p.style.left=x+'px';p.style.top=y+'px';p.style.transform=`rotate(${PINS[id].r||0}deg)`;setPin(true)}
+  if(pin)pin.addEventListener('click',e=>{e.stopPropagation();const on=!p.classList.contains('pinned');setPin(on);
+    if(on){const r=(p.style.transform.match(/rotate\((-?[\d.]+)deg\)/)||[0,0])[1];PINS[id]={l:p.offsetLeft,t:p.offsetTop,r:+r};sfx('stake')}else delete PINS[id];savePins()});
+  p.addEventListener('pointerdown',e=>{if(e.target.closest('a,button'))return;drag=true;moved=false;p.setPointerCapture(e.pointerId);sx=e.clientX;sy=e.clientY;ox=p.offsetLeft;oy=p.offsetTop;p.style.zIndex=++zz;if(!p.classList.contains('pinned'))p.style.transition='none'});
+  p.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>6)moved=true;if(!moved||p.classList.contains('pinned'))return;p.style.right='auto';p.style.left=ox+dx+'px';p.style.top=oy+dy+'px';p.style.transform=`rotate(${Math.max(-14,Math.min(14,dx*.05))}deg) scale(1.04)`});
+  p.addEventListener('pointerup',()=>{if(!drag)return;drag=false;
+    if(!moved){if(p.classList.contains('pick'))p.classList.toggle('flipped');return}
+    if(p.classList.contains('pinned'))return;p.style.transition='transform .5s cubic-bezier(.3,1.5,.5,1)';p.style.transform=`rotate(${(Math.random()*10-5).toFixed(1)}deg)`})});
 /* memories on click */
 const mem=['the first save file','summer 2004, a borrowed console','blowing on a cartridge','a soundtrack you still hum','the 9th floor, lights flickering','one more level before bed','player two on the couch','the smell of a new game manual'];let mi=0;
 function memory(e){const d=document.createElement('div');d.className='memory';d.textContent=mem[mi++%mem.length];d.style.left=e.clientX+'px';d.style.top=e.clientY-24+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),3700)}

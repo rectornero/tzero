@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/pages.css">
 <title>TZERØ: a journal by Artache Creative Studio</title>
-<meta name="description" content="TZERØ is the journal of Artache Creative Studio: devlogs, studio notes and essays on games that respect your time. With AI. By People.">
+<meta name="description" content="TZERØ is the journal of Artache Creative Studio: devlogs, studio notes and essays on games that respect your time. With AI. For People.">
 <meta property="og:title" content="TZERØ">
-<meta property="og:description" content="A journal by Artache Creative Studio. With AI. By People.">
+<meta property="og:description" content="A journal by Artache Creative Studio. With AI. For People.">
 <meta property="og:image" content="https://tzero.live/assets/img/liminal-outliers.jpg">
-</head><body>
+</head><body class="home">
 <canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
 <header><div class="wrap">
   <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
@@ -27,12 +27,14 @@
     <div class="kicker">T-zero: the moment things start</div>
     <h1 aria-label="TZERØ"><span>T</span><span>Z</span><span>E</span><span>R</span><span class="o">Ø</span></h1>
     <p class="sub">a journal by Artache Creative Studio</p>
-    <a data-say="motto" class="motto" href="#publisher">With AI. By People.</a>
-    <a class="coverlink" href="/post/artache-a-studio-opens-its-doors">Cover story: Liminal Outliers →</a>
+    <a data-say="motto" class="motto" href="#publisher">With AI. For People.</a>
+    <div class="hero-links"><span>Start here</span><a data-say="story" href="/story">The story</a><a href="/characters">Characters</a><a href="/scrapbook">Scrapbook</a><a href="/lab">Idea Lab</a></div>
   </div>
   <div class="board">
-    <figure data-say="cover" class="polaroid" style="right:30%;top:2%;transform:rotate(-6deg);width:min(195px,52vw)"><span class="tape"></span><img src="/assets/img/liminal-outliers.jpg" alt="Liminal Outliers cover art"><figcaption>Liminal Outliers, 9th floor</figcaption></figure>
-    <figure data-say="save" class="polaroid" style="right:0;top:36%;transform:rotate(5deg);width:min(165px,44vw)"><span class="tape"></span><img src="https://static.wixstatic.com/media/38ba49_8039141420034594b8ff3e72f8549454~mv2.jpg/v1/fill/w_400,h_400,al_r,q_82/first-save.jpg" alt="An old CRT screen glowing with a red star: the first save"><figcaption>the first save</figcaption></figure>
+    <!-- Ache's picks: the newest pieces. Tap to flip (Ache's note + link), drag to move, pin to keep the spot. The second one is filled by home.js from the newest post (Liminal Outliers stays as its fallback); the third leads to the story. -->
+    <figure data-say="cover" class="polaroid pick" data-pick="a" style="left:7%;top:3%;transform:rotate(-6deg);width:min(215px,48vw)"><span class="tape"></span><button class="pin" type="button" aria-pressed="false" title="Pin it here" aria-label="Pin this photo here"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M12 14v9"/></svg></button><div class="pol-in"><div class="pol-front"><img src="/assets/img/starchasers/crew-key-visual-960.webp" alt="The Starchasers crew aboard their ship"><span class="cap">Starchasers, all aboard</span></div><div class="pol-back"><span class="pol-kick">Ache's pick</span><p class="pol-note">a whole crew lives on that ship. go say hi. I'll wait here. I won't.</p><a class="pol-open" href="/starchasers">Open Starchasers →</a></div></div></figure>
+    <figure data-say="cover" class="polaroid pick" data-pick="b" style="right:0;top:0;transform:rotate(5deg);width:min(200px,44vw)"><span class="tape"></span><button class="pin" type="button" aria-pressed="false" title="Pin it here" aria-label="Pin this photo here"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M12 14v9"/></svg></button><div class="pol-in"><div class="pol-front"><img src="/assets/img/liminal-outliers.jpg" alt="Liminal Outliers cover art"><span class="cap">Liminal Outliers, 9th floor</span></div><div class="pol-back"><span class="pol-kick">Ache's pick</span><p class="pol-note">the 9th floor has a 10th floor. probably. go find out.</p><a class="pol-open" href="/post/artache-a-studio-opens-its-doors">Open the cover story →</a></div></div></figure>
+    <figure data-say="save" class="polaroid pick" data-pick="c" style="right:24%;top:47%;transform:rotate(-3deg);width:min(180px,40vw)"><span class="tape"></span><button class="pin" type="button" aria-pressed="false" title="Pin it here" aria-label="Pin this photo here"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M12 14v9"/></svg></button><div class="pol-in"><div class="pol-front"><img src="https://static.wixstatic.com/media/38ba49_8039141420034594b8ff3e72f8549454~mv2.jpg/v1/fill/w_400,h_400,al_r,q_82/first-save.jpg" alt="An old CRT screen glowing with a red star: the first save"><span class="cap">the first save</span></div><div class="pol-back"><span class="pol-kick">Ache's pick</span><p class="pol-note">where it all started. a red star on an old screen. I was the star. obviously.</p><a class="pol-open" href="/story">Open the story →</a></div></div></figure>
   </div>
 </div>
 
@@ -47,15 +49,6 @@
     <p class="note" id="latest-note">Fresh from the nightly build. Older issues live in the <a href="/posts/categories/archive">Archive</a>.</p>
   </section>
 
-  <section id="sections">
-    <h2>The tapes <small>hover to play</small></h2>
-    <div class="grid">
-      <a data-say="devlog" class="cassette tilt s1" href="/posts/categories/devlog"><div class="lbl"><b>Devlog</b><span>SIDE A</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>How the games get made: scenes, drafts, decisions.</p></a>
-      <a data-say="studio" class="cassette tilt s2" href="/posts/categories/studio"><div class="lbl"><b>Studio</b><span>SIDE B</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>News and choices from Artache Creative Studio.</p></a>
-      <a data-say="archive" class="cassette tilt s3" href="/posts/categories/archive"><div class="lbl"><b>Archive</b><span>2017–2026</span></div><div class="reels"><i class="reel"></i><i class="reel"></i></div><p>TZERØ's early issues since 2017: reviews, essays and the gacha years.</p></a>
-    </div>
-  </section>
-
   <section id="story">
     <a class="story-band tilt" data-say="story" href="/story">
       <img class="band-pic" src="https://static.wixstatic.com/media/38ba49_e3e2928e412e4549b229c77c7f654259~mv2.jpg/v1/fill/w_1400,h_600,al_r,q_82/story-path.jpg" alt="" loading="lazy">
@@ -66,10 +59,19 @@
       <ol class="band-saves" aria-hidden="true"><li>2017</li><li>2023</li><li>2024</li><li>2025</li><li>2026</li></ol>
     </a>
   </section>
+
+  <section id="sections">
+    <h2>The tapes <small>hover to play</small></h2>
+    <div class="grid">
+      <a data-say="devlog" class="cassette tilt s1" href="/posts/categories/devlog" data-cat="986847d2-3b96-464b-8b8b-338e07845d9c"><img class="tape-bg" src="/assets/img/games/lmo-sea-fence.webp" alt="" loading="lazy"><div class="lbl"><b>Devlog</b><span>SIDE A</span></div><div class="window"><div class="reels"><i class="reel"></i><i class="reel"></i></div></div><p class="now"><span>Now playing</span> <em>How the games get made: scenes, drafts, decisions.</em></p></a>
+      <a data-say="studio" class="cassette tilt s2" href="/posts/categories/studio" data-cat="de8055a9-ce06-426e-a47f-d860d026981f"><img class="tape-bg" src="/assets/img/starchasers/key-art-960.webp" alt="" loading="lazy"><div class="lbl"><b>Studio</b><span>SIDE B</span></div><div class="window"><div class="reels"><i class="reel"></i><i class="reel"></i></div></div><p class="now"><span>Now playing</span> <em>News and choices from Artache Creative Studio.</em></p></a>
+      <a data-say="archive" class="cassette tilt s3" href="/posts/categories/archive" data-cat="6fecd53b-e26c-46ca-a508-d8b36cda3c3b"><img class="tape-bg" src="https://static.wixstatic.com/media/38ba49_8039141420034594b8ff3e72f8549454~mv2.jpg/v1/fill/w_600,h_300,al_c,q_80/archive.jpg" alt="" loading="lazy"><div class="lbl"><b>Archive</b><span>2017–2026</span></div><div class="window"><div class="reels"><i class="reel"></i><i class="reel"></i></div></div><p class="now"><span>Now playing</span> <em>TZERØ's early issues since 2017: reviews, essays and the gacha years.</em></p></a>
+    </div>
+  </section>
 </div></div>
 
 <footer id="publisher"><div class="wrap">
-  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. For People. AI opens paths. We thread the best.</div>
   <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
 </div></footer>
 <script src="/assets/js/scene.js" defer></script>
