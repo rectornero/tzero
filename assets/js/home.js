@@ -34,4 +34,16 @@
     const a = document.createElement('a'); a.href = WIX.JOURNAL + '/posts'; a.textContent = ' Open the journal →';
     note.appendChild(a);
   });
+
+  // The tapes: each one shows the newest piece of its section ("Now playing", its picture in the window)
+  document.querySelectorAll('.cassette[data-cat]').forEach(tape => {
+    const img = tape.querySelector('.window img'), fallback = img.src;
+    img.onerror = () => { img.onerror = null; img.src = fallback };
+    WIX.list({ category: tape.dataset.cat, limit: 1 }).then(({ posts }) => {
+      const post = posts[0]; if (!post) return;
+      const cov = WIX.cover(post);
+      if (cov) img.src = cov.url;
+      tape.querySelector('.now em').textContent = post.title;
+    }).catch(() => {});
+  });
 })();

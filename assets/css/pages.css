@@ -229,3 +229,26 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 .polaroid.pinned .pin{top:-12px;right:auto;left:50%;transform:translateX(-50%);width:28px;height:28px;background:none;opacity:1;filter:drop-shadow(0 3px 2px rgba(0,0,0,.3))}
 .polaroid.pinned .pin svg{fill:var(--red);stroke:#7a0c16}
 @media (hover:none){.polaroid .pin{opacity:.9}}
+
+/* Homepage order (Nero 2026-11-07): Latest, then the story band (compact), then the tapes */
+.home #story{padding-block:8px 24px}
+.home #sections{padding-top:32px}
+.home .story-band{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px;row-gap:4px;align-items:center;padding:22px clamp(20px,3vw,32px);padding-right:clamp(120px,14vw,170px)}
+.home .story-band .tag,.home .story-band h3,.home .story-band p{grid-column:1}
+.home .story-band h3{font-size:clamp(26px,3.4vw,38px)}
+.home .story-band p{font-size:15px;max-width:60ch}
+.home .story-band .btn{grid-column:2;grid-row:1 / span 3;margin:0;white-space:nowrap}
+.home .band-saves{gap:6px;font-size:11px}
+.home .band-saves li::before{width:10px;height:10px}
+@media (max-width:760px){.home .story-band{grid-template-columns:minmax(0,1fr);padding-right:clamp(20px,3vw,32px)}.home .story-band .btn{grid-column:1;grid-row:auto;margin-top:8px}}
+@media (max-width:640px){.home .story-band{padding-top:112px}.home .story-band > .band-pic{height:160px}.home .story-band::before{background:linear-gradient(180deg,transparent 0,transparent 80px,var(--abyss) 155px)}}
+
+/* The tapes have faces: the newest piece's picture in the cassette window, its title as "Now playing", the track count */
+.cassette .window{position:relative;height:84px;margin:4px 0 2px;border-radius:8px;overflow:hidden;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px rgba(255,255,255,.18)}
+.cassette .window img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .3s,transform .6s}
+.cassette .window::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.35))}
+.cassette .window .reels{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;padding:0}
+.cassette:hover .window img{opacity:1;transform:scale(1.05)}
+.cassette .now{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.cassette .now span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.cassette .now em{font-style:normal;font-weight:600;font-size:14.5px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
