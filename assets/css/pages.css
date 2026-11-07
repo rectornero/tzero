@@ -174,3 +174,19 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 
 /* "[text lost in a move]": a sentence that broke off when an old post moved between sites */
 .post .cut{font-family:var(--mono);font-size:.78em;color:var(--ink);opacity:.65;border:1px dashed currentColor;border-radius:4px;padding:0 .35em;white-space:nowrap;cursor:help}
+.post-meta .post-author{color:inherit;text-decoration:underline;text-underline-offset:3px}.post-meta .post-author:hover{color:var(--red)}
+/* People: the crew list and one person's profile (/people) */
+.people{max-width:1180px;margin:0 auto}
+.pp-head{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.pp-head h1,.pp-profile h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.04;letter-spacing:-.03em;margin:0;color:var(--ink)}
+.pp-head .tag,.pp-profile .tag{align-self:flex-start;padding:4px 10px;border-radius:99px;background:color-mix(in srgb,var(--b2) 12%,#fff);color:var(--b3);font-family:var(--mono);font-size:13px}
+.pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.pp-card{display:flex;flex-direction:column;gap:8px;padding:22px;border-radius:14px;background:#fff;border:1px solid rgba(26,90,166,.12);box-shadow:0 30px 60px -40px rgba(19,34,75,.45);color:var(--ink)}
+.pp-card b{font-size:20px}.pp-card p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
+.pp-avatar{display:grid;place-items:center;width:72px;height:72px;border-radius:50%;overflow:hidden;background:var(--abyss);color:#fff;font:800 28px var(--display);flex:none}
+.pp-avatar img{width:100%;height:100%;object-fit:cover}
+.pp-profile{display:flex;gap:28px;align-items:flex-start;padding:32px;border-radius:14px;background:#fff;border:1px solid rgba(26,90,166,.12);box-shadow:0 30px 60px -36px rgba(19,34,75,.45)}
+.pp-profile>div{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pp-profile .pp-avatar{width:120px;height:120px;font-size:44px}
+.pp-links{display:flex;flex-wrap:wrap;gap:8px}
+@media (max-width:640px){.pp-profile{flex-direction:column;padding:22px}}

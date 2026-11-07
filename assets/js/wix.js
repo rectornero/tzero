@@ -74,10 +74,17 @@ window.WIX = (() => {
   const LIST_FIELDS = '&fieldsets=URL';
   const byDate = (a, b) => (b.firstPublishedDate || '').localeCompare(a.firstPublishedDate || '');
 
-  // Posts written here since the move away from Wix: their cards, newest first (/post-data/index.json)
+  // Posts written here since the move away from Wix: their cards, newest first. Frozen ones are in the site
+  // (/post-data/index.json); ones published from /admin since the last deploy come from /api/content (cached on
+  // Netlify's CDN). The live copy wins when a post is in both. Pages (kind "page") aren't journal posts.
   let ownCards;
   function own() {
-    ownCards = ownCards || fetch('/post-data/index.json').then(r => r.ok ? r.json() : []).catch(() => []);
+    const get = u => fetch(u).then(r => r.ok ? r.json() : []).catch(() => []);
+    ownCards = ownCards || Promise.all([get('/post-data/index.json'), get('/api/content')]).then(([frozen, live]) => {
+      const fresh = ((live && live.posts) || []).filter(p => (p.kind || 'article') === 'article').map(p => ({ ...p, own: true, live: true }));
+      const seen = new Set(fresh.map(p => p.slug));
+      return fresh.concat((frozen || []).filter(p => !seen.has(p.slug))).sort(byDate);
+    });
     return ownCards;
   }
 
@@ -90,6 +97,7 @@ window.WIX = (() => {
   return {
     JOURNAL,
     CATEGORIES,
+    ownPosts: own,
     // Own posts and the newest TZERØ-tagged posts on Wix, merged by date
     async latest(n = 3) {
       const [mine, wix] = await Promise.allSettled([own(), get('/blog/v3/posts?tagIds=' + TAG_TZERO + '&paging.limit=' + n + '&fieldsets=URL')]);
@@ -102,6 +110,11 @@ window.WIX = (() => {
       const r = await fetch('/post-data/' + encodeURIComponent(slug) + '.json');
       if (!r.ok) throw new Error('frozen ' + r.status);
       return r.json();
+    },
+    // A post or page published from /admin (Netlify Blobs): resolves null when there is none
+    async live(slug) {
+      const r = await fetch('/api/content/' + encodeURIComponent(slug));
+      return r.ok ? r.json() : null;
     },
     async bySlug(slug) {
       const j = await get('/blog/v3/posts/slugs/' + encodeURIComponent(slug) + '?fieldsets=RICH_CONTENT&fieldsets=URL&fieldsets=SEO');
@@ -149,7 +162,9 @@ window.WIX = (() => {
     category,
     cover,
     mediaUrl,
-    author: post => AUTHORS[post.memberId] || 'TZERØ',
+    author: post => post.authorName || AUTHORS[post.memberId] || 'TZERØ',
+    // The author's profile page (people who write here since the editor; Nero and Claude too)
+    authorUrl: post => post.authorSlug ? '/people/' + encodeURIComponent(post.authorSlug) : null,
     lineKey,
     // The post on Wix (own posts have none). Wix reports its own primary address, so this follows the domain switch by itself
     wixUrl: post => (post.url && post.url.base && new URL(post.url.base).host !== location.host ? post.url.base + post.url.path : JOURNAL + '/post/' + post.slug),

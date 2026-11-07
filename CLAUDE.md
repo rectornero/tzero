@@ -18,10 +18,20 @@ burned almost a whole month.
 
 ## This site
 
-- It is static. Don't add functions, Blobs, a database or a build step without asking.
+- It is mostly static. Don't add functions, Blobs, a database or a build step without asking.
 - One exception, chosen by Nero on 2026-10-26: `netlify/functions/votes.mjs` counts the Idea Lab hearts (/lab) in
   one Netlify Blobs entry. GETs are cached on the CDN for 60 s, posts are rate-limited, no database. Estimated under
   1 credit a month now, about 3 to 4 per 10,000 calls. Don't add polling to it or call it on a schedule.
+- The editor (Nero's picks, 2026-10-27): `/admin` is a WYSIWYG editor for articles and pages, published without a
+  deploy. Content lives in Netlify Blobs (`netlify/functions/content.mjs`, read through `/api/content`, cached on the
+  CDN and purged on publish; estimated 3 to 5 credits a month at 10,000 views). Sign-in is GitHub
+  (`netlify/functions/auth.mjs`, needs `TZ_GITHUB_CLIENT_ID` and `TZ_GITHUB_CLIENT_SECRET`); Nero invites
+  collaborators and admins (`netlify/functions/people.mjs`, profiles at /people). Collaborators publish directly but
+  never get scene code or pages. Claude saves drafts with `TZ_CLAUDE_KEY` through `tools/editor-api.mjs`, never publishes.
+- Scene code (interactive HTML in articles) only ever runs in the scene box: `/embed` in an iframe with
+  `sandbox="allow-scripts"` and nothing else (never add `allow-same-origin`), under the no-network policy in
+  `netlify.toml`. When handing Nero scene code, also give its fingerprint (`node tools/editor-api.mjs fingerprint f.html`).
+  No-code blocks (visual novel, hotspots, before/after, flip cards, story slides) are data drawn by `assets/js/blocks.js`.
 - We are migrating away from Wix (Nero, 2026-10-26): build new features on this site, not on Wix. New articles are
   written here: add `tools/posts/<slug>.json` and run `node tools/freeze-archive.mjs` (no snapshot argument) to render
   `post/<slug>.html`, `post-data/<slug>.json` and `post-data/index.json`. Each go-live is a production deploy,

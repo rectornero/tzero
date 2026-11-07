@@ -70,6 +70,29 @@ window.RICOS = (() => {
     return m && m[1];
   }
 
+  // Inline HTML (the playable scenes) runs in the scene box at /embed: a sandboxed iframe with a throwaway origin
+  // and no network (embed-host.js). Only the box's own messages are read, and only these few kinds.
+  const boxes = new Set();
+  addEventListener('message', e => {
+    const d = e.data;
+    let f = null;
+    for (const b of boxes) if (b.frame.contentWindow === e.source) { f = b; break }
+    if (!f || !d || typeof d.tz !== 'string') return;
+    if (d.tz === 'ready') e.source.postMessage({ tz: 'scene', html: f.html }, '*');
+    else if (d.tz === 'size' && f.auto && d.h > 0) f.frame.style.height = Math.min(3000, Math.max(120, Math.round(d.h))) + 'px';
+    else if (d.tz === 'blocked' || d.tz === 'error') f.frame.dispatchEvent(new CustomEvent('scene-' + d.tz, { detail: { what: String(d.what || ''), url: String(d.url || ''), msg: String(d.msg || '') } }));
+  });
+  function scene(html, height) {
+    const fig = el('figure', 'scene'), f = el('iframe');
+    f.setAttribute('sandbox', 'allow-scripts');
+    f.title = 'Interactive scene'; f.loading = 'lazy';
+    f.style.height = (height > 0 ? height : 480) + 'px';
+    f.src = '/embed';
+    fig.appendChild(f);
+    boxes.add({ html, frame: f, auto: height === 'auto' });
+    return fig;
+  }
+
   function render(n) {
     switch (n.type) {
       case 'TEXT': return text(n);
@@ -148,18 +171,12 @@ window.RICOS = (() => {
         return a;
       }
       case 'HTML': {
-        // Inline HTML (the playable scenes in articles) runs in a sandboxed iframe with no access to this page
         const d = n.htmlData || {};
         if (!d.html) return render({ ...n, type: 'EMBED' });
-        const fig = el('figure', 'scene'), f = el('iframe');
-        f.setAttribute('sandbox', 'allow-scripts');
-        f.srcdoc = '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' + d.html;
-        const h = parseInt(d.containerData && d.containerData.height && d.containerData.height.custom, 10);
-        f.style.height = (h > 0 ? h : 480) + 'px';
-        f.title = 'Interactive scene'; f.loading = 'lazy';
-        fig.appendChild(f);
-        return fig;
+        const h = d.containerData && d.containerData.height && d.containerData.height.custom;
+        return scene(d.html, h === 'auto' ? 'auto' : parseInt(h, 10));
       }
+      case 'TZ_BLOCK': return window.TZBLOCKS ? TZBLOCKS.render(n.blockData) : null; // crafted in /admin (blocks.js)
       case 'AUDIO': case 'FILE': case 'LINK_PREVIEW': case 'EMBED': {
         const d = n.audioData || n.fileData || n.linkPreviewData || n.embedData || n.htmlData || {};
         const href = safeHref((d.audio && d.audio.src && d.audio.src.url) || (d.src && d.src.url) || (d.link && d.link.url) || d.url);
@@ -172,5 +189,5 @@ window.RICOS = (() => {
     }
   }
 
-  return { render: content => kids(document.createDocumentFragment(), content && content.nodes) };
+  return { render: content => kids(document.createDocumentFragment(), content && content.nodes), scene };
 })();
