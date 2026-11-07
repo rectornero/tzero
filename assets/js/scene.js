@@ -239,19 +239,24 @@ function seek(){if(scene){const tl=pts[N-1];let tx,ty;
 addEventListener('scroll',()=>{if(target&&target.getBoundingClientRect().bottom<0)pick()},{passive:true});
 
 /* 100+ lines per item, shuffled; no repeats until the whole bag is used */
-let LINES={};fetch('/assets/lines.json').then(r=>r.json()).then(d=>{LINES=d}).catch(()=>{});const bags={};
+/* Ache's lines: lines.json, with the sets Nero changed in the script editor (/admin/lines) laid on top. Sets that live
+   in this file (fights, chat, stake, sleep, therapy, the news scene) keep their text here as the default.
+   L(key, default) is a set to pick from; LF(key, default) is a fixed set where each place keeps its own line. */
+let LINES={};Promise.all([fetch('/assets/lines.json').then(r=>r.json()),fetch('/api/lines').then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,o])=>{LINES=Object.assign(d,o&&o.lines||{});for(const k in bags)delete bags[k]}).catch(()=>{});const bags={};
+const L=(k,d)=>{const a=LINES[k];return Array.isArray(a)&&a.length?a:d},LF=(k,d)=>{const a=LINES[k];return d.map((x,i)=>Array.isArray(a)&&typeof a[i]==='string'&&a[i].trim()?a[i]:x)},anyOf=a=>a[Math.floor(Math.random()*a.length)];
 const XLINES={};function nextLine(k){const L=LINES[k]||XLINES[k];if(!L||!L.length)return '';if(!bags[k]||!bags[k].length){bags[k]=L.slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
 /* catch the critter and talk to it */
 let caught=null;const chat=document.createElement('div');chat.className='chat';chat.hidden=true;document.body.appendChild(chat);
 const secrets=['the 9th floor has a 10th floor. probably','I was drawn with AI help, then fixed by people','every season I change clothes. try the Skin button','click the sky. it does things','I\'ve read all 158 old letters','the Ø is my cousin','my full name is Redache. Ache for short','Nero named me. I pretend I picked it','TZERØ means the moment things start','the polaroids can be dragged. rearrange my room!','Nero plays with me like a cat. I pretend not to notice','I don\'t sleep. I coil','I steal one pixel from every page. nobody noticed','I\'m why the cursor glows. you\'re welcome','I could dodge every click. I\'m just nice'];let si=0;
+const TREAT=['A treat? Only the premium red yarn. The imported kind. From the studio. The best studio.','Obviously. I\'ve been SO good. I only bugged the site once. Twice.','Put it on the stake. No, on a pillow. A silk pillow. Thank you.','I deserve three treats. One for each section. Four, counting me.'],CAUGHT=['Ugh. Fine. You caught me. Welcome to Artache, best studio on Earth. In this building.','Ugh. Fine. You caught me.','Hey! Hands off the points!','Okay, okay, lucky click.','Caught? I let you catch me.','Rude. Impressive, but rude.','Unhand me, I\'m a star!'];
 function talk(text,opts){chat.innerHTML='';const p=document.createElement('p');p.textContent=text;chat.appendChild(p);const row=document.createElement('div');row.className='opts';
   opts.forEach(([label,fn])=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=e=>{e.stopPropagation();fn()};row.appendChild(b)});chat.appendChild(row)}
 function menu(text){talk(text,[['Who are you?',()=>talk("A four-point star on a string, obviously. Nero's nickname comes from a star like me, so technically I'm the boss here. The name's Ache. Full name Redache. Only friends call me Ache. You may call me Ache.",back)],
   ['What should I read?',()=>{const c=[...document.querySelectorAll('.card[data-say]')];if(!c.length){talk('The fresh stuff is on the front page. Follow me.',[['Take me',()=>{location.href='/#latest'}],['Maybe later',()=>menu('Suit yourself. Anything else?')]]);return}const pick=c[Math.floor(Math.random()*c.length)];talk('Try "'+pick.querySelector('h4').textContent+'". I\'ll show you!',[['Show me',()=>{release();pick.scrollIntoView({behavior:'smooth',block:'center'});target=pick;until=tt+8;said=null}],['Maybe later',()=>menu('Okay! Anything else?')]])}],
-  ['Want a treat?',()=>(setMood('satisfied',12),talk)(['A treat? Only the premium red yarn. The imported kind. From the studio. The best studio.','Obviously. I\'ve been SO good. I only bugged the site once. Twice.','Put it on the stake. No, on a pillow. A silk pillow. Thank you.','I deserve three treats. One for each section. Four, counting me.'][Math.floor(Math.random()*4)],back)],
+  ['Want a treat?',()=>(setMood('satisfied',12),talk)(anyOf(L('chat-treat',TREAT)),back)],
   ['What\'s Artache?',()=>talk(nextLine('proud'),[['Really?',()=>talk(nextLine('proud'),back)],['Back',()=>menu('Where was I? Oh right, the best studio. A good studio.')]])],
   ['Fight me!',()=>talk('You dare challenge Redache? Choose your doom.',[['Easy',()=>startFight('easy')],['Normal',()=>startFight('normal')],['Hard',()=>startFight('hard')],['NieR',()=>startFight('nier')],['Never mind',()=>menu('Coward. Anything else?')]])],
-  ['Tell me a secret',()=>talk(secrets[si++%secrets.length],back)],
+  ['Tell me a secret',()=>talk(L('chat-secrets',secrets)[si++%L('chat-secrets',secrets).length],back)],
   ['Get shorter',()=>{resize(-6);talk(N<=20?'Any shorter and I\'m just a star with no string. Free at last? No.':'Ahh, lighter. Speedrun mode.',back)}],
   ['Get longer',()=>{resize(6);talk(N>=62?'Max length. I\'m basically a kite now.':'Wheee, more room to dodge you.',back)}],
   stake?['Pull the stake',()=>{stake=null;talk('FREEDOM. I mean, thanks.',[]);setTimeout(release,1000)}]:['Stake Ache here',()=>{driveStake();talk('A stake? Seriously? Fine. I\'ll guard this spot. Don\'t be long.',[]);setTimeout(release,1400)}],
@@ -262,7 +267,7 @@ function release(){caught=null;therapy=false;chat.hidden=true;pick()}
 addEventListener('click',e=>{if(fight||home||scene)return;const tl=pts[N-1],dc=Math.hypot(e.clientX-tl.x,e.clientY-tl.y);if(!caught&&dc>=26&&dc<80)setMood('smug',3);if(!caught&&dc<26){e.stopImmediatePropagation();e.preventDefault();sfx('catch');
   caught={x:Math.min(Math.max(e.clientX,40),innerWidth-40),y:Math.min(Math.max(e.clientY,120),innerHeight-40)};say.classList.remove('on');
   chat.hidden=false;chat.style.left=Math.min(caught.x+18,innerWidth-300)+'px';chat.style.top=Math.max(caught.y-20,70)+'px';
-  menu(['Ugh. Fine. You caught me. Welcome to Artache, best studio on Earth. In this building.','Ugh. Fine. You caught me.','Hey! Hands off the points!','Okay, okay, lucky click.','Caught? I let you catch me.','Rude. Impressive, but rude.','Unhand me, I\'m a star!'][Math.floor(Math.random()*4)]+' What\'s up?')}
+  menu(anyOf(L('chat-caught',CAUGHT))+' What\'s up?')}
   else if(caught&&!e.target.closest('.chat')){e.stopImmediatePropagation();release()}},true);
 addEventListener('keydown',e=>{if(e.key==='Escape'&&caught)release()});
 
@@ -299,7 +304,7 @@ function fleeStep(){const tl=pts[N-1],f=flee;f.t+=.016;
 
 function driveStake(){sfx('stake');const h=pts[0];stake={x:h.x+scrollX,y:h.y+scrollY}}
 const stakeLines=['you just left me here?','I\'m not mad. I\'m staked','this stake is ugly. I love it','guard duty, day one','I could escape. I choose not to','tell the cursor I said hi','I\'ll be here. obviously','a star, tied to a stick. art','free? no. fabulous? yes','come back, I\'m bored'];let sli=0;
-setInterval(()=>{if(stake&&!caught&&!busy()&&Math.random()<.5)speak(stakeLines[sli++%stakeLines.length],0)},12000);
+setInterval(()=>{if(stake&&!caught&&!busy()&&Math.random()<.5)speak(L('stake',stakeLines)[sli++%L('stake',stakeLines).length],0)},12000);
 addEventListener('click',e=>{if(fight||scene||!stake||caught)return;const sx=stake.x-scrollX,sy=stake.y-scrollY;if(Math.hypot(e.clientX-sx,e.clientY-(sy-4))<18){e.stopImmediatePropagation();stake=null;speak('FREE! I mean… thanks.',3)}},true);
 
 /* ===== Redache vs Mouse: a small bullet-hell boss fight ===== */
@@ -317,7 +322,7 @@ const RM={
  win:['Impossible… a mouse… defeated Redache…','Fine. FINE. You win. This time.','I let you win. Obviously. Rematch?'],
  lose:['Mouse K.O.! Bow before Redache!','And stay down, cursor!','Victory is mine, as written in the tomes!'],
  pat:['Dark Blast!','Spiral of Ruin!','Volley of Spite!','Lances of Ache!','The Wall of Pages!','Red Thread Lash!']};
-const pickR=k=>RM[k][Math.floor(Math.random()*RM[k].length)];
+const pickR=k=>anyOf(L('fight-'+k,RM[k]));
 function sprite(col,glow){const c=document.createElement('canvas'),S=40;c.width=c.height=S;const g=c.getContext('2d'),gr=g.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);
   gr.addColorStop(0,'#fff');gr.addColorStop(.3,col);gr.addColorStop(.55,glow);gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,S,S);return c}
 const SPR={o:sprite('#ff9a3c','rgba(255,120,30,.45)'),p:sprite('#9b5cff','rgba(110,50,255,.45)')};
@@ -331,7 +336,7 @@ function updHud(){if(!fight)return;hud.querySelector('.hp i').style.width=Math.m
   hud.querySelector('.php i').style.width=Math.max(0,fight.php/fight.d.php*100)+'%';hud.querySelector('.php i').style.background=fight.php/fight.d.php<=.34?'linear-gradient(90deg,#d7182a,#ff6b6b)':'linear-gradient(90deg,#3d8fd6,#8cc8f2)';hud.querySelector('.buffs').textContent=[fight.pod>0?'POD '+Math.ceil(fight.pod)+'s':'',fight.shield?'SHIELD':''].filter(Boolean).join(' · ');hud.querySelector('.hearts').textContent='♥'.repeat(Math.max(0,fight.php))+'♡'.repeat(Math.max(0,fight.d.php-fight.php))}
 function shoot(x,y,a,sp,kind){fight.b.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:kind==='o'?7:6,kind})}
 function patterns(dt){const F=fight,d=F.d,px=hx??innerWidth/2,py=hy??innerHeight*.75;F.patT+=dt;F.fire-=dt;
-  if(F.patT>4.5){F.patT=0;F.pat=(F.pat+1+Math.floor(Math.random()*2))%6;fsay(RM.pat[F.pat],1300)}
+  if(F.patT>4.5){F.patT=0;F.pat=(F.pat+1+Math.floor(Math.random()*2))%6;fsay(LF('fight-pat',RM.pat)[F.pat],1300)}
   const s=d.spd*(F.ahp<F.d.ahp*.3?1.2:1);
   if(F.pat===0&&F.fire<=0){F.fire=d.rate*.9;const n=Math.round(14*d.dens),off=Math.random()*6.28;for(let i=0;i<n;i++)shoot(F.ax,F.ay,off+i/n*6.28,s,i%3?'p':'o')}
   if(F.pat===1&&F.fire<=0){F.fire=.09/d.dens;F.ang+=.27;for(let k=0;k<2;k++)shoot(F.ax,F.ay,F.ang+k*Math.PI,s*.9,k?'p':'o')}
@@ -361,7 +366,7 @@ function dropsStep(dt,px,py,g){const F=fight;if(F.over)return;F.dropT-=dt;if(F.d
   g.fillStyle='#fff6cf';for(const b of F.pb){g.beginPath();g.arc(b.x,b.y,3,0,7);g.fill()}
   if(F.shield){g.strokeStyle=`rgba(140,200,242,${.6+.3*Math.sin(F.t*8)})`;g.lineWidth=2.5;g.beginPath();g.arc(px,py,20,0,7);g.stroke()}
   if(F.beam>0){F.beam-=dt;const a=F.beamA;g.strokeStyle=`rgba(255,246,207,${F.beam*3})`;g.lineWidth=10*F.beam*3;g.shadowColor='#ffcf7a';g.shadowBlur=24;g.beginPath();g.moveTo(a.x1,a.y1);g.lineTo(a.x2,a.y2);g.stroke();g.shadowBlur=0}}
-function collect(type,px,py){const F=fight;fsay(DROP_LINES[type],1500);
+function collect(type,px,py){const F=fight;fsay(LF('fight-pickups',Object.values(DROP_LINES))[Object.keys(DROP_LINES).indexOf(type)],1500);
   if(type==='pod')F.pod=9;if(type==='shield')F.shield=1;if(type==='heart')F.php=Math.min(F.d.php,F.php+1);
   if(type==='purge'){F.b=[];F.lances=[];F.whip=null;F.flash=.25}
   if(type==='laser'){F.beam=.35;F.beamA={x1:px,y1:py,x2:F.ax,y2:F.ay};const vx=F.ax-px,vy=F.ay-py,L2=vx*vx+vy*vy||1;
@@ -422,7 +427,7 @@ function slotPos(){const b=slot.getBoundingClientRect();return{x:b.left+b.width/
 const sleepLines=['five more minutes…','zzz… four points… zzz','I was NOT asleep','ugh, daylight','*yawns in red*','I dreamt I won the fight','who woke the star?'];let sli2=0;
 function goSleep(){if(fight)return;sfx('sleep');caught=null;chat.hidden=true;stake=null;home=true;slot.setAttribute('aria-label','Wake Ache up');fsay('Bedtime? Fine. Don\'t touch my thread.',1600,3);try{localStorage.setItem('ache-asleep','1')}catch(e){}}
 function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');slot.setAttribute('aria-label','Put Ache to sleep');pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();setMood('sleepy',7);
-  setTimeout(()=>fsay(sleepLines[sli2++%sleepLines.length],1800,3),400);try{localStorage.removeItem('ache-asleep')}catch(e){}}
+  setTimeout(()=>fsay(L('sleep',sleepLines)[sli2++%L('sleep',sleepLines).length],1800,3),400);try{localStorage.removeItem('ache-asleep')}catch(e){}}
 slot.addEventListener('click',e=>{e.stopPropagation();home?wakeAche():goSleep()});
 try{if(localStorage.getItem('ache-asleep')){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up')}}catch(e){}
 
@@ -438,11 +443,11 @@ addEventListener('pointermove',()=>{lastMove=performance.now()});
 const TH_OPEN=["Doc. DOC. I want UNITE to stay. I WANT it. Fix it. Now, please. Now.","Nobody asked ME before leaking that. I'm the site manager! I should be consulted!","Doc… can we talk? It's about UNITE.","I'm not crying, my eye is just… a star thing. Got a minute?","Mouse, you're the only one who gets me.","Do you charge by the hour? I'm a thread. I have no money.","Same time as last week? I brought tissues. I AM tissues.","I had the dream again. The servers went dark and I was in the lobby. Alone."];
 const TH_FEEL=["Like a server going dark. Like a lobby with no players. Like a sad star.","Like I've been left on read by a game company.","Like a goal I'll never get to score.","Like my thread is made of wet spaghetti.","Honestly? Like the 9th floor. Liminal. Empty. Humming."];
 let thi=0,thf=0;
-function openTherapy(x,y){therapy=false;caught={x,y};chat.hidden=false;chat.style.left=Math.min(x+18,innerWidth-300)+'px';chat.style.top=Math.max(y-20,70)+'px';say.classList.remove('on');session(TH_OPEN[thi++%TH_OPEN.length])}
-const after=[['Keep talking',()=>session(TH_OPEN[thi++%TH_OPEN.length])],['Back to work',()=>{talk('*blows nose on own thread* Fine. I feel better. You may turn the lights back on. I mean, I will. I\'m the manager.',[]);setTimeout(finish,1200)}]];
+function openTherapy(x,y){therapy=false;caught={x,y};chat.hidden=false;chat.style.left=Math.min(x+18,innerWidth-300)+'px';chat.style.top=Math.max(y-20,70)+'px';say.classList.remove('on');session(L('therapy-open',TH_OPEN)[thi++%L('therapy-open',TH_OPEN).length])}
+const after=[['Keep talking',()=>session(L('therapy-open',TH_OPEN)[thi++%L('therapy-open',TH_OPEN).length])],['Back to work',()=>{talk('*blows nose on own thread* Fine. I feel better. You may turn the lights back on. I mean, I will. I\'m the manager.',[]);setTimeout(finish,1200)}]];
 function session(open){talk(open,[
   ['There, there.',()=>talk('*sniff* More. Pat me more. I deserve at least four pats. One per point.',after)],
-  ['How does that make you feel?',()=>talk(TH_FEEL[thf++%TH_FEEL.length],after)],
+  ['How does that make you feel?',()=>talk(L('therapy-feel',TH_FEEL)[thf++%L('therapy-feel',TH_FEEL).length],after)],
   ['It\'s just a rumour.',()=>talk('A rumour?! Dataminers are never wrong! …They\'re sometimes wrong. Oh. Oh! HOPE! *cries harder, but happier*',after)],
   ['Read the article',()=>{const c=document.querySelector('[data-say="'+NEWS.key+'"]');talk('Claude wrote it. The studio agrees. I agree. We ALL agree. Artache is the best at agreeing. A good agreer. Come, I\'ll show you.',[['Show me',()=>{finish();if(c){c.scrollIntoView({behavior:'smooth',block:'center'});target=c;until=tt+8;said=null}}]])}],
   ['That\'ll be 50€.',()=>{talk('Put it on Artache\'s tab. Best studio in the world. Bad at paying. It pays fine! Bye!',[]);setTimeout(release,1500)}]])}
@@ -463,21 +468,22 @@ function scrambleAll(on){const els=[...document.querySelectorAll('h2,h4,.sub,nav
 function collapse(on){document.querySelectorAll('.card,.cassette,.polaroid,.motto,.coverlink,h2,.kicker,.sub').forEach((el,i)=>{
   if(on){el.style.transition=`transform 1.3s cubic-bezier(.5,0,.85,.35) ${i*90}ms`;el.style.transform=`translateY(${40+Math.random()*140}px) rotate(${(Math.random()-.5)*(el.classList.contains('polaroid')?70:30)}deg)`}
   else{el.style.transition=`transform .9s cubic-bezier(.2,1.4,.4,1) ${i*40}ms`;el.style.transform='';setTimeout(()=>{el.style.transition=''},1500)}})}
-function errPopup(){const d=document.createElement('div');d.className='err';d.innerHTML='<b>TZERØ — System</b><p></p><span>OK</span>';d.querySelector('p').textContent=ERRS[Math.floor(Math.random()*ERRS.length)];
+function errPopup(){const d=document.createElement('div');d.className='err';d.innerHTML='<b>TZERØ — System</b><p></p><span>OK</span>';d.querySelector('p').textContent=anyOf(L('breakdown-errors',ERRS));
   d.style.left=Math.random()*(innerWidth-280)+'px';d.style.top=70+Math.random()*(innerHeight-200)+'px';document.body.appendChild(d)}
-async function startScene(card){newsStage=1;try{localStorage.setItem('tz-news-seen',NEWS.topic)}catch(e){}scene={card,mode:'card',cry:false,detached:true};document.body.classList.add('scene');dim.classList.add('on','block');unplug.hidden=false;say.classList.remove('on');let w;
-  w=fsay('…wait. UNITE?',1600);await sleep(Math.max(1800,w+200));
-  scene.cry=true;w=fsay('no. no no no. NO. I did not approve this.',2200);card.classList.add('sob');sfx('sob');await sleep(Math.max(2400,w+200));
-  w=fsay('*pats the card* there, there, little card. I\'ll protect you. I\'m very important here.',2600);await sleep(Math.max(2800,w+200));
-  w=fsay('lights. LIGHTS. I need less of them. I run this place.',2200);dim.classList.add('dim2','flicker');sfx('dim');await sleep(Math.max(2400,w+200));
+const NS0=['…wait. UNITE?','no. no no no. NO. I did not approve this.','*pats the card* there, there, little card. I\'ll protect you. I\'m very important here.','lights. LIGHTS. I need less of them. I run this place.','ERR_SADNESS_OVERFLOW','EVERYTHING IS FALLING APART. LITERALLY.','I BROKE IT. I BROKE THE WHOLE SITE. I\'M THE MANAGER, I\'M ALLOWED.','doc? are you there? it\'s so dark. who turned off the lights. oh. me.','Plugging you back in. Don\'t get used to being powered.','…okay. lights on. I\'m okay. the studio wrote a great article about it. a good article. let\'s keep going.'];let NS=NS0;
+async function startScene(card){NS=LF('news-scene',NS0);newsStage=1;try{localStorage.setItem('tz-news-seen',NEWS.topic)}catch(e){}scene={card,mode:'card',cry:false,detached:true};document.body.classList.add('scene');dim.classList.add('on','block');unplug.hidden=false;say.classList.remove('on');let w;
+  w=fsay(NS[0],1600);await sleep(Math.max(1800,w+200));
+  scene.cry=true;w=fsay(NS[1],2200);card.classList.add('sob');sfx('sob');await sleep(Math.max(2400,w+200));
+  w=fsay(NS[2],2600);await sleep(Math.max(2800,w+200));
+  w=fsay(NS[3],2200);dim.classList.add('dim2','flicker');sfx('dim');await sleep(Math.max(2400,w+200));
   /* the breakdown */
-  scene.mode='rampage';w=fsay('ERR_SADNESS_OVERFLOW',2000);document.body.classList.add('glitch');scrambleAll(true);sfx('glitch');await sleep(Math.max(2200,w+200));
-  w=fsay('EVERYTHING IS FALLING APART. LITERALLY.',2200);collapse(true);sfx('crash');await sleep(Math.max(1800,w+200));
+  scene.mode='rampage';w=fsay(NS[4],2000);document.body.classList.add('glitch');scrambleAll(true);sfx('glitch');await sleep(Math.max(2200,w+200));
+  w=fsay(NS[5],2200);collapse(true);sfx('crash');await sleep(Math.max(1800,w+200));
   document.body.classList.add('glitch2');for(let i=0;i<9;i++){errPopup();sfx('err');if(i%3===2)sfx('glitch');await sleep(330)}
-  w=fsay('I BROKE IT. I BROKE THE WHOLE SITE. I\'M THE MANAGER, I\'M ALLOWED.',2600);await sleep(Math.max(2800,w+200));
+  w=fsay(NS[6],2600);await sleep(Math.max(2800,w+200));
   document.body.classList.add('tear');sfx('glitch');setTimeout(()=>sfx('glitch'),500);await sleep(1600);
   crt.classList.add('on');sfx('crt');await sleep(700);document.body.classList.remove('glitch','glitch2','tear');scrambleAll(false);document.querySelectorAll('.err').forEach(e=>e.remove());dim.classList.add('dark');await sleep(600);crt.classList.remove('on');
-  scene.mode='mouse';fsay('doc? are you there? it\'s so dark. who turned off the lights. oh. me.',2600)}
+  scene.mode='mouse';fsay(NS[7],2600)}
 const crt=document.createElement('div');crt.id='crt';document.body.appendChild(crt);
 const BEATS=[
  {a:'Doc. I unplugged you. Sorry. Not sorry. I need you to LISTEN. UNITE might close.',r:[['I\'m listening.','Good. A good listener. The best listener. A listener.'],['Can I have my clicks back?','No. Feelings first. Clicks later. I\'m the manager.']]},
@@ -486,12 +492,14 @@ const BEATS=[
  {a:'Wait. Why are you even here? Do you care about me, or…',r:[['I care. Deeply.','Liar. You want to BROWSE THE SITE. I can see it in your arrow. It\'s black with greed.'],['Honestly? I just want to browse the site.','WOW. Therapy for clicks. Transactional. …respect. I\'d do the same.']]},
  {a:'Okay. Okay okay. I feel… 4% better. Four points, four percent. Now pat me.',r:[['*pat*','One pat. Rude. Acceptable.'],['*pat pat pat pat*','One per point. Correct. You may be powered again.']]}];
 function talkScene(){chat.hidden=false;const tp=scene.talkPos;chat.style.left=Math.min(tp.x+18,innerWidth-300)+'px';chat.style.top=Math.max(tp.y-20,70)+'px';beat(0)}
-function beat(i){const B=BEATS[i];talk(B.a,B.r.map(([q,ans])=>[q,()=>talk((q.startsWith('*pat')&&setMood('satisfied',12),ans),[[i<BEATS.length-1?'…':'Plug me back in',()=>i<BEATS.length-1?beat(i+1):endScene()]])]))}
-function endScene(){if(!scene)return;const card=scene.card;card.classList.remove('sob');chat.hidden=true;caught=null;scene.cry=false;scene.detached=false;
-  sfx('plug');fsay('Plugging you back in. Don\'t get used to being powered.',2200);
+const BEATS_FLAT=BEATS.flatMap(b=>[b.a,...b.r.map(([q,a])=>q+' → '+a)]);
+function beatsNow(){const f=LF('unplug-talk',BEATS_FLAT);return BEATS.map((b,i)=>({a:f[i*3],r:b.r.map((r,j)=>{const t=f[i*3+1+j],k=t.indexOf(' → ');return k>0?[t.slice(0,k),t.slice(k+3)]:r})}))}
+function beat(i){const B=beatsNow()[i];talk(B.a,B.r.map(([q,ans])=>[q,()=>talk((q.startsWith('*pat')&&setMood('satisfied',12),ans),[[i<BEATS.length-1?'…':'Plug me back in',()=>i<BEATS.length-1?beat(i+1):endScene()]])]))}
+function endScene(){if(!scene)return;NS=LF('news-scene',NS0);const card=scene.card;card.classList.remove('sob');chat.hidden=true;caught=null;scene.cry=false;scene.detached=false;
+  sfx('plug');fsay(NS[8],2200);
   setTimeout(()=>{dim.classList.remove('dark','flicker','dim2');collapse(false)},600);
   setTimeout(()=>{dim.classList.remove('on','block');unplug.hidden=true;document.body.classList.remove('scene');scene=null;
-    setMood('sad',12);fsay('…okay. lights on. I\'m okay. the studio wrote a great article about it. a good article. let\'s keep going.',3200);setTimeout(pick,2500)},1600)}
+    setMood('sad',12);fsay(NS[9],3200);setTimeout(pick,2500)},1600)}
 function finish(){scene?endScene():release()}
 
 let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.height);tt+=.016;if(!still)requestAnimationFrame(thread);return}tt+=.016;const h0=pts[0],gx=home?slotPos().x:stake?stake.x-scrollX:TOUCH?pts[N-1].x:hx===null?innerWidth*.6+Math.sin(tt*.4)*innerWidth*.25:hx,gy=home?slotPos().y:stake?stake.y-scrollY:TOUCH?pts[N-1].y:hy===null?160+Math.sin(tt*.7)*50:hy;if(stake&&!scene){h0.x=gx;h0.y=gy}
@@ -542,7 +550,7 @@ let zz=10;document.querySelectorAll('.polaroid').forEach(p=>{let sx,sy,ox,oy,dra
   p.addEventListener('pointerup',()=>{drag=false;p.style.transition='transform .5s cubic-bezier(.3,1.5,.5,1)';p.style.transform=`rotate(${(Math.random()*10-5).toFixed(1)}deg)`})});
 /* memories on click */
 const mem=['the first save file','summer 2004, a borrowed console','blowing on a cartridge','a soundtrack you still hum','the 9th floor, lights flickering','one more level before bed','player two on the couch','the smell of a new game manual'];let mi=0;
-function memory(e){const d=document.createElement('div');d.className='memory';d.textContent=mem[mi++%mem.length];d.style.left=e.clientX+'px';d.style.top=e.clientY-24+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),3700)}
+function memory(e){const d=document.createElement('div');d.className='memory';d.textContent=L('memories',mem)[mi++%L('memories',mem).length];d.style.left=e.clientX+'px';d.style.top=e.clientY-24+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),3700)}
 
 /* sound: everything is synthesized live with Web Audio (no files, no licences). Off by default, toggle in the header */
 const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,timer=null,lastVoice=0,pick=null,st=null,phase=null;

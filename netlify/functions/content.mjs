@@ -6,6 +6,7 @@
    GET /api/content               -> { posts: [card...] } published items, newest first (scheduled ones hidden)
    GET /api/content/<slug>        -> the published post object (same Ricos format as tools/posts/<slug>.json)
    GET /api/media/<id>            -> an uploaded picture
+   GET /api/lines                 -> { lines: { key: [line...] }, at } the sets of Ache's lines Nero changed and published
    Signed in (see ../lib/admin.mjs for roles; collaborators only see and change their own articles, and never
    scene code or pages; Claude, with its key, only saves drafts):
    GET    /api/admin/items                 -> drafts and published items
@@ -19,8 +20,14 @@
    GET    /api/admin/inbox                 -> the Claude inbox (Nero and admins): material for Claude to write from
    POST   /api/admin/inbox                 -> { text, pictures: [url] } drops something in it
    POST   /api/admin/inbox/<id>            -> { status: "done" | "open" | "deleted", note?, draft? }
+   Ache's script editor (/admin/lines, Nero only):
+   GET    /api/admin/lines                 -> { draft, published }
+   PUT    /api/admin/lines                 -> { book, publish?: true } saves the draft (and a version); publish puts it live
+   GET    /api/admin/lines/versions        -> saved versions, newest first
+   GET    /api/admin/lines/version/<key>   -> one version
 
-   Store "site-content": pub/<slug>, draft/<slug>, ver/<slug>/<time>, index, inbox/<time-id>. Store "site-media": <id>. */
+   Store "site-content": pub/<slug>, draft/<slug>, ver/<slug>/<time>, index, inbox/<time-id>,
+   lines/draft, lines/pub, lines-ver/<time>. Store "site-media": <id>. */
 import { getStore } from '@netlify/blobs';
 import { purgeCache } from '@netlify/functions';
 import { randomBytes } from 'node:crypto';
@@ -59,6 +66,30 @@ function check(post) {
   return [...new Set(errs)].slice(0, 10);
 }
 
+// Ache's script book: only the sets Nero touched, as { key: { lines: [{ t, off?, note? }], note? } }.
+// Lines are plain text (the site only ever puts them in textContent); the limits keep one save small.
+const LINE_KEY = /^[a-z0-9][a-z0-9-]{0,59}$/;
+function checkBook(book) {
+  if (!book || typeof book !== 'object' || !book.topics || typeof book.topics !== 'object') return 'no book';
+  const keys = Object.keys(book.topics);
+  if (keys.length > 200) return 'too many sets';
+  for (const k of keys) {
+    const t = book.topics[k];
+    if (!LINE_KEY.test(k) || !t || !Array.isArray(t.lines) || t.lines.length > 400) return 'set ' + k;
+    if (t.note != null && (typeof t.note !== 'string' || t.note.length > 2000)) return 'note on ' + k;
+    for (const l of t.lines) {
+      if (!l || typeof l.t !== 'string' || l.t.length > 400) return 'line in ' + k;
+      if (l.note != null && (typeof l.note !== 'string' || l.note.length > 1000)) return 'line note in ' + k;
+    }
+  }
+  return '';
+}
+// What the site reads: per set, the lines that aren't muted. A set with nothing left is skipped, so Ache keeps
+// the lines it had rather than going quiet.
+const bookLines = book => Object.fromEntries(Object.entries(book.topics)
+  .map(([k, t]) => [k, t.lines.filter(l => !l.off && l.t.trim()).map(l => l.t.trim().replace(/\s+/g, ' '))])
+  .filter(([, a]) => a.length));
+
 const live = (p, now = Date.now()) => p && !(p.publishAt && Date.parse(p.publishAt) > now);
 const hasScene = post => JSON.stringify(post.richContent || {}).includes('"type":"HTML"');
 const ownerOf = x => x && (x.post ? x.post.ownerId : x.ownerId);
@@ -74,7 +105,7 @@ async function editIndex(store, fn) {
   throw new Error('index busy');
 }
 
-export async function handle(req, { store, media, auth, purge = async () => { try { await purgeCache({ tags: ['content'] }) } catch (e) { console.log('purge', e.message) } } }) {
+export async function handle(req, { store, media, auth, purge = async (tags = ['content']) => { try { await purgeCache({ tags }) } catch (e) { console.log('purge', e.message) } } }) {
   const url = new URL(req.url);
   const parts = url.pathname.split('/').filter(Boolean).slice(1).map(decodeURIComponent); // drop "api"
   const [area, a, b] = parts;
@@ -92,6 +123,12 @@ export async function handle(req, { store, media, auth, purge = async () => { tr
     const m = await media.getWithMetadata(a, { type: 'arrayBuffer' });
     if (!m) return json({ error: 'not found' }, 404);
     return new Response(m.data, { headers: { 'Content-Type': m.metadata.type, 'Cache-Control': 'public, max-age=31536000, immutable', 'X-Content-Type-Options': 'nosniff', 'Content-Security-Policy': "default-src 'none'" } });
+  }
+
+  if (req.method === 'GET' && area === 'lines' && !a) {
+    const p = await store.get('lines/pub', { type: 'json' });
+    const cache = { ...CDN, 'Netlify-Cache-Tag': 'lines' };
+    return p ? json(p, 200, cache) : json({ error: 'none yet' }, 404, cache);
   }
 
   if (area !== 'admin') return json({ error: 'not found' }, 404);
@@ -125,6 +162,40 @@ export async function handle(req, { store, media, auth, purge = async () => { tr
       if (!['done', 'open', 'deleted'].includes(body.status)) return json({ error: 'status' }, 400);
       await store.setJSON('inbox/' + b, { ...cur, status: body.status, note: typeof body.note === 'string' ? body.note.slice(0, 1000) : cur.note, draft: typeof body.draft === 'string' ? body.draft.slice(0, 80) : cur.draft, doneAt: new Date().toISOString() });
       return json({ ok: true });
+    }
+    return json({ error: 'not found' }, 404);
+  }
+
+  // Ache's lines are Nero's alone
+  if (a === 'lines') {
+    // Claude may read them (Nero's notes are for Claude), never save
+    if (!can.manage(me.role) && !(me.role === 'claude' && req.method === 'GET')) return json({ error: 'Ache\'s lines are Nero\'s' }, 403);
+    if (req.method === 'GET' && !b) {
+      const [draft, published] = await Promise.all([store.get('lines/draft', { type: 'json', consistency: 'strong' }), store.get('lines/pub', { type: 'json', consistency: 'strong' })]);
+      return json({ draft, published });
+    }
+    if (req.method === 'GET' && b === 'versions') {
+      const { blobs } = await store.list({ prefix: 'lines-ver/' });
+      return json({ versions: blobs.map(x => x.key.slice(10)).sort().reverse().slice(0, 100) });
+    }
+    if (req.method === 'GET' && b === 'version' && parts[3]) {
+      const v = await store.get('lines-ver/' + parts[3], { type: 'json', consistency: 'strong' });
+      return v ? json(v) : json({ error: 'not found' }, 404);
+    }
+    if (req.method === 'PUT' && !b) {
+      const text = await req.text();
+      if (text.length > MAX_POST) return json({ error: 'too big' }, 413);
+      let body; try { body = JSON.parse(text) } catch (e) { return json({ error: 'body' }, 400) }
+      const err = checkBook(body && body.book);
+      if (err) return json({ error: 'invalid', details: [err] }, 400);
+      const now = new Date().toISOString(), book = { topics: body.book.topics, savedAt: now, by: me.login };
+      await store.setJSON('lines/draft', book);
+      await store.setJSON('lines-ver/' + now, { book, published: Boolean(body.publish) });
+      if (body.publish) {
+        await store.setJSON('lines/pub', { lines: bookLines(book), at: now });
+        await purge(['lines']);
+      }
+      return json({ ok: true, savedAt: now, published: Boolean(body.publish) });
     }
     return json({ error: 'not found' }, 404);
   }
@@ -221,6 +292,6 @@ export async function handle(req, { store, media, auth, purge = async () => { tr
 export default req => handle(req, { store: getStore('site-content'), media: getStore('site-media'), auth: getStore('admin-auth') });
 
 export const config = {
-  path: ['/api/content', '/api/content/*', '/api/media/*', '/api/admin/*'],
+  path: ['/api/content', '/api/content/*', '/api/media/*', '/api/lines', '/api/admin/*'],
   rateLimit: { windowLimit: 120, windowSize: 60, aggregateBy: ['ip', 'domain'] },
 };
