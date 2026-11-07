@@ -2,7 +2,7 @@
    Everything is on the page already; this only adds the play. */
 (() => {
   const $ = id => document.getElementById(id);
-  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === '2';
 
   // The name dial: one word per year, the slash in red
   const names = JSON.parse($('dial-data').textContent);
