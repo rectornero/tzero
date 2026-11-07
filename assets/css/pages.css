@@ -185,13 +185,13 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 .share+.post-foot{margin-top:24px}
 
 /* Homepage hero: tighter, so Latest shows above the fold (Nero 2026-11-06: "too much space wasted at the top") */
-.home .hero.hero2{padding-block:36px 104px}
+.home .hero.hero2{padding-block:28px 44px}
 .home .hero2 h1{margin-top:10px}
 .home .hero2 .motto{margin-top:18px}
-.home .board{min-height:330px}
-.home #latest{padding-top:36px}
-@media (max-width:760px){.home .board{min-height:290px}}
-@media (max-width:700px){.home .hero.hero2{padding-block:24px 84px}}
+.home .board{min-height:430px}
+.home #latest{padding-top:28px}
+@media (max-width:760px){.home .board{min-height:400px}}
+@media (max-width:700px){.home .hero.hero2{padding-block:20px 40px}}
 
 /* Hero polaroids = Ache's picks: tap to flip (note + link), pin to keep the spot */
 .polaroid.pick{background:none;padding:0;box-shadow:none;perspective:900px}
@@ -215,24 +215,38 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 @media (hover:none){.polaroid .pin{opacity:.9}}
 
 /* Homepage order (Nero 2026-11-07): Latest, then the story band (compact), then the tapes */
-.home #story{padding-block:8px 24px}
+.home #story{padding-block:0 24px}
 .home #sections{padding-top:32px}
-.home .story-band{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px;row-gap:4px;align-items:center;padding:22px clamp(20px,3vw,32px);padding-right:clamp(120px,14vw,170px)}
+.home .story-band{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:24px;row-gap:4px;align-items:center;padding:22px clamp(20px,3vw,32px);padding-right:clamp(120px,14vw,170px)}
 .home .story-band .tag,.home .story-band h3,.home .story-band p{grid-column:1}
 .home .story-band h3{font-size:clamp(26px,3.4vw,38px)}
 .home .story-band p{font-size:15px;max-width:60ch}
-.home .story-band .btn{grid-column:2;grid-row:1 / span 3;margin:0;white-space:nowrap}
+.home .story-band .btn{grid-column:2;grid-row:1 / span 3;justify-self:center;align-self:center;margin:0;white-space:nowrap}
 .home .band-saves{gap:6px;font-size:11px}
 .home .band-saves li::before{width:10px;height:10px}
-@media (max-width:760px){.home .story-band{grid-template-columns:minmax(0,1fr);padding-right:clamp(20px,3vw,32px)}.home .story-band .btn{grid-column:1;grid-row:auto;margin-top:8px}}
+@media (max-width:760px){.home .story-band{grid-template-columns:minmax(0,1fr);padding-right:clamp(20px,3vw,32px)}.home .story-band .btn{grid-column:1;grid-row:auto;justify-self:center;margin-top:10px}}
 @media (max-width:640px){.home .story-band{padding-top:112px}.home .story-band > .band-pic{height:160px}.home .story-band::before{background:linear-gradient(180deg,transparent 0,transparent 80px,var(--abyss) 155px)}}
 
-/* The tapes have faces: the newest piece's picture in the cassette window, its title as "Now playing", the track count */
-.cassette .window{position:relative;height:84px;margin:4px 0 2px;border-radius:8px;overflow:hidden;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px rgba(255,255,255,.18)}
-.cassette .window img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .3s,transform .6s}
-.cassette .window::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.35))}
-.cassette .window .reels{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;padding:0}
-.cassette:hover .window img{opacity:1;transform:scale(1.05)}
+/* The tapes have faces: the newest piece's picture is the tape's background (tinted by the tape colour), its title is "Now playing" */
+.cassette{position:relative;overflow:hidden}
+.cassette > *{position:relative;z-index:2}
+.cassette > .tape-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;opacity:.5;transition:opacity .4s,transform .8s}
+.cassette::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.45) 100%);pointer-events:none}
+.cassette .window{height:84px;margin:4px 0 2px}
+.cassette .window .reels{height:100%;display:flex;align-items:center;justify-content:center;padding:0}
+.cassette:hover > .tape-bg{opacity:.72;transform:scale(1.05)}
+.cassette .now em{text-shadow:0 1px 6px rgba(0,0,0,.5)}
 .cassette .now{display:flex;flex-direction:column;gap:2px;margin-top:6px}
 .cassette .now span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
 .cassette .now em{font-style:normal;font-weight:600;font-size:14.5px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Hero, bottom left (Nero 2026-11-07: "?"): quick ways in instead of the old cover-story line */
+.hero-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:22px;font-family:var(--mono);font-size:13px}
+.hero-links span{margin-right:4px;color:var(--soft);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+.hero-links a{padding:7px 14px;border-radius:99px;background:rgba(255,253,246,.7);border:1px solid color-mix(in srgb,var(--b2) 35%,transparent);color:var(--ink);transition:border-color .2s,color .2s,transform .2s}
+.hero-links a:hover{border-color:var(--red);color:var(--red);transform:translateY(-1px)}
+.home .hero2 .sub{margin-top:4px}
+/* Three polaroids need room: a slightly smaller title on the homepage so the board never covers the Ø */
+.home .hero2{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.home .hero2 h1{font-size:clamp(70px,15vw,196px)}
+@media (max-width:860px){.home .hero2{grid-template-columns:minmax(0,1fr)}}

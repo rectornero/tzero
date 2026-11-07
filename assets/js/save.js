@@ -230,7 +230,7 @@
       const board = document.querySelector('.board'), pol = board && board.querySelector('.polaroid');
       if (pol) {
         // first in the board, so the photo (positioned later in the page) covers it
-        const b = spot('polaroid', board, { right: 'calc(30% + 40px)', top: '18%' }, 'A sticker stuck to the board');
+        const b = spot('polaroid', board, { left: '50px', top: '18%' }, 'A sticker stuck to the board');
         if (b) { b.classList.add('under'); board.prepend(b) }
       }
     }
