@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/assets/css/pages.css">
 <link rel="stylesheet" href="/assets/css/characters.css">
 <title>Characters Across Worlds | TZERØ</title>
-<meta name="description" content="Characters from every Artache game, with spoiler-free data sheets and crossover meetings. Ache runs a star shop that teaches how gacha takes your money and time, then breaks it, and the characters scatter across the site for you to find.">
+<meta name="description" content="Characters from every Artache game, with spoiler-free data sheets and crossover meetings. Ache runs a star shop that teaches how gacha takes your money and time, then breaks it, and the characters go home behind secret doors across the site.">
 <link rel="canonical" href="https://tzero.live/characters">
 <meta property="og:title" content="Characters Across Worlds">
 <meta property="og:description" content="Ache tried to sell you stars. Then he broke the machine. Now go find them.">
@@ -96,14 +96,26 @@
     <p class="note rewatch" id="rewatch-row"><button type="button" class="linkish" id="rewatch">↺ Start the lesson over</button> <span id="rewatch-msg">Back to page 1 of Ache's shop. Your characters and stickers stay.</span></p>
   </section>
 
+  <section id="room" class="room" hidden aria-labelledby="room-name">
+    <p class="room-back"><a href="/characters#journey">← All characters</a></p>
+    <div class="room-stage" id="room-stage"></div>
+    <div class="room-box">
+      <div class="room-head"><span class="tag" id="room-world"></span><h2 id="room-name"></h2></div>
+      <div class="room-talk" id="room-talk" aria-live="polite"></div>
+      <div class="room-opts" id="room-opts"></div>
+      <div class="room-acts" id="room-acts"></div>
+      <div class="room-thread" id="room-thread"></div>
+    </div>
+  </section>
+
   <section id="journey" class="journey" hidden>
     <h2>The real journey <small id="journey-count"></small></h2>
-    <p class="journey-intro">The machine is gone. Its characters are hiding all over the site, each in places that belong to their world. Find a character and they follow you here. Every find is a copy: the second shows their notes, the third a quote, the fourth a secret outfit. Nothing expires, nothing costs, nothing is random.</p>
+    <p class="journey-intro">The machine is gone. Its characters went home, each behind a secret door somewhere on the site, in a page that belongs to their world. Look for a small door with light underneath. It leads to their room: talk with them, do something together, bring them a keepsake you found, and they open up to you. Talk some more and they show you a secret outfit. Nothing expires, nothing costs, nothing is random.</p>
     <div class="recent" id="recent"></div>
     <div class="shelf" id="shelf"></div>
 
     <h2 id="bonds">Crossover meetings <small>two worlds, one table</small></h2>
-    <p class="note">When two characters from different worlds are both on your shelf, they can meet. Find the right keepsake and they say one more thing.</p>
+    <p class="note">When two characters from different worlds are both unlocked, they can meet. Find the right keepsake and they say one more thing.</p>
     <div class="bonds">
       <svg class="web" id="web" viewBox="0 0 400 400" role="img" aria-label="Who has met whom"></svg>
       <ol class="meet-list" id="meet-list"></ol>
@@ -114,13 +126,13 @@
     <p class="note"><button type="button" class="linkish" id="replay">↺ Rewatch Ache's lesson</button> (he'll sell you everything again, then break it again)</p>
   </section>
 
-  <p class="note credits">Banner art: GPT redraws of each game's official art, made for this page. AI◆ICE is in development: cards, box and art will change. DeadenD's characters use their new 2026 designs. Overgame's Vesper Kade is an invented demo player. Final Fantasy, Mass Effect, Fire Emblem and Pokémon belong to their owners and are named here with love; the videos are the publishers' own uploads, except the Radiant Dawn opening (a fan upload, since Nintendo never posted it), and load from YouTube only when you press play. Your collection lives in this browser's save file, next to Ache's scrapbook.</p>
+  <p class="note credits">Banner art: GPT redraws of each game's official art, made for this page. The secret doors and rooms are GPT pictures made for this page too. AI◆ICE is in development: cards, box and art will change. DeadenD's characters use their new 2026 designs. Overgame's Vesper Kade is an invented demo player. Final Fantasy, Mass Effect, Fire Emblem and Pokémon belong to their owners and are named here with love; the videos are the publishers' own uploads, except the Radiant Dawn opening (a fan upload, since Nintendo never posted it), and load from YouTube only when you press play. Your collection lives in this browser's save file, next to Ache's scrapbook.</p>
 </div></div>
 
 <dialog class="sheet" id="sheet"><div class="sheet-in" id="sheet-in"></div></dialog>
 
 <footer id="publisher"><div class="wrap">
-  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. For People. AI opens paths. We thread the best.</div>
   <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
 </div></footer>
 <script src="/assets/js/scene.js" defer></script>

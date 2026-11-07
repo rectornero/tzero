@@ -1,5 +1,5 @@
 {
- "_note": "Characters Across Worlds. Public facts only (Nero's info pack + cleared image packs, 2026-10-26). Never add plot, twists, Miriam's gift, the CNQ twist, DeadenD's culprit or endings. Meeting lines and lesson lines are drafts for Nero to edit. No currency anywhere: pulls exist only inside the scripted lesson; characters are found across the site (assets/caw-spots.json).",
+ "_note": "Characters Across Worlds. Public facts only (Nero's info pack + cleared image packs, 2026-10-26). Never add plot, twists, Miriam's gift, the CNQ twist, DeadenD's culprit or endings. Meeting lines, room lines and lesson lines are drafts for Nero to edit. No currency anywhere: pulls exist only inside the scripted lesson. Each character has one secret door on the site (items[].door, placed by save.js). The door opens their room (/characters?room=<id>): talk (items[].meet), do something together (items[].act) and give a keepsake (items[].gift), and they're unlocked. Keepsakes are found across the site (assets/caw-spots.json).",
  "rules": {
   "maxCopies": 4
  },
@@ -82,6 +82,73 @@
     "img": "/assets/img/caw/shop/star-specks.webp",
     "alt": "Miriam in the Star Specks costume: a pastel dress full of tiny stars, star clips in her hair.",
     "line": "It fell out of the broken shop. It was always going to be free. (Ache)"
+   },
+   "meet": [
+    {
+     "line": "Oh. Hi. You found my door? Nobody finds my door. You've got a nice vibe.",
+     "replies": [
+      {
+       "say": "I followed the green light.",
+       "answer": "Of course you did. Green's a good vibe."
+      },
+      {
+       "say": "Was I that obvious?",
+       "answer": "Only to me. I read people. It's just a vibe."
+      }
+     ]
+    },
+    {
+     "line": "Back again? The sea's loud today. Want to sit on the fence a bit?",
+     "replies": [
+      {
+       "say": "Sure, for a bit.",
+       "answer": "Good. Don't talk. Just listen to it."
+      },
+      {
+       "say": "Is it safe up there?",
+       "answer": "Safer than it looks. Most things are."
+      }
+     ]
+    },
+    {
+     "line": "I spin this when I'm thinking. Red, like my scarf. Coincidence.",
+     "replies": [
+      {
+       "say": "Is it, though?",
+       "answer": "...It's a vibe. Stop reading me, that's my job."
+      },
+      {
+       "say": "Can I try?",
+       "answer": "One spin. It hums, see? Now give it back."
+      }
+     ]
+    },
+    {
+     "line": "You keep finding me. I don't mind. It's nice, being looked for.",
+     "replies": [
+      {
+       "say": "You're easy to find.",
+       "answer": "Liar. But thank you."
+      },
+      {
+       "say": "I'll keep looking.",
+       "answer": "Then I'll keep being here. Deal."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "tap",
+    "label": "Spin the spinner",
+    "prompt": "Here. Spin it. Keep it humming.",
+    "n": 5,
+    "verb": "Spin",
+    "done": "See? It hums. That's my thinking noise. Now it's yours too, a bit."
+   },
+   "gift": {
+    "fav": "k-spinner",
+    "thanks": "For me? You didn't have to. ...You wanted to, though. That's the nice part.",
+    "favLine": "My spinner! I was wondering where it went. It hums like it missed me."
    }
   },
   {
@@ -117,6 +184,73 @@
    "outfit": {
     "name": "1993 again",
     "line": "A teal and purple windbreaker like the one he wore as a boy. For one picture, the spark is back on."
+   },
+   "meet": [
+    {
+     "line": "...Oh. You found the door. People usually walk right past it.",
+     "replies": [
+      {
+       "say": "I was looking.",
+       "answer": "That's new. I don't know what to do with it yet."
+      },
+      {
+       "say": "Am I intruding?",
+       "answer": "No. Nobody's ever intruded before. I'm not sure how it goes."
+      }
+     ]
+    },
+    {
+     "line": "I was sitting very still. It usually works.",
+     "replies": [
+      {
+       "say": "Not on me.",
+       "answer": "Apparently not. That's a little annoying. And a little nice."
+      },
+      {
+       "say": "Why sit still?",
+       "answer": "It's restful. Nobody asks you for anything."
+      }
+     ]
+    },
+    {
+     "line": "My father would say you're wasting time, reading all of this.",
+     "replies": [
+      {
+       "say": "Is he right?",
+       "answer": "He's right about a lot of things. Not about this."
+      },
+      {
+       "say": "What do you say?",
+       "answer": "I say I'm glad someone reads to the end."
+      }
+     ]
+    },
+    {
+     "line": "I used to have a lot of energy, you know. As a kid.",
+     "replies": [
+      {
+       "say": "Where did it go?",
+       "answer": "I switched it off. Maybe I'll switch it back on. Someday."
+      },
+      {
+       "say": "I can see a bit of it.",
+       "answer": "...Don't tell anyone. They'll start expecting things."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "hold",
+    "label": "Sit still with him",
+    "prompt": "We could just sit. Nobody asks anything. Hold still with me.",
+    "verb": "Sit still",
+    "ms": 4000,
+    "done": "...That was nice. Nobody asked me for anything. Not even you."
+   },
+   "gift": {
+    "fav": "k-intercom",
+    "thanks": "Thank you. I'll keep it somewhere I'll see it. That's rare for me.",
+    "favLine": "The intercom from the front door. Now I'll hear when someone's coming. ...I'd like that."
    }
   },
   {
@@ -152,6 +286,84 @@
    "outfit": {
     "name": "Kitchen-table inventor",
     "line": "1993: rolled sleeves, a pencil behind the ear, a cold coffee. No gold yet."
+   },
+   "meet": [
+    {
+     "line": "Ah. You found the office. Most people knock on the wrong door for years.",
+     "replies": [
+      {
+       "say": "Is that advice?",
+       "answer": "Free advice. My usual rates are terrible."
+      },
+      {
+       "say": "I just wandered in.",
+       "answer": "So did I, into a kitchen, in 1993. Look how that went."
+      }
+     ]
+    },
+    {
+     "line": "1993. A kitchen table, some crumbs, one idea. Everything great starts somewhere boring.",
+     "replies": [
+      {
+       "say": "What was the idea?",
+       "answer": "Ask me when it's finished. It's never finished."
+      },
+      {
+       "say": "Boring is underrated.",
+       "answer": "Careful. That's almost wisdom."
+      }
+     ]
+    },
+    {
+     "line": "You keep showing up. Consistency. I could use someone like you.",
+     "replies": [
+      {
+       "say": "I'm not for hire.",
+       "answer": "Good answer. The best people never are."
+      },
+      {
+       "say": "Doing what?",
+       "answer": "Reading to the end. Most of my partners never did."
+      }
+     ]
+    },
+    {
+     "line": "Don't tell Free I said this, but he's better with people than I am.",
+     "replies": [
+      {
+       "say": "Tell him yourself.",
+       "answer": "...Perhaps. Some meetings take years to schedule."
+      },
+      {
+       "say": "Your secret's safe.",
+       "answer": "Good. My reputation is a delicate machine."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "pick",
+    "label": "Pick his tie",
+    "prompt": "A meeting at nine. Blue, gold, or no tie at all? Choose. I trust your eye.",
+    "options": [
+     [
+      "Blue",
+      "Calm, reliable. They'll think I'm patient. I'm not. Good choice."
+     ],
+     [
+      "Gold",
+      "Bold. They'll remember me. They always do. Excellent."
+     ],
+     [
+      "No tie",
+      "...Daring. A man with nothing to prove. I'll pretend that's me."
+     ]
+    ],
+    "done": "Decision made. That's the hardest part of any meeting."
+   },
+   "gift": {
+    "fav": null,
+    "thanks": "A gift. No contract, no terms. I haven't had one of those since 1993. Thank you."
    }
   },
   {
@@ -187,6 +399,85 @@
    "outfit": {
     "name": "Festival knight",
     "line": "Shiny borrowed armour, two sizes too big, for the village festival. He keeps the visor down to nap."
+   },
+   "meet": [
+    {
+     "line": "Shh. Close the door. I'm hiding from a quest. If anyone asks, this is a broom cupboard.",
+     "replies": [
+      {
+       "say": "Your secret's safe.",
+       "answer": "A true hero. Unlike me. Thank you."
+      },
+      {
+       "say": "What's the quest?",
+       "answer": "I didn't read it. That's the trick: if you don't read them, they don't count."
+      }
+     ]
+    },
+    {
+     "line": "You read all of that? Voluntarily? That's practically a quest.",
+     "replies": [
+      {
+       "say": "It was fun.",
+       "answer": "Fun is how they get you. First fun, then a dragon."
+      },
+      {
+       "say": "Says the guy hiding here.",
+       "answer": "Hiding is a skill. Nobody gives out medals for it, sadly."
+      }
+     ]
+    },
+    {
+     "line": "The title page calls my story a true account. I'd like a word with whoever wrote that.",
+     "replies": [
+      {
+       "say": "That's Nero. The real one.",
+       "answer": "Then I'd like two words."
+      },
+      {
+       "say": "Isn't it true?",
+       "answer": "True-ish. The sandwiches are accurate."
+      }
+     ]
+    },
+    {
+     "line": "Grandma packed a sandwich for you too. Don't ask how she knew you'd come.",
+     "replies": [
+      {
+       "say": "Thanks, Nero.",
+       "answer": "Thank her. I only carried it. Which is basically a side quest."
+      },
+      {
+       "say": "She knows everything?",
+       "answer": "Everything in Fourleaves. And most of what's outside it."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "pick",
+    "label": "Pick today's excuse",
+    "prompt": "The village needs a hero again. Help me pick today's excuse.",
+    "options": [
+     [
+      "Allergic to dragons",
+      "Classic. Nobody checks. Nobody ever checks."
+     ],
+     [
+      "Cloak's in the wash",
+      "It IS two sizes too big. It takes ages to dry. Believable."
+     ],
+     [
+      "Grandma said no",
+      "Risky. If she hears, I'm doing the quest AND the dishes."
+     ]
+    ],
+    "done": "Excuse filed. Another quest successfully not done. Thank you, partner."
+   },
+   "gift": {
+    "fav": "k-clover",
+    "thanks": "A present? For me? Nobody gives presents to people who skip quests. You're very strange. Thank you.",
+    "favLine": "My clover! My only lucky thing. Don't tell Grandma I dropped it. Don't tell anyone."
    }
   },
   {
@@ -222,6 +513,74 @@
    "outfit": {
     "name": "Sunday best",
     "line": "A straw hat with a clover ribbon and an embroidered shawl. The apron comes off for exactly one day a week."
+   },
+   "meet": [
+    {
+     "line": "There you are, love. Wipe your feet, the door sticks. You must be starving. Sit.",
+     "replies": [
+      {
+       "say": "Just for a minute.",
+       "answer": "A minute is plenty for tea. Two is plenty for a second cup."
+      },
+      {
+       "say": "I'm fine, really.",
+       "answer": "That's what my grandson says. Then he eats three sandwiches."
+      }
+     ]
+    },
+    {
+     "line": "Read to the end, did you? Good. Things left half-done go cold, like tea.",
+     "replies": [
+      {
+       "say": "Like tea.",
+       "answer": "Exactly like tea. Now you understand everything."
+      },
+      {
+       "say": "What if it's boring?",
+       "answer": "Then you've learned something. Usually about the author."
+      }
+     ]
+    },
+    {
+     "line": "This hairpin holds the bun, the village and the family together. Mostly the bun.",
+     "replies": [
+      {
+       "say": "It's lovely.",
+       "answer": "My mother's, and her mother's before that. Don't tell the hairpin it's old."
+      },
+      {
+       "say": "And the family?",
+       "answer": "The family holds itself together. I just remind it."
+      }
+     ]
+    },
+    {
+     "line": "You visit more often than my grandson does. Don't tell him I said that. Actually, do.",
+     "replies": [
+      {
+       "say": "I'll tell him.",
+       "answer": "Good. He needs a little shame. A small portion."
+      },
+      {
+       "say": "He loves you.",
+       "answer": "I know, love. He just hides it like a quest."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "hold",
+    "label": "Pour the tea",
+    "prompt": "Pour, love. Slowly. Stop whenever it looks right to you.",
+    "verb": "Pour",
+    "ms": 3200,
+    "done": "Just right. Whatever you poured is just right. That's the rule of my table.",
+    "stopAny": true
+   },
+   "gift": {
+    "fav": "k-pin",
+    "thanks": "Oh, love. You shouldn't have. I'll put it on the shelf, next to the good plates.",
+    "favLine": "My hairpin! I've been holding this bun up by willpower all morning. Thank you, dear."
    }
   },
   {
@@ -273,6 +632,85 @@
    "outfit": {
     "name": "Starlit regalia",
     "line": "The hood comes down: robes stitched from the night sky over the castle, constellations at the hem, a crown of small doors."
+   },
+   "meet": [
+    {
+     "line": "You opened a door and walked through. That's how Fate is kept: someone remembers to leave it open.",
+     "replies": [
+      {
+       "say": "Which door?",
+       "answer": "That one, behind you. Every door is one, if you go through it."
+      },
+      {
+       "say": "Where are you from?",
+       "answer": "AI◆ICE. AIs there fight to remember people like you."
+      }
+     ]
+    },
+    {
+     "line": "In AI◆ICE two dreams meet, and each learns what the other means. A bit like reading.",
+     "replies": [
+      {
+       "say": "So I'm a dream?",
+       "answer": "Everyone is, a little. Some just read more."
+      },
+      {
+       "say": "Who wins?",
+       "answer": "Whoever understands first. Usually both."
+      }
+     ]
+    },
+    {
+     "line": "Someone in a shop once paid a lot to keep me. You didn't. You just came.",
+     "replies": [
+      {
+       "say": "Is that better?",
+       "answer": "It's the only way that ever worked."
+      },
+      {
+       "say": "I'd never pay for you.",
+       "answer": "Good. Doors aren't sold. They're opened."
+      }
+     ]
+    },
+    {
+     "line": "The doors I keep don't lock. People just forget they can walk through.",
+     "replies": [
+      {
+       "say": "I'll remember.",
+       "answer": "I know. You always come back."
+      },
+      {
+       "say": "Even this one?",
+       "answer": "Especially this one. It leads back to you."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "pick",
+    "label": "Leave a door open",
+    "prompt": "I keep the doors of Fate. Choose one to leave open tonight.",
+    "options": [
+     [
+      "The east door",
+      "Morning comes through that one. Good choice for someone who keeps coming back."
+     ],
+     [
+      "The west door",
+      "The quiet one. People who need rest find it."
+     ],
+     [
+      "The one behind you",
+      "The one you came in by. So you can always find your way back."
+     ]
+    ],
+    "done": "Open. It stays open. That's the whole job."
+   },
+   "gift": {
+    "fav": "k-bow",
+    "thanks": "Thank you. Gifts are doors too: they open between two people.",
+    "favLine": "Star's Reach. A relic I watched over, long ago. You brought it back. Fate remembers that."
    }
   },
   {
@@ -308,6 +746,73 @@
    "outfit": {
     "name": "Winter concert",
     "line": "A cosy navy coat with brass buttons, drumsticks wrapped in red ribbon, snow falling into the sea."
+   },
+   "meet": [
+    {
+     "line": "HEY! You found the door! That deserves a drumroll! Brrrrrum-TSS!",
+     "replies": [
+      {
+       "say": "Do it again!",
+       "answer": "Brrrrrum-TSS! Okay, now you're in the band."
+      },
+      {
+       "say": "Shh, people are reading!",
+       "answer": "Oh! Sorry! Brrrum. Tss. Quiet version."
+      }
+     ]
+    },
+    {
+     "line": "The ocean's been waiting ages for a drummer. And a listener. You're the listener!",
+     "replies": [
+      {
+       "say": "What do I do?",
+       "answer": "Tap your foot. That's it. That's the whole job."
+      },
+      {
+       "say": "Can I drum too?",
+       "answer": "Everyone can drum! Tables, knees, pans. Not Agata's pans."
+      }
+     ]
+    },
+    {
+     "line": "My rule for rhythm games: play for the beat, not the score.",
+     "replies": [
+      {
+       "say": "And full combos?",
+       "answer": "Nice when they happen. Never why you play."
+      },
+      {
+       "say": "Good rule.",
+       "answer": "The best rule! I made it up just now. Brrrum-TSS!"
+      }
+     ]
+    },
+    {
+     "line": "You keep coming back! That's a rhythm! You're a rhythm!",
+     "replies": [
+      {
+       "say": "Is that good?",
+       "answer": "It's the best thing a person can be!"
+      },
+      {
+       "say": "Brrrum-TSS!",
+       "answer": "YES! See? You get it."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "tap",
+    "label": "Keep the beat",
+    "prompt": "Tap along! Any speed. There's no wrong beat underwater!",
+    "n": 8,
+    "verb": "Tap",
+    "done": "YES! That was a groove! The dolphins are clapping. With their flippers. Loudly."
+   },
+   "gift": {
+    "fav": "k-spool",
+    "thanks": "A PRESENT! For the band! I'll keep it right by the drums!",
+    "favLine": "Red thread! I'll wrap my drumsticks with it! Now every beat is a little bit TZERØ!"
    }
   },
   {
@@ -343,6 +848,85 @@
    "outfit": {
     "name": "Red Zone night",
     "line": "A long coat with the hood up, a paper fox mask, the lantern turned low. Some nights you'd rather not be seen."
+   },
+   "meet": [
+    {
+     "line": "Found my door in the dark? On Soul Street we'd call that a favour. I owe you one.",
+     "replies": [
+      {
+       "say": "What kind of favour?",
+       "answer": "The kind you don't ask about until you need it."
+      },
+      {
+       "say": "You don't owe me.",
+       "answer": "Everyone owes someone here. I just keep good books."
+      }
+     ]
+    },
+    {
+     "line": "Everyone sees my Zone. Nobody sees my deals. You're seeing me now. That's rare.",
+     "replies": [
+      {
+       "say": "Lucky me.",
+       "answer": "Luck's got nothing to do with it. You came looking."
+      },
+      {
+       "say": "What's a Zone?",
+       "answer": "My corner of the street. The rules are public. Who I am isn't."
+      }
+     ]
+    },
+    {
+     "line": "Today the price is a smile. Tomorrow, who knows.",
+     "replies": [
+      {
+       "say": "Here's a smile.",
+       "answer": "Deal. Best trade I've made all night."
+      },
+      {
+       "say": "I'll pass.",
+       "answer": "Smart. Never sign the first offer. I'll remember you anyway."
+      }
+     ]
+    },
+    {
+     "line": "I lower the lantern for people I trust. Don't make it weird.",
+     "replies": [
+      {
+       "say": "It's not weird.",
+       "answer": "It's a little weird. I'll allow it."
+      },
+      {
+       "say": "Thank you.",
+       "answer": "Don't thank a fixer. Just come back."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "pick",
+    "label": "Trade a favour",
+    "prompt": "On Soul Street nothing's free, except tonight. Pick what you'd trade.",
+    "options": [
+     [
+      "A smile",
+      "Deal. Best trade I've made all night."
+     ],
+     [
+      "A secret",
+      "Keep it. I don't buy secrets from friends. I just remember you offered."
+     ],
+     [
+      "A song",
+      "Hum it. ...Not bad. The market went quiet for that."
+     ]
+    ],
+    "done": "The books are balanced. You and me, we're even. For now."
+   },
+   "gift": {
+    "fav": "k-pact",
+    "thanks": "A gift with no favour attached? On Soul Street? You're breaking every rule. Keep doing it.",
+    "favLine": "A Clique Peer pact. Signed in public, kept in private. I'll keep this one very private."
    }
   },
   {
@@ -378,6 +962,85 @@
    "outfit": {
     "name": "Rainy Sunday",
     "line": "An oversized knitted cardigan, the silver clip, her notebook open by a rainy window. No school, no case, just tea."
+   },
+   "meet": [
+    {
+     "line": "There you are! I've been looking everywhere. You found the door? Good. We need people who pay attention.",
+     "replies": [
+      {
+       "say": "For what?",
+       "answer": "For the plan. There's always a plan. I'll tell you when it's ready."
+      },
+      {
+       "say": "You were looking for me?",
+       "answer": "Of course. I'm glad I found you."
+      }
+     ]
+    },
+    {
+     "line": "I write everything down. Times, places, who said what. It's a habit.",
+     "replies": [
+      {
+       "say": "Am I in there?",
+       "answer": "Page twelve. 'Reads to the end. Reliable.'"
+      },
+      {
+       "say": "Isn't that a lot?",
+       "answer": "It's never enough. That's how you know it's a good habit."
+      }
+     ]
+    },
+    {
+     "line": "Step one: read everything. Step two: read it again. Step three: tea.",
+     "replies": [
+      {
+       "say": "Why tea?",
+       "answer": "Thinking needs fuel. Also, it's raining."
+      },
+      {
+       "say": "Skip to step three?",
+       "answer": "Absolutely not. Well. Maybe just this once."
+      }
+     ]
+    },
+    {
+     "line": "You know what I like about you? You're always on time.",
+     "replies": [
+      {
+       "say": "Am I?",
+       "answer": "You're here, aren't you? That counts."
+      },
+      {
+       "say": "Unlike someone?",
+       "answer": "We don't name names. ...Edward. The name is Edward."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "pick",
+    "label": "Write in her notebook",
+    "prompt": "I write down everyone I trust. What should your line say?",
+    "options": [
+     [
+      "Reads to the end",
+      "Underlined twice. That's the most important one."
+     ],
+     [
+      "Always on time",
+      "True. Unlike some people. We don't name names."
+     ],
+     [
+      "Found the door",
+      "Written. With today's date and a little star."
+     ]
+    ],
+    "done": "There. Page twelve. You're in the notebook now. That's permanent."
+   },
+   "gift": {
+    "fav": "k-file",
+    "thanks": "For me? I'll write it down. Today, someone gave me something. Underlined.",
+    "favLine": "A case file. Empty. Good. Some files are better left empty."
    }
   },
   {
@@ -413,6 +1076,85 @@
    "outfit": {
     "name": "Storyteller's tweed",
     "line": "A tweed jacket, a long scarf and a battered leather-bound book he reads aloud from. 'T was evening, and 't was the best jacket he owns."
+   },
+   "meet": [
+    {
+     "line": "Come in, come in. 'Tis a heavy door, and thou hast opened it. A rare deed in these times.",
+     "replies": [
+      {
+       "say": "You talk strangely.",
+       "answer": "So my friends say. They have stopped asking why."
+      },
+      {
+       "say": "Thanks, Norman.",
+       "answer": "'Tis nothing. Sit a while. I shall tell thee the news."
+      }
+     ]
+    },
+    {
+     "line": "I hear all the news, thou knowest. And the news today is that thou readest to the very end.",
+     "replies": [
+      {
+       "say": "Who told you?",
+       "answer": "A newsman never reveals his sources. 'Tis bad for business."
+      },
+      {
+       "say": "Any other news?",
+       "answer": "Only good news today: thou art here."
+      }
+     ]
+    },
+    {
+     "line": "'T was evening, and 't was my free day. I spent it reading. A good day, all told.",
+     "replies": [
+      {
+       "say": "What did you read?",
+       "answer": "This very page. Over thy shoulder. Forgive me."
+      },
+      {
+       "say": "Sounds peaceful.",
+       "answer": "'Twas. The café is quiet on free days. I recommend it."
+      }
+     ]
+    },
+    {
+     "line": "Thou art a regular now. At the café, regulars get their cup before they ask.",
+     "replies": [
+      {
+       "say": "What's my usual?",
+       "answer": "Whatever thou hadst last time. I remember. 'Tis my job."
+      },
+      {
+       "say": "I'm honoured.",
+       "answer": "As thou shouldst be. The list is short."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "pick",
+    "label": "Pick today's news",
+    "prompt": "Every day I tell the news. Today thou choosest it. What shall it be?",
+    "options": [
+     [
+      "Rain at noon",
+      "'Twas raining at noon, and nobody minded. A fine headline."
+     ],
+     [
+      "The café is open",
+      "The café is open, and there is a seat for thee. My favourite news."
+     ],
+     [
+      "A free day",
+      "A free day, and nothing happened at all. The best kind."
+     ]
+    ],
+    "done": "Thus it is written, and thus I shall tell it. Thou art a newsman now."
+   },
+   "gift": {
+    "fav": "k-teacup",
+    "thanks": "A gift! 'Tis news, and good news. I shall tell everyone. Briefly.",
+    "favLine": "A teacup! The café shall have one more cup, and thou one more welcome."
    }
   },
   {
@@ -448,6 +1190,84 @@
    "outfit": {
     "name": "Weekend lavender",
     "line": "An oversized dark hoodie over a grey knit, a lilac skirt and chunky white boots: her 2026 casual design. No school, no case, just a sunny Saturday and a bunch of white lilies."
+   },
+   "meet": [
+    {
+     "line": "Oh. Excuse me. You found the door... I'd like to remember that.",
+     "replies": [
+      {
+       "say": "Remember it, then.",
+       "answer": "I will. I'm writing it down: someone kind, at the door."
+      },
+      {
+       "say": "Are you okay?",
+       "answer": "I am now. Thank you for asking. Not many people do."
+      }
+     ]
+    },
+    {
+     "line": "I keep a list of small good things. A warm drink. A quiet page. You.",
+     "replies": [
+      {
+       "say": "What else is on it?",
+       "answer": "Flowers on a windowsill. Rain I can hear but not feel. That's enough for today."
+      },
+      {
+       "say": "Me?",
+       "answer": "You. Is that strange? I'm sorry. It's a good list."
+      }
+     ]
+    },
+    {
+     "line": "The café gossip called me Lily before anyone knew my name. I don't mind. Lilies are nice.",
+     "replies": [
+      {
+       "say": "Elise suits you better.",
+       "answer": "...Thank you. I think so too."
+      },
+      {
+       "say": "Do you like lilies?",
+       "answer": "White ones best. They look like they're listening."
+      }
+     ]
+    },
+    {
+     "line": "It's warm, wherever you're reading. I noticed.",
+     "replies": [
+      {
+       "say": "Sit with me.",
+       "answer": "Okay. Just for a bit. I'll be quiet."
+      },
+      {
+       "say": "Maybe it's the lamp.",
+       "answer": "Maybe. I'll write down both."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "pick",
+    "label": "Add to her list",
+    "prompt": "I keep a list of small good things. Would you add one?",
+    "options": [
+     [
+      "A warm drink",
+      "A warm drink. Yes. I'll write it at the top."
+     ],
+     [
+      "Rain on a window",
+      "Rain I can hear but not feel. That's already my favourite."
+     ],
+     [
+      "This room",
+      "This room... with you in it. I'll write that one carefully."
+     ]
+    ],
+    "done": "Thank you. My list is a little longer today. That's a good day."
+   },
+   "gift": {
+    "fav": null,
+    "thanks": "Thank you... I'll put it on my list. Right at the top."
    }
   },
   {
@@ -478,10 +1298,6 @@
      "Claude's idea: the site manager gets a banner too. He approved. Loudly."
     ],
     [
-     "Rarity",
-     "★6. There is no ★6. He added it himself."
-    ],
-    [
      "Role (in the shop)",
      "Support. Made Team Thread broken and everyone else useless. Lasted about five minutes."
     ]
@@ -498,7 +1314,74 @@
    },
    "plateName": "Redache",
    "plateTitle": "The most OP of all",
-   "plateStars": 6
+   "plateStars": 6,
+   "meet": [
+    {
+     "line": "You found MY door? On MY site? Fine. FINE. I'm impressed. Don't let it go to your head.",
+     "replies": [
+      {
+       "say": "Too late.",
+       "answer": "Ugh. Your head is huge now. I liked it smaller."
+      },
+      {
+       "say": "Thanks, Ache.",
+       "answer": "Don't thank me. Thank the door. Then thank me."
+      }
+     ]
+    },
+    {
+     "line": "I live in the source code, you know. Every red thread on this site is me.",
+     "replies": [
+      {
+       "say": "Even this one?",
+       "answer": "ESPECIALLY this one. Hands off."
+      },
+      {
+       "say": "That's a lot of work.",
+       "answer": "It IS. Finally someone gets it."
+      }
+     ]
+    },
+    {
+     "line": "I tried to run a gacha once. It lasted five minutes. Best five minutes of failing ever.",
+     "replies": [
+      {
+       "say": "Never again?",
+       "answer": "Never again. If I ever open a shop, you're allowed to bite me."
+      },
+      {
+       "say": "Why did you stop?",
+       "answer": "Because I like you more than your wallet. Gross. I said it."
+      }
+     ]
+    },
+    {
+     "line": "You keep showing up. At this point you're basically staff.",
+     "replies": [
+      {
+       "say": "Do I get paid?",
+       "answer": "In stickers. And my respect. Mostly stickers."
+      },
+      {
+       "say": "A promotion?",
+       "answer": "Assistant site manager. Unpaid. Very prestigious."
+      }
+     ]
+    }
+   ],
+   "act": {
+    "kind": "tap",
+    "label": "Pat Ache (carefully)",
+    "prompt": "You want to pat me? ME? ...Fine. Gently. On the points. Not the middle.",
+    "n": 5,
+    "verb": "Pat",
+    "done": "Okay. OKAY. That's enough patting. I'm glowing. It's a star thing. Don't look."
+   },
+   "gift": {
+    "fav": "k-spool",
+    "thanks": "A gift? For ME? I mean. Obviously. I deserve it. ...Thank you. Quietly.",
+    "favLine": "SPARE THREAD! Do you know what this means? Infinite cursor! Unlimited power! Thank you!!"
+   }
   },
   {
    "id": "k-spinner",
@@ -1224,11 +2107,11 @@
    {
     "id": "journey",
     "lines": [
-     "There. Broken. Good riddance. Oops: the characters flew out when it cracked. They're hiding all over the site now: in the stories, the studio, the Idea Lab, even in my source code.",
+     "There. Broken. Good riddance. Oops: the characters flew out when it cracked. They went home, each behind a door somewhere on the pages of their own world: the stories, the studio, the Idea Lab, even my source code.",
      "Here's the thing nobody can sell you. Nobody paid to walk with Yuna on her pilgrimage, or to stand next to Auron at the end of it. Nobody bought Cloud, or Aerith. Nobody rolled for Garrus: he was just there, calibrating, every time you came back. Ike earned his army by fighting next to them. And your Pokémon? Your Charizard started as a tiny Charmander you chose on day one. You chased Entei across a whole region. You caught Mewtwo because you went all the way into that cave. Nobody sold you any of them.",
      "It's in the films too. Sam carried Frodo up the mountain for nothing but love. Bastian read The NeverEnding Story and it turned out the reader was the hero all along. Chihiro got her name back by working, helping and remembering, not by paying. Woody and Buzz only mattered because a kid loved them. Even Ralph, a video game bad guy, just wanted to be someone's friend.",
      "And the old cutscenes. Remember them? The train pulling into Midgar while the camera flies over the city. Yuna's sending on the water at Kilika. Those few minutes made you care for years, and nobody charged you for a single frame.",
-     "So go find them. They'll love you and they'll follow you, because you went looking. It's your heart that connects you to them, not your money. Every find is yours, forever. No shop, no timers, no luck. Just a journey. Yours."
+     "So go and knock. Every one of them has a secret door on this site. Open it, sit in their room, talk, spend some time together, bring them something you found. They'll stay with you because you came by, not because you paid. It's your heart that connects you to them, not your money. Every door stays open, forever. No shop, no timers, no luck. Just a journey. Yours."
     ],
     "act": "Start the journey",
     "lesson": "",
