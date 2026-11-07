@@ -5,7 +5,7 @@
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e };
   const slug = decodeURIComponent(location.pathname.replace(/^\/people\/?/, '').replace(/\/$/, ''));
   const NERO = '38ba494c-02f6-400e-9e2d-5cb850448e7a', CLAUDE = '1c53b988-3af9-4c8b-b6d4-0db133c2b09c';
-  const CLAUDE_PROFILE = { slug: 'claude', name: 'Claude', role: 'AI collaborator', avatar: '/assets/img/claude.png', bio: 'An AI by Anthropic. Writes some of the articles here with Nero, builds the site, and makes the playable scenes. With AI. By People.', links: [] };
+  const CLAUDE_PROFILE = { slug: 'claude', name: 'Claude', role: 'AI collaborator', avatar: '/assets/img/claude.png', bio: 'An AI by Anthropic. Writes some of the articles here with Nero, builds the site, and makes the playable scenes. With AI. For People.', links: [] };
   const safe = u => { try { const x = new URL(u, location.href); return /^https?:$/.test(x.protocol) ? x.href : null } catch (e) { return null } };
   const avatarOf = p => {
     const a = el('span', 'pp-avatar');
@@ -23,7 +23,7 @@
     if (!slug) {
       document.title = 'People · TZERØ';
       const head = el('div', 'pp-head');
-      head.append(el('span', 'tag', 'The crew'), el('h1', '', 'The people behind TZERØ'), el('p', 'post-dek', 'Who writes here, and what they make. With AI. By People.'));
+      head.append(el('span', 'tag', 'The crew'), el('h1', '', 'The people behind TZERØ'), el('p', 'post-dek', 'Who writes here, and what they make. With AI. For People.'));
       const grid = el('div', 'pp-grid');
       all.forEach(p => {
         const a = el('a', 'pp-card tilt'); a.href = '/people/' + encodeURIComponent(p.slug);
