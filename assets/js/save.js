@@ -266,18 +266,23 @@
     if (path.startsWith('/post/')) trackPost();
   }
 
-  /* ---------- character finds (Characters Across Worlds): one hunt, two layers ----------
-     /assets/caw-spots.json lists [{id, item, path, anchor, img, style?, hint?, say?}]: path is the page ("/story"),
-     anchor a CSS selector on it. A spot is skipped when a sticker already sits on that anchor. Finds go to the "caw"
-     block of the save (found[id] = time) and out as the 'find' event {type:'caw', id, item}; the gacha thread's code shows them. */
+  /* ---------- Characters Across Worlds: secret doors and keepsakes ----------
+     /assets/caw-spots.json lists [{id, item, path, anchor, img?, style?, hint?, say?, door?, name?, color?}]: path is the page
+     ("/story"), anchor a CSS selector on it. A spot is skipped when a sticker already sits on that anchor.
+     Keepsakes peek out and are found once: the "caw" block of the save gets found[id] = time.
+     Doors (door: 1) stay on the page: the first click writes caw.rooms[item].door = time, then the door opens
+     (assets/img/caw/door/<item>-1..3.webp, or a drawn door until the picture exists) and leads to /characters?room=<item>.
+     Both go out as the 'find' event {type:'caw'|'door', id, item}. */
   function characters() {
     fetch('/assets/caw-spots.json').then(r => r.ok ? r.json() : []).then(list => {
       if (!Array.isArray(list)) return;
       const found = (S.caw && S.caw.found) || {};
-      list.filter(c => c && c.path === path && !found[c.id]).forEach(c => {
+      list.filter(c => c && c.path === path).forEach(c => {
         let host = null; try { host = document.querySelector(c.anchor) } catch (e) {}
         if (!host || host.querySelector(':scope > .stk-spot:not(.caw)')) return;
-        peek(host, { img: c.img, style: c.style, cls: 'caw', label: 'Someone is hiding here', onFind: b => {
+        if (c.door) return door(c, host);
+        if (found[c.id]) return;
+        peek(host, { img: c.img, style: c.style, cls: 'caw', label: 'Something is hiding here', onFind: b => {
           S = load(); const caw = S.caw || {}; caw.found = caw.found || {};
           if (caw.found[c.id]) return;
           caw.found[c.id] = Date.now(); S.caw = caw; write();
@@ -286,6 +291,51 @@
         } });
       });
     }).catch(() => {});
+  }
+  const DOOR = (item, k) => '/assets/img/caw/door/' + item + '-' + k + '.webp';
+  // a door you already opened (or a character you met with the old tokens, before the doors)
+  const knownDoor = item => { const c = S.caw || {}; return !!((c.rooms || {})[item] || {}).door || Object.keys(c.found || {}).some(k => k.indexOf(item + '-') === 0) };
+  // the drawn door: a panel that swings on its hinge, used until the picture exists
+  const drawn = () => { const d = el('span', 'cd-drawn'); d.append(el('i', 'leaf')); return d };
+  function door(c, host) {
+    const known = knownDoor(c.item);
+    const b = el('button', 'caw-door' + (known ? ' known' : '')); b.type = 'button';
+    b.setAttribute('aria-label', known ? c.name + '\'s door. Go back in' : 'A small door, with light under it');
+    b.title = known ? c.name + '\'s room' : '';
+    b.style.setProperty('--dc', c.color || '#d7182a');
+    const img = el('img'); img.alt = ''; img.loading = 'lazy'; img.src = DOOR(c.item, known ? 2 : 1);
+    img.onerror = () => { img.remove(); b.classList.add('is-drawn'); b.prepend(drawn()) };
+    b.append(img, el('i', 'cd-gap'));
+    Object.assign(b.style, c.style || {});
+    b.addEventListener('click', e => {
+      e.preventDefault(); e.stopPropagation();
+      S = load(); const caw = S.caw || {}, rooms = caw.rooms = caw.rooms || {}, r = rooms[c.item] = rooms[c.item] || {};
+      const first = !r.door;
+      if (first) { r.door = Date.now(); S.caw = caw; write(); emit('find', { type: 'door', id: c.id, item: c.item, from: b }) }
+      enter(c, first);
+    });
+    host.classList.add('stk-host'); host.appendChild(b);
+  }
+  // the door opens in three frames (closed, ajar, open), then you step through
+  function enter(c, first) {
+    const go = () => { location.href = '/characters?room=' + encodeURIComponent(c.item) };
+    if (still()) return go();
+    const ov = el('div', 'door-go'); ov.style.setProperty('--dc', c.color || '#d7182a'); ov.setAttribute('role', 'status');
+    const box = el('div', 'dg-box'), cap = el('p', 'dg-cap', first ? 'A door. Light underneath.' : c.name + '\'s door');
+    ov.append(box, cap); document.body.append(ov);
+    let left = false; const leave = () => { if (left) return; left = true; ov.classList.add('s4'); setTimeout(go, 520) };
+    ov.onclick = leave;
+    const play = () => {
+      requestAnimationFrame(() => ov.classList.add('in'));
+      setTimeout(() => { if (left) return; ov.classList.add('s2'); cap.textContent = first ? c.name + '\'s door' : cap.textContent; tz().sfx && tz().sfx('creak') }, 1100);
+      setTimeout(() => { if (left) return; ov.classList.add('s3'); tz().sfx && tz().sfx('gap') }, 2200);
+      setTimeout(leave, 3300);
+    };
+    // three aligned pictures if they exist, else the drawn door
+    const f = [1, 2, 3].map(k => { const i = el('img', 'dg-f f' + k); i.alt = ''; i.src = DOOR(c.item, k); return i });
+    let ok = 0, bad = false;
+    const ready = () => { if (bad) return; if (++ok === 3) { box.append(...f); play() } };
+    f.forEach(i => { i.onload = ready; i.onerror = () => { if (bad) return; bad = true; box.classList.add('is-drawn'); box.append(drawn()); play() } });
   }
 
   /* ---------- Ache: catching, treats, stakes, beds, fights, outfits ---------- */

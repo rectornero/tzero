@@ -64,3 +64,41 @@ a.card.is-read::after{content:attr(data-read-on);position:absolute;right:12px;to
 
 @media (prefers-reduced-motion:reduce){.stk-pop,.stk-pop img,.stk-toast,.stk-toast-kick,.stk-poke.boop,.stk-spot.peel{animation:none}.stk-pop.away{animation:none;opacity:0}}
 :root[data-motion="2"] .stk-pop,:root[data-motion="2"] .stk-pop img,:root[data-motion="2"] .stk-toast{animation:none}
+
+/* Characters Across Worlds: a secret door on the page (save.js door()), and the door opening (enter()) */
+.caw-door{position:absolute;z-index:3;width:54px;height:68px;padding:0;border:2px solid #13224b;border-radius:27px 27px 4px 4px;overflow:hidden;background:#13224b;cursor:pointer;
+  box-shadow:0 4px 10px rgba(19,34,75,.28);transition:transform .3s cubic-bezier(.3,1.5,.5,1),box-shadow .3s}
+.caw-door img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 42%;transform:scale(1.6);transform-origin:50% 45%}
+.caw-door .cd-gap{position:absolute;left:18%;right:18%;bottom:3px;height:3px;border-radius:2px;background:var(--dc);box-shadow:0 0 8px 2px var(--dc);animation:cd-breathe 3.4s ease-in-out infinite}
+.caw-door:hover,.caw-door:focus-visible{transform:translateY(-3px) scale(1.08);box-shadow:0 8px 18px rgba(19,34,75,.35),0 6px 16px -4px var(--dc)}
+.caw-door.known{border-color:var(--dc)}
+@keyframes cd-breathe{0%,100%{opacity:.45;transform:scaleX(.8)}50%{opacity:1;transform:scaleX(1)}}
+/* the drawn door: a panel on a hinge, in the world's light */
+.cd-drawn{position:absolute;inset:0;display:block;perspective:600px;background:radial-gradient(circle at 50% 70%,var(--dc),#0c1430 75%)}
+.cd-drawn .leaf{position:absolute;inset:0;transform-origin:0 50%;background:linear-gradient(90deg,#efe7d6,#d9cfbb);border-radius:inherit;
+  box-shadow:inset 0 0 0 3px rgba(19,34,75,.2);transition:transform 1s cubic-bezier(.4,0,.2,1)}
+.cd-drawn .leaf::before,.cd-drawn .leaf::after{content:"";position:absolute;left:18%;right:18%;border:2px solid rgba(19,34,75,.22);border-radius:3px}
+.cd-drawn .leaf::before{top:14%;height:32%}.cd-drawn .leaf::after{top:54%;height:30%}
+.caw-door.is-drawn .cd-drawn{border-radius:25px 25px 2px 2px}
+.caw-door.known .cd-drawn .leaf{transform:rotateY(-22deg)}
+
+.door-go{position:fixed;inset:0;z-index:2147483000;display:grid;place-content:center;justify-items:center;gap:14px;padding:16px;cursor:pointer;
+  background:radial-gradient(circle at 50% 55%,color-mix(in srgb,var(--dc) 22%,#0b1229),#05080f 75%);opacity:0;transition:opacity .45s ease}
+.door-go.in{opacity:1}
+.dg-box{position:relative;width:min(78vmin,520px);aspect-ratio:1;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08);
+  transform:scale(.94);transition:transform 1.2s cubic-bezier(.3,0,.2,1)}
+.door-go.in .dg-box{transform:scale(1)}
+.dg-f{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s ease}
+.dg-f.f1,.door-go.s2 .dg-f.f2,.door-go.s3 .dg-f.f3{opacity:1}
+.door-go.s3 .dg-f.f2{opacity:0}
+.dg-box.is-drawn .cd-drawn{border-radius:0}
+.dg-box.is-drawn .cd-drawn .leaf{inset:12% 30% 0;border-radius:40% 40% 0 0/22% 22% 0 0}
+.door-go.s2 .dg-box.is-drawn .leaf{transform:rotateY(-26deg)}
+.door-go.s3 .dg-box.is-drawn .leaf{transform:rotateY(-78deg)}
+.dg-cap{margin:0;font-family:var(--mono,monospace);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.75);text-align:center}
+/* stepping through: the open doorway grows and the room's light fills the screen */
+.door-go::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,#fffbe8,var(--dc) 60%);opacity:0;transition:opacity .5s ease;pointer-events:none}
+.door-go.s4 .dg-box{transform:scale(1.35);transition:transform .55s cubic-bezier(.5,0,.8,.4)}
+.door-go.s4::after{opacity:.92}
+@media (prefers-reduced-motion:reduce){.caw-door .cd-gap{animation:none}}
+:root[data-motion="2"] .caw-door .cd-gap{animation:none}
