@@ -1598,6 +1598,90 @@
         "paragraphData": {}
        }
       ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Starchasers devlog #7: chapter 1 grows up",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            },
+            {
+             "type": "COLOR",
+             "colorData": {
+              "foreground": "#d7182a"
+             }
+            },
+            {
+             "type": "LINK",
+             "linkData": {
+              "link": {
+               "url": "/post/starchasers-devlog-7-chapter-1-grows-up",
+               "target": "SELF"
+              }
+             }
+            }
+           ]
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Grid-Break: from a playtest note to the game's signature",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            },
+            {
+             "type": "COLOR",
+             "colorData": {
+              "foreground": "#d7182a"
+             }
+            },
+            {
+             "type": "LINK",
+             "linkData": {
+              "link": {
+               "url": "/post/starchasers-design-grid-break",
+               "target": "SELF"
+              }
+             }
+            }
+           ]
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
      }
     ],
     "bulletedListData": {

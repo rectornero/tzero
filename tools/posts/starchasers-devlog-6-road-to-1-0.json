@@ -1972,6 +1972,66 @@
     "paragraphData": {}
    },
    {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "Update: the first stop is here. Four builds took a big bite out of this list: ",
+       "decorations": []
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "devlog #7",
+       "decorations": [
+        {
+         "type": "BOLD",
+         "fontWeightValue": 700
+        },
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#d7182a"
+         }
+        },
+        {
+         "type": "LINK",
+         "linkData": {
+          "link": {
+           "url": "/post/starchasers-devlog-7-chapter-1-grows-up",
+           "target": "SELF"
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": ".",
+       "decorations": []
+      }
+     }
+    ],
+    "paragraphData": {}
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
     "type": "DIVIDER",
     "id": "",
     "nodes": [],
@@ -2314,6 +2374,90 @@
              "linkData": {
               "link": {
                "url": "/post/starchasers-interview-nero-breaking-the-gacha",
+               "target": "SELF"
+              }
+             }
+            }
+           ]
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Starchasers devlog #7: chapter 1 grows up",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            },
+            {
+             "type": "COLOR",
+             "colorData": {
+              "foreground": "#d7182a"
+             }
+            },
+            {
+             "type": "LINK",
+             "linkData": {
+              "link": {
+               "url": "/post/starchasers-devlog-7-chapter-1-grows-up",
+               "target": "SELF"
+              }
+             }
+            }
+           ]
+          }
+         }
+        ],
+        "paragraphData": {}
+       }
+      ]
+     },
+     {
+      "type": "LIST_ITEM",
+      "id": "",
+      "nodes": [
+       {
+        "type": "PARAGRAPH",
+        "id": "",
+        "nodes": [
+         {
+          "type": "TEXT",
+          "id": "",
+          "nodes": [],
+          "textData": {
+           "text": "Grid-Break: from a playtest note to the game's signature",
+           "decorations": [
+            {
+             "type": "BOLD",
+             "fontWeightValue": 700
+            },
+            {
+             "type": "COLOR",
+             "colorData": {
+              "foreground": "#d7182a"
+             }
+            },
+            {
+             "type": "LINK",
+             "linkData": {
+              "link": {
+               "url": "/post/starchasers-design-grid-break",
                "target": "SELF"
               }
              }

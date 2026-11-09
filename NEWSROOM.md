@@ -34,6 +34,8 @@ Newest first. Status: `drafting` → `on branch` (ready for Nero's review) → `
 
 | Slug | Project | Branch | Status | Notes |
 |---|---|---|---|---|
+| `starchasers-design-grid-break` | Starchasers Press | `claude/project-thread-2iuxqp` | on branch | Design notes: Grid-Break from Nero's playtest note to v0.9.1 (Static Core, frenzy). New shots `gb-perfect-chain.webp`, `gb-fumble.webp` (v0.6.1 test build, cropped so the boss label is out of frame). |
+| `starchasers-devlog-7-chapter-1-grows-up` | Starchasers Press | `claude/project-thread-2iuxqp` | on branch | v0.9.1 to v0.9.4. No boss names, no secret chapter. New images `dimwick.webp` (town backdrop), `dimwick-map.webp`, `parchment-landing.webp` (test-build shots): please register them (licensing). `/starchasers` devlog road gets #7 and the design post. Branch is built on `claude/project-thread-g3nthc` (PR #29), so it contains everything from that PR too. |
 | spoiler gates on `/starchasers` | WEB: TZERØ (UI office) | `claude/project-thread-g3nthc` | on branch | Nero asked to hide spoilers. Breakable seals (8 taps, pity counter, Ache comments) on "How the gacha breaks" and "How a fight works", blurred bond skills, devlogs left open, unused `showdown.webp` removed. Keep these when you push again. |
 | `starchasers-interview-nero-breaking-the-gacha` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | Nero's Desk answers, his words with light grammar fixes. Includes the Statement of Conduct exception (Nero chose: say it openly). WEB: TZERØ: you may want a one-line pointer on /conduct to this post. |
 | `starchasers-devlog-6-road-to-1-0` | Starchasers Press | `claude/project-thread-g3nthc` | on branch | Nero's v0.9.0 test verdict and the road to 1.0 (spoiler-free summary of his notes). `/starchasers` got a Road to 1.0 section, devlog #6 on the road, and the 'interface that changes' pillar rewritten (Nero dropped that idea). |
@@ -48,4 +50,3 @@ Newest first. Status: `drafting` → `on branch` (ready for Nero's review) → `
 
 | Idea | Project | Notes |
 |---|---|---|
-| Design bit: Grid-Break, from playtest note to signature | Starchasers Press | |
