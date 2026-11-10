@@ -1,0 +1,66 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+html,body{margin:0;height:100%;background:#0b1430;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff;overflow:hidden}
+#s{position:relative;height:100%;min-height:300px}
+svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fade{transition:opacity 2.6s ease}
+#dawn{opacity:0}.open #dawn{opacity:1}
+#sun{transform:translateY(160px);transition:transform 4s cubic-bezier(.2,.7,.2,1)}.open #sun{transform:translateY(0)}
+.door{transition:transform 1.6s cubic-bezier(.6,0,.2,1)}
+.open #dl{transform:translateX(-660px)}.open #dr{transform:translateX(660px)}
+.blade{transform-origin:bottom;animation:sway 3.2s ease-in-out infinite}
+@keyframes sway{50%{transform:skewX(6deg)}}
+#kid{opacity:0;transition:opacity 1.2s 1.4s}.open #kid{opacity:1}
+#ui{position:absolute;left:0;right:0;bottom:0;padding:14px 16px 16px;background:linear-gradient(transparent,rgba(8,14,40,.85) 40%);text-align:center}
+#line{min-height:3.2em;font-style:italic;font-size:clamp(14px,2.4vw,18px);line-height:1.4;max-width:620px;margin:0 auto 10px;text-shadow:0 1px 3px #000}
+#line small{display:block;font-style:normal;font-size:12px;opacity:.75;margin-top:4px;letter-spacing:.08em}
+button{font:700 15px system-ui,sans-serif;background:#d7182a;color:#fff;border:0;border-radius:999px;padding:10px 22px;cursor:pointer;box-shadow:0 3px 0 #8c0f1b}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 #8c0f1b}
+.note{position:absolute;font-size:22px;opacity:0;color:#ffe9a8;pointer-events:none}
+.open .note{animation:float 5s ease-out infinite}
+@keyframes float{0%{opacity:0;transform:translateY(0)}20%{opacity:.9}100%{opacity:0;transform:translateY(-120px)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head><body><div id="s">
+<svg viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+<linearGradient id="night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1430"/><stop offset="1" stop-color="#2a3b6e"/></linearGradient>
+<linearGradient id="day" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fb6e8"/><stop offset=".6" stop-color="#ffd9a0"/><stop offset="1" stop-color="#ffb27a"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3b2416"/><stop offset=".5" stop-color="#5a3822"/><stop offset="1" stop-color="#3b2416"/></linearGradient>
+</defs>
+<rect width="1280" height="720" fill="url(#night)"/>
+<g fill="#fff" opacity=".7"><circle cx="120" cy="80" r="2"/><circle cx="300" cy="140" r="1.5"/><circle cx="520" cy="60" r="2"/><circle cx="860" cy="110" r="1.5"/><circle cx="1040" cy="50" r="2"/><circle cx="1190" cy="160" r="1.5"/></g>
+<rect id="dawn" class="fade" width="1280" height="720" fill="url(#day)"/>
+<g id="sun"><circle cx="900" cy="330" r="70" fill="#fff3c4"/><circle cx="900" cy="330" r="110" fill="#fff3c4" opacity=".25"/></g>
+<path d="M0 380 Q160 300 340 360 T700 340 T1040 330 T1280 350 V720 H0Z" fill="#6f9a7a" opacity=".85"/>
+<path d="M0 430 Q220 370 460 420 T900 400 T1280 420 V720 H0Z" fill="#5d8f5b"/>
+<path d="M0 500 Q300 450 640 490 T1280 480 V720 H0Z" fill="#4a7d45"/>
+<path d="M560 720 Q620 560 660 470 Q690 430 760 420" stroke="#d8c48e" stroke-width="34" fill="none" stroke-linecap="round" opacity=".8"/>
+<g fill="#3d6b38">
+<path class="blade" d="M80 720 L95 610 L110 720Z"/><path class="blade" d="M190 720 L200 640 L215 720Z" style="animation-delay:-.8s"/>
+<path class="blade" d="M330 720 L345 620 L358 720Z" style="animation-delay:-1.6s"/><path class="blade" d="M930 720 L945 625 L958 720Z" style="animation-delay:-.4s"/>
+<path class="blade" d="M1080 720 L1092 640 L1106 720Z" style="animation-delay:-1.2s"/><path class="blade" d="M1200 720 L1212 615 L1226 720Z" style="animation-delay:-2s"/>
+</g>
+<g id="kid" transform="translate(600 520)"><ellipse cx="0" cy="62" rx="26" ry="6" fill="#000" opacity=".25"/>
+<rect x="-14" y="10" width="28" height="44" rx="10" fill="#2f5a2a"/><circle cx="0" cy="0" r="15" fill="#e9b98a"/><path d="M-15 -2 Q0 -22 15 -2Z" fill="#c9893f"/>
+<rect x="-12" y="52" width="9" height="12" fill="#5a3822"/><rect x="3" y="52" width="9" height="12" fill="#5a3822"/></g>
+<g id="dl" class="door"><rect x="0" y="0" width="642" height="720" fill="url(#wood)"/>
+<g stroke="#2a180d" stroke-width="6" opacity=".7"><line x1="160" y1="0" x2="160" y2="720"/><line x1="320" y1="0" x2="320" y2="720"/><line x1="480" y1="0" x2="480" y2="720"/></g>
+<rect x="0" y="150" width="642" height="34" fill="#2a180d" opacity=".6"/><rect x="0" y="540" width="642" height="34" fill="#2a180d" opacity=".6"/>
+<circle cx="600" cy="370" r="16" fill="#c9a24a"/></g>
+<g id="dr" class="door"><rect x="638" y="0" width="642" height="720" fill="url(#wood)"/>
+<g stroke="#2a180d" stroke-width="6" opacity=".7"><line x1="800" y1="0" x2="800" y2="720"/><line x1="960" y1="0" x2="960" y2="720"/><line x1="1120" y1="0" x2="1120" y2="720"/></g>
+<rect x="638" y="150" width="642" height="34" fill="#2a180d" opacity=".6"/><rect x="638" y="540" width="642" height="34" fill="#2a180d" opacity=".6"/>
+<circle cx="680" cy="370" r="16" fill="#c9a24a"/></g>
+</svg>
+<span class="note" style="left:30%;top:40%">♪</span><span class="note" style="left:62%;top:34%;animation-delay:1.6s">♫</span><span class="note" style="left:78%;top:46%;animation-delay:3.1s">♪</span>
+<div id="ui"><p id="line">A small town at night, and a gate that hasn't opened yet.</p><button id="b" type="button">Open the gate</button></div>
+</div>
+<script>
+const s=document.getElementById('s'),b=document.getElementById('b'),l=document.getElementById('line');
+const NERO='“I’d like to see the moment when the Hyrule Field opens before me, and the overworld track starts. That’s a moment that can hit hard.”<small>NERO, ON THE SCENE HE’S WAITING FOR</small>';
+b.onclick=()=>{const o=s.classList.toggle('open');
+ if(o){l.textContent='Morning. The field goes on as far as you can see.';b.textContent='Close the gate';setTimeout(()=>{if(s.classList.contains('open'))l.innerHTML=NERO},2400)}
+ else{l.textContent='A small town at night, and a gate that hasn’t opened yet.';b.textContent='Open the gate'}};
+if(location.hash.includes('clean'))document.getElementById('ui').style.display='none';
+if(location.hash.includes('open')){s.classList.add('open');l.innerHTML=NERO;b.textContent='Close the gate'}
+</script></body></html>

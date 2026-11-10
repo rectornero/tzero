@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+html,body{margin:0;height:100%;background:#f6f1e6;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#13224b}
+#w{display:flex;flex-direction:column;height:100%;box-sizing:border-box;padding:14px}
+#tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+#tabs button{font:700 14px system-ui,sans-serif;border:2px solid #13224b;background:#fff;color:#13224b;border-radius:999px;padding:8px 16px;cursor:pointer}
+#tabs button.on{background:#13224b;color:#fff}
+#desk{flex:1;position:relative;margin:12px auto 8px;width:100%;max-width:560px;min-height:180px;border-radius:14px;overflow:hidden;box-shadow:0 4px 0 rgba(19,34,75,.15)}
+.sheet{position:absolute;inset:0;transition:opacity .4s}
+#paper{background:#fffdf6 repeating-linear-gradient(transparent 0 27px,#dfe6f3 27px 28px)}
+#tablet{background:#1d2433;border:10px solid #0f1420;border-radius:14px;box-sizing:border-box}
+#ai{background:#13224b}
+svg{width:100%;height:100%;display:block}
+.draw{stroke-dasharray:1400;stroke-dashoffset:1400;animation:d 2.2s ease forwards}
+@keyframes d{to{stroke-dashoffset:0}}
+.ghost{opacity:0;animation:g .5s ease forwards}
+@keyframes g{to{opacity:.35}}
+@keyframes f{to{opacity:1}}
+.pick{opacity:0;animation:p .6s 1.9s ease forwards}
+@keyframes p{to{opacity:1}}
+#what{text-align:center;font-size:15px;line-height:1.4;min-height:2.8em;margin:0 0 4px}
+#hand{text-align:center;font-weight:800;color:#d7182a;font-size:14px;letter-spacing:.06em;margin:0}
+@media (prefers-reduced-motion:reduce){*{animation-duration:0s!important;animation-delay:0s!important}}
+</style></head><body><div id="w">
+<div id="tabs" role="tablist"><button data-k="paper" class="on">Paper</button><button data-k="tablet">Tablet</button><button data-k="ai">AI</button></div>
+<div id="desk"><div class="sheet" id="paper"></div><div class="sheet" id="tablet"></div><div class="sheet" id="ai"></div></div>
+<p id="what"></p><p id="hand">THE HAND ON THE PEN IS STILL YOURS</p>
+</div>
+<script>
+const STAR='M280 30 L318 128 L424 132 L342 198 L370 300 L280 242 L190 300 L218 198 L136 132 L242 128 Z';
+const T={
+ paper:{what:'Pencil, eraser and patience. Every line is drawn once, by hand.',
+  svg:`<svg viewBox="0 0 560 330"><path class="draw" d="${STAR}" fill="none" stroke="#3a3a3a" stroke-width="3" stroke-linejoin="round" transform="rotate(-2 280 165)"/><path class="draw" style="animation-delay:.4s" d="${STAR}" fill="none" stroke="#3a3a3a" stroke-width="1.5" opacity=".5" transform="translate(4 3) rotate(1 280 165)"/></svg>`},
+ tablet:{what:'Undo, layers, a mirror tool, a shortcut for every boring step. Impossible on paper, and nobody calls it cheating.',
+  svg:`<svg viewBox="0 0 560 330"><path d="${STAR}" fill="#ffd34d" opacity="0" style="animation:f .4s 2s forwards"/><path class="draw" d="${STAR}" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><g font-family="system-ui" font-size="13" fill="#9fb0d6"><text x="16" y="24">Ctrl+Z ×14</text><text x="16" y="44">Layer 3: colour</text><text x="16" y="64">Mirror: on</text></g></svg>`},
+ ai:{what:'A hundred rough tries in a minute. Then the part that was always yours: choosing, fixing, deciding what it means.',
+  svg:`<svg viewBox="0 0 560 330">${[[-60,-20,-8],[60,-25,6],[-40,40,12],[50,35,-10],[0,-50,20],[0,55,-4]].map((v,i)=>`<path class="ghost" style="animation-delay:${i*.18}s" d="${STAR}" fill="none" stroke="#9fb0d6" stroke-width="2" transform="translate(${v[0]} ${v[1]}) rotate(${v[2]} 280 165) scale(.9) translate(30 16)"/>`).join('')}<g class="pick"><path transform="translate(56 18) scale(.8)" d="${STAR}" fill="#d7182a" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><text x="280" y="322" text-anchor="middle" font-family="system-ui" font-weight="800" font-size="15" fill="#fff">you pick this one, and make it better</text></g></svg>`}
+};
+function show(k){for(const b of document.querySelectorAll('#tabs button'))b.classList.toggle('on',b.dataset.k===k);
+ for(const s of document.querySelectorAll('.sheet')){s.style.opacity=s.id===k?1:0;s.innerHTML=s.id===k?T[k].svg:''}
+ document.getElementById('what').textContent=T[k].what}
+document.getElementById('tabs').onclick=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k)show(k)};
+const H=location.hash.slice(1).split('-');show(['paper','tablet','ai'].includes(H[0])?H[0]:'paper');
+if(H[1]==='clean'){document.getElementById('tabs').style.display='none';document.getElementById('what').style.display='none';document.getElementById('hand').style.display='none'}
+</script></body></html>
