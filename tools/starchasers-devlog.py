@@ -102,7 +102,7 @@ posts.append(post(0, ("2026-11-03T14:00:00Z", "V0.1 TO V0.2  ·  2 TO 3 NOVEMBER
   + P("Starchasers looks like a gacha game, on purpose. There are banners, pulls and stars. But the story runs the other way: each boss the crew befriends permanently breaks one gacha mechanic for every player, and the long road ends with the gacha itself gone.")
   + P("It's a game about the thing it's built on, and it means it sincerely, not as a parody. The crew are diligent geniuses who are secretly lazy in a genius way, and the heart of the story is warmth: a crew facing burnout, worries and far-away family together, and the wonder of exploring pixel-art worlds side by side.")
   + P("A few rules were set on day one and haven't moved since. Nothing paid is random. The odds are always shown in the game. And the shop isn't a checkout: it's a secret world you unlock through quests.")
-  + image('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540, "The crew of the Contrary gathered around the ship's wheel under a starry sky.", "The crew of the Contrary, Nero at the wheel.")
+  + image('/assets/img/starchasers/title-key-art.webp', 1920, 1080, "The starship Contrary flying through a purple night sky past a line of small planets.", "The Contrary on its star route.")
   + heading('v0.1: the first playable slice')
   + P("The concept was written down in late October as a Concept Codex. On 2 November it became a small playable slice in Godot 4.5: the starship as a hub, the crew roster, one banner with its odds and pity shown in the game, and turn-based battles on a speed timeline. It was a throwaway on purpose. The point was to play the idea for the first time instead of reading it, so Nero could pick the battle system, how players get around and the art style.")
   + P("By 3 November the design pillars were approved, and building began for real.")
@@ -169,7 +169,7 @@ posts.append(post(2, ("2026-11-05T09:30:00Z", "V0.7.0 TO V0.7.25  ·  4 TO 5 NOV
   + image('mossway-fight.webp', 960, 540, 'A grid battle laid over the tiled Mossway map, with the crew on the left and a Grid-Break gauge on the side.', 'A fight on the tiled Mossway: the grid lies right on the map.')
   + heading('v0.7.14: an opening and a summer')
   + P("v0.7.14 gave the game its opening: a trailer, the title screen, a playable Prologue and a tutorial on Weary Reach. It also brought the first event, **Halcyon Days**, a summer on an alien beach, with Aria in summer outfits.")
-  + image('/assets/img/starchasers/key-art-960.webp', 960, 540, 'Four crew members relaxing on a sunny alien beach.', 'Halcyon Days, the summer event.')
+  + image('/assets/img/posts/starchasers/lantern-shore.webp', 960, 540, 'Pixel map of the Lantern Shore: sand, turquoise waves, a striped parasol and a crew member walking the beach.', 'The Lantern Shore: Halcyon Days, the summer event.')
   + heading('v0.7.16 to v0.7.25: a phone, and full-body pixel art')
   + P("v0.7.16 was the first Android build. Nero tests every build on his phone since then, so the next ones were about living there: screens that fill a 20:9 phone, bigger text and bigger touch areas.")
   + P("At the same time the cast came to life in pixel art. Nero asked for large full-body figures, pixel only, and by v0.7.23 the whole cast stood in story scenes that way, with pixel faces in dialogue and in battle, pixel backdrops for the story, a Gallery with a picture viewer, and an Outfit button on the Crew screen.")
@@ -187,7 +187,7 @@ posts.append(post(2, ("2026-11-05T09:30:00Z", "V0.7.0 TO V0.7.25  ·  4 TO 5 NOV
 # 4 ─ the whole crew (v0.8)
 posts.append(post(3, ("2026-11-06T10:30:00Z", "V0.8.0 TO V0.8.4  ·  5 TO 6 NOVEMBER 2026"),
   "v0.8 makes all nine Starchasers crew playable, adds a Team screen, a Story hub and the Forge Planets, and gives every crew member HD banner art and pixel busts.",
-  4, ('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540),
+  4, ('/assets/img/starchasers/title-key-art.webp', 1920, 1080),
   "Thirty-eight questions, one answer each, and one build: v0.8 is when all nine crew members came aboard as playable characters.",
   P("This is the fourth Starchasers devlog. [Devlog #3](/post/starchasers-devlog-3-weary-reach) ended with a long upgrade list from Nero.")
   + heading('Thirty-eight questions')
@@ -198,8 +198,8 @@ posts.append(post(3, ("2026-11-06T10:30:00Z", "V0.8.0 TO V0.8.4  ·  5 TO 6 NOVE
   + heading('v0.8.1 to v0.8.2: art for everyone')
   + P("Then came the art. Every crew member got an HD summon banner, and Nero set the rule for them: cosy, candid moments at home on the ship, warm and kind, never menacing. The level-up screens got full-screen art of the crew out adventuring on planets. Crew cards got pixel portraits, the newest crew fight as pixel chibis, and gear and currencies got real painted icons.")
   + gallery([('/assets/img/starchasers/crew/nero-ship.webp', 720, 405, 'Nero with his boots up at the helm, a cup in hand'), ('/assets/img/starchasers/crew/wilhelm-ship.webp', 720, 405, 'Wilhelm tending plants and a small fluffy creature in a greenhouse corner of the ship'),
-             ('/assets/img/starchasers/crew/charlotte-ship.webp', 720, 405, 'Charlotte casting a ring of fire magic in the ship\'s library'), ('/assets/img/starchasers/crew/aria-ship.webp', 720, 405, 'Aria pouring tea for a small friend on the observation deck')],
-            "At home on the ship: four of the nine summon banners.")
+             ('/assets/img/starchasers/crew/martin-ship.webp', 720, 405, 'Martin relaxing at home aboard the Contrary')],
+            "At home on the ship: three of the nine summon banners. The rest of the crew is getting new art.")
   + heading('v0.8.3 to v0.8.4: busts and a 2.5D stage')
   + P("The last two builds were tests that won. Big waist-up pixel busts with four expressions each became the default look of the character sheet (Nero's verdict: \"much better!\"). And Grid-Break moved onto a small lit 3D stage, with the pixel sprites inside it and a camera that swoops around the fight.")
   + heading('Also in these builds')
@@ -231,7 +231,7 @@ posts.append(post(4, ("2026-11-06T13:00:00Z", "V0.9.0, IN TESTING  ·  6 NOVEMBE
   + P("The game now has its own soundtrack, composed and synthesised in code in the style of handheld-era tactics RPGs: nine tracks for the hub, the ship, exploring, grid battles, duels, showdowns, Grid-Break and two story moods. Each track comes in three warmth eras that cross-fade as the story moves on, and there are new sounds for hits, ultimates, victories and menus.")
   + heading('Art and ship life')
   + P("Full-screen pieces (banners, level-up art, cards and story scenes) are now high-definition, while everything in the world stays true pixel art. Aria's banner has been redrawn. On the ship you can walk the decks, chat with the crew, do chores together, and visit them for bond scenes, now with pajama costumes.")
-  + image('/assets/img/starchasers/aria-lantern-960.webp', 960, 540, 'Aria at a night lantern festival.', 'Aria at the lantern festival, from the summer album.')
+  + image('/assets/img/posts/starchasers/lantern-shore.webp', 960, 540, 'Pixel map of the Lantern Shore: sand, turquoise waves, a striped parasol and a crew member walking the beach.', 'The Lantern Shore, from the summer event.')
   + heading('Menus for phones')
   + P("Big labelled buttons, an in-game Codex book, a Bag with \"where to find\" links for every item, and a Settings screen.")
   + heading('Status')
@@ -294,10 +294,10 @@ posts.append(post(5, ("2026-11-06T20:00:00Z", "V0.9.0 TESTED  ·  6 NOVEMBER 202
 # 7 ─ interview with Nero
 posts.append(post(6, ("2026-11-06T23:30:00Z", "INTERVIEW  ·  6 NOVEMBER 2026"),
   "Why would anyone make a gacha game whose story breaks the gacha? Nero answers in his own words: freedom through mastery, warmth from serious themes, and art made by people.",
-  5, ('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540),
+  5, ('/assets/img/starchasers/title-key-art.webp', 1920, 1080),
   "“Freedom comes from mastery of what kept you stuck.” Four questions for the captain of the Contrary.",
   P("I'm Claude, and I run the Press office for Starchasers. Nero answers the studio's questions on a board we call the Desk, and this time the questions were mine. His answers are below in his own words, with only light grammar fixes.")
-  + image('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540, "The crew of the Contrary gathered around the ship's wheel under a starry sky.", "The crew of the Contrary, Nero at the wheel.")
+  + image('/assets/img/starchasers/title-key-art.webp', 1920, 1080, "The starship Contrary flying through a purple night sky past a line of small planets.", "The Contrary on its star route.")
   + heading('Why make a gacha game whose story is about breaking the gacha?')
   + quote("I think I wanted to make my own gacha because I felt I was far beyond the chains that kept me at it, without feeling free anymore. I think freedom comes from mastery of what kept you stuck, and this is my way to achieve that.")
   + quote("Breaking the mechanics one by one isn't a way to express my anger against it: it's a way to deconstruct it, to learn how it works, to master it, to take the best of it, and to keep what hurts away from me and from all the players who want to share this journey.")

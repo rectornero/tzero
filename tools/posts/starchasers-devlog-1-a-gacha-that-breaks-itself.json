@@ -353,7 +353,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "The crew of the Contrary, Nero at the wheel.",
+         "text": "The Contrary on its star route.",
          "decorations": []
         }
        }
@@ -369,12 +369,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/crew-key-visual-960.webp"
+       "url": "/assets/img/starchasers/title-key-art.webp"
       },
-      "width": 960,
-      "height": 540
+      "width": 1920,
+      "height": 1080
      },
-     "altText": "The crew of the Contrary gathered around the ship's wheel under a starry sky."
+     "altText": "The starship Contrary flying through a purple night sky past a line of small planets."
     }
    },
    {

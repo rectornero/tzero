@@ -1633,7 +1633,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "Splash art from the summer event, Halcyon Days. Its music is getting a sunnier rewrite.",
+         "text": "The Lantern Shore, home of the summer event, Halcyon Days. Its music is getting a sunnier rewrite.",
          "decorations": []
         }
        }
@@ -1649,12 +1649,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/aria-lantern-960.webp"
+       "url": "/assets/img/posts/starchasers/lantern-shore.webp"
       },
       "width": 960,
       "height": 540
      },
-     "altText": "Aria at a night lantern festival"
+     "altText": "Pixel map of the Lantern Shore: sand, turquoise waves, a striped parasol and a crew member walking the beach."
     }
    },
    {
@@ -1966,7 +1966,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "The crew of the Contrary. More about them in Meet the crew of the Contrary.",
+         "text": "The Contrary on its star route. The crew is getting new art.",
          "decorations": []
         }
        }
@@ -1982,12 +1982,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/crew-key-visual-960.webp"
+       "url": "/assets/img/starchasers/title-key-art.webp"
       },
-      "width": 960,
-      "height": 540
+      "width": 1920,
+      "height": 1080
      },
-     "altText": "The crew of the Contrary gathered around the ship's wheel under a starry sky."
+     "altText": "The starship Contrary flying through a purple night sky past a line of small planets."
     }
    },
    {
@@ -2210,44 +2210,6 @@
          "linkData": {
           "link": {
            "url": "/starchasers",
-           "target": "SELF"
-          }
-         }
-        }
-       ]
-      }
-     },
-     {
-      "type": "TEXT",
-      "id": "",
-      "nodes": [],
-      "textData": {
-       "text": ". If you'd rather meet the people first, start with ",
-       "decorations": []
-      }
-     },
-     {
-      "type": "TEXT",
-      "id": "",
-      "nodes": [],
-      "textData": {
-       "text": "Meet the crew of the Contrary",
-       "decorations": [
-        {
-         "type": "BOLD",
-         "fontWeightValue": 700
-        },
-        {
-         "type": "COLOR",
-         "colorData": {
-          "foreground": "#d7182a"
-         }
-        },
-        {
-         "type": "LINK",
-         "linkData": {
-          "link": {
-           "url": "/post/meet-the-crew-of-the-contrary",
            "target": "SELF"
           }
          }
