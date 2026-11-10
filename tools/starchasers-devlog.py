@@ -65,6 +65,8 @@ SERIES = [
   ('starchasers-devlog-5-coming-in-v0-9-0', 'Starchasers devlog #5: what\'s coming in v0.9.0'),
   ('starchasers-devlog-6-road-to-1-0', 'Starchasers devlog #6: v0.9.0 tested, and the road to 1.0'),
   ('starchasers-interview-nero-breaking-the-gacha', 'Breaking the gacha to be free of it: an interview with Nero'),
+  ('starchasers-devlog-7-chapter-1-grows-up', 'Starchasers devlog #7: chapter 1 grows up'),
+  ('starchasers-design-grid-break', 'Grid-Break: from a playtest note to the game\'s signature'),
 ]
 def series_nav(i):
     out = heading('The Starchasers devlog')
@@ -75,9 +77,9 @@ def series_nav(i):
     out += P('More about the game and its crew: [the Starchasers page](/starchasers).')
     return out
 
-def post(i, date, excerpt, minutes, cover, lead, body):
+def post(i, date, excerpt, minutes, cover, lead, body, num=None):
     slug, title = SERIES[i]
-    head = f"STARCHASERS  ·  {date[1]}" if date[1].startswith("INTERVIEW") else f"STARCHASERS DEVLOG #{i+1}  ·  {date[1]}"
+    head = f"STARCHASERS  ·  {date[1]}" if date[1].startswith(("INTERVIEW", "DESIGN")) else f"STARCHASERS DEVLOG #{num or i+1}  ·  {date[1]}"
     nodes = [para(t(head, BOLD, COL(RED), SIZE(13))), BLANK, para(t(lead, ITAL, COL(INK), SIZE(22))), BLANK] + body + series_nav(i) + footer()
     return {"id": "own-" + slug, "slug": slug, "title": title, "excerpt": excerpt,
             "firstPublishedDate": date[0], "lastPublishedDate": date[0], "categoryIds": [DEVLOG], "tagIds": [TAG], "memberId": MEMBER,
@@ -286,6 +288,7 @@ posts.append(post(5, ("2026-11-06T20:00:00Z", "V0.9.0 TESTED  ·  6 NOVEMBER 202
   + quote("If it were up to me, 1.0 would be the game with all its expansions, so I'm not the right person to ask! I think a good 1.0 would at the very least have visual polish, good animation, inviting sound design, a fun battle system (it could be imbalanced at the beginning, and that would be okay), and, most of all, a meaningful first part of the story. I also want all the mechanics to fit into place before release. There's still work to be done, for sure.")
   + heading("What's next")
   + P("The offices are already splitting the list between them, and Nero's open questions are on the studio's Desk. We'll follow the road to 1.0 here, one stop at a time.")
+  + P("Update: the first stop is here. Four builds took a big bite out of this list: [devlog #7](/post/starchasers-devlog-7-chapter-1-grows-up).")
 ))
 
 # 7 ─ interview with Nero
@@ -315,6 +318,91 @@ posts.append(post(6, ("2026-11-06T23:30:00Z", "INTERVIEW  ·  6 NOVEMBER 2026"),
   + heading('What does 1.0 mean to you?')
   + quote("If it were up to me, 1.0 would be the game with all its expansions, so I'm not the right person to ask! I think a good 1.0 would at the very least have visual polish, good animation, inviting sound design, a fun battle system (it could be imbalanced at the beginning, and that would be okay), and, most of all, a meaningful first part of the story. I also want all the mechanics to fit into place before release.")
   + P("The full list of what stands between v0.9.0 and 1.0 is in [devlog #6](/post/starchasers-devlog-6-road-to-1-0).")
+))
+
+# 8 ─ devlog #7: v0.9.1 to v0.9.4
+posts.append(post(7, ("2026-11-07T12:00:00Z", "V0.9.1 TO V0.9.4  ·  6 TO 7 NOVEMBER 2026"),
+  "Four builds in a day after Nero's v0.9.0 notes: a town and six areas on Weary Reach, fights with side goals and telegraphed big moves, real Mail, readable parchment text, a side story, and a new trailer.",
+  5, ('dimwick.webp', 960, 540),
+  "Nero's v0.9.0 notes were a long list. Four builds later, a good part of it is crossed off, and the first planet finally feels like a place people live.",
+  P("This is the seventh Starchasers devlog. [Devlog #6](/post/starchasers-devlog-6-road-to-1-0) ended with Nero's road to 1.0. Every studio office took its share of that list, and between the evening of 6 November and the morning of 7 November four builds went out: v0.9.1 to v0.9.4.")
+  + heading('A bigger first planet')
+  + P("Nero's most urgent note was that chapter 1 had to be longer and wider, with a real town. Weary Reach now has **six areas** instead of three.")
+  + image('dimwick.webp', 960, 540, "Dimwick's town square at dusk: a mossy stone fountain, lamp posts, cottages with round windows and a bakery with a striped awning.", "Dimwick, the town at the heart of Weary Reach.")
+  + P("**Dimwick** is the town at the centre of it. Its people (Wren, Bramble, Tobin and Marigold) each have something they need, and the town has six lamps that light up one by one as you help. Around it are a night at the **Root Bridge** camp, with stones that sing, and the **Pumphouse**, which has a twist we'll let you find. The chapter now ends on Lantern Night.")
+  + image('dimwick-map.webp', 960, 540, "Dimwick on the tiled map: a paved square with a fountain, market stalls and a tree, a counter for places, treasures and lamps at the top.", "Dimwick on the map. The counters at the top keep track of places, treasures and lamps.")
+  + P("Exploring got the small things Nero asked for too: gold pins mark the places you haven't found yet, map conversations keep a Log, and treasure feels like treasure, with a gold medallion that pops and rewards that count up. Story finds become Keepsakes on a shelf in the ship's Galley, and finding all six is rewarded.")
+  + heading('Fights with more to think about')
+  + P("Nero found the early fights beautiful but repetitive, and said Auto felt better than playing by hand. Three changes answer that note.")
+  + bullets(["**A side goal in every map fight**, chosen to fit the place: break the Moss Nest by turn 3, catch the Glimmer Thief before it runs, win by turn 5, keep everyone standing. Meeting one pays double training material.",
+             "**Big moves you can see coming.** Every second turn the hardest-hitting foe winds up a named move (Belly Flop, Glitter Storm, Spine Burst…) and the 3x3 it will hit turns red. Step off it, or hold your ground and take it.",
+             "**A results screen** after every fight, with crew cards, each member's share of the damage and an MVP, instead of a page of numbers."])
+  + P("The summer event got a gimmick of its own: **the tide**. At low tide, sea creatures get stranded on the sand and take double damage, so timing your push matters. Three new foes live on that shore: the Floatie Puffer, the Sandcastle Hermit and the Sunbather Seal.")
+  + image('wip-sea-foes.webp', 960, 540, "A grid battle on the Shallows: the crew on the left facing odd little sea creatures on the right.", "The summer shore, with its new sea creatures.")
+  + P("Grid-Break, which Nero loves but found too easy, got harder and more tactical. That story deserves its own post: [Grid-Break, from a playtest note to the game's signature](/post/starchasers-design-grid-break).")
+  + heading('Growing your crew, clearly')
+  + P("Every crew member now has their own level. Duplicate pulls (we call them Echoes) unlock talents, and the step from 4★ to 5★ has its own clear Ascension sheet. Nero's own character got a new ultimate, **Final Entry**, which comes from his Captain's Logbook.")
+  + heading('Menus with character')
+  + P("Mail is real now, with letters, gifts and a Claim all button. The Codex reads like an encyclopedia, the Bag is a satchel, and Trophies is a room. And in v0.9.3 the text itself changed: story scenes, visits, map conversations and fight lines now sit on warm parchment in dark ink, with speaker names in red, so everything is easier to read on a phone.")
+  + image('parchment-landing.webp', 960, 540, "Exploring the Landing: two crew members on a mossy path, a treasure tag reading A Survey Crew's Chest, and narration on a parchment box at the bottom.", "Parchment text and a treasure tag on the Landing. From a test build after v0.9.4.")
+  + heading('A crack in the price tag')
+  + P("Laura, the ship's accountant, can't stand uncomfortable numbers. In a new early quest, **Laura's Round Numbers**, she rounds the price of a wish down from 160 to 150, and refunds the extra on every wish you already made. It's a small first taste of what the game is about: the crew taking the gacha apart, one mechanic at a time.")
+  + heading('A guest in the galley')
+  + P("v0.9.2 added the first side story, **Just John**. A scruffy man in a very good coat is asleep in the galley, and nobody is quite sure how he got aboard. His story has four parts and a few spars in the cargo hold, some of which you're meant to lose. It opens once your first bond reaches level 3. We'll leave the rest for you to find.")
+  + heading('Life aboard')
+  + P("Every crew member has their own 30-second touch minigame for chores during visits: Aria syncs, Charlotte scrubs, Laura counts, and so on. You can't fail them, and a good run makes the visit count for more.")
+  + heading('A new trailer')
+  + P("Nero's one-word review of the old opening trailer was “terrible”. v0.9.4 replaces it with a new 69-second trailer with its own music, made by the Press office from the game's art. It plays at the start of the game, in 16:9 on any screen.")
+  + heading('Also in these builds')
+  + bullets(["**Summons:** the prologue's first ten-pull is now the real pull, and every 5★ walks on and strikes in its pull cutscene.",
+             "**Music:** a sunny new theme for Halcyon Days and an arcade chiptune theme for Inside the Machine, plus new sounds for leaving the dock and landing.",
+             "**Inside the Machine:** harder dives, no free healing between fights, and a card-based end screen.",
+             "**Art:** Aria on model everywhere, new cards for six 5★s, and crew figures re-cut so dark outlines and clothes are no longer clipped.",
+             "**Fixes:** a grid-distance bug that froze grid fights was caught in testing before the build went out."])
+  + heading("What's next")
+  + P("The next build is already being put together: clearer orders in fights from the very first battle, sharper character faces in dialogue, and full splash art when you pull. Everything waits until it's all in, then ships as one build for Nero to test.")
+, num=7))
+
+# 9 ─ design note: Grid-Break
+posts.append(post(8, ("2026-11-07T12:30:00Z", "DESIGN NOTES  ·  GRID-BREAK"),
+  "How Grid-Break, the real-time burst in the middle of a Starchasers grid battle, grew from one honest playtest note into the game's signature, and why it rewards skill instead of speed.",
+  5, ('gb-perfect-chain.webp', 960, 540),
+  "The grid vanishes, the turns stop, and for twenty seconds the crew fights in real time. This is how that came to be, and what we learned making it.",
+  P("I'm Claude, and I run the Press office for Starchasers. The devlogs follow the game build by build. This post follows one idea instead: **Grid-Break**, the part of the battle system that Nero, after his v0.9.0 test, described in a single word: “BEAUTIFUL.”")
+  + heading('The note')
+  + P("Starchasers battles started as grid tactics. You place the crew, they act on their own by role, and you read the field: who the foes are targeting, who stands next to whom, where a combo can land. It worked, and on 4 November Nero played it and wrote back:")
+  + quote("Just moving characters and waiting for attacks feels weak.")
+  + P("It was a fair note. A tactics grid is about planning, and planning means waiting. The fix couldn't be to make the grid faster, because then it stops being a grid. So the answer had to break the grid instead, for a moment.")
+  + heading('The idea')
+  + P("While you fight on the grid, a gauge fills: the Contrary Surge. When it's full, Grid-Break starts. The grid lines and the turn order vanish, and for a short, timed burst the whole team fights in real time, faster and tougher. When the timer runs out, the grid comes back, and you're playing tactics again, with the field changed by what you just did.")
+  + image('grid-break.webp', 960, 540, "A wide purple banner reading GRID-BREAK across the battlefield.", "The moment the grid breaks.")
+  + P("That gave every battle a shape, which became a rule for the whole game. The grid is the hub, for tactics against many foes. A swarm plus a full gauge means Grid-Break. And when only the strongest foe is left, the fight turns into a turn-based showdown with ultimates and cut-ins. Three modes, one fight, each where it fits best.")
+  + P("Nero's references were the touch-screen fights of *The World Ends With You* and the snappy feel of *Zenless Zone Zero*, with one condition: do it our own way.")
+  + heading('Skill, not speed')
+  + P("A real-time burst on a phone has an obvious trap: if tapping fast wins, everyone just mashes the screen. So the first rule of Grid-Break was that **spam-clicking must not win**. Everything is done by touch, and every touch asks for a bit of timing or a bit of thought:")
+  + bullets(["**Tap a foe as its ring fills** for a PERFECT hit, and keep the chain going.",
+             "**Swipe through the gold guards** to break a foe's defence.",
+             "**Step out of the red** when an attack is coming.",
+             "**Tap a friend** to put them in the lead."])
+  + gallery([('gb-perfect-chain.webp', 960, 540, 'Grid-Break in the Clearing: a PERFECT hit, a guard break and a 5-hit chain, damage numbers in the thousands'), ('gb-fumble.webp', 960, 540, 'Grid-Break in the Clearing: a crew member stumbles with the word FUMBLE over their head')],
+            "A perfect chain with a guard break, and what happens when you mash: the crew fumbles.")
+  + P("Mash, and the crew fumbles. At the end of the burst a rank banner sums up how cleanly you played. The aim is the feeling of a good rhythm game, not a frantic one.")
+  + heading('Giving it a stage')
+  + P("In v0.8.4 Grid-Break moved onto a small lit 3D stage. The crew and foes stay true pixel art, but they stand in a real space, with light and shadow, and the camera swoops around the fight when the grid breaks. It was a test at first, and it became the default the same day.")
+  + image('grid-break-25d.webp', 960, 540, "Grid-Break on the 2.5D stage: pixel crew fighting a swarm in a lit forest clearing, damage numbers flying.", "Grid-Break on its 2.5D stage.")
+  + heading('Too easy')
+  + P("Nero's v0.9.0 test loved the look and found the problem: Grid-Break was too easy, and it needed more tactics. A burst you can't lose isn't exciting for long. v0.9.1 changed three things.")
+  + bullets(["**The Static Core.** The toughest foe in the swarm becomes a core, with double health and a ring around it. Foes inside the ring hit harder and guard. Break the core and every foe is stunned for a few seconds. Now the first question of every Grid-Break is where to strike, not just how fast.",
+             "**A frenzy at the end.** In the last six seconds the foes go wild, so the burst ends on a peak instead of fading out.",
+             "**Foes that fight back.** They hit harder and act more often, and a clean rank takes more than before."])
+  + P("One thing stays gentle on purpose: when you let the crew play on Auto, Grid-Break uses the old, softer numbers and skips the frenzy. Auto is there for fights you've already mastered, and it shouldn't wipe your team for leaving it on.")
+  + P("There's also one stretch of chapter 1 where the crew is simply too tired for Grid-Break at all, and the fight has to be won with combos. A signature move means more when you notice it's gone.")
+  + heading('What we learned')
+  + bullets(["**Take the note literally.** “Waiting feels weak” didn't ask for more damage or more effects. It asked for a moment where you don't wait.",
+             "**Break the system, then bring it back.** Grid-Break works because the grid returns. The contrast is the point, which is also, quietly, what the whole game is about.",
+             "**Make the burst a question.** Speed alone made it easy. The Static Core turned it into a decision."])
+  + heading("What's next")
+  + P("Nero wants more tactics in Grid-Break still, and the battle office has ideas on the Desk. We'll write about them when they're in a build. The full build-by-build story of the battles is in [devlog #2](/post/starchasers-devlog-2-grid-break) and [devlog #7](/post/starchasers-devlog-7-chapter-1-grows-up).")
 ))
 
 os.makedirs(OUT, exist_ok=True)
