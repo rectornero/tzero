@@ -289,19 +289,6 @@
        "image": {
         "media": {
          "src": {
-          "url": "/assets/img/posts/starchasers/weary-reach.webp"
-         },
-         "width": 960,
-         "height": 538
-        }
-       },
-       "altText": "Two crew members resting on the steps of a lantern-lit street on Weary Reach",
-       "title": "Two crew members resting on the steps of a lantern-lit street on Weary Reach"
-      },
-      {
-       "image": {
-        "media": {
-         "src": {
           "url": "/assets/img/posts/starchasers/mossway-soft.webp"
          },
          "width": 960,
@@ -335,7 +322,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Weary Reach, in a story scene and on the map.",
+       "text": "Weary Reach on the map.",
        "decorations": [
         {
          "type": "ITALIC",

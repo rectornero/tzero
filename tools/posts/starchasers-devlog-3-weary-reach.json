@@ -16,9 +16,9 @@
  "media": {
   "wixMedia": {
    "image": {
-    "url": "/assets/img/posts/starchasers/weary-reach.webp",
-    "width": 960,
-    "height": 538
+    "url": "/assets/img/starchasers/weary-reach-landing.webp",
+    "width": 1280,
+    "height": 720
    }
   },
   "displayed": true,

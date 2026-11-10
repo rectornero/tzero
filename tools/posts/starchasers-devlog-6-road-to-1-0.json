@@ -754,19 +754,6 @@
        "image": {
         "media": {
          "src": {
-          "url": "/assets/img/posts/starchasers/wip-card-aria.webp"
-         },
-         "width": 480,
-         "height": 720
-        }
-       },
-       "altText": "Aria's crew card: green hair in a braid, a red flower, a big smile",
-       "title": "Aria's crew card: green hair in a braid, a red flower, a big smile"
-      },
-      {
-       "image": {
-        "media": {
-         "src": {
           "url": "/assets/img/posts/starchasers/wip-card-alfred.webp"
          },
          "width": 480,
@@ -800,7 +787,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Crew cards, which Nero wants for the whole cast. Aria's is the redrawn green-haired version.",
+       "text": "Crew cards, which Nero wants for the whole cast.",
        "decorations": [
         {
          "type": "ITALIC",
@@ -1647,103 +1634,6 @@
       "height": 540
      },
      "altText": "A grid battle on the Shallows map: the crew on the left facing new, odd little sea creatures on the right."
-    }
-   },
-   {
-    "type": "PARAGRAPH",
-    "id": "",
-    "nodes": [],
-    "paragraphData": {}
-   },
-   {
-    "type": "GALLERY",
-    "id": "",
-    "nodes": [],
-    "galleryData": {
-     "containerData": {
-      "width": {
-       "size": "CONTENT"
-      },
-      "alignment": "CENTER"
-     },
-     "items": [
-      {
-       "image": {
-        "media": {
-         "src": {
-          "url": "/assets/img/posts/starchasers/wip-camp-fire.webp"
-         },
-         "width": 960,
-         "height": 540
-        }
-       },
-       "altText": "The crew sitting around a campfire under the stars, wrapped in blankets",
-       "title": "The crew sitting around a campfire under the stars, wrapped in blankets"
-      },
-      {
-       "image": {
-        "media": {
-         "src": {
-          "url": "/assets/img/posts/starchasers/wip-lantern-night.webp"
-         },
-         "width": 960,
-         "height": 540
-        }
-       },
-       "altText": "The crew dancing with townsfolk on a lantern-lit square at night",
-       "title": "The crew dancing with townsfolk on a lantern-lit square at night"
-      }
-     ],
-     "options": {
-      "layout": {
-       "type": "GRID",
-       "orientation": "COLUMNS",
-       "numberOfColumns": 2,
-       "horizontalScroll": false
-      },
-      "item": {
-       "crop": "FIT",
-       "spacing": 10
-      }
-     }
-    }
-   },
-   {
-    "type": "PARAGRAPH",
-    "id": "",
-    "nodes": [
-     {
-      "type": "TEXT",
-      "id": "",
-      "nodes": [],
-      "textData": {
-       "text": "Warm moments for the longer chapter 1: a campfire, and a night of lanterns.",
-       "decorations": [
-        {
-         "type": "ITALIC",
-         "italicData": true
-        },
-        {
-         "type": "COLOR",
-         "colorData": {
-          "foreground": "#6B7280"
-         }
-        },
-        {
-         "type": "FONT_SIZE",
-         "fontSizeData": {
-          "unit": "PX",
-          "value": 14
-         }
-        }
-       ]
-      }
-     }
-    ],
-    "paragraphData": {
-     "textStyle": {
-      "textAlignment": "CENTER"
-     }
     }
    },
    {
