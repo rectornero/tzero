@@ -861,7 +861,7 @@
             "id": "",
             "nodes": [],
             "textData": {
-             "text": "“Laura: maybe let’s try fair hair, straight?”",
+             "text": "“Discard the idea of changing the interface over time: maybe just some minor thing, like glows?”",
              "decorations": []
             }
            }
@@ -1633,7 +1633,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "Splash art from the summer event, Halcyon Days. Its music is getting a sunnier rewrite.",
+         "text": "The Mossway on Weary Reach. Maps like this one got notes about markers, treasure and what's still left to find.",
          "decorations": []
         }
        }
@@ -1649,12 +1649,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/aria-lantern-960.webp"
+       "url": "/assets/img/starchasers/weary-reach-mossway.webp"
       },
-      "width": 960,
-      "height": 540
+      "width": 1280,
+      "height": 720
      },
-     "altText": "Aria at a night lantern festival"
+     "altText": "Pixel-art map of the Mossway on Weary Reach"
     }
    },
    {
@@ -1954,40 +1954,107 @@
     "paragraphData": {}
    },
    {
-    "type": "IMAGE",
+    "type": "GALLERY",
     "id": "",
-    "nodes": [
-     {
-      "type": "CAPTION",
-      "id": "",
-      "nodes": [
-       {
-        "type": "TEXT",
-        "id": "",
-        "nodes": [],
-        "textData": {
-         "text": "The crew of the Contrary. More about them in Meet the crew of the Contrary.",
-         "decorations": []
-        }
-       }
-      ]
-     }
-    ],
-    "imageData": {
+    "nodes": [],
+    "galleryData": {
      "containerData": {
       "width": {
        "size": "CONTENT"
       },
       "alignment": "CENTER"
      },
-     "image": {
-      "src": {
-       "url": "/assets/img/starchasers/crew-key-visual-960.webp"
+     "items": [
+      {
+       "image": {
+        "media": {
+         "src": {
+          "url": "/assets/img/starchasers/crew/nero-ship.webp"
+         },
+         "width": 720,
+         "height": 405
+        }
+       },
+       "altText": "Captain Nero aboard the Contrary",
+       "title": "Captain Nero aboard the Contrary"
       },
-      "width": 960,
-      "height": 540
-     },
-     "altText": "The crew of the Contrary gathered around the ship's wheel under a starry sky."
+      {
+       "image": {
+        "media": {
+         "src": {
+          "url": "/assets/img/starchasers/crew/martin-ship.webp"
+         },
+         "width": 720,
+         "height": 405
+        }
+       },
+       "altText": "Martin aboard the Contrary",
+       "title": "Martin aboard the Contrary"
+      },
+      {
+       "image": {
+        "media": {
+         "src": {
+          "url": "/assets/img/starchasers/crew/wilhelm-ship.webp"
+         },
+         "width": 720,
+         "height": 405
+        }
+       },
+       "altText": "Wilhelm aboard the Contrary",
+       "title": "Wilhelm aboard the Contrary"
+      }
+     ],
+     "options": {
+      "layout": {
+       "type": "GRID",
+       "orientation": "COLUMNS",
+       "numberOfColumns": 3,
+       "horizontalScroll": false
+      },
+      "item": {
+       "crop": "FIT",
+       "spacing": 10
+      }
+     }
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "Nero, Martin and Wilhelm aboard the Contrary. The rest of the crew are being redrawn from scratch.",
+       "decorations": [
+        {
+         "type": "ITALIC",
+         "italicData": true
+        },
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#6B7280"
+         }
+        },
+        {
+         "type": "FONT_SIZE",
+         "fontSizeData": {
+          "unit": "PX",
+          "value": 14
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "paragraphData": {
+     "textStyle": {
+      "textAlignment": "CENTER"
+     }
     }
    },
    {
@@ -2210,44 +2277,6 @@
          "linkData": {
           "link": {
            "url": "/starchasers",
-           "target": "SELF"
-          }
-         }
-        }
-       ]
-      }
-     },
-     {
-      "type": "TEXT",
-      "id": "",
-      "nodes": [],
-      "textData": {
-       "text": ". If you'd rather meet the people first, start with ",
-       "decorations": []
-      }
-     },
-     {
-      "type": "TEXT",
-      "id": "",
-      "nodes": [],
-      "textData": {
-       "text": "Meet the crew of the Contrary",
-       "decorations": [
-        {
-         "type": "BOLD",
-         "fontWeightValue": 700
-        },
-        {
-         "type": "COLOR",
-         "colorData": {
-          "foreground": "#d7182a"
-         }
-        },
-        {
-         "type": "LINK",
-         "linkData": {
-          "link": {
-           "url": "/post/meet-the-crew-of-the-contrary",
            "target": "SELF"
           }
          }
