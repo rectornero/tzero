@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# ON HOLD (10 Nov 2026): six of the nine crew are being redrawn under the ContraryQuest crew licence (PR #36).
+# The post was taken off the branch; rebuild it here with the new art once the redesign is approved.
 # Builds the TZERØ crew feature "Meet the crew of the Contrary" (Ricos JSON, same shape as the Starchasers devlogs).
 # Press office. Spoiler-free on purpose: no bond skills, no gacha mechanics, nothing after chapter 1 (NEWSROOM.md rule 7).
 # Run: python3 tools/press-starchasers-crew.py tools/posts, then node tools/freeze-archive.mjs

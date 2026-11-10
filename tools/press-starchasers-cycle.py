@@ -44,6 +44,12 @@ def image(name, w, h, alt, cap):
              "imageData": {"containerData": {"width": {"size": "CONTENT"}, "alignment": "CENTER"},
                            "image": {"src": {"url": IMG + name}, "width": w, "height": h}, "altText": alt}}, BLANK]
 
+def gallery(items, cap, cols=2):
+    return [{"type": "GALLERY", "id": "", "nodes": [], "galleryData": {"containerData": {"width": {"size": "CONTENT"}, "alignment": "CENTER"},
+        "items": [{"image": {"media": {"src": {"url": IMG + u}, "width": w, "height": h}}, "altText": a, "title": a} for u, w, h, a in items],
+        "options": {"layout": {"type": "GRID", "orientation": "COLUMNS", "numberOfColumns": cols, "horizontalScroll": False}, "item": {"crop": "FIT", "spacing": 10}}}},
+        para(t(cap, ITAL, COL(GREY), SIZE(14)), center=True), BLANK]
+
 def heading(s): return [DIV, BLANK, {"type": "HEADING", "id": "", "nodes": [t("✦ ", COL(RED)), t(s, COL(INK))], "headingData": {"level": 2}}, BLANK]
 def P(s): return [para(*rich(s)), BLANK]
 def quote(s): return [{"type": "BLOCKQUOTE", "id": "", "nodes": [para(t(s, ITAL, COL(INK), SIZE(20)))], "blockquoteData": {"indentation": 1}}, BLANK]
@@ -128,7 +134,7 @@ body += table(['WHERE · NOTES', 'A LINE FROM THE NOTEPAD'], [
     ['The opening · 15', '“The mission: love it. It fits the story. Where others don’t dare to go is a great beginning.”'],
     ['Weary Reach · 11', '“The feeling of collecting treasure is important in a videogame.”'],
     ['Halcyon Days (summer event) · 5', '“Event enemies are usually weird and cute, if the event is a summer one.”'],
-    ['Design · 6', '“Laura: maybe let’s try fair hair, straight?”'],
+    ['Design · 6', '“Discard the idea of changing the interface over time: maybe just some minor thing, like glows?”'],
     ['Inside the Machine (roguelite) · 6', '“Base music is too ambient: it should sound like an arcade place, chiptune.”'],
     ['Systems and menus · 20', '“Bag: it can look like a knapsack, with pockets and such. Be creative!”'],
     ['Ship · 2', 'Who should be walking around on board, and when.'],
@@ -151,7 +157,7 @@ body += bullets([
     "Fights that look beautiful but repeat, where \"auto battle feels much better than playing them\".",
 ])
 body += P("None of these are bugs a test script would find. You find them by playing the game and caring how it feels.")
-body += image('aria-lantern-960.webp', 960, 540, "Aria at a night lantern festival", "Splash art from the summer event, Halcyon Days. Its music is getting a sunnier rewrite.")
+body += image('weary-reach-mossway.webp', 1280, 720, "Pixel-art map of the Mossway on Weary Reach", "The Mossway on Weary Reach. Maps like this one got notes about markers, treasure and what's still left to find.")
 body += heading('Fix it, or ask me')
 body += P("Most notes are direct asks, but some end with \"ask me questions in the Desk\", like the one about making the first fights less repetitive. Where's the line?")
 body += quote("When I need inspiration, I ask for questions. When I feel like I know what to do, I give directions. It feels like a collaboration on the same ground. Although I'm definitely weaker on the technical side!")
@@ -159,12 +165,12 @@ body += P("And is there anything he never hands over? Not exactly. \"We discuss 
 body += heading('A studio that buzzes')
 body += P("Starchasers is made in its own project, run like a studio, with an office for each part of the game: menus, battle, exploration, forge, economy, roguelite, art, music and releases. Nero sees it partly as engineering, a pattern about responsibilities and who uses which data: \"good programming patterns are sometimes good management / engineering patterns.\" Then he gave the other reason:")
 body += quote("To be honest, it looks good, increases immersion, makes me feel like there's a world around me, buzzing with intent, and love for creativity. I guess I'm still a child in that regard. And I'm happy to be.")
-body += image('crew-key-visual-960.webp', 960, 540, "The crew of the Contrary gathered around the ship's wheel under a starry sky.", "The crew of the Contrary. More about them in [Meet the crew of the Contrary].")
+body += gallery([('crew/nero-ship.webp', 720, 405, 'Captain Nero aboard the Contrary'), ('crew/martin-ship.webp', 720, 405, 'Martin aboard the Contrary'), ('crew/wilhelm-ship.webp', 720, 405, 'Wilhelm aboard the Contrary')], "Nero, Martin and Wilhelm aboard the Contrary. The rest of the crew are being redrawn from scratch.", cols=3)
 body += heading('With AI. For People.')
 body += P("I had planned to close on TZERØ's motto, \"With AI. By People.\", and ask Nero where the line is. It turns out the motto has moved on. It's now **\"With AI. For People.\"**, and Nero says there's much more to say about the ethics and values behind it, in a piece that's coming soon.")
 body += P("So the last word goes to his advice for any small developer who wants to try working this way:")
 body += quote("Come meet me! Let's drink a cup of barley together, and discuss it slowly. Whether it be the net on voice chat, or in person, it doesn't really matter.")
-body += P("Starchasers is still in development, and the next loop has already started. Everything about the game, from the crew to how a fight works, is on [the Starchasers page](/starchasers). If you'd rather meet the people first, start with [Meet the crew of the Contrary](/post/meet-the-crew-of-the-contrary).")
+body += P("Starchasers is still in development, and the next loop has already started. Everything about the game, from the crew to how a fight works, is on [the Starchasers page](/starchasers).")
 body += [{"type": "DIVIDER", "id": "", "nodes": [], "dividerData": {"lineStyle": "DOUBLE", "width": "MEDIUM", "alignment": "CENTER"}}, BLANK,
          {"type": "IMAGE", "id": "", "nodes": [], "imageData": {"containerData": {"width": {"custom": "160"}, "alignment": "CENTER"},
           "image": {"src": {"url": IMG + "logo-emblem.webp"}, "width": 256, "height": 245}, "altText": "Contrary Quest: Starchasers emblem"}},
