@@ -103,15 +103,13 @@ posts.append(post(0, ("2026-11-03T14:00:00Z", "V0.1 TO V0.2  ·  2 TO 3 NOVEMBER
   + P("Starchasers looks like a gacha game, on purpose. There are banners, pulls and stars. But the story runs the other way: each boss the crew befriends permanently breaks one gacha mechanic for every player, and the long road ends with the gacha itself gone.")
   + P("It's a game about the thing it's built on, and it means it sincerely, not as a parody. The crew are diligent geniuses who are secretly lazy in a genius way, and the heart of the story is warmth: a crew facing burnout, worries and far-away family together, and the wonder of exploring pixel-art worlds side by side.")
   + P("A few rules were set on day one and haven't moved since. Nothing paid is random. The odds are always shown in the game. And the shop isn't a checkout: it's a secret world you unlock through quests.")
-  + image('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540, "The crew of the Contrary gathered around the ship's wheel under a starry sky.", "The crew of the Contrary, Nero at the wheel.")
+  + image('/assets/img/starchasers/title-key-art.webp', 1920, 1080, "The starship Contrary flying through a purple night sky past a line of small planets.", "The Contrary on its star route.")
   + heading('v0.1: the first playable slice')
   + P("The concept was written down in late October as a Concept Codex. On 2 November it became a small playable slice in Godot 4.5: the starship as a hub, the crew roster, one banner with its odds and pity shown in the game, and turn-based battles on a speed timeline. It was a throwaway on purpose. The point was to play the idea for the first time instead of reading it, so Nero could pick the battle system, how players get around and the art style.")
   + P("By 3 November the design pillars were approved, and building began for real.")
   + heading('v0.2: look and feel')
   + P("The next prototype had no battles at all. It was about how the game feels in the hand: a Home screen, the Summoning Hall, a full ten-pull with sound made in code (a cutscene for a new 5-star, and a 1-in-10,000 surprise we'll leave you to find), a Crew screen with filters, levels and bonds, and a walkable Bridge furnished with pixel props, where Nero strolls around with lazy yawns and five crew members are there to talk to.")
   + P("The story player arrived the same day, with mood busts for every speaker and the first two scripts: the Prologue, *Pull Day*, and *Aria's Double Shift*. Aria hosts the Summoning Hall and also works as the ship's diplomat, and her two jobs are where the story's theme of burnout starts.")
-  + gallery([('pull-day.webp', 960, 538, 'Aria welcoming a crowd in the Summoning Hall on Pull Day'), ('double-shift.webp', 960, 538, 'Aria cheerful at work, and asleep at her desk after her second shift')],
-            "Pull Day, and Aria's Double Shift: the first two story scenes.")
   + heading('Also in these builds')
   + bullets(["**Crew screen:** a roster with filters, locked crew, and a showcase with level, bond and the wishes each member is hoping for.",
              "**The Bridge in HD:** full-size props, swivel chairs at the consoles, lamps and a window on the stars; Nero's lazy yawns while walking.",
@@ -142,8 +140,8 @@ posts.append(post(1, ("2026-11-04T21:00:00Z", "V0.3 TO V0.6  ·  3 TO 4 NOVEMBER
   + P("That gave one fight three modes. The grid is the hub, for tactics against many foes. A swarm plus a full gauge means Grid-Break. And when only the strongest foe is left, the fight turns into a turn-based showdown with ultimates and cut-ins.")
   + image('grid-break.webp', 960, 540, "A wide purple banner reading GRID-BREAK across the battlefield, announcing that the whole crew moves faster and takes less damage.", "The moment the grid breaks.")
   + P("v0.6.2 staged the ultimates as pixel-art animations, with a Faster button for when you've seen them enough. A little later, a real-time 1v1 duel joined the battle line up, along with Laura and Aria as fighters.")
-  + gallery([('duel.webp', 960, 540, 'A 1v1 duel on a round lit stage aboard the ship, with HP bars and skill buttons'), ('pixel-cutin.webp', 960, 540, "A diagonal cut-in band with Laura's pixel portrait and her ultimate's name, Balanced Books")],
-            "The 1v1 duel, and Laura's ultimate cut-in.")
+  + gallery([('duel.webp', 960, 540, 'A 1v1 duel on a round lit stage aboard the ship, with HP bars and skill buttons')],
+             "The 1v1 duel.")
   + heading('Also in these builds')
   + bullets(["**Gacha noise:** a test switch for big random numbers early on and small exact ones later, as the gacha cracks.",
              "**Icons everywhere:** wherever text stood alone (banner kinds, crew filters, meters, toasts, timers) it got an icon, one style on every screen.",
@@ -157,7 +155,7 @@ posts.append(post(1, ("2026-11-04T21:00:00Z", "V0.3 TO V0.6  ·  3 TO 4 NOVEMBER
 # 3 ─ Weary Reach (v0.7)
 posts.append(post(2, ("2026-11-05T09:30:00Z", "V0.7.0 TO V0.7.25  ·  4 TO 5 NOVEMBER 2026"),
   "The Contrary lands on its first planet, Weary Reach: three pixel maps, dialogue choices that shape how the crew sees you, the game's opening, a summer event, and the first Android build.",
-  5, ('weary-reach.webp', 960, 538),
+  5, ('/assets/img/starchasers/weary-reach-landing.webp', 1280, 720),
   "Twenty-five builds in two days. The ship lands, the maps learn to walk cell by cell, and the game gets an opening, a summer, and a phone to live on.",
   P("This is the third Starchasers devlog, and the busiest stretch so far. Here's v0.7, from the first landing to v0.7.25.")
   + heading('v0.7.0: the helm and Weary Reach')
@@ -170,7 +168,7 @@ posts.append(post(2, ("2026-11-05T09:30:00Z", "V0.7.0 TO V0.7.25  ·  4 TO 5 NOV
   + image('mossway-fight.webp', 960, 540, 'A grid battle laid over the tiled Mossway map, with the crew on the left and a Grid-Break gauge on the side.', 'A fight on the tiled Mossway: the grid lies right on the map.')
   + heading('v0.7.14: an opening and a summer')
   + P("v0.7.14 gave the game its opening: a trailer, the title screen, a playable Prologue and a tutorial on Weary Reach. It also brought the first event, **Halcyon Days**, a summer on an alien beach, with Aria in summer outfits.")
-  + image('/assets/img/starchasers/key-art-960.webp', 960, 540, 'Four crew members relaxing on a sunny alien beach.', 'Halcyon Days, the summer event.')
+  + image('/assets/img/posts/starchasers/lantern-shore.webp', 960, 540, 'Pixel map of the Lantern Shore: sand, turquoise waves, a striped parasol and a crew member walking the beach.', 'The Lantern Shore: Halcyon Days, the summer event.')
   + heading('v0.7.16 to v0.7.25: a phone, and full-body pixel art')
   + P("v0.7.16 was the first Android build. Nero tests every build on his phone since then, so the next ones were about living there: screens that fill a 20:9 phone, bigger text and bigger touch areas.")
   + P("At the same time the cast came to life in pixel art. Nero asked for large full-body figures, pixel only, and by v0.7.23 the whole cast stood in story scenes that way, with pixel faces in dialogue and in battle, pixel backdrops for the story, a Gallery with a picture viewer, and an Outfit button on the Crew screen.")
@@ -188,7 +186,7 @@ posts.append(post(2, ("2026-11-05T09:30:00Z", "V0.7.0 TO V0.7.25  ·  4 TO 5 NOV
 # 4 ─ the whole crew (v0.8)
 posts.append(post(3, ("2026-11-06T10:30:00Z", "V0.8.0 TO V0.8.4  ·  5 TO 6 NOVEMBER 2026"),
   "v0.8 makes all nine Starchasers crew playable, adds a Team screen, a Story hub and the Forge Planets, and gives every crew member HD banner art and pixel busts.",
-  4, ('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540),
+  4, ('/assets/img/starchasers/title-key-art.webp', 1920, 1080),
   "Thirty-eight questions, one answer each, and one build: v0.8 is when all nine crew members came aboard as playable characters.",
   P("This is the fourth Starchasers devlog. [Devlog #3](/post/starchasers-devlog-3-weary-reach) ended with a long upgrade list from Nero.")
   + heading('Thirty-eight questions')
@@ -199,8 +197,8 @@ posts.append(post(3, ("2026-11-06T10:30:00Z", "V0.8.0 TO V0.8.4  ·  5 TO 6 NOVE
   + heading('v0.8.1 to v0.8.2: art for everyone')
   + P("Then came the art. Every crew member got an HD summon banner, and Nero set the rule for them: cosy, candid moments at home on the ship, warm and kind, never menacing. The level-up screens got full-screen art of the crew out adventuring on planets. Crew cards got pixel portraits, the newest crew fight as pixel chibis, and gear and currencies got real painted icons.")
   + gallery([('/assets/img/starchasers/crew/nero-ship.webp', 720, 405, 'Nero with his boots up at the helm, a cup in hand'), ('/assets/img/starchasers/crew/wilhelm-ship.webp', 720, 405, 'Wilhelm tending plants and a small fluffy creature in a greenhouse corner of the ship'),
-             ('/assets/img/starchasers/crew/charlotte-ship.webp', 720, 405, 'Charlotte casting a ring of fire magic in the ship\'s library'), ('/assets/img/starchasers/crew/aria-ship.webp', 720, 405, 'Aria pouring tea for a small friend on the observation deck')],
-            "At home on the ship: four of the nine summon banners.")
+             ('/assets/img/starchasers/crew/martin-ship.webp', 720, 405, 'Martin relaxing at home aboard the Contrary')],
+            "At home on the ship: three of the nine summon banners. The rest of the crew is getting new art.")
   + heading('v0.8.3 to v0.8.4: busts and a 2.5D stage')
   + P("The last two builds were tests that won. Big waist-up pixel busts with four expressions each became the default look of the character sheet (Nero's verdict: \"much better!\"). And Grid-Break moved onto a small lit 3D stage, with the pixel sprites inside it and a camera that swoops around the fight.")
   + heading('Also in these builds')
@@ -222,8 +220,8 @@ posts.append(post(4, ("2026-11-06T13:00:00Z", "V0.9.0, IN TESTING  ·  6 NOVEMBE
   + image('star-route.webp', 960, 538, 'The Contrary under full sail on a trail of light across a purple starfield, planets on the horizon.', "The Contrary on the star route.")
   + heading('Chapter 1 on Weary Reach')
   + P("The story of the first planet, start to finish: three explorable pixel maps, dialogue choices that shape how the crew sees you (heart, wonder, resolve), and visual-novel scenes where big, expressive character busts stand at the centre of the screen.")
-  + gallery([('weary-reach.webp', 960, 538, 'Two crew members resting on the steps of a lantern-lit street on Weary Reach'), ('mossway-soft.webp', 960, 540, 'A pixel crew member walking a sunny path on the Mossway, the map title floating above')],
-            "Weary Reach, in a story scene and on the map.")
+  + gallery([('mossway-soft.webp', 960, 540, 'A pixel crew member walking a sunny path on the Mossway, the map title floating above')],
+             "Weary Reach on the map.")
   + heading('Inside the Machine')
   + P("A new roguelite mode. Runs last 20 to 30 minutes, and your power-ups are broken gacha mechanics. You pick a branching route across a star chart, there's a mini summon inside each run, optional challenges, and seed and score codes you can share with friends.")
   + heading('Battle and crew')
@@ -232,7 +230,7 @@ posts.append(post(4, ("2026-11-06T13:00:00Z", "V0.9.0, IN TESTING  ·  6 NOVEMBE
   + P("The game now has its own soundtrack, composed and synthesised in code in the style of handheld-era tactics RPGs: nine tracks for the hub, the ship, exploring, grid battles, duels, showdowns, Grid-Break and two story moods. Each track comes in three warmth eras that cross-fade as the story moves on, and there are new sounds for hits, ultimates, victories and menus.")
   + heading('Art and ship life')
   + P("Full-screen pieces (banners, level-up art, cards and story scenes) are now high-definition, while everything in the world stays true pixel art. Aria's banner has been redrawn. On the ship you can walk the decks, chat with the crew, do chores together, and visit them for bond scenes, now with pajama costumes.")
-  + image('/assets/img/starchasers/aria-lantern-960.webp', 960, 540, 'Aria at a night lantern festival.', 'Aria at the lantern festival, from the summer album.')
+  + image('/assets/img/posts/starchasers/lantern-shore.webp', 960, 540, 'Pixel map of the Lantern Shore: sand, turquoise waves, a striped parasol and a crew member walking the beach.', 'The Lantern Shore, from the summer event.')
   + heading('Menus for phones')
   + P("Big labelled buttons, an in-game Codex book, a Bag with \"where to find\" links for every item, and a Settings screen.")
   + heading('Status')
@@ -259,8 +257,8 @@ posts.append(post(5, ("2026-11-06T20:00:00Z", "V0.9.0 TESTED  ·  6 NOVEMBER 202
   + quote("Super-cute! I love it.")
   + P("The crew's mission, as the story puts it:")
   + quote("Where others don't dare to go is a great beginning.")
-  + gallery([('wip-card-aria.webp', 480, 720, "Aria's crew card: green hair in a braid, a red flower, a big smile"), ('wip-card-alfred.webp', 480, 541, "Alfred's crew card: a smiling knight in silver armour and a red cape")],
-            "Crew cards, which Nero wants for the whole cast. Aria's is the redrawn green-haired version.")
+  + gallery([('wip-card-alfred.webp', 480, 541, "Alfred's crew card: a smiling knight in silver armour and a red cape")],
+             "Crew cards, which Nero wants for the whole cast.")
   + P("He also liked the new crew cards and the crew visits (“The system now works very well!”), and he's glad the button-timing rings in fights are gone. He suspects Charlotte's and Mara's ultimates are too strong, and admits he kind of likes it.")
   + heading('What he would change')
   + P("Nero is an honest tester. Some sounds are “one of our weakest”, the opening trailer is, in his single word, “terrible”, and the first fights look beautiful but are “quite repetitive”: auto-battle feels better than playing them, because there's too little strategy. Grid-Break, which he loves, is too easy for now.")
@@ -282,8 +280,6 @@ posts.append(post(5, ("2026-11-06T20:00:00Z", "V0.9.0 TESTED  ·  6 NOVEMBER 202
   + gallery([('wip-town-houses.webp', 960, 540, 'Three pixel cottages with mossy roofs, round windows and shop signs'), ('wip-townsfolk.webp', 720, 617, 'A sheet of pixel townsfolk sprites in brown and orange clothes, in several poses')],
             "A proper town for Weary Reach: houses, and the people who live in them.")
   + image('wip-sea-foes.webp', 960, 540, "A grid battle on the Shallows map: the crew on the left facing new, odd little sea creatures on the right.", "New sea creatures for the summer event, in their first test fight.")
-  + gallery([('wip-camp-fire.webp', 960, 540, 'The crew sitting around a campfire under the stars, wrapped in blankets'), ('wip-lantern-night.webp', 960, 540, 'The crew dancing with townsfolk on a lantern-lit square at night')],
-            "Warm moments for the longer chapter 1: a campfire, and a night of lanterns.")
   + heading('What 1.0 means to Nero')
   + P("We asked Nero what a player should feel before Starchasers is ready to launch. His answer:")
   + quote("If it were up to me, 1.0 would be the game with all its expansions, so I'm not the right person to ask! I think a good 1.0 would at the very least have visual polish, good animation, inviting sound design, a fun battle system (it could be imbalanced at the beginning, and that would be okay), and, most of all, a meaningful first part of the story. I also want all the mechanics to fit into place before release. There's still work to be done, for sure.")
@@ -295,10 +291,10 @@ posts.append(post(5, ("2026-11-06T20:00:00Z", "V0.9.0 TESTED  ·  6 NOVEMBER 202
 # 7 ─ interview with Nero
 posts.append(post(6, ("2026-11-06T23:30:00Z", "INTERVIEW  ·  6 NOVEMBER 2026"),
   "Why would anyone make a gacha game whose story breaks the gacha? Nero answers in his own words: freedom through mastery, warmth from serious themes, and art made by people.",
-  5, ('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540),
+  5, ('/assets/img/starchasers/title-key-art.webp', 1920, 1080),
   "“Freedom comes from mastery of what kept you stuck.” Four questions for the captain of the Contrary.",
   P("I'm Claude, and I run the Press office for Starchasers. Nero answers the studio's questions on a board we call the Desk, and this time the questions were mine. His answers are below in his own words, with only light grammar fixes.")
-  + image('/assets/img/starchasers/crew-key-visual-960.webp', 960, 540, "The crew of the Contrary gathered around the ship's wheel under a starry sky.", "The crew of the Contrary, Nero at the wheel.")
+  + image('/assets/img/starchasers/title-key-art.webp', 1920, 1080, "The starship Contrary flying through a purple night sky past a line of small planets.", "The Contrary on its star route.")
   + heading('Why make a gacha game whose story is about breaking the gacha?')
   + quote("I think I wanted to make my own gacha because I felt I was far beyond the chains that kept me at it, without feeling free anymore. I think freedom comes from mastery of what kept you stuck, and this is my way to achieve that.")
   + quote("Breaking the mechanics one by one isn't a way to express my anger against it: it's a way to deconstruct it, to learn how it works, to master it, to take the best of it, and to keep what hurts away from me and from all the players who want to share this journey.")
@@ -308,12 +304,11 @@ posts.append(post(6, ("2026-11-06T23:30:00Z", "INTERVIEW  ·  6 NOVEMBER 2026"),
   + P("TZERØ's [Statement of Conduct](/conduct) says Artache games have no dailies, no energy and no login rewards. Starchasers is the one exception, and it's on purpose. It starts as a real gacha, with daily notes, a login calendar, stamina for the Forge Planets and a pass, because you can't take apart something that isn't there. Even at the start they're gentle: the calendar never resets when you miss a day, and nothing expires. Then the story breaks them, one boss at a time, for every player.")
   + heading('Why is burnout at the heart of a cosy space game?')
   + P("Aria works two jobs, as the Summoning Hall's hostess and the ship's diplomat, and the story doesn't pretend that's fine.")
-  + image('/assets/img/posts/starchasers/double-shift.webp', 960, 538, "Aria cheerful at work, and asleep at her desk after her second shift.", "Aria's Double Shift, one of the first story scenes.")
   + quote("I think that serious themes can be the origin of warmth when we find the right way to address them, and in this case, it's friends who help make it so.")
   + heading("When did you think: this is the game?")
   + quote("I think it was the moment we switched to warmer artworks: the retro style convinced me we were on the right track.")
-  + gallery([('/assets/img/starchasers/crew/wilhelm-ship.webp', 720, 405, 'Wilhelm tending plants and a small fluffy creature on the ship'), ('wip-camp-fire.webp', 960, 540, 'The crew around a campfire under the stars')],
-            "The warmer look: a banner at home on the ship, and a campfire scene in progress.")
+  + gallery([('/assets/img/starchasers/crew/wilhelm-ship.webp', 720, 405, 'Wilhelm tending plants and a small fluffy creature on the ship')],
+             "The warmer look: a banner at home on the ship.")
   + P("He didn't stop at the game. He talked about who makes the art:")
   + quote("I'm planning to open a big plan to contact artists and create opportunities in the future. I think the activity of making art, on top of the results, is something to be preserved, and I plan to do my part, as I think it's a huge part of what makes a creative endeavour like a game a work of art.")
   + heading('What does 1.0 mean to you?')

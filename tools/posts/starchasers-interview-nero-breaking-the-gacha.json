@@ -16,9 +16,9 @@
  "media": {
   "wixMedia": {
    "image": {
-    "url": "/assets/img/starchasers/crew-key-visual-960.webp",
-    "width": 960,
-    "height": 540
+    "url": "/assets/img/starchasers/title-key-art.webp",
+    "width": 1920,
+    "height": 1080
    }
   },
   "displayed": true,
@@ -158,7 +158,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "The crew of the Contrary, Nero at the wheel.",
+         "text": "The Contrary on its star route.",
          "decorations": []
         }
        }
@@ -174,12 +174,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/crew-key-visual-960.webp"
+       "url": "/assets/img/starchasers/title-key-art.webp"
       },
-      "width": 960,
-      "height": 540
+      "width": 1920,
+      "height": 1080
      },
-     "altText": "The crew of the Contrary gathered around the ship's wheel under a starry sky."
+     "altText": "The starship Contrary flying through a purple night sky past a line of small planets."
     }
    },
    {
@@ -629,49 +629,6 @@
     "paragraphData": {}
    },
    {
-    "type": "IMAGE",
-    "id": "",
-    "nodes": [
-     {
-      "type": "CAPTION",
-      "id": "",
-      "nodes": [
-       {
-        "type": "TEXT",
-        "id": "",
-        "nodes": [],
-        "textData": {
-         "text": "Aria's Double Shift, one of the first story scenes.",
-         "decorations": []
-        }
-       }
-      ]
-     }
-    ],
-    "imageData": {
-     "containerData": {
-      "width": {
-       "size": "CONTENT"
-      },
-      "alignment": "CENTER"
-     },
-     "image": {
-      "src": {
-       "url": "/assets/img/posts/starchasers/double-shift.webp"
-      },
-      "width": 960,
-      "height": 538
-     },
-     "altText": "Aria cheerful at work, and asleep at her desk after her second shift."
-    }
-   },
-   {
-    "type": "PARAGRAPH",
-    "id": "",
-    "nodes": [],
-    "paragraphData": {}
-   },
-   {
     "type": "BLOCKQUOTE",
     "id": "",
     "nodes": [
@@ -856,19 +813,6 @@
        },
        "altText": "Wilhelm tending plants and a small fluffy creature on the ship",
        "title": "Wilhelm tending plants and a small fluffy creature on the ship"
-      },
-      {
-       "image": {
-        "media": {
-         "src": {
-          "url": "/assets/img/posts/starchasers/wip-camp-fire.webp"
-         },
-         "width": 960,
-         "height": 540
-        }
-       },
-       "altText": "The crew around a campfire under the stars",
-       "title": "The crew around a campfire under the stars"
       }
      ],
      "options": {
@@ -894,7 +838,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "The warmer look: a banner at home on the ship, and a campfire scene in progress.",
+       "text": "The warmer look: a banner at home on the ship.",
        "decorations": [
         {
          "type": "ITALIC",

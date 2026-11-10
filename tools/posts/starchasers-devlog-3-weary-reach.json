@@ -16,9 +16,9 @@
  "media": {
   "wixMedia": {
    "image": {
-    "url": "/assets/img/posts/starchasers/weary-reach.webp",
-    "width": 960,
-    "height": 538
+    "url": "/assets/img/starchasers/weary-reach-landing.webp",
+    "width": 1280,
+    "height": 720
    }
   },
   "displayed": true,
@@ -690,7 +690,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "Halcyon Days, the summer event.",
+         "text": "The Lantern Shore: Halcyon Days, the summer event.",
          "decorations": []
         }
        }
@@ -706,12 +706,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/key-art-960.webp"
+       "url": "/assets/img/posts/starchasers/lantern-shore.webp"
       },
       "width": 960,
       "height": 540
      },
-     "altText": "Four crew members relaxing on a sunny alien beach."
+     "altText": "Pixel map of the Lantern Shore: sand, turquoise waves, a striped parasol and a crew member walking the beach."
     }
    },
    {

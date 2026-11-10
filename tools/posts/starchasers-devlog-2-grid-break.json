@@ -753,19 +753,6 @@
        },
        "altText": "A 1v1 duel on a round lit stage aboard the ship, with HP bars and skill buttons",
        "title": "A 1v1 duel on a round lit stage aboard the ship, with HP bars and skill buttons"
-      },
-      {
-       "image": {
-        "media": {
-         "src": {
-          "url": "/assets/img/posts/starchasers/pixel-cutin.webp"
-         },
-         "width": 960,
-         "height": 540
-        }
-       },
-       "altText": "A diagonal cut-in band with Laura's pixel portrait and her ultimate's name, Balanced Books",
-       "title": "A diagonal cut-in band with Laura's pixel portrait and her ultimate's name, Balanced Books"
       }
      ],
      "options": {
@@ -791,7 +778,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "The 1v1 duel, and Laura's ultimate cut-in.",
+       "text": "The 1v1 duel.",
        "decorations": [
         {
          "type": "ITALIC",

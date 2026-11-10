@@ -353,7 +353,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "The crew of the Contrary, Nero at the wheel.",
+         "text": "The Contrary on its star route.",
          "decorations": []
         }
        }
@@ -369,12 +369,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/crew-key-visual-960.webp"
+       "url": "/assets/img/starchasers/title-key-art.webp"
       },
-      "width": 960,
-      "height": 540
+      "width": 1920,
+      "height": 1080
      },
-     "altText": "The crew of the Contrary gathered around the ship's wheel under a starry sky."
+     "altText": "The starship Contrary flying through a purple night sky past a line of small planets."
     }
    },
    {
@@ -590,103 +590,6 @@
      }
     ],
     "paragraphData": {}
-   },
-   {
-    "type": "PARAGRAPH",
-    "id": "",
-    "nodes": [],
-    "paragraphData": {}
-   },
-   {
-    "type": "GALLERY",
-    "id": "",
-    "nodes": [],
-    "galleryData": {
-     "containerData": {
-      "width": {
-       "size": "CONTENT"
-      },
-      "alignment": "CENTER"
-     },
-     "items": [
-      {
-       "image": {
-        "media": {
-         "src": {
-          "url": "/assets/img/posts/starchasers/pull-day.webp"
-         },
-         "width": 960,
-         "height": 538
-        }
-       },
-       "altText": "Aria welcoming a crowd in the Summoning Hall on Pull Day",
-       "title": "Aria welcoming a crowd in the Summoning Hall on Pull Day"
-      },
-      {
-       "image": {
-        "media": {
-         "src": {
-          "url": "/assets/img/posts/starchasers/double-shift.webp"
-         },
-         "width": 960,
-         "height": 538
-        }
-       },
-       "altText": "Aria cheerful at work, and asleep at her desk after her second shift",
-       "title": "Aria cheerful at work, and asleep at her desk after her second shift"
-      }
-     ],
-     "options": {
-      "layout": {
-       "type": "GRID",
-       "orientation": "COLUMNS",
-       "numberOfColumns": 2,
-       "horizontalScroll": false
-      },
-      "item": {
-       "crop": "FIT",
-       "spacing": 10
-      }
-     }
-    }
-   },
-   {
-    "type": "PARAGRAPH",
-    "id": "",
-    "nodes": [
-     {
-      "type": "TEXT",
-      "id": "",
-      "nodes": [],
-      "textData": {
-       "text": "Pull Day, and Aria's Double Shift: the first two story scenes.",
-       "decorations": [
-        {
-         "type": "ITALIC",
-         "italicData": true
-        },
-        {
-         "type": "COLOR",
-         "colorData": {
-          "foreground": "#6B7280"
-         }
-        },
-        {
-         "type": "FONT_SIZE",
-         "fontSizeData": {
-          "unit": "PX",
-          "value": 14
-         }
-        }
-       ]
-      }
-     }
-    ],
-    "paragraphData": {
-     "textStyle": {
-      "textAlignment": "CENTER"
-     }
-    }
    },
    {
     "type": "PARAGRAPH",

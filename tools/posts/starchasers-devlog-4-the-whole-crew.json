@@ -16,9 +16,9 @@
  "media": {
   "wixMedia": {
    "image": {
-    "url": "/assets/img/starchasers/crew-key-visual-960.webp",
-    "width": 960,
-    "height": 540
+    "url": "/assets/img/starchasers/title-key-art.webp",
+    "width": 1920,
+    "height": 1080
    }
   },
   "displayed": true,
@@ -569,27 +569,14 @@
        "image": {
         "media": {
          "src": {
-          "url": "/assets/img/starchasers/crew/charlotte-ship.webp"
+          "url": "/assets/img/starchasers/crew/martin-ship.webp"
          },
          "width": 720,
          "height": 405
         }
        },
-       "altText": "Charlotte casting a ring of fire magic in the ship's library",
-       "title": "Charlotte casting a ring of fire magic in the ship's library"
-      },
-      {
-       "image": {
-        "media": {
-         "src": {
-          "url": "/assets/img/starchasers/crew/aria-ship.webp"
-         },
-         "width": 720,
-         "height": 405
-        }
-       },
-       "altText": "Aria pouring tea for a small friend on the observation deck",
-       "title": "Aria pouring tea for a small friend on the observation deck"
+       "altText": "Martin relaxing at home aboard the Contrary",
+       "title": "Martin relaxing at home aboard the Contrary"
       }
      ],
      "options": {
@@ -615,7 +602,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "At home on the ship: four of the nine summon banners.",
+       "text": "At home on the ship: three of the nine summon banners. The rest of the crew is getting new art.",
        "decorations": [
         {
          "type": "ITALIC",

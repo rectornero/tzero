@@ -289,19 +289,6 @@
        "image": {
         "media": {
          "src": {
-          "url": "/assets/img/posts/starchasers/weary-reach.webp"
-         },
-         "width": 960,
-         "height": 538
-        }
-       },
-       "altText": "Two crew members resting on the steps of a lantern-lit street on Weary Reach",
-       "title": "Two crew members resting on the steps of a lantern-lit street on Weary Reach"
-      },
-      {
-       "image": {
-        "media": {
-         "src": {
           "url": "/assets/img/posts/starchasers/mossway-soft.webp"
          },
          "width": 960,
@@ -335,7 +322,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Weary Reach, in a story scene and on the map.",
+       "text": "Weary Reach on the map.",
        "decorations": [
         {
          "type": "ITALIC",
@@ -723,7 +710,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "Aria at the lantern festival, from the summer album.",
+         "text": "The Lantern Shore, from the summer event.",
          "decorations": []
         }
        }
@@ -739,12 +726,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/aria-lantern-960.webp"
+       "url": "/assets/img/posts/starchasers/lantern-shore.webp"
       },
       "width": 960,
       "height": 540
      },
-     "altText": "Aria at a night lantern festival."
+     "altText": "Pixel map of the Lantern Shore: sand, turquoise waves, a striped parasol and a crew member walking the beach."
     }
    },
    {
