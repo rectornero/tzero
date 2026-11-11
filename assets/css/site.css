@@ -88,8 +88,9 @@ footer strong{color:var(--sun);font-family:var(--display)}
 @keyframes bob{50%{transform:translateY(-.06em)}}
 @keyframes pulse{50%{opacity:.35}}
 @media (max-width:700px){.cover{grid-template-columns:minmax(0,1fr)}.hero{padding-block:56px 170px}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-:root[data-motion="2"] *{animation:none!important;transition:none!important}
+/* Still (and reduced motion) stop every animation; * alone misses ::before/::after, which the worlds redesign animates */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+:root[data-motion="2"] *,:root[data-motion="2"] *::before,:root[data-motion="2"] *::after{animation:none!important;transition:none!important}
 
 .hero2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:30px;align-items:center}
 .coverlink{display:block;margin-top:18px;font-family:var(--mono);font-size:13px;color:var(--ink);opacity:.8}
