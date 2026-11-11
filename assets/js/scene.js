@@ -8,14 +8,25 @@ let LEVEL=MODE==='still'?2:MODE==='light'?1:autoLevel(),stillDrawn=false;
 let still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,LEVEL?1:1.5),root=document.documentElement;
 const sea=document.querySelector('.sea'),c=document.getElementById('waves')||document.createElement('canvas'),x=c.getContext('2d');
 const f=document.getElementById('fx'),fx=f.getContext('2d'),b=document.getElementById('bg'),bx=b.getContext('2d');let cx=-1,cy=-1;
-let w,h,W,H,t=0,mx=-1,my=-1,px=-1,py=-1,energy=0,gust=0,lastX=null;
-/* four skins, one per season. By default the skin follows the real season (northern hemisphere, like Italy);
-   the Skin button cycles them, a viewer's pick is remembered, and cycling back to today's season returns to auto */
-const SKINS={sea:'Summer',autumn:'Autumn',winter:'Winter',spring:'Spring'},ORDER=['sea','autumn','winter','spring'];
-const SEASON=['winter','spring','sea','autumn'][Math.floor((new Date().getMonth()+1)%12/3)];
+let TH=null,w,h,W,H,t=0,mx=-1,my=-1,px=-1,py=-1,energy=0,gust=0,lastX=null;
+/* skins. Default since 11 Nov 2026 (Nero: a homepage that feels "With AI. For People."): Thread, where a fine blue
+   lattice keeps opening paths (AI) and one red thread picks the best through them, following your hand (people).
+   The four season skins of the first site (Summer sea, Autumn, Winter, Spring) stay as options in the settings menu.
+   A viewer's pick is remembered; picking Thread again goes back to the default. */
+const SKINS={thread:'Thread',sea:'Summer',autumn:'Autumn',winter:'Winter',spring:'Spring'},ORDER=['thread','sea','autumn','winter','spring'];
+const SEASON='thread';
 let skin=SEASON;try{const s=localStorage.getItem('tz-skin');if(SKINS[s])skin=s}catch(e){}
-const btn=document.getElementById('skin');function setSkin(s){skin=s;root.dataset.skin=s;btn.textContent='Skin: '+SKINS[s];btn.title=s===SEASON?'Skin follows the season':'Your pick. Cycle to '+SKINS[SEASON]+' to follow the season again';stillDrawn=false}setSkin(skin);
-btn.onclick=()=>{setSkin(ORDER[(ORDER.indexOf(skin)+1)%ORDER.length]);try{skin===SEASON?localStorage.removeItem('tz-skin'):localStorage.setItem('tz-skin',skin)}catch(e){}seasonSay(1);deckShow()};
+const btn=document.getElementById('skin')||document.createElement('button');let skinSet=null;
+function setSkin(s){skin=s;root.dataset.skin=s;btn.textContent='Look: '+SKINS[s];stillDrawn=false;TH=null;
+  if(skinSet)skinSet.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.skin===s))}
+// the settings menu: one button per look instead of a cycling button
+if(btn.isConnected){skinSet=document.createElement('div');skinSet.className='skin-set';skinSet.setAttribute('role','group');skinSet.setAttribute('aria-label','Look of the page');
+  const mk=(k,cls)=>{const b=document.createElement('button');b.type='button';b.className='skin-opt'+(cls?' '+cls:'');b.dataset.skin=k;b.textContent=SKINS[k];
+    b.onclick=e=>{e.stopPropagation();if(k===skin)return;setSkin(k);try{k===SEASON?localStorage.removeItem('tz-skin'):localStorage.setItem('tz-skin',k)}catch(_){}seasonSay(1);deckShow();btn.dispatchEvent(new Event('click'))};return b};
+  const h1=document.createElement('small');h1.textContent='Look';const h2=document.createElement('small');h2.textContent='Old skins, from the first site';
+  const row=document.createElement('div');row.className='skin-row';['sea','autumn','winter','spring'].forEach(k=>row.append(mk(k)));
+  skinSet.append(h1,mk('thread','main'),h2,row);btn.after(skinSet);btn.hidden=true}
+setSkin(skin);
 function size(){w=c.width=c.clientWidth*dpr;h=c.height=c.clientHeight*dpr;W=f.width=innerWidth*dpr;H=f.height=innerHeight*dpr;b.width=W;b.height=H}
 addEventListener('resize',()=>{size();stillDrawn=false});size();
 
@@ -36,9 +47,10 @@ let tiltOn=false;function tilt(e){if(e.gamma==null)return;tiltOn=true;const r=c.
 if(matchMedia('(pointer:coarse)').matches&&window.DeviceOrientationEvent){if(typeof DeviceOrientationEvent.requestPermission==='function')addEventListener('click',function ask(){removeEventListener('click',ask);DeviceOrientationEvent.requestPermission().then(s=>{if(s==='granted')addEventListener('deviceorientation',tilt)}).catch(()=>{})},{once:true});else addEventListener('deviceorientation',tilt)}
 
 /* click anywhere (except links and buttons): splash in summer, leaf burst in autumn, frost crystal in winter, blossom in spring */
-const drops=[],rings=[],flyers=[],frost=[],blooms=[];
+const drops=[],rings=[],flyers=[],frost=[],blooms=[],forks=[];
 document.addEventListener('click',e=>{if(scene||e.target.closest('a,button,.polaroid,.err,.chat'))return;sfx('splash');memory(e);const X=e.clientX*dpr,Y=e.clientY*dpr;
   const WK=root.dataset.world;if(WORLD_SPARK[WK]){energy=2;for(let k=0;k<22;k++){const an=Math.random()*6.28,sp=(1.5+Math.random()*5)*dpr;sparks.push({x:X,y:Y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp-1.5*dpr,life:1,s:(3+Math.random()*5)*dpr,c:WORLD_SPARK[WK],r:Math.random()*6.28})}}
+  else if(skin==='thread'){energy=2;const n=5+Math.floor(Math.random()*3),a0=Math.random()*6.28;forks.push({x:X,y:Y,age:0,pick:Math.floor(Math.random()*n),rays:Array.from({length:n},(_,i)=>({a:a0+i*6.28/n+(Math.random()-.5)*.5,l:(50+Math.random()*60)*dpr,b:(Math.random()-.5)*1.2}))})}
   else if(skin==='sea'){rings.push({x:X,y:Y,r:0});energy=2;
     for(let k=0;k<26;k++){const an=-Math.PI/2+(Math.random()-.5)*1.9,sp=(3+Math.random()*7)*dpr;drops.push({x:X,y:Y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,r:(1+Math.random()*2.6)*dpr,y0:Y})}}
   else if(skin==='winter'){frost.push({x:X,y:Y,age:0,rot:Math.random()*1.05,s:.8+Math.random()*.5});energy=2;gust+=e.clientX>innerWidth/2?-.6:.6;
@@ -161,7 +173,30 @@ function spring(){const wind=.5+Math.sin(t*.35)*.3+gust;gust*=.965;
   for(let k=scenePetals.length-1;k>=0;k--){const P=scenePetals[k];P.x+=(1.1*wind+P.z*.5)*dpr*.8;P.y+=(.6+Math.sin(t*2+P.r)*.5)*dpr;P.r+=P.vr*wind+.01;P.flip+=.06*wind;
     if(mx>=0){const dx=P.x-mx,dy=P.y-my,d=Math.hypot(dx,dy)||1,R=(110+60*energy)*dpr;if(d<R){P.x+=dx/d*(R-d)*.08;P.y+=dy/d*(R-d)*.08}}
     if(P.x>w+30*dpr||P.x<-30*dpr||P.y>h){if(scenePetals.length>30){scenePetals.splice(k,1);continue}P.x=gust<-.3?w+20*dpr:-20*dpr;P.y=Math.random()*h*.6}drawPetal(x,P)}}
-const SCENES={sea:summer,autumn,winter,spring};
+/* scene: Thread. The lattice is drawn once per size into a sprite; each frame only moves a few pulses, the red thread
+   and its knots, so it costs less than the sea. */
+
+function bz(a,b,p){const m=(a.x+b.x)/2,q=1-p;return{x:q*q*q*a.x+3*q*q*p*m+3*q*p*p*m+p*p*p*b.x,y:q*q*q*a.y+3*q*q*p*a.y+3*q*p*p*b.y+p*p*p*b.y}}
+function threadBuild(){const cv=document.createElement('canvas');cv.width=w;cv.height=h;const g=cv.getContext('2d');let sd=11;const R=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const tall=h>w*1.1,cols=Math.max(5,Math.round(w/((tall?95:150)*dpr))),rows=Math.max(4,Math.round(h/((tall?120:105)*dpr)));const nodes=[];
+  for(let i=0;i<=cols;i++){const col=[];for(let j=0;j<rows;j++)col.push({x:i/cols*w+(i&&i<cols?(R()-.5)*w/cols*.5:0),y:h*.08+(j+.5)/rows*h*.84+(R()-.5)*h/rows*.55});nodes.push(col)}
+  const edges=[];for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){const a=nodes[i][j],k=[j];if(R()<.55&&j>0)k.push(j-1);if(R()<.55&&j<rows-1)k.push(j+1);if(R()<.2)k.push(Math.floor(R()*rows));k.forEach(q=>edges.push([a,nodes[i+1][q]]))}
+  g.lineWidth=1*dpr;g.strokeStyle='rgba(61,92,140,.2)';g.beginPath();edges.forEach(([a,b])=>{const m=(a.x+b.x)/2;g.moveTo(a.x,a.y);g.bezierCurveTo(m,a.y,m,b.y,b.x,b.y)});g.stroke();
+  g.fillStyle='rgba(61,92,140,.38)';nodes.flat().forEach(n=>{g.beginPath();g.arc(n.x,n.y,1.7*dpr,0,7);g.fill()});
+  // the "best" path when nobody points: a calm line across the middle
+  const best=nodes.map((col,i)=>{let bj=0,bd=1e9;const ty=h*(.55+.12*Math.sin(i*.9));col.forEach((n,j)=>{const d=Math.abs(n.y-ty);if(d<bd){bd=d;bj=j}});return bj});
+  TH={cv,nodes,edges,best,ys:nodes.map((c,i)=>c[best[i]].y),pulses:Array.from({length:LITE?7:14},()=>({e:edges[Math.floor(R()*edges.length)],p:R(),v:.004+R()*.007})),w,h}}
+function thread(){if(!TH||TH.w!==w||TH.h!==h)threadBuild();x.drawImage(TH.cv,0,0);
+  // AI: pulses running along the paths
+  x.fillStyle='rgba(61,143,214,.85)';TH.pulses.forEach(P=>{P.p+=P.v*(1+energy);if(P.p>=1){const nx=TH.edges.filter(e=>e[0]===P.e[1]);P.e=nx.length?nx[Math.floor(Math.random()*nx.length)]:TH.edges[Math.floor(Math.random()*TH.edges.length)];P.p=0}
+    const q=bz(P.e[0],P.e[1],P.p);x.globalAlpha=.25;x.beginPath();x.arc(q.x,q.y,5*dpr,0,7);x.fill();x.globalAlpha=1;x.beginPath();x.arc(q.x,q.y,1.8*dpr,0,7);x.fill()});
+  // people: the red thread follows the node nearest your hand, near where your hand is
+  const on=mx>=0&&my>=0&&my<=h,pts=TH.nodes.map((col,i)=>{let tj=TH.best[i];if(on){const inf=Math.exp(-Math.pow((col[0].x-mx)/(w*.28),2)),ty=TH.ys[i]*(1-inf)+my*inf;let bd=1e9;col.forEach((n,j)=>{const d=Math.abs(n.y-ty);if(d<bd){bd=d;tj=j}})}
+    const n=col[tj];TH.ys[i]+=(n.y-TH.ys[i])*.08;return{x:n.x,y:TH.ys[i]+Math.sin(t*1.3+i)*1.5*dpr,n}});
+  x.lineCap='round';x.strokeStyle='rgba(215,24,42,.18)';x.lineWidth=7*dpr;x.beginPath();pts.forEach((p,i)=>{if(!i)return x.moveTo(p.x,p.y);const a=pts[i-1],m=(a.x+p.x)/2;x.bezierCurveTo(m,a.y,m,p.y,p.x,p.y)});x.stroke();
+  x.strokeStyle='#d7182a';x.lineWidth=2.2*dpr;x.stroke();
+  pts.forEach(p=>{if(Math.abs(p.y-p.n.y)>3*dpr)return;x.fillStyle='#fff';x.beginPath();x.arc(p.x,p.y,4.6*dpr,0,7);x.fill();x.fillStyle='#d7182a';x.beginPath();x.arc(p.x,p.y,2.8*dpr,0,7);x.fill()})}
+const SCENES={thread,sea:summer,autumn,winter,spring};
 /* scenes for the game worlds (worlds.js sets <html data-world>). Each world has two forms: a wide one for
    desktops and landscape tablets, and a tall one for phones and portrait screens, composed for that shape
    rather than shrunk (Nero, 11 Nov: the world morphs with the screen). Scenery only, no characters. */
@@ -265,7 +300,7 @@ const sparks=[];
 function worldScene(){return WORLD_SCENES[root.dataset.world]}
 let halfF=false,lastWorld=root.dataset.world;function worldTick(){if(root.dataset.world!==lastWorld){lastWorld=root.dataset.world;stillDrawn=false}}
 
-const GLOW={sea:['rgba(140,200,242,.45)','rgba(61,143,214,'],autumn:['rgba(232,137,106,.30)','rgba(196,101,43,'],winter:['rgba(205,230,255,.6)','rgba(110,160,215,'],spring:['rgba(247,185,204,.40)','rgba(78,163,109,']};
+const GLOW={thread:['rgba(215,24,42,.08)','rgba(61,92,140,'],sea:['rgba(140,200,242,.45)','rgba(61,143,214,'],autumn:['rgba(232,137,106,.30)','rgba(196,101,43,'],winter:['rgba(205,230,255,.6)','rgba(110,160,215,'],spring:['rgba(247,185,204,.40)','rgba(78,163,109,']};
 
 /* page-wide fx layer */
 function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const glow=WORLD_GLOW[root.dataset.world]||GLOW[skin]||GLOW.sea;
@@ -289,6 +324,11 @@ function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const glow=WORLD_G
   /* world click: four-point sparks in the world's own colour */
   for(let k=sparks.length-1;k>=0;k--){const P=sparks[k];P.vx*=.95;P.vy=P.vy*.95+.08*dpr;P.x+=P.vx;P.y+=P.vy;P.life-=.02;P.r+=.05;if(P.life<=0){sparks.splice(k,1);continue}
     const r=P.s*P.life;fx.save();fx.translate(P.x,P.y);fx.rotate(P.r);fx.globalAlpha=P.life;fx.fillStyle=P.c;fx.beginPath();for(let q=0;q<8;q++){const rr=q%2?r*.3:r,a=q*Math.PI/4;q?fx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr):fx.moveTo(rr,0)}fx.closePath();fx.fill();fx.restore()}
+  /* thread click: paths open from the point (AI), then one turns red (people pick it) */
+  for(let k=forks.length-1;k>=0;k--){const F=forks[k];F.age++;const gr=1-Math.pow(1-Math.min(1,F.age/20),3),al=F.age<50?1:1-(F.age-50)/30;if(al<=0){forks.splice(k,1);continue}
+    fx.save();fx.translate(F.x,F.y);fx.globalAlpha=al;fx.lineCap='round';F.rays.forEach((r,i)=>{const L=r.l*gr,ex=Math.cos(r.a)*L,ey=Math.sin(r.a)*L,cx_=Math.cos(r.a+r.b)*L*.5,cy_=Math.sin(r.a+r.b)*L*.5,red=i===F.pick&&F.age>22;
+      fx.strokeStyle=red?'#d7182a':'rgba(61,92,140,.55)';fx.lineWidth=(red?2.6:1.2)*dpr;fx.beginPath();fx.moveTo(0,0);fx.quadraticCurveTo(cx_,cy_,ex,ey);fx.stroke();fx.fillStyle=red?'#d7182a':'rgba(61,92,140,.7)';fx.beginPath();fx.arc(ex,ey,(red?3.4:2)*dpr,0,7);fx.fill()});
+    fx.fillStyle='#d7182a';fx.beginPath();fx.arc(0,0,3*dpr,0,7);fx.fill();fx.restore()}
   /* spring click: a cherry blossom opens where you clicked */
   for(let k=blooms.length-1;k>=0;k--){const B=blooms[k];B.age++;const e=1-Math.pow(1-Math.min(1,B.age/18),3),al=B.age<45?1:1-(B.age-45)/40;if(al<=0){blooms.splice(k,1);continue}
     const s=30*dpr*e;fx.save();fx.translate(B.x,B.y);fx.rotate(B.rot+B.age*.004);fx.globalAlpha=al;
@@ -355,7 +395,7 @@ addEventListener('scroll',()=>{if(target&&target.getBoundingClientRect().bottom<
    L(key, default) is a set to pick from; LF(key, default) is a fixed set where each place keeps its own line. */
 let LINES={};Promise.all([fetch('/assets/lines.json').then(r=>r.json()),fetch('/api/lines').then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,o])=>{LINES=Object.assign(d,o&&o.lines||{});for(const k in bags)delete bags[k]}).catch(()=>{});const bags={};
 const L=(k,d)=>{const a=LINES[k];return Array.isArray(a)&&a.length?a:d},LF=(k,d)=>{const a=LINES[k];return d.map((x,i)=>Array.isArray(a)&&typeof a[i]==='string'&&a[i].trim()?a[i]:x)},anyOf=a=>a[Math.floor(Math.random()*a.length)];
-const XLINES={};function nextLine(k){const L=LINES[k]||XLINES[k];if(!L||!L.length)return '';if(!bags[k]||!bags[k].length){bags[k]=L.slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
+const XLINES={'season-thread':['AI opens paths. You pick one. I approve. Usually.','see the red line? that\'s you. choosing. very human of you','blue is the machine guessing. red is a person deciding. I\'m red. obviously','With AI. For People. I\'m the "people" part. the best part','click anywhere. paths open. one of them is yours']};function nextLine(k){const L=LINES[k]||XLINES[k];if(!L||!L.length)return '';if(!bags[k]||!bags[k].length){bags[k]=L.slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
 /* catch the critter and talk to it */
 let caught=null;const chat=document.createElement('div');chat.className='chat';chat.hidden=true;document.body.appendChild(chat);
 const secrets=['the 9th floor has a 10th floor. probably','I was drawn with AI help, then fixed by people','every season I change clothes. try the Skin button','click the sky. it does things','I\'ve read all 158 old letters','the Ø is my cousin','my full name is Redache. Ache for short','Nero named me. I pretend I picked it','TZERØ means the moment things start','the Ø on the front page is a portal. poke it','Nero plays with me like a cat. I pretend not to notice','I don\'t sleep. I coil','I steal one pixel from every page. nobody noticed','I\'m why the cursor glows. you\'re welcome','I could dodge every click. I\'m just nice'];let si=0;
@@ -696,7 +736,7 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
   const PENTA={sea:[72,74,76,79,81,84],autumn:[69,72,74,76,79,81],winter:[76,79,81,84,86,88],spring:[74,76,79,81,83,86]};
   const BPM={sea:88,autumn:76,winter:68,spring:96},VO={sea:[.42,.5,'triangle',.04],autumn:[.32,1.1,'sine',.05],winter:[.26,1.6,'sine',.045],spring:[.45,.35,'triangle',.04]};
   const mf=m=>440*Math.pow(2,(m-69)/12);
-  function sched(){if(!ac||!on)return;const mk=pick||skin,bpm=fight?132:phase==='rush'?116:phase==='creep'?80:phase==='shop'?96:phase==='room'?64:BPM[mk]||88,s16=60/bpm/4;
+  function sched(){if(!ac||!on)return;const mk=pick||(skin==='thread'?'sea':skin),bpm=fight?132:phase==='rush'?116:phase==='creep'?80:phase==='shop'?96:phase==='room'?64:BPM[mk]||88,s16=60/bpm/4;
     while(nextT<ac.currentTime+.25){const t=nextT,bar=Math.floor(step/16)%4,i=step%16,k=PROG[mk]?mk:'sea',ch=PROG[k][bar];
       if(scene||phase==='broken'){if(i===0&&step%32===0)tone(mf(33),t,s16*32,{type:'sawtooth',vol:.06,bus:music,att:1,q:180})}
       else if(fight){if(i%2===0)tone(mf(ch[0]-12+(i%8===6?7:0)),t,s16*1.6,{type:'square',vol:.07,bus:music,q:700});if(i%4===0)noise(t,.06,{vol:.12,f:90,type:'lowpass',bus:music});if(i%8===4)noise(t,.08,{vol:.1,f:2500,bus:music});

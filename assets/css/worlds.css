@@ -375,3 +375,23 @@ header{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in
   .card.has-pic p{display:none}
   .card.has-pic h4{font-size:16px}
 }
+.tweaks-pop .skin-opt{color:#13224b;border-color:rgba(26,90,166,.25)}
+.tweaks-pop .skin-opt[aria-pressed=true]{color:#fff;border-color:transparent;background:#13224b}
+.tweaks-pop .skin-opt.main[aria-pressed=true]{background:#d7182a}
+.tweaks-pop .skin-set small{color:#47648c}
+/* phones: listings are one calm panel of rows, not a pile of floating rounded cards */
+@media (max-width:640px){
+  .grid{gap:0;background:#fff;border:1px solid rgba(26,90,166,.12);border-radius:10px;overflow:hidden;box-shadow:0 14px 34px -26px rgba(26,90,166,.5)}
+  .grid>.card{border:0;border-radius:0;box-shadow:none;background-image:none}
+  .grid>.card+.card{border-top:1px solid rgba(26,90,166,.1)}
+  .grid>.card[data-world]{box-shadow:inset 3px 0 0 var(--wc)}
+  .card.has-pic .card-pic{border-radius:5px}
+  .card-pic{border-radius:8px 8px 0 0}
+}
+@media (max-width:640px){
+  .card.has-pic{grid-template-columns:84px minmax(0,1fr);padding:10px 12px 10px 10px}
+  .card.has-pic .card-pic{width:84px;aspect-ratio:1}
+  .card h4,.card.has-pic h4{font-size:15.5px;-webkit-line-clamp:2}
+  .card .tag{font-size:10.5px}
+  .card:not(.has-pic){padding:12px 14px}
+}

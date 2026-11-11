@@ -189,3 +189,17 @@ a.tile:hover{transform:translateY(-4px);box-shadow:0 26px 50px -28px rgba(10,14,
 .t-sections a,.t-sections b{color:var(--ink)}
 .ticket.pick a{border-left-color:#ffd27a;background:linear-gradient(100deg,#fff8e1,#fff 60%)}
 .ticket.pick small i{background:#13224b;color:#ffd27a}
+
+/* phones (Nero, 11 Nov: corners too round, cards too scattered): squarer corners, tighter gaps, rows inside one panel */
+@media (max-width:640px){
+  .bento{gap:8px}
+  .tile{border-radius:10px;padding:14px}
+  .t-sections a,.row a{border-radius:6px}
+  .portal-tile{border-radius:8px}
+  .ticket a,.ticket.sk{border-radius:10px}
+  .ticket img,.ticket .tk-ph,.row img,.row .rp{border-radius:5px}
+  .open-search{border-radius:10px}
+  .t-latest .rows{gap:0}.row+.row a{border-top:1px solid rgba(26,90,166,.1);border-radius:0}
+}
+[data-skin=thread] .open-veil{background:radial-gradient(62% 78% at 27% 52%,rgba(251,248,241,.94),rgba(251,248,241,.7) 55%,transparent 82%)}
+@media (max-width:1060px){[data-skin=thread] .open-veil{background:linear-gradient(180deg,rgba(251,248,241,.9) 0 62%,rgba(251,248,241,.35) 80%,transparent)}}
