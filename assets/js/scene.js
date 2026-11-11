@@ -5,7 +5,7 @@ const LITE=matchMedia('(pointer:coarse)').matches||innerWidth<760;
 let MODE='auto';try{const m=localStorage.getItem('tz-motion');if(m==='light'||m==='still')MODE=m}catch(e){}
 function autoLevel(){const n=navigator,cores=n.hardwareConcurrency||8,mem=n.deviceMemory||8,save=n.connection&&n.connection.saveData;if(LITE&&(cores<=2||mem<=1))return 2;return LITE||save?1:0}
 let LEVEL=MODE==='still'?2:MODE==='light'?1:autoLevel(),stillDrawn=false;
-let still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,LEVEL?1:2),root=document.documentElement;
+let still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,LEVEL?1:1.5),root=document.documentElement;
 const sea=document.querySelector('.sea'),c=document.getElementById('waves')||document.createElement('canvas'),x=c.getContext('2d');
 const f=document.getElementById('fx'),fx=f.getContext('2d'),b=document.getElementById('bg'),bx=b.getContext('2d');let cx=-1,cy=-1;
 let w,h,W,H,t=0,mx=-1,my=-1,px=-1,py=-1,energy=0,gust=0,lastX=null;
@@ -169,10 +169,12 @@ function rnd(seed){let s=seed>>>0;return()=>{s=(s+0x6D2B79F5)>>>0;let q=Math.imu
 const tallForm=()=>h>w*1.1;
 /* reading moves the world: how far down the page the reader is (0 to 1) */
 const prog=()=>{const d=document.documentElement;return Math.min(1,Math.max(0,scrollY/Math.max(1,d.scrollHeight-innerHeight)))};
-const WSTARS=(()=>{const r=rnd(7);return Array.from({length:190},()=>({x:r(),y:r(),z:.25+r()*.75,p:r()*6.28}))})();
+const WSTARS=(()=>{const r=rnd(7);return Array.from({length:120},()=>({x:r(),y:r(),z:.25+r()*.75,p:r()*6.28}))})();
 function sky(stops){const g=x.createLinearGradient(0,0,0,h);stops.forEach(([o,c])=>g.addColorStop(o,c));x.fillStyle=g;x.fillRect(0,0,w,h)}
 function stars(maxY,col){const ox=mx>=0?(mx-w/2)*.02:0,oy=my>=0?(my-h/2)*.015:0;WSTARS.forEach(S=>{const y=S.y*h*maxY;const a=.25+.75*Math.abs(Math.sin(t*1.3*S.z+S.p));x.globalAlpha=a*S.z;x.fillStyle=col||'#fff';x.beginPath();x.arc(S.x*w+ox*S.z,y+oy*S.z,S.z*1.5*dpr,0,7);x.fill()});x.globalAlpha=1}
-function glowAt(X,Y,R,c){const g=x.createRadialGradient(X,Y,0,X,Y,R);g.addColorStop(0,c);g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(X-R,Y-R,R*2,R*2)}
+const GLOWS={};function glowSprite(rgb){if(GLOWS[rgb])return GLOWS[rgb];const S=64,cv=document.createElement('canvas');cv.width=cv.height=S;const g=cv.getContext('2d'),gr=g.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);gr.addColorStop(0,'rgba('+rgb+',1)');gr.addColorStop(1,'rgba('+rgb+',0)');g.fillStyle=gr;g.fillRect(0,0,S,S);return GLOWS[rgb]=cv}
+/* glows are cached sprites drawn with alpha: far cheaper than a fresh gradient per glow per frame */
+function glowAt(X,Y,R,c){const m=c.match(/rgba?\(([^,]+),([^,]+),([^,)]+)(?:,([^)]+))?\)/);if(!m)return;const a=m[4]==null?1:+m[4];if(a<=0||R<=0)return;x.globalAlpha=Math.min(1,a);x.drawImage(glowSprite(m[1].trim()+','+m[2].trim()+','+m[3].trim()),X-R,Y-R,R*2,R*2);x.globalAlpha=1}
 function band(yy,amp,len,sp,top,bot){const g=x.createLinearGradient(0,yy*h-amp*dpr,0,h);g.addColorStop(0,top);g.addColorStop(1,bot);x.fillStyle=g;x.beginPath();x.moveTo(0,h);for(let i=0;i<=w+6*dpr;i+=6*dpr){let y=yy*h+Math.sin(i*len/dpr+t*sp)*amp*dpr+Math.sin(i*len*2.3/dpr-t*sp*1.4)*amp*.35*dpr;if(mx>=0){const d=(i-mx)/(170*dpr);y-=Math.exp(-d*d)*(14+26*energy)*dpr}x.lineTo(i,y)}x.lineTo(w,h);x.closePath();x.fill()}
 
 /* Starchasers: a dusk sky over a sea of clouds, and the route of small planets the ship sails.
@@ -219,22 +221,29 @@ function wDeadend(){const tall=tallForm();sky([[0,'#0f0c18'],[.6,'#1d1630'],[1,'
 /* Overgame: Soul Street at night. Wide: a skyline; windows wake where the cursor passes, the Red Zone glows below.
    Tall: you stand in the street, signs stacked up both sides into the dark. */
 const BLD=(()=>{const r=rnd(33);return[0,1,2].map(L=>{const a=[];let X=0;while(X<1.05){const bw=.04+r()*.07;a.push({x:X,w:bw,h:.18+r()*(.35-L*.06)+L*.05,win:Array.from({length:40},()=>r())});X+=bw+.004}return a})})();
+let skyCache=null;
+function skyline(key,P){const cv=document.createElement('canvas');cv.width=w;cv.height=h;const g=cv.getContext('2d');
+  BLD.forEach((row,L)=>row.forEach(B=>{const X=B.x*w,bw=B.w*w,bh=B.h*h,Y=h*(.86+L*.05)-bh;g.fillStyle=['#1a1420','#140f18','#0d0a10'][L];g.fillRect(X,Y,bw,bh+h);
+    const cols=Math.max(2,Math.floor(bw/(10*dpr))),rows=Math.floor(bh/(14*dpr));g.fillStyle='rgba(255,'+(200-L*40)+',140,.4)';for(let c=0;c<cols;c++)for(let r_=0;r_<rows;r_++){if(B.win[(c*7+r_)%40]>.72-P*.35)g.fillRect(X+5*dpr+c*(bw-8*dpr)/cols,Y+6*dpr+r_*14*dpr,3*dpr,5*dpr)}}));return{key,cv}}
 function wOvergame(){const tall=tallForm();sky([[0,'#08070c'],[.6,'#160d16'],[1,'#2a0d14']]);stars(.35,'#ffd9de');
   const pulse=.5+.5*Math.sin(t*1.6);
   if(tall){const vx=w*.5,vy=h*.32;x.fillStyle='#120c12';x.beginPath();x.moveTo(0,h);x.lineTo(vx-8*dpr,vy);x.lineTo(vx+8*dpr,vy);x.lineTo(w,h);x.fill();
     for(let k=0;k<9;k++){const u=k/9,side=k%2?1:-1,s=1-u*.85,X=vx+side*(w*.48)*s,Y=vy+(h-vy)*s*.92,sw=70*s*dpr,sh=26*s*dpr;const on=(Math.sin(t*3+k*2)>-.6)||k%3;x.fillStyle=on?['#ff3b4e','#ffb347','#7fe0e0'][k%3]:'#2a1c22';x.globalAlpha=.85;x.fillRect(side>0?X-sw:X,Y-sh*3,sw,sh);x.globalAlpha=1;if(on)glowAt(side>0?X-sw/2:X+sw/2,Y-sh*2.5,sw*1.3,'rgba(255,59,78,.12)')}}
-  else BLD.forEach((row,L)=>row.forEach(B=>{const X=B.x*w,bw=B.w*w,bh=B.h*h,Y=h*(.86+L*.05)-bh;x.fillStyle=['#1a1420','#140f18','#0d0a10'][L];x.fillRect(X,Y,bw,bh+h);
-    const cols=Math.max(2,Math.floor(bw/(10*dpr))),rows=Math.floor(bh/(14*dpr));for(let c=0;c<cols;c++)for(let r_=0;r_<rows;r_++){const q=B.win[(c*7+r_)%40];const cxw=X+5*dpr+c*(bw-8*dpr)/cols,cyw=Y+6*dpr+r_*14*dpr;const near=mx>=0?Math.max(0,1-Math.hypot(cxw-mx,cyw-my)/(130*dpr)):0;if(q>.72-near*.6-prog()*.35){x.fillStyle='rgba(255,'+(200-L*40)+',140,'+(.35+near*.6)+')';x.fillRect(cxw,cyw,3*dpr,5*dpr)}}}));
+  else{const P=Math.round(prog()*20)/20,key=w+'x'+h+'@'+P;if(!skyCache||skyCache.key!==key){skyCache=skyline(key,P)}x.drawImage(skyCache.cv,0,0);
+    /* windows wake where the cursor passes: only the buildings near it are visited */
+    if(mx>=0)BLD.forEach((row,L)=>row.forEach(B=>{const X=B.x*w,bw=B.w*w;if(X>mx+130*dpr||X+bw<mx-130*dpr)return;const bh=B.h*h,Y=h*(.86+L*.05)-bh,cols=Math.max(2,Math.floor(bw/(10*dpr))),rows=Math.floor(bh/(14*dpr));
+      for(let c=0;c<cols;c++)for(let r_=0;r_<rows;r_++){const cxw=X+5*dpr+c*(bw-8*dpr)/cols,cyw=Y+6*dpr+r_*14*dpr;const near=Math.max(0,1-Math.hypot(cxw-mx,cyw-my)/(130*dpr));if(near>.05&&B.win[(c*7+r_)%40]>.72-near*.6-P*.35){x.fillStyle='rgba(255,'+(200-L*40)+',140,'+near*.8+')';x.fillRect(cxw,cyw,3*dpr,5*dpr)}}}))}
   const g=x.createLinearGradient(0,h*.82,0,h);g.addColorStop(0,'rgba(255,59,78,0)');g.addColorStop(1,'rgba(255,59,78,'+(.25+.2*pulse)+')');x.fillStyle=g;x.fillRect(0,h*.82,w,h*.18);
   if(mx>=0)glowAt(mx,my,140*dpr,'rgba(255,90,110,'+(.1+.1*energy)+')')}
 
 /* AI-ICE: deep space nostalgia. Aurora ribbons and slow crystals rising; they drift away from the cursor.
    Wide: the aurora lies across the sky. Tall: it hangs in curtains you scroll past. */
 const ICE=(()=>{const r=rnd(44);return Array.from({length:46},()=>({x:r(),y:r(),s:.4+r(),p:r()*6.28}))})();
-function wAiice(){const tall=tallForm();sky([[0,'#0b1433'],[.6,'#0f2a48'],[1,'#123a52']]);stars(1,'#dff6ff');
+const STRIPS={};function strip(c,tall){const k=c+tall;if(STRIPS[k])return STRIPS[k];const cv=document.createElement('canvas');cv.width=tall?64:1;cv.height=tall?1:64;const g=cv.getContext('2d'),gr=tall?g.createLinearGradient(0,0,64,0):g.createLinearGradient(0,0,0,64);gr.addColorStop(0,'rgba('+c+',0)');gr.addColorStop(.5,'rgba('+c+',1)');gr.addColorStop(1,'rgba('+c+',0)');g.fillStyle=gr;g.fillRect(0,0,cv.width,cv.height);return STRIPS[k]=cv}
+function wAiice(){const tall=tallForm(),P=prog();sky([[0,'#0b1433'],[.6,'#0f2a48'],[1,'#123a52']]);stars(1,'#dff6ff');
   const cols=[['127,214,224',.0],['255,207,154',1.7],['181,156,240',3.1]];x.globalCompositeOperation='lighter';
-  cols.forEach(([c,o],k)=>{for(let s=0;s<(tall?26:30);s++){const u=s/(tall?25:29);let X,Y,L;if(tall){Y=u*h;X=w*(.25+k*.25)+Math.sin(u*5+t*.6+o)*w*.12;L=w*.18}else{X=u*w;Y=h*(.22+k*.09)+Math.sin(u*4+t*.5+o)*h*.08;L=h*.28}
-    const g=tall?x.createLinearGradient(X-L,0,X+L,0):x.createLinearGradient(0,Y-L,0,Y+L);g.addColorStop(0,'rgba('+c+',0)');g.addColorStop(.5,'rgba('+c+','+((.07+.04*Math.sin(t+s*.3+o))*(1+prog()*1.4))+')');g.addColorStop(1,'rgba('+c+',0)');x.fillStyle=g;tall?x.fillRect(X-L,Y,L*2,h/24):x.fillRect(X,Y-L,w/28,L*2)}});
+  cols.forEach(([c,o],k)=>{for(let s=0;s<(tall?16:20);s++){const u=s/(tall?15:19);let X,Y,L;if(tall){Y=u*h;X=w*(.25+k*.25)+Math.sin(u*5+t*.6+o)*w*.12;L=w*.18}else{X=u*w;Y=h*(.22+k*.09)+Math.sin(u*4+t*.5+o)*h*.08;L=h*.28}
+    x.globalAlpha=Math.min(1,(.07+.04*Math.sin(t+s*.3+o))*(1+P*1.4));x.drawImage(strip(c,tall),tall?X-L:X,tall?Y:Y-L,tall?L*2:w/28+1,tall?h/24+1:L*2)}});x.globalAlpha=1;
   x.globalCompositeOperation='source-over';
   ICE.forEach(C=>{let X=C.x*w,Y=(1-((C.y+t*.02*C.s)%1))*h;if(mx>=0){const d=Math.hypot(X-mx,Y-my),R=150*dpr;if(d<R){X+=(X-mx)/d*(R-d)*.5;Y+=(Y-my)/d*(R-d)*.5}}const s=(3+C.s*4)*dpr,a=.4+.5*Math.abs(Math.sin(t*1.5+C.p));
     x.save();x.translate(X,Y);x.rotate(Math.PI/4+Math.sin(t+C.p)*.2);x.fillStyle='rgba(234,246,255,'+a*.5+')';x.strokeStyle='rgba(255,207,154,'+a+')';x.lineWidth=1*dpr;x.fillRect(-s/2,-s/2,s,s);x.strokeRect(-s/2,-s/2,s,s);x.restore()});
@@ -254,7 +263,7 @@ const WORLD_GLOW={starchasers:['rgba(255,210,122,.25)','rgba(255,210,122,'],'lim
 const WORLD_SPARK={starchasers:'#ffd27a','liminal-outliers':'#8cc63f',deadend:'#ffb347',overgame:'#ff3b4e','ai-ice':'#ffcf9a',archive:'#a8642e'};
 const sparks=[];
 function worldScene(){return WORLD_SCENES[root.dataset.world]}
-let lastWorld=root.dataset.world;function worldTick(){if(root.dataset.world!==lastWorld){lastWorld=root.dataset.world;stillDrawn=false}}
+let halfF=false,lastWorld=root.dataset.world;function worldTick(){if(root.dataset.world!==lastWorld){lastWorld=root.dataset.world;stillDrawn=false}}
 
 const GLOW={sea:['rgba(140,200,242,.45)','rgba(61,143,214,'],autumn:['rgba(232,137,106,.30)','rgba(196,101,43,'],winter:['rgba(205,230,255,.6)','rgba(110,160,215,'],spring:['rgba(247,185,204,.40)','rgba(78,163,109,']};
 
@@ -288,11 +297,11 @@ function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const glow=WORLD_G
     fx.restore()}}
 
 let seaOn=c.isConnected,odd=false,lastF=0,win=[],settle=performance.now()+1500;if(seaOn&&window.IntersectionObserver)new IntersectionObserver(e=>{seaOn=e[0].isIntersecting}).observe(c);
-function setLevel(l){if(l===LEVEL)return;LEVEL=l;root.dataset.motion=l;stillDrawn=false;dpr=Math.min(devicePixelRatio||1,l?1:2);size();if(l===2){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H)}}
+function setLevel(l){if(l===LEVEL)return;LEVEL=l;root.dataset.motion=l;stillDrawn=false;dpr=Math.min(devicePixelRatio||1,l?1:1.5);size();if(l===2){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H)}}
 /* Auto: average the real time between frames over ~2 s windows; slow windows step the level down, never up */
 function watch(now){if(MODE!=='auto'||document.hidden||now<settle){lastF=now;return}if(lastF){const d=now-lastF;if(d<250)win.push(d)}lastF=now;if(win.length>=(LEVEL?60:120)){const avg=win.reduce((a,b)=>a+b,0)/win.length;win=[];if(LEVEL===0&&avg>24)setLevel(1);else if(LEVEL===1&&avg>40)setLevel(2)}}
 document.addEventListener('visibilitychange',()=>{lastF=0;win=[];settle=performance.now()+1000});
-function frame(now){watch(now||performance.now());worldTick();if(LEVEL===2){if(seaOn&&!stillDrawn){x.clearRect(0,0,w,h);(worldScene()||SCENES[skin])();stillDrawn=true}if(!still)requestAnimationFrame(frame);return}if(LEVEL===1&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LEVEL?.032:.016;energy*=LEVEL?.92:.96;if(seaOn){x.clearRect(0,0,w,h);(worldScene()||SCENES[skin])()}drawFx();if(!still)requestAnimationFrame(frame)}
+function frame(now){watch(now||performance.now());worldTick();if(LEVEL===2){if(seaOn&&!stillDrawn){x.clearRect(0,0,w,h);(worldScene()||SCENES[skin])();stillDrawn=true}if(!still)requestAnimationFrame(frame);return}if(LEVEL===1&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LEVEL?.032:.016;energy*=LEVEL?.92:.96;if(seaOn){const ws=worldScene();if(!ws||(halfF=!halfF)){x.clearRect(0,0,w,h);(ws||SCENES[skin])()}}drawFx();if(!still)requestAnimationFrame(frame)}
 /* Header button: Auto, Light or Still, remembered per visitor */
 root.dataset.motion=LEVEL;const mbtn=document.getElementById('motion');const MODES={auto:'Auto',light:'Light',still:'Still'};function showMode(){if(mbtn){mbtn.textContent='Motion: '+MODES[MODE];mbtn.title='Background animation: '+MODES[MODE]}}showMode();if(mbtn)mbtn.onclick=()=>{MODE=MODE==='auto'?'light':MODE==='light'?'still':'auto';try{MODE==='auto'?localStorage.removeItem('tz-motion'):localStorage.setItem('tz-motion',MODE)}catch(e){}showMode();win=[];settle=performance.now()+1000;setLevel(MODE==='still'?2:MODE==='light'?1:autoLevel())};
 frame();
@@ -349,7 +358,7 @@ const L=(k,d)=>{const a=LINES[k];return Array.isArray(a)&&a.length?a:d},LF=(k,d)
 const XLINES={};function nextLine(k){const L=LINES[k]||XLINES[k];if(!L||!L.length)return '';if(!bags[k]||!bags[k].length){bags[k]=L.slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
 /* catch the critter and talk to it */
 let caught=null;const chat=document.createElement('div');chat.className='chat';chat.hidden=true;document.body.appendChild(chat);
-const secrets=['the 9th floor has a 10th floor. probably','I was drawn with AI help, then fixed by people','every season I change clothes. try the Skin button','click the sky. it does things','I\'ve read all 158 old letters','the Ø is my cousin','my full name is Redache. Ache for short','Nero named me. I pretend I picked it','TZERØ means the moment things start','the polaroids can be dragged. rearrange my room!','Nero plays with me like a cat. I pretend not to notice','I don\'t sleep. I coil','I steal one pixel from every page. nobody noticed','I\'m why the cursor glows. you\'re welcome','I could dodge every click. I\'m just nice'];let si=0;
+const secrets=['the 9th floor has a 10th floor. probably','I was drawn with AI help, then fixed by people','every season I change clothes. try the Skin button','click the sky. it does things','I\'ve read all 158 old letters','the Ø is my cousin','my full name is Redache. Ache for short','Nero named me. I pretend I picked it','TZERØ means the moment things start','the Ø on the front page is a portal. poke it','Nero plays with me like a cat. I pretend not to notice','I don\'t sleep. I coil','I steal one pixel from every page. nobody noticed','I\'m why the cursor glows. you\'re welcome','I could dodge every click. I\'m just nice'];let si=0;
 const TREAT=['A treat? Only the premium red yarn. The imported kind. From the studio. The best studio.','Obviously. I\'ve been SO good. I only bugged the site once. Twice.','Put it on the stake. No, on a pillow. A silk pillow. Thank you.','I deserve three treats. One for each section. Four, counting me.'],CAUGHT=['Ugh. Fine. You caught me. Welcome to Artache, best studio on Earth. In this building.','Ugh. Fine. You caught me.','Hey! Hands off the points!','Okay, okay, lucky click.','Caught? I let you catch me.','Rude. Impressive, but rude.','Unhand me, I\'m a star!'];
 function talk(text,opts){chat.innerHTML='';const p=document.createElement('p');p.textContent=text;chat.appendChild(p);const row=document.createElement('div');row.className='opts';
   opts.forEach(([label,fn])=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=e=>{e.stopPropagation();fn()};row.appendChild(b)});chat.appendChild(row)}

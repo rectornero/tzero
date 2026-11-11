@@ -1,0 +1,189 @@
+/* Homepage (rebuilt 2026-11-11): one full-screen opening (the world scene, the TZERØ mark with the Ø as a portal,
+   search, now boarding, a departures ticker), then a dense bento of everything useful. No polaroids, no empty bands.
+   Everything animated here is transform/opacity only (cheap), and stops for reduced motion and Motion: Still. */
+
+/* ---------- the opening ---------- */
+.home2 .open{position:relative;min-height:min(calc(100svh - 64px),780px);display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:0}
+.home2 .open #waves{position:absolute;inset:0;width:100%;height:100%}
+.open-veil{position:absolute;inset:0;pointer-events:none;background:radial-gradient(70% 80% at 22% 50%,color-mix(in srgb,var(--sun) 70%,transparent),transparent 70%)}
+:root[data-dark] .open-veil{background:radial-gradient(70% 80% at 22% 50%,color-mix(in srgb,var(--sun) 75%,transparent),transparent 72%)}
+.open-in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.8fr);gap:clamp(24px,4vw,56px);align-items:center;padding-block:clamp(28px,6vh,72px) 84px;width:100%}
+.open-kick{display:flex;align-items:center;gap:10px;margin:0;font:13px var(--mono);color:var(--soft);letter-spacing:.04em}
+:root[data-dark] .open-kick,:root[data-dark] .portal-cap span{color:var(--page-soft)}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(215,24,42,.6);animation:live 2s infinite}
+@keyframes live{70%{box-shadow:0 0 0 10px rgba(215,24,42,0)}100%{box-shadow:0 0 0 0 rgba(215,24,42,0)}}
+
+/* the mark: letters with depth that lean toward the cursor; the Ø is a button, a window into the worlds */
+.mark{display:flex;align-items:center;margin:8px 0 0;font-family:var(--display);font-weight:800;font-size:clamp(76px,13.5vw,212px);line-height:.84;letter-spacing:-.06em;color:var(--page-ink);user-select:none;perspective:900px}
+.mark .l{display:inline-block;transform:translate3d(calc(var(--px,0) * var(--d,1) * 10px),calc(var(--py,0) * var(--d,1) * 8px),0);transition:transform .5s cubic-bezier(.2,.7,.2,1);text-shadow:0 .06em .12em color-mix(in srgb,var(--b3) 22%,transparent)}
+.mark .l:nth-child(1){--d:.4}.mark .l:nth-child(2){--d:.7}.mark .l:nth-child(3){--d:1}.mark .l:nth-child(4){--d:1.3}
+.portal{position:relative;display:inline-grid;place-items:center;width:.86em;height:1em;margin-left:.02em;padding:0;border:0;background:none;font:inherit;color:var(--red);cursor:pointer;transform:translate3d(calc(var(--px,0) * 18px),calc(var(--py,0) * 14px),0);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.pt-glyph{position:relative;z-index:2;line-height:1;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.pt-window{position:absolute;z-index:1;left:50%;top:50%;width:.56em;height:.56em;border-radius:50%;transform:translate(-50%,-50%);overflow:hidden;background:var(--pw,radial-gradient(circle at 35% 30%,#fff6cf,#8cc8f2 60%,#1a5aa6));box-shadow:inset 0 0 .06em rgba(0,0,0,.35);transition:background .8s}
+.pt-window i{position:absolute;inset:-30%;background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.35),transparent 30%,transparent 50%,rgba(255,255,255,.25),transparent 80%);animation:spin 7s linear infinite}
+.portal:hover .pt-glyph,.portal:focus-visible .pt-glyph{transform:scale(1.06) rotate(-6deg)}
+.portal:focus-visible{outline:3px solid var(--red);outline-offset:6px;border-radius:12px}
+.portal::after{content:"";position:absolute;left:50%;top:50%;width:.6em;height:.6em;border-radius:50%;transform:translate(-50%,-50%) scale(.6);border:3px solid var(--red);opacity:0;pointer-events:none}
+.portal.pulse::after{animation:ring .9s ease-out}
+@keyframes ring{0%{opacity:.9;transform:translate(-50%,-50%) scale(.7)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.4)}}
+.portal-cap{margin:10px 0 0;font:13px var(--mono);color:var(--soft);min-height:1.5em}
+.portal-cap b{color:var(--page-ink);font-weight:600;transition:opacity .3s}
+.open-lede{max-width:56ch;margin:18px 0 0;font-size:clamp(17px,1.6vw,20px);line-height:1.55;color:var(--page-ink);text-wrap:pretty}
+.open-lede a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:color-mix(in srgb,var(--red) 60%,transparent)}
+.open-lede b{font-weight:600;color:var(--red)}
+:root[data-dark] .open-lede b{color:var(--w-accent)}
+.open-search{display:flex;align-items:center;gap:12px;width:min(560px,100%);margin-top:22px;padding:14px 16px;border-radius:14px;border:1px solid color-mix(in srgb,var(--b2) 35%,transparent);background:color-mix(in srgb,#fff 88%,transparent);color:#13224b;font:15px var(--body);text-align:left;cursor:text;box-shadow:0 18px 40px -26px rgba(19,34,75,.55);transition:transform .25s,box-shadow .25s}
+.open-search:hover{transform:translateY(-2px);box-shadow:0 24px 50px -24px rgba(19,34,75,.6)}
+.open-search svg{width:20px;height:20px;flex:none;color:#47648c}
+.os-ph{flex:1;color:#47648c}.os-ph b{color:#13224b}
+.open-search kbd{font:12px "Geist Mono",monospace;padding:2px 8px;border-radius:6px;border:1px solid #c9d3e3;color:#47648c}
+.open-cta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:18px}
+.open-cta .btn{margin-top:0}
+.open-cta .btn span{transition:transform .3s}.open-cta .btn:hover span{transform:translateY(3px)}
+.btn.ghost{background:transparent;color:var(--page-ink);border:1px solid color-mix(in srgb,var(--page-ink) 35%,transparent);font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost:hover{border-color:var(--red);color:var(--red)}
+.open-link{font:13px var(--mono);color:var(--page-ink);text-decoration:underline;text-underline-offset:3px}
+
+/* now boarding: the three newest pieces as tickets */
+.boarding{display:flex;flex-direction:column;gap:10px}
+.board-h{display:flex;align-items:center;gap:10px;margin:0;font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--page-ink)}
+.tickets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.ticket{position:relative}
+.ticket a{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center;padding:10px;border-radius:14px;background:var(--paper,#fff);color:var(--ink);box-shadow:0 16px 34px -22px rgba(10,14,40,.55);border-left:5px solid var(--wc,var(--red));transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.ticket a:hover{transform:translateX(-6px) rotate(-.6deg);box-shadow:0 22px 40px -20px rgba(10,14,40,.6)}
+.ticket img,.ticket .tk-ph{width:64px;height:64px;border-radius:9px;object-fit:cover;background:color-mix(in srgb,var(--wc,#1a5aa6) 30%,#fff);display:grid;place-items:center;font:700 13px var(--mono);color:#fff}
+.ticket .tk-ph{background:var(--wc,#13224b)}
+.tk-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tk-txt small{font:11px var(--mono);color:var(--soft);letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-txt b{font:600 15px/1.25 var(--display);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ticket.sk{height:84px;border-radius:14px;background:linear-gradient(90deg,rgba(255,255,255,.5),rgba(255,255,255,.8),rgba(255,255,255,.5));background-size:200% 100%;animation:sk 1.4s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+.board-all{align-self:flex-end;font:13px var(--mono);color:var(--page-ink);text-decoration:underline;text-underline-offset:3px}
+
+/* departures ticker along the bottom of the opening */
+.ticker{position:absolute;left:0;right:0;bottom:0;z-index:2;overflow:hidden;background:#101524;color:#ffe9a8;font:600 13px "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.08)}
+.ticker-track{display:flex;width:max-content;animation:tick 40s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track a{display:inline-flex;align-items:center;gap:10px;padding:11px 22px;white-space:nowrap;pointer-events:auto}
+.ticker-track a i{font-style:normal;padding:2px 7px;border-radius:4px;background:var(--wc);color:#fff;font-size:11px}
+.ticker-track a em{font-style:normal;color:#7fe0a2;font-weight:500}
+.ticker-track a:hover{background:rgba(255,255,255,.06)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* the intro: T-3, T-2, T-1, then the mark lands (first visit of a session only) */
+.countdown{position:absolute;inset:0;z-index:5;display:none;place-items:center;pointer-events:none}
+.countdown b{font:800 clamp(80px,18vw,260px) var(--display);color:var(--red);letter-spacing:-.05em;animation:cd .45s cubic-bezier(.2,.7,.2,1) both}
+@keyframes cd{0%{transform:scale(1.6);opacity:0;filter:blur(8px)}40%{opacity:1;filter:none}100%{transform:scale(.9);opacity:.95}}
+.intro .countdown{display:grid}
+.intro .open-in{opacity:0}
+.landing .open-in{animation:fadein .5s both}
+.landing .mark .l,.landing .portal{animation:drop .7s cubic-bezier(.2,1.4,.4,1) both}
+.landing .mark .l:nth-child(2){animation-delay:.06s}.landing .mark .l:nth-child(3){animation-delay:.12s}.landing .mark .l:nth-child(4){animation-delay:.18s}.landing .portal{animation-delay:.28s}
+@keyframes drop{from{transform:translate3d(0,-.5em,0) rotate(-8deg);opacity:0}}
+.landing .open-lede,.landing .open-search,.landing .open-cta,.landing .boarding,.landing .portal-cap{animation:rise .6s .35s cubic-bezier(.2,.7,.2,1) both}
+.landing .open-search{animation-delay:.45s}.landing .open-cta{animation-delay:.52s}.landing .boarding{animation-delay:.6s}
+@keyframes rise{from{transform:translateY(18px);opacity:0}}
+
+/* ---------- the bento: everything useful, packed ---------- */
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-flow:dense;gap:14px;padding-block:22px 40px;position:relative;z-index:1}
+.tile{position:relative;display:flex;flex-direction:column;gap:6px;min-width:0;padding:18px;border-radius:18px;background:var(--paper,#fff);color:var(--ink);border:1px solid rgba(26,90,166,.1);box-shadow:0 18px 40px -30px rgba(10,14,40,.55);overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+a.tile:hover{transform:translateY(-4px);box-shadow:0 26px 50px -28px rgba(10,14,40,.6)}
+.tile-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px}
+.tile-h h2{margin:0;font-size:clamp(22px,2.4vw,28px);color:var(--ink)}
+.tile-h small,.tile-h a{font:12px var(--mono);color:var(--soft)}
+.tile-h a:hover{color:var(--red)}
+.tk{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--b2)}
+.tile b{font:700 19px/1.2 var(--display)}
+.tile>span:not(.tk):not(.go){font-size:14px;color:var(--soft);line-height:1.4}
+.go{margin-top:auto;padding-top:6px;font:600 13px var(--mono);color:var(--red)}
+.t-worlds{grid-column:span 2;grid-row:span 2}
+.t-latest{grid-column:span 2;grid-row:span 2}
+.t-continue{grid-column:span 2;background:#13224b;color:#fff6cf;border:0}
+.t-continue .tk{color:#ffd27a}.t-continue b{font-size:24px}.t-continue>span:not(.tk):not(.go){color:#cfe0f5}.t-continue .go{color:#ffd27a}
+.t-continue::after{content:"";position:absolute;right:-40px;bottom:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(215,24,42,.55),transparent 70%);animation:breath 6s ease-in-out infinite}
+@keyframes breath{50%{transform:scale(1.25)}}
+.t-sections{grid-column:span 2;flex-direction:row;padding:8px;gap:8px}
+.t-sections a{flex:1;display:flex;flex-direction:column;gap:3px;padding:12px;border-radius:12px;background:color-mix(in srgb,var(--b2) 8%,transparent);transition:background .25s}
+.t-sections a:hover{background:color-mix(in srgb,var(--b2) 18%,transparent)}
+.t-sections b{font-size:17px}.t-sections span{font-size:12.5px;color:var(--soft);line-height:1.35}
+.t-small{grid-column:span 1}
+
+/* world portals: each one a tiny living scene drawn in CSS (transforms only) */
+.portals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;flex:1}
+.portal-tile{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:128px;padding:12px;border-radius:14px;overflow:hidden;color:#fff;isolation:isolate;background:var(--pbg);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.portal-tile:hover,.portal-tile:focus-visible{transform:scale(1.035)}
+.portal-tile::before,.portal-tile::after{content:"";position:absolute;inset:-50%;z-index:-1;pointer-events:none}
+.portal-tile b{font:700 16px/1.15 var(--display);text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.portal-tile small{font:11px "Geist Mono",monospace;opacity:.85}
+.portal-tile .pc{position:absolute;top:10px;left:10px;font:600 10.5px "Geist Mono",monospace;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.18);backdrop-filter:none;letter-spacing:.08em}
+.portal-tile .pn{position:absolute;top:10px;right:10px;font:11px "Geist Mono",monospace;opacity:.9}
+.portal-tile[data-w=starchasers]{--pbg:linear-gradient(180deg,#120f2e,#3b2e6e 55%,#d996b0)}
+.portal-tile[data-w=starchasers]::before{background:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 60% 20%,#fff6cf,transparent),radial-gradient(1px 1px at 80% 45%,#fff,transparent),radial-gradient(1.5px 1.5px at 35% 60%,#fff,transparent),radial-gradient(1px 1px at 50% 40%,#fff,transparent);background-size:120px 90px;animation:drift 18s linear infinite}
+.portal-tile[data-w=liminal-outliers]{--pbg:linear-gradient(180deg,#eef3f1,#c4dadb 62%,#b9d3d6);color:#1f2b2e}
+.portal-tile[data-w=liminal-outliers] b{text-shadow:none}
+.portal-tile[data-w=liminal-outliers]::before{inset:0;background:linear-gradient(#fbfcfb,#fbfcfb) 70% 30%/22% 52% no-repeat,radial-gradient(circle at 76% 38%,#ffd678 0 3px,transparent 4px);animation:flick 3s steps(2) infinite}
+.portal-tile[data-w=liminal-outliers]::after{inset:40% -50% 20%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);animation:fog 9s linear infinite}
+.portal-tile[data-w=deadend]{--pbg:radial-gradient(circle at 25% 40%,rgba(255,179,71,.5),transparent 30%),radial-gradient(circle at 70% 60%,rgba(215,24,42,.4),transparent 30%),linear-gradient(180deg,#0f0c18,#2a1b2e)}
+.portal-tile[data-w=deadend]::before{background:repeating-linear-gradient(100deg,transparent 0 14px,rgba(200,210,235,.25) 14px 15px);animation:rain .6s linear infinite}
+.portal-tile[data-w=overgame]{--pbg:linear-gradient(180deg,#08070c,#2a0d14)}
+.portal-tile[data-w=overgame]::before{inset:45% 0 0;background:linear-gradient(#0d0a10,#0d0a10) 0 100%/18% 70% no-repeat,linear-gradient(#140f18,#140f18) 22% 100%/14% 90% no-repeat,linear-gradient(#0d0a10,#0d0a10) 45% 100%/20% 60% no-repeat,linear-gradient(#140f18,#140f18) 72% 100%/16% 95% no-repeat,linear-gradient(#0d0a10,#0d0a10) 100% 100%/14% 75% no-repeat}
+.portal-tile[data-w=overgame]::after{inset:auto 0 0;height:40%;background:linear-gradient(transparent,rgba(255,59,78,.55));animation:pulse 2.4s ease-in-out infinite}
+.portal-tile[data-w=ai-ice]{--pbg:linear-gradient(160deg,#0b1433,#123a52)}
+.portal-tile[data-w=ai-ice]::before{background:linear-gradient(100deg,transparent 30%,rgba(127,214,224,.35) 45%,rgba(255,207,154,.3) 55%,transparent 70%);animation:aur 7s ease-in-out infinite alternate}
+.portal-tile[data-w=archive]{--pbg:linear-gradient(180deg,#f6eddb,#e6cfa4);color:#2e2015}
+.portal-tile[data-w=archive] b{text-shadow:none}.portal-tile[data-w=archive] .pc,.portal-tile[data-w=liminal-outliers] .pc{background:rgba(0,0,0,.08)}
+.portal-tile[data-w=archive]::before{background:linear-gradient(115deg,transparent 35%,rgba(255,243,205,.9) 42%,transparent 52%);animation:beam 8s ease-in-out infinite alternate}
+.portal-tile[data-w=tzero]{--pbg:linear-gradient(180deg,#fff6cf,#8cc8f2 70%,#3d8fd6);color:#13224b}
+.portal-tile[data-w=tzero] b{text-shadow:none}.portal-tile[data-w=tzero] .pc{background:rgba(255,255,255,.6)}
+.portal-tile[data-w=tzero]::before{inset:60% -50% -10%;background:repeating-radial-gradient(ellipse at 50% 0,rgba(255,255,255,.55) 0 2px,transparent 3px 18px);animation:fog 6s linear infinite}
+@keyframes drift{to{transform:translate(-120px,30px)}}
+@keyframes rain{to{transform:translate(-6px,20px)}}
+@keyframes fog{from{transform:translateX(-30%)}to{transform:translateX(30%)}}
+@keyframes flick{50%{opacity:.85}}
+@keyframes aur{to{transform:translateX(25%) skewX(-10deg)}}
+@keyframes beam{to{transform:translateX(20%)}}
+
+/* latest: compact rows, picture left, nothing wasted */
+.rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.row a{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;align-items:center;padding:8px;border-radius:12px;transition:background .2s}
+.row a:hover{background:color-mix(in srgb,var(--b2) 9%,transparent)}
+.row img,.row .rp{width:88px;height:62px;border-radius:9px;object-fit:cover;background:var(--wc,#13224b)}
+.row .rt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.row b{font:600 15.5px/1.25 var(--display);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.row small{font:11.5px var(--mono);color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row small i{font-style:normal;padding:1px 6px;border-radius:4px;background:var(--wc,#47648c);color:#fff;margin-right:6px}
+.rows[aria-busy=true]::before{content:"Fetching the newest pieces…";font:12px var(--mono);color:var(--soft);padding:8px}
+
+/* ---------- phones and tablets ---------- */
+@media (max-width:1060px){
+  .open-in{grid-template-columns:minmax(0,1fr)}
+  .boarding .tickets{flex-direction:row;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:2px 16px 8px;scroll-snap-type:x mandatory}
+  .boarding .ticket{flex:0 0 min(300px,80vw);scroll-snap-align:start}
+  .bento{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .home2 .open{min-height:calc(100svh - 104px)}
+  .open-in{padding-block:20px 64px;gap:22px}
+  .mark{font-size:clamp(64px,21vw,120px)}
+  .open-search{padding:12px 14px}.open-search kbd{display:none}.os-ph{font-size:14px}
+  .bento{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .t-worlds,.t-latest,.t-continue,.t-sections{grid-column:1/-1;grid-row:auto}
+  .t-small{grid-column:auto;padding:14px}.t-small b{font-size:16px}.t-small>span:not(.tk){font-size:13px}
+  .portals{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .portal-tile{min-height:104px}
+  .t-sections{flex-direction:row;padding:6px;gap:6px}.t-sections a{padding:10px}.t-sections b{font-size:15px}.t-sections span{font-size:11.5px}
+}
+:root[data-motion="2"] .ticker-track,:root[data-motion="2"] .portal-tile::before,:root[data-motion="2"] .portal-tile::after{animation:none}
+
+/* filled by home.js */
+.tk-txt small i{font-style:normal;padding:1px 6px;border-radius:4px;background:var(--wc,#47648c);color:#fff;margin-right:6px}
+.portal.through .pt-window{transform:translate(-50%,-50%) scale(9);transition:transform .3s ease-in}
+.portal.through{z-index:5}
+.t-continue.resume::before{content:"";position:absolute;left:0;bottom:0;height:4px;width:var(--done,0%);background:#ffd27a;border-radius:0 4px 0 0}
+/* seven worlds fill a 3 x 3 window: the hub and the archive take two cells each */
+.portal-tile[data-w=tzero],.portal-tile[data-w=archive]{grid-column:span 2}
+@media (max-width:640px){.portals{grid-template-columns:repeat(2,minmax(0,1fr))}.portal-tile[data-w=archive]{grid-column:auto}}
+.t-sections a{color:var(--ink)}
+.t-sections a::after{content:"→";margin-top:auto;padding-top:6px;font:16px var(--mono);color:var(--red);transition:transform .25s}
+.t-sections a:hover::after{transform:translateX(4px)}
+.t-sections a,.t-sections b{color:var(--ink)}

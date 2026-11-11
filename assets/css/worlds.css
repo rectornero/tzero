@@ -8,7 +8,7 @@
 
 /* ---------- the worlds ---------- */
 :root[data-world=starchasers]{
-  --sun:#17123a;--sand:#221b4d;--sky:#3b2e6e;--b1:#7a5aa8;--b2:#8b6fd6;--b3:#4b3592;--abyss:#ffd27a;--ink:#1c1740;--soft:#5a5285;
+  --sun:#17123a;--sand:#221b4d;--sky:#3b2e6e;--b1:#7a5aa8;--b2:#8b6fd6;--b3:#4b3592;--abyss:#120e2e;--ink:#1c1740;--soft:#5a5285;
   --page-ink:#f3eeff;--page-soft:#bdb2e6;--paper:#fcfbff;--w-accent:#ffd27a;
   --display:"Space Grotesk","Geist",system-ui,sans-serif;--mono:"Pixelify Sans","Geist Mono",ui-monospace,monospace}
 :root[data-world=liminal-outliers]{
@@ -16,15 +16,15 @@
   --paper:#fdfefd;--w-accent:#8cc63f;
   --display:"Fraunces",Georgia,serif;--mono:"IBM Plex Mono","Geist Mono",ui-monospace,monospace}
 :root[data-world=deadend]{
-  --sun:#15111d;--sand:#1f1828;--sky:#2b2036;--b1:#5a3d52;--b2:#c26a2a;--b3:#8e4517;--abyss:#ffb347;--ink:#231b21;--soft:#6b5a60;
+  --sun:#15111d;--sand:#1f1828;--sky:#2b2036;--b1:#5a3d52;--b2:#c26a2a;--b3:#8e4517;--abyss:#120d18;--ink:#231b21;--soft:#6b5a60;
   --page-ink:#f3e9dc;--page-soft:#bba99a;--paper:#f8f2e8;--w-accent:#ffb347;
   --display:"Playfair Display",Georgia,serif;--mono:"Courier Prime","Geist Mono",ui-monospace,monospace}
 :root[data-world=overgame]{
-  --sun:#0e0b12;--sand:#17121c;--sky:#241520;--b1:#4a1a26;--b2:#c9283a;--b3:#7a1420;--abyss:#ff3b4e;--ink:#1a1216;--soft:#6a5459;
+  --sun:#0e0b12;--sand:#17121c;--sky:#241520;--b1:#4a1a26;--b2:#c9283a;--b3:#7a1420;--abyss:#0a080d;--ink:#1a1216;--soft:#6a5459;
   --page-ink:#f6eef0;--page-soft:#b8a0a6;--paper:#fbf8f8;--w-accent:#ff3b4e;
   --display:"Bebas Neue","Geist",system-ui,sans-serif;--mono:"JetBrains Mono","Geist Mono",ui-monospace,monospace}
 :root[data-world=ai-ice]{
-  --sun:#0b1433;--sand:#0f2140;--sky:#123a52;--b1:#2f6f86;--b2:#2a8ea0;--b3:#1d6474;--abyss:#ffcf9a;--ink:#14203d;--soft:#56688c;
+  --sun:#0b1433;--sand:#0f2140;--sky:#123a52;--b1:#2f6f86;--b2:#2a8ea0;--b3:#1d6474;--abyss:#081029;--ink:#14203d;--soft:#56688c;
   --page-ink:#eaf6ff;--page-soft:#a8c4dc;--paper:#f8fbff;--w-accent:#ffcf9a;
   --display:"Unbounded","Geist",system-ui,sans-serif;--body:"Outfit","Geist",system-ui,sans-serif}
 :root[data-world=archive]{
@@ -41,11 +41,11 @@ body,header,.post,.card,.side-box,.crumbs a,.shelf-head h1,.post-head h1{transit
 :root[data-dark] header{background:color-mix(in srgb,var(--sun) 70%,transparent);border-bottom-color:color-mix(in srgb,var(--page-ink) 14%,transparent)}
 :root[data-dark] body::before{background:var(--sun)}
 :root[data-dark] .brand span{color:#fff}
-:root[data-dark] nav a,:root[data-dark] .skin,:root[data-dark] .world-chip,:root[data-dark] .tweaks summary{color:var(--page-ink)}
+:root[data-dark] header nav a,:root[data-dark] .skin,:root[data-dark] .world-chip,:root[data-dark] .tweaks summary{color:var(--page-ink)}
 :root[data-dark] .skin{border-color:color-mix(in srgb,var(--page-ink) 35%,transparent)}
 :root[data-dark] .slot svg path:first-child{stroke:var(--page-ink)}
 :root[data-dark] .slot .zz{color:var(--page-ink)}
-:root[data-dark] nav a:hover{border-color:var(--w-accent);background:color-mix(in srgb,var(--w-accent) 14%,transparent)}
+:root[data-dark] header nav a:hover{border-color:var(--w-accent);background:color-mix(in srgb,var(--w-accent) 14%,transparent)}
 :root[data-dark] .crumbs a,:root[data-dark] .crumbs span,:root[data-dark].reading .crumbs a,:root[data-dark] .reading .crumbs a,:root[data-dark] .reading .crumbs span{color:var(--page-soft)}
 :root[data-dark] :is(.hero h1,.hero .sub,.shore h2,.more h2,.shelf-head h1,.sc-page h2){color:var(--page-ink)}
 :root[data-dark] :is(.hero .kicker,h2 small,.note,.shelf-head p,.post-status,.hero-links span){color:var(--page-soft)}
@@ -343,3 +343,35 @@ a.dep-row:hover,a.dep-row:focus-visible{background:rgba(255,255,255,.07);transfo
 :root[data-dark] .hero-links a{background:rgba(255,255,255,.08)}
 :root[data-dark] .hw-pill{background:rgba(255,255,255,.08);color:var(--page-ink)}
 :root[data-dark] .hw-pill:hover{background:rgba(255,255,255,.16)}
+
+/* ---------- readability pass (Nero 07:07: some text wasn't readable on sub-interfaces) ---------- */
+:root .tweaks-pop .skin,:root[data-dark] .tweaks-pop .skin{color:#13224b;border-color:rgba(26,90,166,.25)}
+:root[data-dark] :is(.letter,.sc-member,.sc-soon-box,.cassette .lbl,.pal,.atlas,.chat,.say){color:var(--ink)}
+:root[data-dark] .letter .stamp{color:#fff}
+.ws-code{color:#14121c}
+:root:not([data-dark])[data-world] .shelf-head .tag{color:var(--b3)}
+:root[data-world=liminal-outliers]{--w-accent:#5e9a1f}
+:root[data-dark] .btn{background:var(--w-accent);color:#14121c}
+:root[data-dark] .story-band .btn{background:var(--w-accent);color:#14121c}
+:root[data-dark] .side-avatar{background:var(--w-accent);color:#14121c}
+/* lean: no frosted-glass blur over the animated scene (it repainted every frame); a near-solid header instead */
+header{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in srgb,var(--sun) 92%,transparent)}
+:root[data-dark] header{background:color-mix(in srgb,var(--sun) 90%,transparent)}
+
+/* ---------- denser cards everywhere (Nero, 11 Nov: "cards still waste space") ---------- */
+.grid{grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px;align-items:start}
+.card{padding:14px 16px 16px;gap:6px;border-radius:14px}
+.card-pic{margin:-14px -16px 4px;width:calc(100% + 32px);aspect-ratio:2/1;border-radius:13px 13px 0 0}
+.card h4{font-size:17.5px;line-height:1.22;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card p{font-size:14px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .meta{margin-top:auto;font-size:12px}
+.card .tag+.card-world{margin-top:-2px}
+@media (max-width:640px){
+  .grid{grid-template-columns:minmax(0,1fr);gap:10px}
+  /* on phones a card is a row: picture left, words right */
+  .card.has-pic{display:grid;grid-template-columns:104px minmax(0,1fr);column-gap:12px;row-gap:4px;align-content:start;padding:10px 12px 10px 10px}
+  .card.has-pic>*{grid-column:2}
+  .card.has-pic .card-pic{grid-column:1;grid-row:1/span 5;margin:0;width:104px;height:auto;aspect-ratio:4/3;align-self:start;border-radius:9px;border-bottom:0}
+  .card.has-pic p{display:none}
+  .card.has-pic h4{font-size:16px}
+}

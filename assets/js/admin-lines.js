@@ -9,8 +9,8 @@
   // Where each set shows up. "fixed" sets have one line per moment, in order: edit the words, keep the count.
   const G = { home: 'Around the site', pages: 'Other pages', moves: 'Moves and moods', chat: 'Chat (click to catch him)', fight: 'Fight', news: 'The UNITE news scene', other: 'Other sets' };
   const TOPICS = {
-    cover: [G.home, 'Home: the Liminal Outliers polaroid'], save: [G.home, 'Home: the "first save" polaroid'],
-    devlog: [G.home, 'Home: Devlog cassette'], studio: [G.home, 'Home: Studio cassette'], archive: [G.home, 'Home: Archive cassette'],
+    cover: [G.home, 'Home: the opening (unused)'], save: [G.home, 'Home: The story so far tile'],
+    devlog: [G.home, 'Home: Devlog tile'], studio: [G.home, 'Home: Studio tile'], archive: [G.home, 'Home: Archive tile'],
     motto: [G.home, 'Home: the motto "With AI. For People."'], unite: [G.home, 'Home: the Pokémon UNITE card (after the news scene)'],
     artache: [G.home, 'Home: the Artache card'], story: [G.home, 'Home story band and the /story page'], proud: [G.home, 'Bragging about Artache, at random and on studio things'],
     grief: [G.home, 'Mood lines while the news is sad'], miriam: [G.home, 'Not on any page yet'],
