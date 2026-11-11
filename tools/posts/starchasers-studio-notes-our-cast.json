@@ -811,6 +811,49 @@
     "paragraphData": {}
    },
    {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The Contrary on the title art. The ship stays; the crew aboard is being redrawn.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/starchasers/title-key-art.webp"
+      },
+      "width": 1920,
+      "height": 1080
+     },
+     "altText": "The starship Contrary under the Starchasers title"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
     "type": "DIVIDER",
     "id": "",
     "nodes": [],
@@ -954,6 +997,49 @@
      }
     ],
     "paragraphData": {}
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The new crew stays off the site until it's cleared. Placeholder drawing: TZERØ, no character art.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/posts/starchasers/new-designs.webp"
+      },
+      "width": 2560,
+      "height": 1440
+     },
+     "altText": "Four plain silhouettes with question marks around a red pencil badge, under the words New designs, drawn from scratch"
+    }
    },
    {
     "type": "PARAGRAPH",
