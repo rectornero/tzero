@@ -1,5 +1,5 @@
 /* /admin/site: the site desk. Nero (and admins) change the live site here without a deploy: the notice bar, Ache's
-   news moment, the homepage's first polaroid, the newsletter form, switches, takedowns, short links, uploaded
+   news moment, the homepage pick, the newsletter form, switches, takedowns, short links, uploaded
    pictures; and everything about Claude's access: what it may do alone, its proposals, the activity log.
    Talks to /api/settings (netlify/functions/site.mjs) and /api/admin/media (content.mjs). Everything is drawn with
    createElement/textContent; nothing typed here is ever parsed as HTML. */
@@ -66,7 +66,7 @@
   });
 
   // 03 ---- Homepage pick ----
-  section('home', "Homepage: the first polaroid", "The polaroid on the left of the front page (now: Starchasers). Set your own pick here. The second one follows the newest article by itself.", box => {
+  section('home', "Homepage: Nero's pick", "One thing you want everyone to see first on the front page: a picture, a title and a link. It shows as the first boarding ticket (the first polaroid on the older homepage). Off = the newest articles fill the page by themselves.", box => {
     const p = S.home.pick;
     const on = check('Use my pick', p.on, 'Off = the one built into the page');
     const img = input(p.img, { placeholder: '/assets/img/… or https://…' }), alt = input(p.alt, { maxLength: 200 }), cap = input(p.cap, { maxLength: 80, placeholder: 'Starchasers, setting sail' });

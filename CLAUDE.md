@@ -34,7 +34,7 @@ burned almost a whole month.
   the one CDN-cached request per page view, about 2 credits per 10,000 views. Read his notes there before changing
   lines in the repo.
 - The site desk (Nero, 2026-11-11): `/admin/site` changes the live site without a deploy: notice bar, Ache's news
-  moment, the homepage's first polaroid, newsletter form, switches, takedowns (pages, posts, pictures), short links
+  moment, the homepage pick, newsletter form, switches, takedowns (pages, posts, pictures), short links
   (`/go/<name>`), uploaded pictures, the activity log and versions. Settings are one Blobs entry
   (`netlify/lib/site.mjs`, `netlify/functions/site.mjs`); every page reads them through `/api/site`, which replaced the
   `/api/lines` request (no extra call per view), and `assets/js/site.js` applies them. Prefer a switch or setting

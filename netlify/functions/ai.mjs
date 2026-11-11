@@ -572,7 +572,7 @@ GOOD: "that ship is mine. I named it." / "read this bit slowly. it's the good bi
   settings: `Site settings (op settings to read, op set {patch, note} to change; objects merge, arrays replace, null removes)
 notice {on, text, link, linkText, tone: red|navy|sun, until}       bar on top of every page
 mood {mode: wix|on|off, slug, topic, lines: []}                    Ache's news moment on one article
-home.pick {on, img, alt, cap, kick, note, href, linkText}          the homepage's first polaroid
+home.pick {on, img, alt, cap, kick, note, href, linkText}          Nero's pick on the homepage (first boarding ticket)
 newsletter {provider: kit|buttondown|mailerlite, id}
 flags {"cq-wip": bool, "share-row": bool, "newsletter-band": bool, "<your-switch>": bool}
 hide {paths: [{path, note}], posts: [{slug, note}], images: [{match, note}]}   or op takedown

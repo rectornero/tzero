@@ -19,7 +19,7 @@ JSON, `GET /api/ai/markdown` the article format.
 - Always: read everything, save drafts (signed "Claude"), check drafts, add Ache's lines to drafts, upload
   pictures, mark inbox items done.
 - Alone, when Nero switched the area on in `/admin/site` → Claude: takedowns (on from the start), the notice bar,
-  Ache's news moment, the homepage polaroid, switches, short links, the newsletter form, publishing articles,
+  Ache's news moment, the homepage pick, switches, short links, the newsletter form, publishing articles,
   publishing Ache's script book.
 - Everything else becomes a **proposal**: the call answers `202 { proposed: true }` and Nero approves or declines
   it in `/admin/site` → Claude. Claude can never approve, restore versions, delete pictures or change its own
@@ -140,7 +140,7 @@ MCP: `list_parts`, `add_ache_lines`, `remove_ache_lines`. Nero does the same in 
 | --- | --- |
 | `notice` | `{ on, text, link, linkText, tone: red|navy|sun, until }` the bar on top of every page |
 | `mood` | `{ mode: wix|on|off, slug, topic, lines }` Ache's news moment |
-| `home.pick` | `{ on, img, alt, cap, kick, note, href, linkText }` the homepage's first polaroid |
+| `home.pick` | `{ on, img, alt, cap, kick, note, href, linkText }` Nero's pick on the homepage (first boarding ticket) |
 | `newsletter` | `{ provider: kit|buttondown|mailerlite, id }` |
 | `flags` | `{ "<switch>": true|false }` (`cq-wip`, `share-row`, `newsletter-band`, or your own) |
 | `hide` | `{ paths: [{ path, note }], posts: [{ slug, note }], images: [{ match, note }] }` takedowns |

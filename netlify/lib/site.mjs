@@ -16,7 +16,7 @@ export const CLAUDE_AREAS = {
   takedowns: 'Hide pages, posts and pictures (licensing takedowns)',
   notice: 'The notice bar at the top of every page',
   mood: "Ache's news moment",
-  home: "The homepage's first polaroid",
+  home: "The homepage's pick (Nero's pick, the first boarding ticket)",
   flags: 'Switches',
   links: 'Short links (/go/...)',
   newsletter: 'Newsletter form',
