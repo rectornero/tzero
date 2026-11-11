@@ -44,7 +44,7 @@
     for (const a of document.querySelectorAll('a[href*="/post/"]')) {
       let slug; try { slug = decodeURIComponent(new URL(a.href, location.href).pathname.split('/post/')[1] || '').replace(/\/$/, '') } catch (e) { continue }
       if (posts.includes(slug)) { const card = a.closest('.card,li') || a; card.classList.add('tz-hid') }
-      else if (mood && slug === mood.slug && a.classList.contains('card') && a.dataset.say !== 'news') a.dataset.say = 'news';
+      else if (mood && slug === mood.slug && (a.classList.contains('card') || a.closest('.ticket,.rows')) && a.dataset.say !== 'news') a.dataset.say = 'news';
     }
   }
 
