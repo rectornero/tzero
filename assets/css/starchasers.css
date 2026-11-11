@@ -104,3 +104,9 @@ section h2 small{font-weight:400}
 .sc-summer{margin-bottom:20px}
 @media (max-width:760px){.sc-reach{grid-template-columns:minmax(0,1fr)}}
 .sc-emblem{width:110px;height:auto;border-radius:12px;flex:none}
+/* Placeholders while the crew art is redrawn (10 Nov 2026) */
+.sc-soon-pic{display:grid;place-items:center;aspect-ratio:16/9;background:radial-gradient(circle at 50% 45%,#3b2f7a,#1f1a3f 70%)}
+.sc-soon-pic img,.sc-key .sc-soon-pic img{width:38%;max-width:200px;height:auto;aspect-ratio:auto;object-fit:contain;opacity:.85;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}
+.sc-soon-box{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 14px 34px -22px rgba(26,90,166,.5)}
+.sc-soon-card .sc-name small{margin-left:auto}
+.sc-crew-soon{grid-template-columns:minmax(0,1fr);max-width:640px}

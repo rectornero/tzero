@@ -1,5 +1,5 @@
-# Static site: no build step, no functions. Articles load in the browser from Wix,
-# so a deploy only happens when the design changes.
+# Static site: no build step. Old articles load in the browser from Wix; new ones are written in /admin and
+# read from Netlify Blobs through netlify/functions/content.mjs, so publishing never needs a deploy.
 [build]
   publish = "."
   command = ""
@@ -27,3 +27,50 @@
   for = "/assets/img/*"
   [headers.values]
     Cache-Control = "public, max-age=3600"
+
+# The scene box (/embed): interactive code in articles runs here, inside a sandboxed iframe with a throwaway origin.
+# No network at all (connect-src 'none'); only fonts, and pictures from this site, Wix and YouTube thumbnails.
+[[headers]]
+  for = "/embed"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://static.wixstatic.com https://i.ytimg.com; media-src 'self' data: blob:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'none'; worker-src blob:; form-action 'none'; base-uri 'none'"
+    X-Robots-Tag = "noindex"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/embed.html"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://static.wixstatic.com https://i.ytimg.com; media-src 'self' data: blob:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'none'; worker-src blob:; form-action 'none'; base-uri 'none'"
+    X-Robots-Tag = "noindex"
+
+# The editor: only scripts from this site, never framed by another site, not indexed
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'"
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "same-origin"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'"
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "same-origin"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/admin.html"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'"
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "same-origin"
+    Cache-Control = "no-store"
+[[headers]]
+  for = "/admin-lines.html"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'"
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "same-origin"
+    Cache-Control = "no-store"

@@ -2,8 +2,9 @@
   "name": "tzero-main-site",
   "private": true,
   "type": "module",
-  "description": "Static site. The only dependency is for the Idea Lab vote function (netlify/functions/votes.mjs).",
+  "description": "Static site. Dependencies are for the server functions only: Idea Lab votes, sign-in and the /admin editor's content (netlify/functions).",
   "dependencies": {
-    "@netlify/blobs": "^11.1.6"
+    "@netlify/blobs": "^11.1.6",
+    "@netlify/functions": "^6.0.2"
   }
 }

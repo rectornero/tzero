@@ -7,7 +7,7 @@
   const root = document.documentElement;
   const slot = document.getElementById('slot');
   const snd = document.getElementById('snd');
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === '2';
   const esc = s => s.replace(/[&<>]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[ch]);
 
   /* Syntax colours: one pass over the whole text (block comments span lines), then split into lines */

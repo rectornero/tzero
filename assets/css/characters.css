@@ -200,7 +200,8 @@
 /* ---------- the journey ---------- */
 .journey-intro{max-width:760px;color:var(--soft)}
 .recent{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font:13px var(--mono);margin:0 0 20px}
-.recent span{background:#fff;border-radius:99px;padding:3px 10px;box-shadow:0 0 0 1px rgba(26,90,166,.15)}
+.recent span,.recent a{background:#fff;border-radius:99px;padding:3px 10px;box-shadow:0 0 0 1px rgba(26,90,166,.15)}
+.recent a{color:var(--ink);text-decoration:none;box-shadow:0 0 0 2px var(--wc)}.recent a:hover{background:color-mix(in srgb,var(--wc) 18%,#fff)}
 .world{margin-bottom:28px}
 .world h3{font-family:var(--display);font-size:20px;margin:0;display:flex;align-items:center;gap:10px}
 .world h3::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--wc)}
@@ -212,7 +213,10 @@
 .slot-card b{padding:0 10px;font-size:15px}.slot-card small{padding:0 10px;font:11px var(--mono);color:var(--soft)}
 .slot-card .rs{position:absolute;top:6px;left:8px;font-size:11px;color:var(--tc);text-shadow:0 1px 2px #0009;z-index:1}
 .slot-card .hint{padding:4px 10px 0;font:italic 13px/1.35 var(--body);color:var(--b3)}
-.slot-card .hint.done{color:#3f8a3a}
+.slot-card .hint.done{color:#3f8a3a}.slot-card .hint.go{color:#d7182a;font-style:normal;font-weight:600}
+.slot-card.ajar .art{filter:saturate(.5) brightness(.7)}
+.sheet-art.locked .art{filter:grayscale(1) brightness(.4) blur(3px)}
+.room-go{margin-top:4px}
 .slot-card.locked .art{filter:grayscale(1) brightness(.35) blur(2px)}
 .art{overflow:hidden;background:color-mix(in srgb,var(--wc) 40%,#13224b)}
 .art img{width:100%;height:100%;object-fit:cover;object-position:70% 25%;display:block}
@@ -393,3 +397,81 @@
 .machine.locked .m-pull::after{content:"LOCKED BY ACHE";position:absolute;inset:0;display:grid;place-items:center;font:700 12px var(--mono);letter-spacing:.24em;color:#fff;background:repeating-linear-gradient(135deg,#d7182acc 0 10px,#13224bcc 10px 20px);border-radius:8px}
 @media (max-width:560px){.gs-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .seller-btns .no{background:transparent;color:var(--ink,#13224b);box-shadow:inset 0 0 0 2px currentColor}
+
+/* ---------- a character's room (/characters?room=<id>) ---------- */
+.in-room .sea,.in-room .door,.in-room #lesson,.in-room #journey{display:none!important}
+.room{max-width:1040px;margin:28px auto 56px}
+.room-back{margin:0 0 12px;font:13px var(--mono)}.room-back a{color:var(--soft)}
+.room-stage{position:relative;aspect-ratio:3/2;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 80%,color-mix(in srgb,var(--wc) 40%,#13224b),#0b1229);box-shadow:0 30px 60px -36px #13224b}
+.room-stage>.art,.room-stage>.rs-pic{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease}
+.room-stage>.art.in,.room-stage>.rs-pic.in{opacity:1}.room-stage>.out{opacity:0}
+.room-stage.closed>.art{opacity:1;filter:grayscale(1) brightness(.35) blur(4px)}
+.room-stage::after{content:"";position:absolute;inset:auto 0 0;height:30%;background:linear-gradient(transparent,rgba(11,18,41,.35));pointer-events:none}
+.rs-gift{position:absolute;right:14px;bottom:14px;z-index:2;width:64px;height:64px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 3px #fff,0 8px 18px rgba(0,0,0,.3);animation:rs-in .8s ease both}
+.rs-gift .art{width:100%;height:100%}
+@keyframes rs-in{from{opacity:0;transform:translateY(8px) scale(.9)}}
+.room-box{position:relative;margin:-36px 18px 0;z-index:2;background:#fff;border-radius:16px;padding:16px 20px 18px;box-shadow:0 0 0 2px var(--wc),0 24px 40px -28px #13224b}
+.room-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.room-head h2{margin:0;font-size:clamp(22px,3vw,28px)}
+.room-head .tag{font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.room-talk{display:flex;flex-direction:column;gap:6px;margin:10px 0 0;min-height:70px}
+.room-talk p{margin:0;max-width:88%;padding:8px 12px;border-radius:12px;background:#f4f1e8;animation:rs-in .4s ease both;font-size:15px;line-height:1.45}
+.room-talk p b{display:block;font:11px var(--mono);color:var(--soft)}
+.room-talk .rt-you{align-self:flex-end;background:color-mix(in srgb,var(--wc) 20%,#fff)}
+.room-talk .rt-sys{background:none;padding:2px 0;font:13px var(--mono);color:var(--soft)}
+.room-talk .rt-sys a{color:#d7182a}
+.room-opts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;align-items:center}
+.ro{font:inherit;font-size:14px;background:#fff;border:0;border-radius:99px;padding:9px 16px;cursor:pointer;box-shadow:0 0 0 2px var(--wc);color:var(--ink);transition:transform .2s,background .2s}
+.ro:hover{background:color-mix(in srgb,var(--wc) 16%,#fff);transform:translateY(-1px)}
+.ro.ghost{box-shadow:0 0 0 1px rgba(19,34,75,.2);color:var(--soft)}
+.ro.keep{display:inline-flex;align-items:center;gap:8px;padding:5px 14px 5px 5px}
+.ro.keep .art{width:30px;height:30px;border-radius:50%}
+.ro.big{position:relative;width:96px;height:96px;border-radius:50%;padding:0;display:grid;place-items:center;font-weight:600;touch-action:none;user-select:none;-webkit-user-select:none}
+.ro.big span{position:relative;z-index:1;max-width:76px;line-height:1.15}
+.ro.big .ring{position:absolute;inset:0;border-radius:50%;overflow:hidden}
+.ro.big .ring b{position:absolute;inset:0;border-radius:50%;background:conic-gradient(color-mix(in srgb,var(--wc) 45%,#fff) calc(var(--p,0)*360deg),transparent 0)}
+.ro.big.held{transform:scale(.96)}.ro.big.bump{animation:ro-bump .25s ease}
+@keyframes ro-bump{50%{transform:scale(1.08) rotate(6deg)}}
+.taps{display:flex;gap:6px}.taps i{width:10px;height:10px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--wc)}.taps i.on{background:var(--wc)}
+.ro-hints{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:4px}.ro-hints a{font:12px var(--mono);color:#d7182a}
+.room-acts{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding-top:14px;border-top:1px dashed rgba(19,34,75,.15)}
+.ra{font:600 14px var(--body);border:0;border-radius:10px;padding:10px 16px;cursor:pointer;background:#13224b;color:#fff;transition:opacity .2s}
+.ra.done{background:#fff;color:var(--ink);box-shadow:0 0 0 1px rgba(19,34,75,.25)}
+.ra.done::before{content:"✓ ";color:var(--wc)}
+.ra:disabled{opacity:.45;cursor:default}
+/* the bond: three knots on a red thread */
+.room-thread{margin:14px 0 0}
+.th-h{margin:0 0 6px;font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.th-line{position:relative;display:flex;justify-content:space-between;max-width:420px;padding:0 12px}
+.th-line::before{content:"";position:absolute;left:0;right:0;top:9px;height:2px;background:#d7182a;opacity:.7}
+.knot{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
+.knot i{width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 2px #d7182a}
+.knot.tied i{background:var(--wc);box-shadow:inset 0 0 0 2px #d7182a,0 0 0 3px #fff}
+.knot.now i{animation:knot 1.2s ease}
+.knot small{font:11px var(--mono);color:var(--soft)}
+@keyframes knot{0%{transform:scale(.4)}40%{transform:scale(1.35);box-shadow:inset 0 0 0 2px #d7182a,0 0 0 3px #fff,0 0 18px 6px var(--wc)}100%{transform:scale(1)}}
+.th-more{margin:10px 0 0;font-size:14px;color:var(--soft)}
+
+/* CHARACTER UNLOCKED: a slow crescendo out of the room. u1 dims, u2 the light and the art rise, u3 the words, u4 who they are, u5 the way on */
+.unlock{position:fixed;inset:0;z-index:2147482000;display:flex;flex-direction:column;align-items:center;overflow:auto;padding:24px 16px;background:rgba(6,10,24,0);backdrop-filter:blur(0);transition:background 1.4s ease,backdrop-filter 1.4s ease,opacity .6s ease;cursor:default}
+.unlock.u1{background:rgba(6,10,24,.82);backdrop-filter:blur(6px)}
+.unlock.away{opacity:0}
+.ul-light{position:fixed;left:50%;bottom:-30vh;width:120vw;height:70vh;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--wc) 70%,#fffbe8),transparent);opacity:0;transition:opacity 2.4s ease,bottom 2.6s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.unlock.u2 .ul-light{opacity:.55;bottom:-12vh}
+.ul-art{position:relative;flex:none;margin-top:auto;width:min(760px,92vw);aspect-ratio:16/9;border-radius:16px;box-shadow:0 30px 80px -20px rgba(0,0,0,.6);opacity:0;transform:translateY(24px) scale(.97);filter:brightness(.6);transition:opacity 2.2s ease,transform 2.6s cubic-bezier(.2,.7,.2,1),filter 3s ease}
+.unlock.u2 .ul-art{opacity:1;transform:none;filter:none}
+.ul-txt{position:relative;width:min(760px,92vw);text-align:center;color:#fff;margin-bottom:auto}
+.ul-k{margin:18px 0 0;font:300 13px var(--mono);letter-spacing:.42em;text-transform:uppercase;color:color-mix(in srgb,var(--wc) 55%,#fff)}
+.ul-k span{display:inline-block;opacity:0;transform:translateY(4px);transition:opacity .9s ease,transform .9s ease;transition-delay:calc(var(--i)*70ms)}
+.unlock.u3 .ul-k span{opacity:1;transform:none}
+.ul-n,.ul-t,.ul-q,.ul-btns{opacity:0;transform:translateY(6px);transition:opacity 1.2s ease,transform 1.2s ease}
+.unlock.u4 .ul-n,.unlock.u4 .ul-t,.unlock.u4 .ul-q,.unlock.u5 .ul-btns{opacity:1;transform:none}
+.unlock.u4 .ul-t{transition-delay:.3s}.unlock.u4 .ul-q{transition-delay:.7s}
+.ul-n{margin:8px 0 0;font:800 clamp(28px,5vw,44px) var(--display)}
+.ul-t{margin:0;font-family:"Caveat",cursive;font-size:24px;color:rgba(255,255,255,.75)}
+.ul-q{margin:12px auto 0;max-width:560px;font-style:italic;font-size:17px;color:rgba(255,255,255,.88)}
+.ul-btns{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;margin:18px 0 0}
+.ul-btns .btn{border:0;cursor:pointer;font:600 15px var(--body);margin:0}
+.ul-btns .linkish{color:rgba(255,255,255,.7)}
+@media (max-width:640px){.room-box{margin:-24px 8px 0;padding:14px 14px 16px}.room-stage{aspect-ratio:4/3}.rs-gift{width:48px;height:48px}}
+@media (prefers-reduced-motion:reduce){.unlock,.ul-light,.ul-art,.ul-k span,.ul-n,.ul-t,.ul-q,.ul-btns,.room-talk p,.knot.now i{transition:none;animation:none}}
+:root[data-motion="2"] .unlock *,:root[data-motion="2"] .unlock{transition:none!important;animation:none!important}

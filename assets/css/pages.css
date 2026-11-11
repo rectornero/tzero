@@ -174,3 +174,135 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:600}
 
 /* "[text lost in a move]": a sentence that broke off when an old post moved between sites */
 .post .cut{font-family:var(--mono);font-size:.78em;color:var(--ink);opacity:.65;border:1px dashed currentColor;border-radius:4px;padding:0 .35em;white-space:nowrap;cursor:help}
+.post-meta .post-author{color:inherit;text-decoration:underline;text-underline-offset:3px}.post-meta .post-author:hover{color:var(--red)}
+/* People: the crew list and one person's profile (/people) */
+.people{max-width:1180px;margin:0 auto}
+.pp-head{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.pp-head h1,.pp-profile h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.04;letter-spacing:-.03em;margin:0;color:var(--ink)}
+.pp-head .tag,.pp-profile .tag{align-self:flex-start;padding:4px 10px;border-radius:99px;background:color-mix(in srgb,var(--b2) 12%,#fff);color:var(--b3);font-family:var(--mono);font-size:13px}
+.pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.pp-card{display:flex;flex-direction:column;gap:8px;padding:22px;border-radius:14px;background:#fff;border:1px solid rgba(26,90,166,.12);box-shadow:0 30px 60px -40px rgba(19,34,75,.45);color:var(--ink)}
+.pp-card b{font-size:20px}.pp-card p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
+.pp-avatar{display:grid;place-items:center;width:72px;height:72px;border-radius:50%;overflow:hidden;background:var(--abyss);color:#fff;font:800 28px var(--display);flex:none}
+.pp-avatar img{width:100%;height:100%;object-fit:cover}
+.pp-profile{display:flex;gap:28px;align-items:flex-start;padding:32px;border-radius:14px;background:#fff;border:1px solid rgba(26,90,166,.12);box-shadow:0 30px 60px -36px rgba(19,34,75,.45)}
+.pp-profile>div{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pp-profile .pp-avatar{width:120px;height:120px;font-size:44px}
+.pp-links{display:flex;flex-wrap:wrap;gap:8px}
+@media (max-width:640px){.pp-profile{flex-direction:column;padding:22px}}
+
+/* Share row under each article */
+.share{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:40px}
+.share-label{margin-right:6px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.share-btn{padding:7px 14px;border-radius:99px;border:1px solid color-mix(in srgb,var(--b2) 40%,transparent);background:#fff;color:var(--ink);font-family:var(--mono);font-size:12px;line-height:1.4;cursor:pointer;text-decoration:none;transition:border-color .2s,color .2s,transform .2s}
+.share-btn:hover,.share-btn:focus-visible{border-color:var(--red);color:var(--red);transform:translateY(-1px)}
+.share-native{background:var(--abyss);border-color:var(--abyss);color:var(--sun)}
+.share-native:hover{color:#fff}
+.share+.post-foot{margin-top:24px}
+
+/* Homepage hero: tighter, so Latest shows above the fold (Nero 2026-11-06: "too much space wasted at the top") */
+.home .hero.hero2{padding-block:28px 44px}
+.home .hero2 h1{margin-top:10px}
+.home .hero2 .motto{margin-top:18px}
+.home .board{min-height:430px}
+.home #latest{padding-top:28px}
+@media (max-width:760px){.home .board{min-height:400px}}
+@media (max-width:700px){.home .hero.hero2{padding-block:20px 40px}}
+
+/* Hero polaroids = Ache's picks: tap to flip (note + link), pin to keep the spot */
+.polaroid.pick{background:none;padding:0;box-shadow:none;perspective:900px}
+.pick .pol-in{position:relative;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.3,.5,1)}
+.pick.flipped .pol-in{transform:rotateY(180deg)}
+.pick .pol-front,.pick .pol-back{background:#fffdf6;box-shadow:0 1px 2px rgba(0,0,0,.12),0 20px 36px -18px rgba(19,34,75,.45);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.pick .pol-front{position:relative;padding:12px 12px 44px}
+.pick .cap{position:absolute;left:10px;right:10px;bottom:8px;text-align:center;font-family:"Caveat",cursive;font-size:20px;line-height:1.1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick .pol-back{position:absolute;inset:0;transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:18px 16px;background:repeating-linear-gradient(180deg,#fffdf6 0 25px,rgba(26,90,166,.12) 25px 26px),#fffdf6}
+.pol-kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.pol-note{margin:0;font-family:"Caveat",cursive;font-size:21px;line-height:1.15;color:var(--ink)}
+.pol-open{align-self:flex-start;padding:6px 12px;border-radius:99px;background:var(--abyss);color:var(--sun);font-family:var(--mono);font-size:11.5px}
+.pol-open:hover{color:#fff}
+.polaroid .pin{position:absolute;z-index:3;top:6px;right:6px;width:26px;height:26px;padding:4px;border:0;border-radius:50%;background:rgba(255,253,246,.85);cursor:pointer;opacity:.55;transition:opacity .2s,transform .2s}
+.polaroid:hover .pin,.polaroid .pin:focus-visible{opacity:1}
+.polaroid .pin svg{width:100%;height:100%;fill:#9aa3b5;stroke:#9aa3b5;stroke-width:2;stroke-linecap:round}
+.polaroid.pinned{cursor:pointer}
+.polaroid.pinned .tape{display:none}
+.polaroid.pinned .pin{top:-12px;right:auto;left:50%;transform:translateX(-50%);width:28px;height:28px;background:none;opacity:1;filter:drop-shadow(0 3px 2px rgba(0,0,0,.3))}
+.polaroid.pinned .pin svg{fill:var(--red);stroke:#7a0c16}
+@media (hover:none){.polaroid .pin{opacity:.9}}
+
+/* Homepage order (Nero 2026-11-07): Latest, then the story band (compact), then the tapes */
+.home #story{padding-block:0 24px}
+.home #sections{padding-top:32px}
+.home .story-band{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:24px;row-gap:4px;align-items:center;padding:22px clamp(20px,3vw,32px);padding-right:clamp(120px,14vw,170px)}
+.home .story-band .tag,.home .story-band h3,.home .story-band p{grid-column:1}
+.home .story-band h3{font-size:clamp(26px,3.4vw,38px)}
+.home .story-band p{font-size:15px;max-width:60ch}
+.home .story-band .btn{grid-column:2;grid-row:1 / span 3;justify-self:center;align-self:center;margin:0;white-space:nowrap}
+.home .band-saves{gap:6px;font-size:11px}
+.home .band-saves li::before{width:10px;height:10px}
+@media (max-width:760px){.home .story-band{grid-template-columns:minmax(0,1fr);padding-right:clamp(20px,3vw,32px)}.home .story-band .btn{grid-column:1;grid-row:auto;justify-self:center;margin-top:10px}}
+@media (max-width:640px){.home .story-band{padding-top:112px}.home .story-band > .band-pic{height:160px}.home .story-band::before{background:linear-gradient(180deg,transparent 0,transparent 80px,var(--abyss) 155px)}}
+
+/* The tapes have faces: the newest piece's picture is the tape's background (tinted by the tape colour), its title is "Now playing" */
+.cassette{position:relative;overflow:hidden}
+.cassette > *{position:relative;z-index:2}
+.cassette > .tape-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;opacity:.5;transition:opacity .4s,transform .8s}
+.cassette::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.45) 100%);pointer-events:none}
+.cassette .window{height:84px;margin:4px 0 2px}
+.cassette .window .reels{height:100%;display:flex;align-items:center;justify-content:center;padding:0}
+.cassette:hover > .tape-bg{opacity:.72;transform:scale(1.05)}
+.cassette .now em{text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.cassette .now{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.cassette .now span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.cassette .now em{font-style:normal;font-weight:600;font-size:14.5px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Hero, bottom left (Nero 2026-11-07: "?"): quick ways in instead of the old cover-story line */
+.hero-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:22px;font-family:var(--mono);font-size:13px}
+.hero-links span{margin-right:4px;color:var(--soft);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+.hero-links a{padding:7px 14px;border-radius:99px;background:rgba(255,253,246,.7);border:1px solid color-mix(in srgb,var(--b2) 35%,transparent);color:var(--ink);transition:border-color .2s,color .2s,transform .2s}
+.hero-links a:hover{border-color:var(--red);color:var(--red);transform:translateY(-1px)}
+.home .hero2 .sub{margin-top:4px}
+/* Three polaroids need room: a slightly smaller title on the homepage so the board never covers the Ø */
+.home .hero2{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.home .hero2 h1{font-size:clamp(70px,15vw,196px)}
+@media (max-width:860px){.home .hero2{grid-template-columns:minmax(0,1fr)}}
+
+/* Contrary Quest under construction (Nero, 11 Nov): yellow-black tape, no art until the redraw */
+.wip{--hz:repeating-linear-gradient(-45deg,#ffd21f 0 14px,#16130f 14px 28px);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:8px;padding:58px 22px 58px;border-radius:14px;background:#fffdf3;color:var(--ink);box-shadow:inset 0 0 0 8px transparent,0 18px 34px -22px rgba(19,34,75,.55)}
+.wip::before{content:"";position:absolute;inset:0;padding:8px;border-radius:inherit;background:var(--hz);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.wip > *{position:relative;z-index:2}
+.wip .tag{align-self:flex-start;background:#16130f;color:#ffd21f;padding:3px 8px;border-radius:4px}
+.wip h4,.wip h3{margin:0}
+.wip p{margin:0}
+.wip-tapes{position:absolute!important;inset:0;z-index:3!important;pointer-events:none}
+.wip-tape{position:absolute;left:-12%;right:-12%;height:30px;display:flex;align-items:center;overflow:hidden;background:#ffd21f;color:#16130f;font:700 12px/1 var(--mono);letter-spacing:.14em;white-space:nowrap;box-shadow:0 3px 8px rgba(0,0,0,.25);border-block:3px solid #16130f;transition:transform .5s cubic-bezier(.3,1.5,.5,1),opacity .4s}
+.wip-tape span{display:inline-block;padding-left:100%;animation:wip-run 16s linear infinite}
+.wip-tape.t1{top:14px;transform:rotate(-2.5deg)}
+.wip-tape.t2{bottom:14px;transform:rotate(2deg);background:#16130f;color:#ffd21f;border-color:#ffd21f}
+.wip-tape.t2 span{animation-duration:20s;animation-direction:reverse}
+@keyframes wip-run{to{transform:translateX(-100%)}}
+.wip-body{background:rgba(255,253,243,.92);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.wip-sign{font-family:"Caveat",cursive;font-size:22px;line-height:1.15;color:var(--red);min-height:1.2em}
+.wip-poke{align-self:flex-start;padding:8px 14px;border-radius:99px;border:2px solid #16130f;background:#ffd21f;color:#16130f;font:600 13px var(--mono);cursor:pointer;box-shadow:3px 3px 0 #16130f;transition:transform .15s,box-shadow .15s}
+.wip-poke:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #16130f}
+.wip-poke:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #16130f}
+.wip-hat{position:absolute!important;top:52px;right:14px;font-size:30px;line-height:1;animation:wip-bob 2.6s ease-in-out infinite;transform-origin:50% 90%}
+@keyframes wip-bob{50%{transform:rotate(-10deg) translateY(-3px)}}
+.wip.shake .wip-tape.t1{animation:wip-shake .45s}
+.wip.shake .wip-tape.t2{animation:wip-shake .45s reverse}
+@keyframes wip-shake{25%{translate:0 -4px}50%{translate:0 3px}75%{translate:0 -2px}}
+.wip.snapped .wip-tape.t1{transform:rotate(-14deg) translate(-8%,-50px);opacity:.15}
+.wip.snapped .wip-tape.t2{transform:rotate(12deg) translate(8%,50px);opacity:.15}
+:root[data-motion="2"] .wip-tape span{padding-left:0}
+/* the small version in the /story save slots */
+.wip.wip-slot{padding:44px 14px 44px;min-height:170px}
+.wip.wip-slot .wip-body{padding:10px 12px;gap:4px}
+.wip.wip-slot .wip-tape.t1{top:11px}.wip.wip-slot .wip-tape.t2{bottom:11px}
+.wip.wip-slot .wip-hat{top:38px;font-size:24px}
+.wip.wip-slot .wip-sign{font-size:19px}
+.wip.wip-slot .wip-tape{height:24px;font-size:10.5px}
+.ideas .wip.idea{display:flex;padding:60px 24px 60px}
+.ideas .wip.idea:not(.snapped) .wip-tape.t1{transform:rotate(-1.2deg)}
+.ideas .wip.idea:not(.snapped) .wip-tape.t2{transform:rotate(1deg)}
+.ideas .wip.idea .wip-body{max-width:640px}
+.ideas .wip.idea h3{margin:0}

@@ -1,9 +1,12 @@
 /* Characters Across Worlds.
    Act 1, the lesson: Ache runs a star shop and sells you every gacha trick (welcome gifts, hidden odds, a subscription,
    a battle pass paid with borrowed time, a "best value" chest with a near-miss), then breaks the machine.
-   Act 2, the journey: the characters hide across the site (assets/caw-spots.json, placed by save.js with the stickers).
-   Each find is a copy. No currency, no timers, no luck after the lesson.
-   Save: TZSAVE namespace "caw". save.js writes caw.found; this page writes caw.lesson and caw.met (always on a fresh read). */
+   Act 2, the journey: every character has a secret door somewhere on the site (assets/caw-spots.json, placed by save.js).
+   The door leads to their room (/characters?room=<id>): talk, do one small thing together, give them a keepsake you found,
+   and the three knots on the thread unlock them. Keepsakes peek out of the pages. No currency, no timers, no luck after the lesson.
+   Save: TZSAVE namespace "caw". save.js writes caw.found (keepsakes, and the old character tokens) and caw.rooms[id].door;
+   this page writes caw.lesson, caw.met, caw.fire and the rest of caw.rooms[id]: talk (topics done), act, gift, unlocked.
+   Always on a fresh read. */
 (() => {
 const $ = s => document.querySelector(s);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e };
@@ -22,7 +25,19 @@ function write(patch) {
   C = c;
 }
 const found = () => (C.found || {});
-const copies = id => Math.min(SPOTS.filter(s => s.item === id && found()[s.id]).length, ITEMS[id].kind === 'keep' ? 1 : D.rules.maxCopies);
+const copies = id => Math.min(SPOTS.filter(s => s.item === id && !s.door && found()[s.id]).length, 1);
+/* characters: the door, the bond, the unlock. Readers who met someone through the old tokens (before the doors) keep their room
+   open and every sheet layer they had already seen. */
+const room = id => (C.rooms || {})[id] || {};
+const legacy = id => Math.min(D.rules.maxCopies, Object.keys(found()).filter(k => k.indexOf(id + '-') === 0).length);
+const doorOpen = id => !!room(id).door || legacy(id) > 0;
+const knots = id => { const r = room(id); return (r.talk ? 1 : 0) + (r.act ? 1 : 0) + (r.gift ? 1 : 0) };
+const unlocked = id => !!room(id).unlocked;
+const topics = id => Math.min(room(id).talk || 0, ITEMS[id].meet.length);
+// how much of the sheet shows: unlocking gives the profile, notes and quote; talking through every topic adds the secret outfit
+const level = id => ITEMS[id].kind === 'keep' ? copies(id) : Math.max(unlocked(id) ? 3 + (topics(id) >= ITEMS[id].meet.length ? 1 : 0) : 0, legacy(id));
+const doorOf = id => SPOTS.find(s => s.door && s.item === id);
+function setRoom(id, patch) { const r = Object.assign({}, read().rooms); r[id] = Object.assign({}, r[id], patch); write({ rooms: r }) }
 
 /* ---------- art ---------- */
 const refSrc = it => !it.ref ? '' : /^https?:/.test(it.ref) ? it.ref : '/assets/img/caw/ref/' + it.ref;
@@ -474,26 +489,26 @@ function startJourney(scroll) {
 }
 function renderJourney() { renderShelf(); renderBonds(); renderRecent(); renderFire() }
 
-/* the campfire: everyone on the shelf, one seat for you, and spare seats for whoever joins next */
+/* the campfire: everyone you unlocked, one seat for you, and spare seats for whoever joins next */
 function renderFire() {
   const F = D.campfire, box = $('#campfire'), chars = D.items.filter(i => i.kind === 'char');
-  const here = chars.filter(i => copies(i.id) > 0), all = here.length === chars.length;
+  const here = chars.filter(i => unlocked(i.id)), all = here.length === chars.length;
   $('#fire-count').textContent = here.length + ' of ' + chars.length + ' around the fire';
   box.innerHTML = ''; box.classList.toggle('lit', all);
-  const ring = el('div', 'ring'), seats = [...chars.map(i => ({ it: i, on: copies(i.id) > 0 })), { you: 1 }, ...Array.from({ length: F.spare }, () => ({ spare: 1 }))];
+  const ring = el('div', 'ring'), seats = [...chars.map(i => ({ it: i, on: unlocked(i.id) })), { you: 1 }, ...Array.from({ length: F.spare }, () => ({ spare: 1 }))];
   seats.forEach((s, k) => {
     const a = (k / seats.length) * Math.PI * 2 - Math.PI / 2, seat = el('div', 'seat' + (s.you ? ' you' : s.spare ? ' spare' : s.on ? '' : ' away'));
     seat.style.setProperty('--x', (50 + Math.cos(a) * 42).toFixed(1) + '%'); seat.style.setProperty('--y', (50 + Math.sin(a) * 38).toFixed(1) + '%');
     if (s.it) { const t = el('img'); t.src = '/assets/img/caw/token/' + s.it.id + '.png'; t.alt = ''; seat.append(t); seat.append(el('small', '', esc(s.on ? s.it.name : '?'))) }
     else seat.append(el('small', '', esc(s.you ? F.seatYou : F.seatSpare)));
-    seat.title = s.it ? (s.on ? s.it.name : 'Not found yet') : s.you ? F.seatYou : F.seatSpare;
+    seat.title = s.it ? (s.on ? s.it.name : 'Not unlocked yet') : s.you ? F.seatYou : F.seatSpare;
     ring.append(seat);
   });
   ring.append(el('div', 'fire', '<i></i><i></i><i></i>'));
   box.append(ring);
   const side = el('div', 'fire-side');
   if (!all) {
-    side.innerHTML = '<p>The fire is laid but nobody has lit it. When every character from every world has followed you here, they\'ll sit down together, and there\'s a seat with your name on it.</p><p class="note">Still out there: ' + chars.filter(i => !copies(i.id)).map(i => esc(i.name)).join(', ') + '.</p>';
+    side.innerHTML = '<p>The fire is laid but nobody has lit it. When every character from every world has opened up to you, they\'ll sit down together, and there\'s a seat with your name on it.</p><p class="note">Still to meet: ' + chars.filter(i => !unlocked(i.id)).map(i => esc(i.name)).join(', ') + '.</p>';
   } else {
     if (F.img) { const im = el('img', 'fire-pic'); im.alt = 'The characters from every world, gathered around a campfire by the sea at night'; im.onerror = () => im.remove(); im.src = F.img; side.append(im) }
     const ol = el('ol', 'fire-lines'); side.append(ol);
@@ -512,12 +527,23 @@ function renderFire() {
   box.append(side);
 }
 function renderRecent() {
-  const f = Object.entries(found()).sort((a, b) => b[1] - a[1]).slice(0, 6), r = $('#recent');
-  const total = D.items.reduce((n, it) => n + copies(it.id), 0), max = D.items.reduce((n, it) => n + (it.kind === 'keep' ? 1 : D.rules.maxCopies), 0);
-  $('#journey-count').textContent = total + ' of ' + max + ' finds';
-  r.innerHTML = f.length ? '<strong>Latest finds</strong>' + f.map(([sid]) => { const s = SPOTS.find(x => x.id === sid); return s ? '<span>' + esc(ITEMS[s.item].name) + '</span>' : '' }).join('') : '<strong>Nobody yet.</strong> <span>Look for small round faces peeking out of the pages. Every sheet below tells you where to start.</span>';
+  const chars = D.items.filter(i => i.kind === 'char'), keeps = D.items.filter(i => i.kind === 'keep'), r = $('#recent');
+  const open = chars.filter(i => doorOpen(i.id)), un = chars.filter(i => unlocked(i.id)).length, kp = keeps.filter(i => copies(i.id)).length;
+  $('#journey-count').textContent = open.length + ' of ' + chars.length + ' doors · ' + un + ' unlocked · ' + kp + ' of ' + keeps.length + ' keepsakes';
+  r.innerHTML = open.length ? '<strong>Open doors</strong>' + open.map(i => '<a href="?room=' + i.id + '" style="--wc:' + D.worlds[i.world].color + '">' + esc(i.name) + (unlocked(i.id) ? '' : ' · ' + knots(i.id) + '/3') + '</a>').join('')
+    : '<strong>No doors yet.</strong> <span>Look for small doors with light underneath, tucked into the pages. Every card below tells you where to start.</span>';
 }
-function nextHint(id) { const s = SPOTS.find(x => x.item === id && !found()[x.id]); return s }
+function nextHint(id) {
+  const it = ITEMS[id];
+  if (it.kind === 'char') { const d = doorOf(id); return d && !doorOpen(id) ? d : null }
+  return SPOTS.find(x => x.item === id && !found()[x.id]);
+}
+function cardState(it) {
+  if (it.kind === 'keep') return copies(it.id) ? 'found' : 'keepsake, not found yet';
+  if (unlocked(it.id)) return 'unlocked · ' + LAYERS[level(it.id) - 1];
+  if (doorOpen(it.id)) return 'room open · bond ' + knots(it.id) + ' of 3';
+  return 'door not found yet';
+}
 function renderShelf() {
   const s = $('#shelf'); s.innerHTML = '';
   for (const [wid, w] of Object.entries(D.worlds)) {
@@ -525,10 +551,11 @@ function renderShelf() {
     g.innerHTML = '<h3>' + esc(w.name) + '</h3><p>' + esc(w.line) + '</p>';
     const row = el('div', 'world-row');
     for (const it of D.items.filter(i => i.world === wid)) {
-      const n = copies(it.id), max = it.kind === 'keep' ? 1 : D.rules.maxCopies, h = nextHint(it.id);
-      const c = el('button', 'slot-card t' + it.stars + (n ? '' : ' locked') + ' k-' + it.kind); c.type = 'button'; c.setAttribute('data-say', 'caw-card');
+      const n = level(it.id), h = nextHint(it.id), open = it.kind === 'char' && doorOpen(it.id) && !unlocked(it.id);
+      // no rarity on the journey: every character is worth the same here, so the card wears its world's colour, not a star count
+      const c = el('button', 'slot-card' + (n ? '' : open ? ' ajar' : ' locked') + ' k-' + it.kind); c.type = 'button'; c.setAttribute('data-say', 'caw-card'); c.style.setProperty('--tc', w.color);
       c.append(art(it, n >= 4 ? 'outfit' : 'banner'));
-      c.insertAdjacentHTML('beforeend', '<span class="rs">' + stars(it.stars) + '</span><b>' + esc(it.name) + '</b><small>' + (it.kind === 'keep' ? (n ? 'found' : 'keepsake, not found yet') : n + ' of ' + max + (n ? ': ' + LAYERS[n - 1] : ' · not found yet')) + '</small>' + (h ? '<em class="hint">' + esc(h.hint) + '</em>' : '<em class="hint done">All found.</em>'));
+      c.insertAdjacentHTML('beforeend', '<b>' + esc(it.name) + '</b><small>' + esc(cardState(it)) + '</small>' + (h ? '<em class="hint">' + esc(h.hint) + '</em>' : open ? '<em class="hint go">Their room is open. Go and sit with them.</em>' : '<em class="hint done">' + (it.kind === 'char' ? 'Unlocked. Their room stays open.' : 'Found.') + '</em>'));
       c.onclick = () => openSheet(it);
       row.append(c);
     }
@@ -537,60 +564,71 @@ function renderShelf() {
 }
 const pageName = p => ({ '/': 'the front page', '/studio': 'the studio page', '/story': 'the story page', '/redache': 'Ache\'s source', '/lab': 'the Idea Lab', '/scrapbook': 'the scrapbook', '/posts': 'all posts' })[p] || (p.startsWith('/posts/categories/') ? 'the ' + p.split('/').pop() + ' shelf' : p.startsWith('/post/') ? 'an article' : p);
 // the banner text: live page text over the calm left half of the art, never painted into the picture
-function plate(it, extra) {
+function plate(it, extra, noStars) {
   const w = D.worlds[it.world], p = el('div', 'plate');
-  p.innerHTML = '<span class="pl-world">' + esc(w.name) + (w.wip ? ' · in development' : '') + '</span><b class="pl-name">' + esc(it.plateName || it.name) + '</b>' + (it.title ? '<span class="pl-title">' + esc(it.plateTitle || it.title) + '</span>' : '') + '<span class="pl-stars t' + it.stars + '">' + stars(it.plateStars || it.stars) + '</span>' + (extra || '');
+  p.innerHTML = '<span class="pl-world">' + esc(w.name) + (w.wip ? ' · in development' : '') + '</span><b class="pl-name">' + esc(it.plateName || it.name) + '</b>' + (it.title ? '<span class="pl-title">' + esc(it.plateTitle || it.title) + '</span>' : '') + (noStars ? '' : '<span class="pl-stars t' + it.stars + '">' + stars(it.plateStars || it.stars) + '</span>') + (extra || '');
   return p;
 }
 function openSheet(it) {
-  const n = copies(it.id), w = D.worlds[it.world], d = $('#sheet'), box = $('#sheet-in');
+  const n = level(it.id), w = D.worlds[it.world], d = $('#sheet'), box = $('#sheet-in');
   box.innerHTML = ''; box.style.setProperty('--wc', w.color); addClose(box);
-  const head = el('div', 'sheet-art'); head.append(art(it, it.kind === 'char' && n >= 4 ? 'outfit' : 'banner'));
+  const head = el('div', 'sheet-art' + (n ? '' : ' locked')); head.append(art(it, it.kind === 'char' && n >= 4 ? 'outfit' : 'banner'));
   if (it.kind === 'char' && n >= 4) {
     const t = el('button', 'swap', 'See the banner'); t.type = 'button'; let o = true;
     t.onclick = () => { o = !o; head.firstChild.replaceWith(art(it, o ? 'outfit' : 'banner')); t.textContent = o ? 'See the banner' : 'See the secret outfit' };
     head.append(t);
   }
-  if (it.kind === 'char') head.append(plate(it, n ? '<span class="pl-copy">' + n + ' of ' + D.rules.maxCopies + ' · ' + esc(LAYERS[n - 1]) + '</span>' : ''));
+  if (it.kind === 'char') head.append(plate(it, n ? '<span class="pl-copy">' + esc(unlocked(it.id) ? 'Unlocked' : 'Met') + ' · ' + esc(LAYERS[n - 1]) + '</span>' : '', true));
   box.append(head);
-  let h = '<span class="tag">' + esc(w.name) + ' · ' + stars(it.stars) + (it.kind === 'keep' ? ' keepsake' : '') + '</span><h2>' + esc(it.name) + '</h2>' + (it.title ? '<p class="ttl">' + esc(it.title) + '</p>' : '');
-  if (!n) h += '<p class="lockline">Not found yet. They\'re hiding somewhere on the site.</p>';
+  let h = '<span class="tag">' + esc(w.name) + (it.kind === 'keep' ? ' · keepsake' : '') + '</span><h2>' + esc(it.name) + '</h2>' + (it.title ? '<p class="ttl">' + esc(it.title) + '</p>' : '');
+  const go = it.kind === 'char' && doorOpen(it.id) ? '<p><a class="btn room-go" href="?room=' + it.id + '">' + (unlocked(it.id) ? 'Visit ' + esc(it.name.split(' ')[0]) + '\'s room' : 'Go to their room') + ' <span>→</span></a></p>' : '';
+  if (!n) h += it.kind === 'keep' ? '<p class="lockline">Not found yet. It\'s peeking out of a page somewhere.</p>'
+    : doorOpen(it.id) ? '<p class="lockline">You found their door. Bond: ' + knots(it.id) + ' of 3. Talk with them, do something together and bring them a keepsake.</p>' + go
+    : '<p class="lockline">Not unlocked yet. Their secret door is somewhere on the site.</p>';
   else if (it.kind === 'keep') {
     h += '<p>' + esc(it.about) + '</p><p class="note2">' + esc(it.notes[0]) + '</p>';
+    const fans = D.items.filter(c => c.gift && c.gift.fav === it.id);
+    if (fans.length) h += '<p class="note">' + esc(fans.map(c => c.name.split(' ')[0]).join(' and ')) + (fans.length > 1 ? ' would love this.' : ' would love this.') + '</p>';
     if (it.ref) h += '<figure class="fromgame"><img src="' + refSrc(it) + '" alt="' + esc(it.about) + '" loading="lazy"><figcaption>From the game. Work in progress.</figcaption></figure>';
   } else {
+    h += go;
     h += '<dl class="facts">' + it.facts.map(([k, v]) => '<dt>' + esc(k) + '</dt><dd>' + esc(v) + '</dd>').join('') + '</dl><p>' + esc(it.about) + '</p>';
-    h += n >= 2 ? '<h3>Notes</h3><ul>' + it.notes.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : lock(2, 'Notes');
-    h += n >= 3 ? '<blockquote>' + esc(it.quote) + '</blockquote>' : lock(3, 'Quote');
-    h += n >= 4 ? '<h3>Secret outfit: ' + esc(it.outfit.name) + '</h3><p>' + esc(it.outfit.line) + '</p>' : lock(4, 'Secret outfit');
+    h += n >= 2 ? '<h3>Notes</h3><ul>' + it.notes.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : lock('Notes', 'unlock them in their room');
+    h += n >= 3 ? '<blockquote>' + esc(it.quote) + '</blockquote>' : lock('Quote', 'unlock them in their room');
+    h += n >= 4 ? '<h3>Secret outfit: ' + esc(it.outfit.name) + '</h3><p>' + esc(it.outfit.line) + '</p>' : lock('Secret outfit', 'talk with them about everything (' + topics(it.id) + ' of ' + it.meet.length + ' topics)');
     const met = D.meetings.filter(m => (m.a === it.id || m.b === it.id) && (C.met || {})[m.id]);
     if (met.length) h += '<h3>Met across worlds</h3><ul class="metl">' + met.map(m => '<li><button type="button" data-meet="' + m.id + '">' + esc(m.title) + ' · with ' + esc(ITEMS[m.a === it.id ? m.b : m.a].name) + '</button></li>').join('') + '</ul>';
   }
   if (it.freeOutfit && n) h += '<h3>Free outfit: ' + esc(it.freeOutfit.name) + '</h3><figure class="free-outfit"><img src="' + esc(it.freeOutfit.img) + '" alt="' + esc(it.freeOutfit.alt) + '" loading="lazy"><figcaption>' + esc(it.freeOutfit.line) + '</figcaption></figure>';
-  const sp = SPOTS.filter(s => s.item === it.id);
-  h += '<h3>Where they hide</h3><ol class="spots">' + sp.map(s => found()[s.id] ? '<li class="got">Found on ' + esc(pageName(s.path)) + '</li>' : '<li>' + esc(s.hint) + ' <a href="' + esc(s.path) + '">Go</a></li>').join('') + '</ol>';
+  if (it.kind === 'char') {
+    const dr = doorOf(it.id);
+    if (dr) h += '<h3>Their door</h3><ol class="spots">' + (doorOpen(it.id) ? '<li class="got">Found' + (room(it.id).door ? ' on ' + esc(pageName(dr.path)) : '') + '. It stays open.</li>' : '<li>' + esc(dr.hint) + ' <a href="' + esc(dr.path) + '">Go</a></li>') + '</ol>';
+  } else {
+    const sp = SPOTS.filter(s => s.item === it.id);
+    h += '<h3>Where it hides</h3><ol class="spots">' + sp.map(s => found()[s.id] ? '<li class="got">Found on ' + esc(pageName(s.path)) + '</li>' : '<li>' + esc(s.hint) + ' <a href="' + esc(s.path) + '">Go</a></li>').join('') + '</ol>';
+  }
   if (it.kind === 'char') h += it.ref ? '<figure class="fromgame"><img src="' + refSrc(it) + '" alt="' + esc(it.refAlt) + '" loading="lazy"><figcaption>From the game. ' + esc(it.refCredit) + (w.wip ? ' Work in progress.' : '') + '</figcaption></figure>' : '<p class="note">' + esc(it.refCredit) + '</p>';
   box.insertAdjacentHTML('beforeend', '<div class="sheet-body">' + h + '</div>');
   box.querySelectorAll('[data-meet]').forEach(b => b.onclick = () => openMeeting(D.meetings.find(m => m.id === b.dataset.meet)));
   if (!d.open) d.showModal();
 }
-const lock = (copy, what) => '<p class="lockline">Find ' + copy + ' unlocks: ' + what + '.</p>';
+const lock = (what, how) => '<p class="lockline">' + esc(what) + ': ' + esc(how) + '.</p>';
 function addClose(box) { const x = el('button', 'x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Close'); x.onclick = () => $('#sheet').close(); box.append(x) }
 
 /* ---------- meetings ---------- */
-const meetState = m => (C.met || {})[m.id] ? 'met' : copies(m.a) && copies(m.b) ? 'ready' : 'locked';
+const meetState = m => (C.met || {})[m.id] ? 'met' : unlocked(m.a) && unlocked(m.b) ? 'ready' : 'locked';
 function renderBonds() {
   const chars = D.items.filter(i => i.kind === 'char'), pos = {}, svg = $('#web');
   chars.forEach((c, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / chars.length; pos[c.id] = [200 + 150 * Math.cos(a), 200 + 150 * Math.sin(a)] });
   let s = '';
   for (const m of D.meetings) { const [x1, y1] = pos[m.a], [x2, y2] = pos[m.b]; s += '<line class="e ' + meetState(m) + '" data-m="' + m.id + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>' }
-  for (const c of chars) { const [x, y] = pos[c.id], own = copies(c.id) > 0; s += '<g class="n' + (own ? ' own' : '') + '" style="--wc:' + D.worlds[c.world].color + '"><circle cx="' + x + '" cy="' + y + '" r="16"/><text x="' + x + '" y="' + (y + (y > 200 ? 34 : -24)) + '">' + esc(c.name.split(' ')[0]) + '</text></g>' }
+  for (const c of chars) { const [x, y] = pos[c.id], own = unlocked(c.id); s += '<g class="n' + (own ? ' own' : '') + '" style="--wc:' + D.worlds[c.world].color + '"><circle cx="' + x + '" cy="' + y + '" r="16"/><text x="' + x + '" y="' + (y + (y > 200 ? 34 : -24)) + '">' + esc(c.name.split(' ')[0]) + '</text></g>' }
   svg.innerHTML = s;
   svg.querySelectorAll('line').forEach(l => l.onclick = () => { const m = D.meetings.find(x => x.id === l.dataset.m); if (meetState(m) !== 'locked') openMeeting(m) });
   const ol = $('#meet-list'); ol.innerHTML = '';
   for (const m of D.meetings) {
     const st = meetState(m), li = el('li', st);
-    const b = el('button', '', '<b>' + esc(m.title) + '</b><span>' + esc(ITEMS[m.a].name) + ' × ' + esc(ITEMS[m.b].name) + '</span><em>' + (st === 'met' ? 'read' : st === 'ready' ? 'ready to meet' : 'find both first') + '</em>');
+    const b = el('button', '', '<b>' + esc(m.title) + '</b><span>' + esc(ITEMS[m.a].name) + ' × ' + esc(ITEMS[m.b].name) + '</span><em>' + (st === 'met' ? 'read' : st === 'ready' ? 'ready to meet' : 'unlock both first') + '</em>');
     b.type = 'button'; b.disabled = st === 'locked'; b.onclick = () => openMeeting(m);
     li.append(b); ol.append(li);
   }
@@ -607,15 +645,178 @@ function openMeeting(m) {
   if (!d.open) d.showModal();
 }
 
+/* =================================================================== the rooms
+   /characters?room=<id>, reached through the character's door. Three knots on a red thread: talk, do something together,
+   give a keepsake. All three and they're unlocked. Quiet on purpose: the unlock grows out of the room, slowly, no fanfare.
+   Pictures (all optional, Character design draws them): room/<id>.webp, room/<id>-act.webp, room/<id>-gift.webp. */
+let RM = null;
+const KNOTS = [['talk', 'Talk'], ['act', 'Together'], ['gift', 'A keepsake']];
+function showRoom(id) {
+  const it = ITEMS[id]; if (!it || it.kind !== 'char') return false;
+  RM = { it, busy: false };
+  document.body.classList.add('in-room'); $('#room').hidden = false;
+  document.title = it.name.split(' ')[0] + '\'s room | TZERØ';
+  $('#room').style.setProperty('--wc', D.worlds[it.world].color);
+  $('#room-world').textContent = D.worlds[it.world].name; $('#room-name').textContent = it.name.split(' ')[0] + '\'s room';
+  scrollTo(0, 0); bgm('room');
+  if (!doorOpen(id)) return closedRoom(it), true;
+  stagePic(''); paintThread(); paintActs();
+  talkLine(it.meet[0].line, true); RM.greet = true;
+  roomOpts([]);
+  return true;
+}
+function closedRoom(it) {
+  const d = doorOf(it.id);
+  $('#room-stage').innerHTML = ''; $('#room-stage').classList.add('closed'); $('#room-stage').append(art(it, 'banner'));
+  $('#room-talk').innerHTML = '<p class="rt-sys">This door is still closed. Find it on the site first: the room is on the other side.</p>' + (d ? '<p class="rt-sys">' + esc(d.hint) + ' <a href="' + esc(d.path) + '">Go</a></p>' : '');
+  $('#room-thread').innerHTML = ''; $('#room-acts').innerHTML = ''; roomOpts([]);
+}
+// the picture: their room, or the moment (act, gift); the banner until the room is drawn
+function stagePic(kind) {
+  const it = RM.it, st = $('#room-stage'), want = it.id + (kind ? '-' + kind : '');
+  if (st.dataset.pic === want) return; st.dataset.pic = want;
+  const im = new Image(); im.alt = ''; im.className = 'rs-pic';
+  im.onload = () => { st.querySelectorAll('.rs-pic,.art').forEach(x => x.classList.add('out')); st.append(im); requestAnimationFrame(() => im.classList.add('in')); setTimeout(() => st.querySelectorAll('.out').forEach(x => x.remove()), 900) };
+  im.onerror = () => { if (kind) return; if (!st.querySelector('.art,.rs-pic')) { const a = art(it, unlocked(it.id) && level(it.id) >= 4 ? 'outfit' : 'banner'); a.classList.add('in'); st.append(a) } };
+  im.src = '/assets/img/caw/room/' + want + '.webp';
+  paintGiftOn();
+}
+function paintGiftOn() {
+  const st = $('#room-stage'), g = room(RM.it.id).gift, k = g && ITEMS[g]; st.querySelectorAll('.rs-gift').forEach(x => x.remove());
+  if (!k) return;
+  const b = el('div', 'rs-gift'); b.title = k.name + ', given to ' + RM.it.name.split(' ')[0]; b.append(art(k)); st.append(b);
+}
+function paintThread() {
+  const it = RM.it, r = room(it.id), box = $('#room-thread'), k = knots(it.id);
+  box.innerHTML = '<p class="th-h">' + (unlocked(it.id) ? 'Bond · unlocked' : 'Bond · ' + k + ' of 3') + '</p><div class="th-line">' + KNOTS.map(([key, label]) => '<span class="knot' + (r[key] ? ' tied' : '') + '" data-k="' + key + '"><i></i><small>' + label + '</small></span>').join('') + '</div>' +
+    (unlocked(it.id) ? '<p class="th-more">' + (topics(it.id) >= it.meet.length ? 'Secret outfit unlocked. Their room stays open.' : 'Keep talking: ' + topics(it.id) + ' of ' + it.meet.length + ' topics for the secret outfit.') + ' <button type="button" class="linkish" id="room-sheet">Their sheet</button></p>' : '');
+  const sb = $('#room-sheet'); if (sb) sb.onclick = () => openSheet(it);
+}
+function paintActs() {
+  const it = RM.it, r = room(it.id), box = $('#room-acts'); box.innerHTML = '';
+  const more = topics(it.id) < it.meet.length;
+  [['talk', r.talk ? (more ? 'Talk some more' : 'Chat again') : 'Talk'], ['act', it.act.label], ['gift', r.gift ? 'Give another keepsake' : 'Give a keepsake']].forEach(([k, t]) => {
+    const b = el('button', 'ra' + (r[k] ? ' done' : ''), esc(t)); b.type = 'button'; b.disabled = RM.busy;
+    b.onclick = () => ({ talk: doTalk, act: doAct, gift: doGift })[k]();
+    box.append(b);
+  });
+}
+const busyRoom = on => { RM.busy = on; $('#room-acts').querySelectorAll('button').forEach(b => b.disabled = on) };
+function talkLine(t, who) {
+  const p = el('p', who === true ? 'rt-them' : who === 'you' ? 'rt-you' : 'rt-sys');
+  if (who === true) p.innerHTML = '<b>' + esc(RM.it.name.split(' ')[0]) + '</b>' + esc(t); else if (who === 'you') p.innerHTML = '<b>You</b>' + esc(t); else p.textContent = t;
+  const box = $('#room-talk'); box.append(p); while (box.children.length > 4) box.firstChild.remove();
+  if (who === true && window.TZ && TZ.sfx) TZ.sfx('menu');
+}
+function roomOpts(list) {
+  const box = $('#room-opts'); box.innerHTML = '';
+  for (const [t, fn, cls] of list) { const b = el('button', 'ro' + (cls ? ' ' + cls : ''), t); b.type = 'button'; b.onclick = () => { box.innerHTML = ''; fn() }; box.append(b) }
+}
+// a knot gets tied; at three, the unlock grows out of the room
+function tie(key, val) {
+  const it = RM.it, before = room(it.id)[key];
+  setRoom(it.id, { [key]: val });
+  paintThread(); paintActs();
+  if (before) return;
+  const n = knots(it.id), kn = $('#room-thread [data-k="' + key + '"]'); if (kn) kn.classList.add('now');
+  snd(n === 3 ? 'knot3' : n === 2 ? 'knot2' : 'knot');
+  if (n === 3 && !unlocked(it.id)) { busyRoom(true); setTimeout(() => unlock(it), 1400) }
+}
+function doTalk() {
+  const it = RM.it, n = room(it.id).talk || 0, i = n < it.meet.length ? n : Math.floor(Math.random() * it.meet.length), b = it.meet[i];
+  stagePic(''); busyRoom(true);
+  if (!(RM.greet && i === 0)) talkLine(b.line, true);
+  RM.greet = false;
+  roomOpts(b.replies.map(rp => [esc(rp.say), () => {
+    talkLine(rp.say, 'you');
+    setTimeout(() => {
+      talkLine(rp.answer, true); busyRoom(false);
+      if (n < it.meet.length) {
+        const out = unlocked(it.id) && i + 1 === it.meet.length && level(it.id) < 4;
+        tie('talk', i + 1);
+        if (out) setTimeout(() => talkLine('That was everything they wanted to tell you, for now. Their secret outfit is on their sheet.'), 900);
+      }
+    }, 700);
+  }]));
+}
+function doAct() {
+  const it = RM.it, a = it.act; busyRoom(true); stagePic('act');
+  talkLine(a.prompt, true);
+  const end = extra => { if (extra) talkLine(extra, true); setTimeout(() => { talkLine(a.done, true); busyRoom(false); roomOpts([]); tie('act', Date.now()) }, extra ? 900 : 200) };
+  if (a.kind === 'pick') return roomOpts(a.options.map(([t, ans]) => [esc(t), () => { talkLine(t, 'you'); setTimeout(() => end(ans), 600) }]));
+  const box = $('#room-opts'); box.innerHTML = '';
+  const b = el('button', 'ro big', '<span>' + esc(a.verb) + '</span><i class="ring"><b></b></i>'); b.type = 'button'; box.append(b);
+  if (a.kind === 'tap') {
+    let k = 0; const dots = el('span', 'taps', Array.from({ length: a.n }, () => '<i></i>').join('')); box.append(dots);
+    b.onclick = () => {
+      k++; dots.children[k - 1].classList.add('on'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); snd('pop');
+      if (k >= a.n) { b.disabled = true; setTimeout(() => { box.innerHTML = ''; end() }, 400) }
+    };
+    return;
+  }
+  // hold: the ring fills while you hold; letting go just pauses it (Agata's tea counts whenever you stop)
+  let held = 0, t0 = 0, raf = 0, over = false;
+  const ms = a.ms || 3000, fill = b.querySelector('.ring b');
+  const tick = () => { const v = held + (t0 ? performance.now() - t0 : 0); fill.style.setProperty('--p', Math.min(1, v / ms)); if (v >= ms) return finish(); if (t0) raf = requestAnimationFrame(tick) };
+  const finish = () => { if (over) return; over = true; cancelAnimationFrame(raf); t0 = 0; b.disabled = true; setTimeout(() => { box.innerHTML = ''; end() }, 300) };
+  const down = e => { if (over || t0) return; if (e && e.type === 'keydown' && e.key !== ' ' && e.key !== 'Enter') return; if (e) e.preventDefault(); t0 = performance.now(); b.classList.add('held'); raf = requestAnimationFrame(tick) };
+  const up = () => { if (!t0 || over) return; held += performance.now() - t0; t0 = 0; b.classList.remove('held'); cancelAnimationFrame(raf); if (a.stopAny && held > ms * .3) finish() };
+  b.addEventListener('pointerdown', down); b.addEventListener('keydown', down);
+  ['pointerup', 'pointerleave', 'pointercancel', 'keyup', 'blur'].forEach(t => b.addEventListener(t, up));
+  b.addEventListener('contextmenu', e => e.preventDefault());
+}
+function doGift() {
+  const it = RM.it, g = it.gift, have = D.items.filter(k => k.kind === 'keep' && copies(k.id));
+  if (!have.length) {
+    const hints = SPOTS.filter(s => !s.door && !found()[s.id]).slice(0, 3);
+    talkLine('You don\'t have a keepsake yet. They peek out of the pages around the site: a spinner, a teacup, a spool. Find one and bring it here.');
+    $('#room-opts').innerHTML = '<ul class="ro-hints">' + hints.map(s => '<li>' + esc(s.hint) + ' <a href="' + esc(s.path) + '">Go</a></li>').join('') + '</ul>';
+    return;
+  }
+  talkLine('Which keepsake will you give ' + it.name.split(' ')[0] + '? It stays on your shelf too: keepsakes are never used up.');
+  busyRoom(true);
+  roomOpts(have.map(k => [art(k).outerHTML + '<span>' + esc(k.name) + '</span>', () => {
+    talkLine('You give ' + it.name.split(' ')[0] + ' the ' + k.name.toLowerCase() + '.');
+    setTimeout(() => { stagePic('gift'); talkLine(k.id === g.fav && g.favLine ? g.favLine : g.thanks, true); busyRoom(false); tie('gift', k.id); paintGiftOn() }, 700);
+  }, 'keep']).concat([['Not now', () => { busyRoom(false); talkLine('Maybe next time.') }, 'ghost']]));
+}
+/* CHARACTER UNLOCKED: the room dims, the light under the door comes back up, their full art rises out of it, then the words,
+   then their sheet. Slow and soft so it fits the quiet of the room; a tap jumps to the end. */
+function unlock(it) {
+  setRoom(it.id, { unlocked: Date.now() });
+  const ov = el('div', 'unlock'); ov.style.setProperty('--wc', D.worlds[it.world].color); ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-label', 'Character unlocked: ' + it.name);
+  const a = art(it, 'banner'); a.classList.add('ul-art');
+  const word = 'Character unlocked'.split('').map((c, i) => '<span style="--i:' + i + '">' + (c === ' ' ? '&nbsp;' : esc(c)) + '</span>').join('');
+  ov.append(el('i', 'ul-light'), a);
+  ov.insertAdjacentHTML('beforeend', '<div class="ul-txt"><p class="ul-k">' + word + '</p><h3 class="ul-n">' + esc(it.name) + '</h3><p class="ul-t">' + esc(it.title || '') + '</p><blockquote class="ul-q">' + esc(it.quote) + '</blockquote>' +
+    '<p class="ul-btns"><button type="button" class="btn ul-sheet">Open ' + esc(it.name.split(' ')[0]) + '\'s sheet <span>→</span></button><button type="button" class="linkish ul-stay">Stay in the room</button></p></div>');
+  document.body.append(ov);
+  const steps = [[50, 'u1'], [1500, 'u2'], [3600, 'u3'], [5400, 'u4'], [6800, 'u5']];
+  const T = calm() ? [] : steps.map(([ms, c]) => setTimeout(() => ov.classList.add(c), ms));
+  if (calm()) ov.classList.add('u1', 'u2', 'u3', 'u4', 'u5');
+  snd('unlock');
+  ov.onclick = e => { if (e.target.closest('button')) return; T.forEach(clearTimeout); ov.classList.add('u1', 'u2', 'u3', 'u4', 'u5') };
+  const close = then => { ov.classList.add('away'); setTimeout(() => { ov.remove(); then && then() }, 600); busyRoom(false); paintThread(); paintActs(); stagePic(''); talkLine('They\'re still here. The room stays open, and they\'d like to talk some more.') };
+  ov.querySelector('.ul-sheet').onclick = () => close(() => openSheet(it));
+  ov.querySelector('.ul-stay').onclick = () => close();
+  setTimeout(() => ov.querySelector('.ul-sheet').focus({ preventScroll: true }), calm() ? 50 : 6900);
+}
+
 /* ---------- start ---------- */
 function lines() {
   if (!window.TZ || !TZ.addLines) return setTimeout(lines, 400);
-  TZ.addLines('caw-card', ['every find shows a bit more of them', 'four finds and there\'s a secret outfit', 'no spoilers on these sheets. I guard them', 'they followed you here. that\'s the whole system']);
+  TZ.addLines('caw-card', ['every one of them has a secret door', 'look for light under a door', 'no spoilers on these sheets. I guard them', 'talk, sit, bring a keepsake. that\'s the whole system']);
 }
 function start() {
   C = read(); for (const s of SPOTS) if (!ITEMS[s.item]) console.warn('caw: unknown item', s.item);
+  const refresh = () => { C = read(); if (!$('#journey').hidden) renderJourney() };
+  if (window.TZSAVE && TZSAVE.on) TZSAVE.on('find', refresh);
+  document.addEventListener('tz:save', refresh);
+  // behind a door: only the room, no shop
+  const rid = new URLSearchParams(location.search).get('room');
+  if (rid && showRoom(rid)) { lines(); return }
   bindShop(); startShop();
-  if (C.lesson && C.lesson.done) { startJourney(false); $('#lesson').classList.add('was-done') }
+  if ((C.lesson && C.lesson.done) || location.hash === '#journey') { startJourney(location.hash === '#journey'); if (C.lesson && C.lesson.done) $('#lesson').classList.add('was-done') }
   const skip = e => { e.preventDefault(); write({ lesson: Object.assign({}, read().lesson, { done: 1 }) }); startJourney(true) };
   $('#skip').onclick = skip; $('#skip2').onclick = skip;
   // start over = Ache's lesson only: back to page 1, the saved page forgotten; characters, meetings and stickers stay
@@ -627,9 +828,6 @@ function start() {
     clearTimeout(armed); armed = 0; rw.textContent = '↺ Start the lesson over'; rmsg.textContent = rtxt; over();
   };
   $('#replay').onclick = over;
-  const refresh = () => { C = read(); if (!$('#journey').hidden) renderJourney() };
-  if (window.TZSAVE && TZSAVE.on) TZSAVE.on('find', refresh);
-  document.addEventListener('tz:save', refresh);
   lines();
 }
 Promise.all([fetch('/assets/caw.json').then(r => r.json()), fetch('/assets/caw-spots.json').then(r => r.json())]).then(([d, s]) => {

@@ -1,7 +1,9 @@
 /* Post page: /post/<slug> is served by post.html; the article loads live from Wix.
    Layout: cover on top of a white paper sheet, then meta, title, standfirst, body, and a closing footer. */
 (() => {
-  const slug = decodeURIComponent(location.pathname.replace(/^\/post\/?/, '').replace(/\/$/, ''));
+  // /p/<slug> is a page made in /admin (no date, byline or sidebar); /post/<slug> an article
+  const isPage = /^\/p\//.test(location.pathname);
+  const slug = decodeURIComponent(location.pathname.replace(/^\/(post|p)\/?/, '').replace(/\/$/, ''));
   const art = document.getElementById('article');
   const status = document.getElementById('status');
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e };
@@ -37,6 +39,43 @@
       document.getElementById('more').hidden = false;
       window.TZ && TZ.bindTilt(grid);
     }).catch(() => {});
+  }
+
+  // Share row under every article: plain links, no third-party scripts or trackers (and no Discord)
+  function share(post) {
+    const url = 'https://tzero.live/post/' + post.slug, title = post.title + ' · TZERØ';
+    const u = encodeURIComponent(url), t = encodeURIComponent(title), tu = encodeURIComponent(title + ' ' + url);
+    const box = el('div', 'share'); box.dataset.say = 'share';
+    box.append(el('span', 'share-label', 'Share this'));
+    if (navigator.share) {
+      const native = el('button', 'share-btn share-native', 'Share…'); native.type = 'button';
+      native.onclick = () => navigator.share({ title, url }).catch(() => {});
+      box.append(native);
+    }
+    const copy = el('button', 'share-btn', 'Copy link'); copy.type = 'button';
+    copy.onclick = () => { navigator.clipboard && navigator.clipboard.writeText(url).then(() => { copy.textContent = 'Link copied'; setTimeout(() => { copy.textContent = 'Copy link' }, 1800) }) };
+    box.append(copy);
+    [['Bluesky', 'https://bsky.app/intent/compose?text=' + tu],
+     ['X', 'https://x.com/intent/post?text=' + t + '&url=' + u],
+     ['Reddit', 'https://www.reddit.com/submit?url=' + u + '&title=' + t],
+     ['Facebook', 'https://www.facebook.com/sharer/sharer.php?u=' + u],
+     ['WhatsApp', 'https://wa.me/?text=' + tu],
+     ['Telegram', 'https://t.me/share/url?url=' + u + '&text=' + t],
+     ['Email', 'mailto:?subject=' + t + '&body=' + u]].forEach(([name, href]) => {
+      const a = el('a', 'share-btn', name); a.href = href;
+      if (name !== 'Email') { a.target = '_blank'; a.rel = 'noopener noreferrer' }
+      box.append(a);
+    });
+    // Ache's lines for the share row (kept here, so the script book in lines.json stays untouched)
+    if (window.TZ && TZ.addLines) TZ.addLines('share', [
+      "share it. tell them a star sent you.", "one tap and a friend gets smarter. you're welcome.",
+      "no trackers in these buttons. I checked. personally.", "Bluesky, X, a carrier pigeon. I'm not picky.",
+      "copy the link. paste it somewhere nice. not in a gacha chat.", "sharing is caring. I care a normal amount.",
+      "if this helped you, it'll help someone else. probably.", "send it to the friend who just pulled again. gently.",
+      "tell them Artache made it. the best studio in the universe. in Italy. a good studio.",
+      "email works too. very vintage. I respect it.", "I did not approve this article. share it anyway.",
+      "one share = one pat for me. that's the rule now."]);
+    return box;
   }
 
   // Desktop sidebar: what the article covers (its section headings) and where it came from
@@ -109,17 +148,34 @@
     return box;
   }
 
+  // A page: its title and blocks on the white sheet, nothing else
+  function page(post, parts) {
+    const sheet = el('div', 'post-sheet page-sheet'), head = el('div', 'post-head'), body = el('div', 'post-body');
+    head.append(el('h1', '', post.title));
+    if (post.excerpt) head.append(el('p', 'post-dek', post.excerpt));
+    body.appendChild(RICOS.render(post.richContent));
+    sheet.append(head, body); parts.push(sheet);
+    art.replaceChildren(...parts);
+    art.removeAttribute('aria-busy');
+  }
+
   if (!slug) { fail('No article here.'); return }
 
   // Archive and own posts are saved in the site (pre-rendered page + its data file); the rest load live from Wix
-  const frozen = document.documentElement.hasAttribute('data-frozen');
-  const source = frozen ? WIX.frozen(slug).catch(() => WIX.bySlug(slug)) : WIX.bySlug(slug);
+  // Posts written in /admin come from Netlify Blobs: first try there, then Wix. A frozen copy of an /admin post
+  // (data-live) still asks for the live one, so edits made after the last deploy show.
+  const root = document.documentElement, frozen = root.hasAttribute('data-frozen');
+  const fromLive = () => WIX.live(slug).catch(() => null);
+  const source = root.hasAttribute('data-live') ? fromLive().then(p => p || WIX.frozen(slug))
+    : frozen ? WIX.frozen(slug).catch(() => WIX.bySlug(slug))
+    : isPage ? fromLive()
+    : fromLive().then(p => p || WIX.bySlug(slug));
   source.then(post => {
     if (!post) throw new Error('missing');
     const cat = WIX.category(post);
     document.title = post.title + ' · TZERØ';
     if (!document.querySelector('link[rel=canonical]')) {
-      const canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://tzero.live/post/' + post.slug;
+      const canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://tzero.live/' + (post.kind === 'page' ? 'p/' : 'post/') + post.slug;
       document.head.appendChild(canon);
     }
     const desc = document.querySelector('meta[name=description]');
@@ -134,11 +190,15 @@
       fig.appendChild(img); parts.push(fig);
     }
 
+    if (post.kind === 'page') { page(post, parts); return }
     const sheet = el('div', 'post-sheet');
     const head = el('div', 'post-head');
     const meta = el('div', 'post-meta');
     const tag = el('a', 'tag', cat.label); tag.href = WIX.categoryUrl(post);
-    meta.append(tag, el('span', '', WIX.date(post.firstPublishedDate)), el('span', '', 'by ' + WIX.author(post)));
+    const by = el('span', '', 'by ');
+    const href = WIX.authorUrl(post);
+    if (href) { const a = el('a', 'post-author', WIX.author(post)); a.href = href; by.append(a) } else by.append(WIX.author(post));
+    meta.append(tag, el('span', '', WIX.date(post.firstPublishedDate)), by);
     if (post.minutesToRead) meta.append(el('span', '', post.minutesToRead + ' min read'));
     head.append(meta, el('h1', '', post.title));
     const body = el('div', 'post-body');
@@ -158,7 +218,7 @@
 
     sheet.append(head);
     if (post.ache) sheet.append(acheNote(post));
-    sheet.append(body, foot);
+    sheet.append(body, share(post), foot);
     parts.push(sheet);
     art.replaceChildren(...parts);
     art.removeAttribute('aria-busy');

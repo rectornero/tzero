@@ -13,6 +13,9 @@ window.WIX = (() => {
     '38ba494c-02f6-400e-9e2d-5cb850448e7a': 'Nero',
     '1c53b988-3af9-4c8b-b6d4-0db133c2b09c': 'Claude',
   };
+  // Wix posts kept off this site for now (Nero, 11 Nov 2026: Contrary Quest is hidden until its characters are redrawn)
+  const HIDDEN = new Set(['contrary-quest-devlog-1']);
+  const shown = p => !HIDDEN.has(p.slug);
   // Posts that have their own critter lines in lines.json
   const LINE_KEYS = {
     'pokemon-unite-doesnt-have-to-die': 'unite',
@@ -74,10 +77,17 @@ window.WIX = (() => {
   const LIST_FIELDS = '&fieldsets=URL';
   const byDate = (a, b) => (b.firstPublishedDate || '').localeCompare(a.firstPublishedDate || '');
 
-  // Posts written here since the move away from Wix: their cards, newest first (/post-data/index.json)
+  // Posts written here since the move away from Wix: their cards, newest first. Frozen ones are in the site
+  // (/post-data/index.json); ones published from /admin since the last deploy come from /api/content (cached on
+  // Netlify's CDN). The live copy wins when a post is in both. Pages (kind "page") aren't journal posts.
   let ownCards;
   function own() {
-    ownCards = ownCards || fetch('/post-data/index.json').then(r => r.ok ? r.json() : []).catch(() => []);
+    const get = u => fetch(u).then(r => r.ok ? r.json() : []).catch(() => []);
+    ownCards = ownCards || Promise.all([get('/post-data/index.json'), get('/api/content')]).then(([frozen, live]) => {
+      const fresh = ((live && live.posts) || []).filter(p => (p.kind || 'article') === 'article').map(p => ({ ...p, own: true, live: true }));
+      const seen = new Set(fresh.map(p => p.slug));
+      return fresh.concat((frozen || []).filter(p => !seen.has(p.slug))).sort(byDate);
+    });
     return ownCards;
   }
 
@@ -90,10 +100,11 @@ window.WIX = (() => {
   return {
     JOURNAL,
     CATEGORIES,
+    ownPosts: own,
     // Own posts and the newest TZERØ-tagged posts on Wix, merged by date
     async latest(n = 3) {
       const [mine, wix] = await Promise.allSettled([own(), get('/blog/v3/posts?tagIds=' + TAG_TZERO + '&paging.limit=' + n + '&fieldsets=URL')]);
-      const posts = (mine.value || []).filter(p => (p.tagIds || []).includes(TAG_TZERO)).concat(wix.status === 'fulfilled' ? wix.value.posts || [] : []);
+      const posts = (mine.value || []).filter(p => (p.tagIds || []).includes(TAG_TZERO)).concat(wix.status === 'fulfilled' ? (wix.value.posts || []).filter(shown) : []);
       if (!posts.length && wix.status === 'rejected') throw wix.reason;
       return posts.sort(byDate).slice(0, n);
     },
@@ -102,6 +113,11 @@ window.WIX = (() => {
       const r = await fetch('/post-data/' + encodeURIComponent(slug) + '.json');
       if (!r.ok) throw new Error('frozen ' + r.status);
       return r.json();
+    },
+    // A post or page published from /admin (Netlify Blobs): resolves null when there is none
+    async live(slug) {
+      const r = await fetch('/api/content/' + encodeURIComponent(slug));
+      return r.ok ? r.json() : null;
     },
     async bySlug(slug) {
       const j = await get('/blog/v3/posts/slugs/' + encodeURIComponent(slug) + '?fieldsets=RICH_CONTENT&fieldsets=URL&fieldsets=SEO');
@@ -117,7 +133,7 @@ window.WIX = (() => {
       if (tag) q += '&tagIds=' + tag;
       let j;
       try { j = await get(q) } catch (e) { if (offset || !mine.length) throw e; j = {} }
-      return { posts: (offset ? [] : mine).concat(j.posts || []), total: mine.length + ((j.metaData && j.metaData.total) || 0) };
+      return { posts: (offset ? [] : mine).concat((j.posts || []).filter(shown)), total: mine.length + ((j.metaData && j.metaData.total) || 0) };
     },
     async categoryBySlug(slug) {
       for (const id in CATEGORIES) if (CATEGORIES[id].key === slug) return { id, label: CATEGORIES[id].label };
@@ -149,7 +165,9 @@ window.WIX = (() => {
     category,
     cover,
     mediaUrl,
-    author: post => AUTHORS[post.memberId] || 'TZERØ',
+    author: post => post.authorName || AUTHORS[post.memberId] || 'TZERØ',
+    // The author's profile page (people who write here since the editor; Nero and Claude too)
+    authorUrl: post => post.authorSlug ? '/people/' + encodeURIComponent(post.authorSlug) : null,
     lineKey,
     // The post on Wix (own posts have none). Wix reports its own primary address, so this follows the domain switch by itself
     wixUrl: post => (post.url && post.url.base && new URL(post.url.base).host !== location.host ? post.url.base + post.url.path : JOURNAL + '/post/' + post.slug),
