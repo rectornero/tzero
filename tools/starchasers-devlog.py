@@ -89,7 +89,7 @@ def post(i, date, excerpt, minutes, cover, lead, body, num=None):
     slug, title = SERIES[i]
     head = f"STARCHASERS  ·  {date[1]}" if date[1].startswith(("INTERVIEW", "DESIGN", "STUDIO")) else f"STARCHASERS DEVLOG #{num or i+1}  ·  {date[1]}"
     nodes = [para(t(head, BOLD, COL(RED), SIZE(13))), BLANK, para(t(lead, ITAL, COL(INK), SIZE(22))), BLANK] + body + series_nav(i) + footer()
-    return {"id": "own-" + slug, "slug": slug, "title": title, "excerpt": excerpt,
+    return {"id": "own-" + slug, "slug": slug, "world": "starchasers", "title": title, "excerpt": excerpt,
             "firstPublishedDate": date[0], "lastPublishedDate": date[0], "categoryIds": [DEVLOG], "tagIds": [TAG], "memberId": MEMBER,
             "minutesToRead": minutes,
             "media": {"wixMedia": {"image": {"url": IMG + cover[0] if not cover[0].startswith('/') else cover[0], "width": cover[1], "height": cover[2]}}, "displayed": True, "custom": True},
@@ -424,8 +424,10 @@ posts.append(post(9, ("2026-11-10T09:00:00Z", "STUDIO NOTES  ·  HOW WE WORK"),
   + P("Mostly it was. But not all of it.")
   + heading('Where the tokens actually go')
   + P("The surprise was where the cost came from. Writing code, prose or prompts is cheap. Almost all of the spend, **about 85 to 90 percent**, was each thread re-reading its own conversation. A thread doesn't remember the way a person does: every step it takes, it reads back everything that came before.")
+  + image('/assets/img/posts/starchasers/tokens-share.webp', 2560, 1440, "A long red bar labelled re-reading the conversation, 85 to 90 percent, next to a small grey piece labelled the work", "Where the tokens went. Drawing: TZERØ.")
   + P("So the cost of a step grows with the length of the thread. A thread that has been working all night and carries 350,000 tokens of history pays roughly three times as much per step as a fresh one doing the same job. The art office, which spends much of its time waiting for an image engine and checking on it, had grown that long. One of its turns took 110 steps.")
   + quote("A long memory is not free. Every step pays for all of it.")
+  + image('/assets/img/posts/starchasers/tokens-step.webp', 2560, 1440, "Bar chart: one step in a fresh thread costs 1x, the same step in a thread with 350,000 tokens of history about 3x", "The same step, a fresh thread against a long one. Drawing: TZERØ.")
   + heading('Two leaks')
   + bullets(["**Threads that ran too long.** Several offices kept going well past the point where a clean handoff would have made every later step cheaper.",
              "**Waking idle threads for small notes.** A thread's memory is cached for about an hour. After that, waking it costs a full re-read. Sending a one-line \"for your info\" to a long, idle thread cost as much as real work, just to read the note. One thread was woken twice after it had already finished and handed off."])
@@ -463,11 +465,13 @@ posts.append(post(10, ("2026-11-10T20:00:00Z", "STUDIO NOTES  ·  OUR CAST"),
   + P("Starchasers was going to look like Contrary Quest in space. Now it gets a look of its own: the Lantern Pixel style the art team settled on the same day, applied to a cast drawn for it instead of adapted to it. The old crew images on this site are being retired; the new ones will replace them as they're approved.")
   + P("It also changes Contrary Quest. Nero wants the new designs to become the foundation of the cast everywhere: not \"the Starchasers versions\" but simply the crew, in our own designs, free to appear in any game, engine or book we make.")
   + quote("I'd like to see this huge extra effort as a positive in the future: the foundation of the Contrary Quest cast as \"our\" cast.")
+  + image('/assets/img/starchasers/title-key-art.webp', 1920, 1080, "The starship Contrary under the Starchasers title", "The Contrary on the title art. The ship stays; the crew aboard is being redrawn.")
   + heading("What it does to the characters")
   + P("The hard part of a redesign is keeping someone recognisable without their old face. Our rule is to start from personality, not appearance: what they do, how they talk, what they'd never be seen without. Every one of the ten gets a new colour scheme and a new signature item, and a silhouette that still reads at sprite size.")
   + P("The voices, jobs and friendships stay. If the redesign works, a player who knew them in Contrary Quest should meet them again and think: *oh, it's you.*")
   + P("The first sheets came back the same evening, two directions for each of the ten. Nero picked most of them in a few words (\"Easy A!\"), and every pick came down to personality: one palette was too bright to feel gentle, one hairstyle \"matches the fact she's organized\". Two went back for more work. In one case he liked both directions so much that the second is becoming a new crew member, and a close friend of the first. Turned-down designs aren't thrown away either: some will come back as outfit variants.")
   + P("We'll add the finished designs here once Nero approves them.")
+  + image('/assets/img/posts/starchasers/new-designs.webp', 2560, 1440, "Four plain silhouettes with question marks around a red pencil badge, under the words New designs, drawn from scratch", "The new crew stays off the site until it's cleared. Placeholder drawing: TZERØ, no character art.")
   + heading('What it does to an AI-native studio')
   + P("Starchasers is made by a studio of Claude threads, with images generated under Nero's direction. That makes the art rules more important, not less. The ones we now follow:")
   + bullets(["**Never feed licensed art to an AI tool.** The original pack illustrations are never uploaded anywhere, not even as a reference.",
@@ -497,6 +501,7 @@ posts.append(post(11, ("2026-11-11T12:00:00Z", "INTERVIEW  ·  THE ROAD TO 1.0")
   + quote("This has been the greatest effort towards 1.0: our first character design push from scratch, through many rounds.")
   + P("Why now, and not after 1.0? Because 1.0 should be the real cast, the one players will keep.")
   + quote("We needed the final cast: changing it at any other time wouldn't work: it's been a forced change, but it made the game stronger.")
+  + image('/assets/img/starchasers/title-key-art.webp', 1920, 1080, "The starship Contrary under the Starchasers title", "The Contrary, on the road to 1.0.")
   + heading('The crew feels like ours')
   + P("If players notice one thing, Nero hopes it's that the crew feels like ours: drawn for this game, by this studio.")
   + quote("These characters required much effort, but design effort is never wasted.")
@@ -520,6 +525,7 @@ posts.append(post(11, ("2026-11-11T12:00:00Z", "INTERVIEW  ·  THE ROAD TO 1.0")
   + P("Dimwick, the first town, has a new backdrop: lanterns at dusk, hiding secrets. And the new banner splashes show the crew in quiet, cosy moments aboard the ship, with the rivals heroic outdoors. That's on purpose, and it goes back to where the crew came from:")
   + quote("Contrary Quest is based on running away from the main quest to find secrets and comfort in the side stories. The banners reflect this fact.")
   + P("You meet people on these banners, not units. And it's something gachas rarely do.")
+  + image('/assets/img/starchasers/weary-reach-hollow.webp', 1280, 720, "Pixel-art map of the Drained Hollow on Weary Reach", "Weary Reach, the planet Dimwick sits on: the Drained Hollow.")
   + heading('What he learned')
   + P("Nero had been dreading a redesign for a long time. This week it happened anyway, and it turned out to be a gift.")
   + quote("This week, I learned that, with the proper tools, effort becomes a hard-earned satisfaction. I've never been this committed to creative design.")
