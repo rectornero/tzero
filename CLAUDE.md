@@ -27,11 +27,29 @@ burned almost a whole month.
   CDN and purged on publish; estimated 3 to 5 credits a month at 10,000 views). Sign-in is GitHub
   (`netlify/functions/auth.mjs`, needs `TZ_GITHUB_CLIENT_ID` and `TZ_GITHUB_CLIENT_SECRET`); Nero invites
   collaborators and admins (`netlify/functions/people.mjs`, profiles at /people). Collaborators publish directly but
-  never get scene code or pages. Claude saves drafts with `TZ_CLAUDE_KEY` through `tools/editor-api.mjs`, never publishes.
+  never get scene code or pages. Claude saves drafts with `TZ_CLAUDE_KEY` through `tools/editor-api.mjs`, and publishes only if Nero switched that on (AI desk, below).
 - Ache's lines: every set is in `assets/lines.json` (sets used by fights, chat, stake, sleep, therapy and the news
   scene also keep a default copy in `scene.js`). Nero edits them at `/admin/lines` (owner only); Publish stores the
-  sets he changed in Blobs and `scene.js` lays `/api/lines` over lines.json, no deploy. That is one more CDN-cached
-  request per page view, about 2 credits per 10,000 views. Read his notes there before changing lines in the repo.
+  sets he changed in Blobs and `scene.js` lays them over lines.json, no deploy. They travel inside `/api/site` (below),
+  the one CDN-cached request per page view, about 2 credits per 10,000 views. Read his notes there before changing
+  lines in the repo.
+- The site desk (Nero, 2026-11-11): `/admin/site` changes the live site without a deploy: notice bar, Ache's news
+  moment, the homepage's first polaroid, newsletter form, switches, takedowns (pages, posts, pictures), short links
+  (`/go/<name>`), uploaded pictures, the activity log and versions. Settings are one Blobs entry
+  (`netlify/lib/site.mjs`, `netlify/functions/site.mjs`); every page reads them through `/api/site`, which replaced the
+  `/api/lines` request (no extra call per view), and `assets/js/site.js` applies them. Prefer a switch or setting
+  there over a deploy. Takedowns hide in the browser at once; a repo file is only gone after the next deploy.
+- The AI desk (Nero, 2026-11-11): Claude's own door to the admin, `/api/ai/...` and the MCP endpoint `/api/mcp`
+  (`netlify/functions/ai.mjs`, guide in `docs/ai-admin.md`, CLI `tools/editor-api.mjs`), with `TZ_CLAUDE_KEY`.
+  Articles travel as TZ Markdown. Claude saves drafts; what Nero has not switched on in `/admin/site` → Claude
+  (publishing, settings areas, Ache's script book) becomes a proposal he approves there. Takedowns are on for Claude
+  from the start. Never call it on a schedule or in a loop. Estimated well under 1 credit a month.
+- Ache's lines for parts of an article: the "✦ Ache's lines" button in `/admin`, or `:::ache` in TZ Markdown / the
+  `ache` command. Stored as a `TZ_BLOCK` of kind `ache` under the part it belongs to (drawn by `blocks.js`).
+- An article's game world is its top-level `world` key (a key of `assets/worlds.json`, owned by the redesign);
+  the editor's "World" picker and the AI desk's `world` field set it.
+- Tests: `node tools/tests/admin-api.test.mjs` (server rules) and `node tools/tests/dev-server.mjs` (the site and its
+  functions locally, Blobs faked). Run the first before pushing changes to `netlify/`.
 - Scene code (interactive HTML in articles) only ever runs in the scene box: `/embed` in an iframe with
   `sandbox="allow-scripts"` and nothing else (never add `allow-same-origin`), under the no-network policy in
   `netlify.toml`. When handing Nero scene code, also give its fingerprint (`node tools/editor-api.mjs fingerprint f.html`).

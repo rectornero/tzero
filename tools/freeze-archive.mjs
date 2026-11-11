@@ -17,7 +17,7 @@ import { JSDOM } from 'jsdom';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const LIVE = new Set(['986847d2-3b96-464b-8b8b-338e07845d9c', 'de8055a9-ce06-426e-a47f-d860d026981f']); // Devlog, Studio
-const KEEP = ['own', 'live', 'ache', 'id', 'title', 'excerpt', 'firstPublishedDate', 'lastPublishedDate', 'url', 'slug', 'categoryIds', 'tagIds', 'memberId', 'minutesToRead', 'media', 'richContent'];
+const KEEP = ['world', 'own', 'live', 'ache', 'id', 'title', 'excerpt', 'firstPublishedDate', 'lastPublishedDate', 'url', 'slug', 'categoryIds', 'tagIds', 'memberId', 'minutesToRead', 'media', 'richContent'];
 const SITE = 'https://tzero.live';
 
 const args = process.argv.slice(2);
@@ -120,7 +120,7 @@ for (const post of posts) {
 const rendered = frozen.length;
 
 // The own posts' cards, newest first: read by the Latest shelf and the listings
-const CARD = ['own', 'id', 'title', 'excerpt', 'firstPublishedDate', 'slug', 'categoryIds', 'tagIds', 'memberId', 'media'];
+const CARD = ['world', 'own', 'id', 'title', 'excerpt', 'firstPublishedDate', 'slug', 'categoryIds', 'tagIds', 'memberId', 'media'];
 const index = own.map(p => { const c = {}; for (const k of CARD) if (k in p) c[k] = p[k]; return c })
   .sort((a, b) => (b.firstPublishedDate || '').localeCompare(a.firstPublishedDate || ''));
 fs.writeFileSync(path.join(ROOT, 'post-data/index.json'), JSON.stringify(index));

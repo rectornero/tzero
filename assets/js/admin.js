@@ -169,7 +169,7 @@
   }
 
   // ---- Sealed boxes for pictures, videos, scenes, crafted blocks ----
-  const LABEL = { IMAGE: 'Picture', GALLERY: 'Gallery', VIDEO: 'YouTube', HTML: 'Scene code', BUTTON: 'Button', TABLE: 'Table', CODE_BLOCK: 'Code', vn: 'Visual novel', hotspots: 'Hotspots', compare: 'Before / after', cards: 'Flip cards', slides: 'Story slides' };
+  const LABEL = { IMAGE: 'Picture', GALLERY: 'Gallery', VIDEO: 'YouTube', HTML: 'Scene code', BUTTON: 'Button', TABLE: 'Table', CODE_BLOCK: 'Code', vn: 'Visual novel', hotspots: 'Hotspots', compare: 'Before / after', cards: 'Flip cards', slides: 'Story slides', ache: "Ache's lines" };
   const kindOf = n => n.type === 'TZ_BLOCK' ? n.blockData && n.blockData.kind : n.type;
   function atom(node) {
     const box = el('figure', 'ad-atom');
@@ -313,6 +313,7 @@
     post.seoData = { tags: [{ type: 'title', children: (seo || post.title) + ' | TZERØ', custom: true }, { type: 'meta', props: { name: 'description', content: post.excerpt }, custom: true }] };
     const when = $('f-when').value;
     post.publishAt = when ? new Date(when).toISOString() : null;
+    if ($('f-world').value) post.world = $('f-world').value;
     return post;
   }
 
@@ -327,6 +328,7 @@
     const CLAUDE = '1c53b988-3af9-4c8b-b6d4-0db133c2b09c';
     $('f-author').value = post.memberId === CLAUDE ? CLAUDE : post.authorSlug && post.authorSlug !== me.slug ? 'keep' : 'self';
     doc.author = post.authorName || '';
+    setWorld(post.world || '');
     const seoT = ((post.seoData && post.seoData.tags) || []).find(t => t.type === 'title');
     $('f-seo').value = seoT && seoT.children.replace(/ \| TZERØ$/, '') !== post.title ? seoT.children.replace(/ \| TZERØ$/, '') : '';
     $('f-when').value = post.publishAt ? new Date(new Date(post.publishAt).getTime() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 16) : '';
@@ -338,6 +340,27 @@
     dirty = false;
     refresh();
   }
+
+  // The game world the article travels to. The list is assets/worlds.json (kept by the redesign); the sheet
+  // carries data-world and class world-<key> so the world's look shows while writing.
+  const sheet = $('sheet');
+  function setWorld(key) {
+    const sel = $('f-world');
+    if (key && ![...sel.options].some(o => o.value === key)) { const o = el('option', '', key + ' (not in the list)'); o.value = key; sel.append(o) }
+    sel.value = key;
+    for (const c of [...sheet.classList]) if (c.startsWith('world-')) sheet.classList.remove(c);
+    if (key) { sheet.classList.add('world-' + key); sheet.dataset.world = key } else delete sheet.dataset.world;
+  }
+  $('f-world').addEventListener('change', e => { setWorld(e.target.value); changed() });
+  fetch('/assets/worlds.json').then(r => r.ok ? r.json() : {}).catch(() => ({})).then(worlds => {
+    const sel = $('f-world'), cur = sel.value;
+    for (const [key, w] of Object.entries(worlds || {})) {
+      if (!/^[a-z0-9][a-z0-9-]{0,59}$/.test(key) || [...sel.options].some(o => o.value === key)) continue;
+      const o = el('option', '', ((w && w.name) || key) + (w && w.hidden ? ' (hidden for now)' : '')); o.value = key; o.disabled = Boolean(w && w.hidden);
+      sel.append(o);
+    }
+    setWorld(cur);
+  });
 
   function setCover(c) {
     coverImg = c;

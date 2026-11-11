@@ -17,6 +17,8 @@
    GET    /api/admin/versions/<slug>       -> saved versions, newest first
    GET    /api/admin/version/<slug>/<key>  -> one version
    POST   /api/admin/media                 -> picture bytes (webp, png, jpeg, gif; under 2 MB) -> { url }
+   GET    /api/admin/media                 -> every uploaded picture, newest first (Nero and admins)
+   DELETE /api/admin/media/<id>            -> deletes an uploaded picture for good (Nero and admins; takedowns)
    GET    /api/admin/inbox                 -> the Claude inbox (Nero and admins): material for Claude to write from
    POST   /api/admin/inbox                 -> { text, pictures: [url] } drops something in it
    POST   /api/admin/inbox/<id>            -> { status: "done" | "open" | "deleted", note?, draft? }
@@ -26,12 +28,16 @@
    GET    /api/admin/lines/versions        -> saved versions, newest first
    GET    /api/admin/lines/version/<key>   -> one version
 
+   Claude publishes only when Nero allows it in /admin/site → Claude (settings.claude.publish); otherwise it asks.
+   Every publish, unpublish, delete and upload is written to the activity log (../lib/site.mjs).
+
    Store "site-content": pub/<slug>, draft/<slug>, ver/<slug>/<time>, index, inbox/<time-id>,
    lines/draft, lines/pub, lines-ver/<time>. Store "site-media": <id>. */
 import { getStore } from '@netlify/blobs';
 import { purgeCache } from '@netlify/functions';
 import { randomBytes } from 'node:crypto';
 import { json, who, sameSite, claude, can } from '../lib/admin.mjs';
+import { readSettings, log } from '../lib/site.mjs';
 
 // Author ids from the Wix days, still used by the site's bylines
 const CLAUDE_MEMBER = '1c53b988-3af9-4c8b-b6d4-0db133c2b09c', NERO_MEMBER = '38ba494c-02f6-400e-9e2d-5cb850448e7a';
@@ -40,20 +46,22 @@ const SLUG = /^[a-z0-9](?:[a-z0-9-]{0,78}[a-z0-9])?$/;
 const MAX_POST = 1_500_000, MAX_HTML = 400_000, MAX_MEDIA = 2_000_000;
 const MEDIA_TYPES = { 'image/webp': 1, 'image/png': 1, 'image/jpeg': 1, 'image/gif': 1 };
 const CDN = { 'Cache-Control': 'public, max-age=0, must-revalidate', 'Netlify-CDN-Cache-Control': 'public, durable, s-maxage=600, stale-while-revalidate=600', 'Netlify-Cache-Tag': 'content' };
-const CARD = ['slug', 'kind', 'title', 'excerpt', 'authorName', 'authorSlug', 'firstPublishedDate', 'lastPublishedDate', 'publishAt', 'categoryIds', 'tagIds', 'memberId', 'minutesToRead', 'media'];
+const CARD = ['world', 'slug', 'kind', 'title', 'excerpt', 'authorName', 'authorSlug', 'firstPublishedDate', 'lastPublishedDate', 'publishAt', 'categoryIds', 'tagIds', 'memberId', 'minutesToRead', 'media'];
 
 // The node types ricos.js knows how to draw. Anything else is refused, so nothing unknown is ever stored.
 const NODES = new Set(['PARAGRAPH', 'TEXT', 'HEADING', 'BLOCKQUOTE', 'DIVIDER', 'BULLETED_LIST', 'ORDERED_LIST', 'LIST_ITEM', 'CODE_BLOCK',
   'IMAGE', 'GALLERY', 'VIDEO', 'TABLE', 'TABLE_ROW', 'TABLE_CELL', 'BUTTON', 'HTML', 'CAPTION', 'TZ_BLOCK']);
 const DECOS = new Set(['BOLD', 'ITALIC', 'UNDERLINE', 'LINK', 'COLOR', 'FONT_SIZE']);
 
-function check(post) {
+export function check(post) {
   const errs = [];
   if (!post || typeof post !== 'object') return ['no post'];
   if (typeof post.title !== 'string' || !post.title.trim() || post.title.length > 200) errs.push('title');
   if (post.excerpt != null && (typeof post.excerpt !== 'string' || post.excerpt.length > 600)) errs.push('excerpt');
   if (!['article', 'page'].includes(post.kind || 'article')) errs.push('kind');
   if (post.publishAt != null && isNaN(Date.parse(post.publishAt))) errs.push('publishAt');
+  // The game world an article travels to (a key of assets/worlds.json; empty = the TZERØ look)
+  if (post.world != null && post.world !== '' && !/^[a-z0-9][a-z0-9-]{0,59}$/.test(post.world)) errs.push('world');
   let count = 0;
   const walk = (n, depth) => {
     if (++count > 20000 || depth > 12) { errs.push('too big'); return }
@@ -169,7 +177,8 @@ export async function handle(req, { store, media, auth, purge = async (tags = ['
   // Ache's lines are Nero's alone
   if (a === 'lines') {
     // Claude may read them (Nero's notes are for Claude), never save
-    if (!can.manage(me.role) && !(me.role === 'claude' && req.method === 'GET')) return json({ error: 'Ache\'s lines are Nero\'s' }, 403);
+    // and publish them only when Nero allows it in /admin/site → Claude (settings.claude.lines)
+    if (!can.manage(me.role) && !(me.role === 'claude' && (req.method === 'GET' || (await readSettings(store)).claude.lines))) return json({ error: 'Ache\'s lines are Nero\'s' }, 403);
     if (req.method === 'GET' && !b) {
       const [draft, published] = await Promise.all([store.get('lines/draft', { type: 'json', consistency: 'strong' }), store.get('lines/pub', { type: 'json', consistency: 'strong' })]);
       return json({ draft, published });
@@ -193,8 +202,9 @@ export async function handle(req, { store, media, auth, purge = async (tags = ['
       await store.setJSON('lines-ver/' + now, { book, published: Boolean(body.publish) });
       if (body.publish) {
         await store.setJSON('lines/pub', { lines: bookLines(book), at: now });
-        await purge(['lines']);
+        await purge(['lines', 'site']);
       }
+      await log(store, me, body.publish ? 'published' : 'saved', "Ache's lines (" + Object.keys(book.topics).length + ' sets)');
       return json({ ok: true, savedAt: now, published: Boolean(body.publish) });
     }
     return json({ error: 'not found' }, 404);
@@ -212,6 +222,21 @@ export async function handle(req, { store, media, auth, purge = async (tags = ['
     return json({ items: items.filter(Boolean).sort((x, y) => (y.savedAt || '').localeCompare(x.savedAt || '')) });
   }
 
+  if (a === 'media' && req.method === 'GET' && !b) {
+    if (!all) return json({ error: 'not for collaborators' }, 403);
+    const { blobs } = await media.list();
+    const items = await Promise.all(blobs.slice(0, 500).map(async x => {
+      const m = await media.getMetadata(x.key).catch(() => null);
+      return { id: x.key, url: '/api/media/' + x.key, type: m && m.metadata && m.metadata.type, by: m && m.metadata && m.metadata.by, at: m && m.metadata && m.metadata.at };
+    }));
+    return json({ media: items.sort((x, y) => (y.at || '').localeCompare(x.at || '')) });
+  }
+  if (a === 'media' && req.method === 'DELETE' && /^[\w-]{10,40}\.(webp|png|jpg|gif)$/.test(b || '')) {
+    if (!can.everything(me.role)) return json({ error: 'Nero and the admins delete pictures' }, 403);
+    await media.delete(b);
+    await log(store, me, 'deleted', 'picture ' + b);
+    return json({ ok: true });
+  }
   if (a === 'media' && req.method === 'POST') {
     const type = (req.headers.get('content-type') || '').split(';')[0];
     if (!MEDIA_TYPES[type]) return json({ error: 'type' }, 415);
@@ -219,6 +244,7 @@ export async function handle(req, { store, media, auth, purge = async (tags = ['
     if (!buf.byteLength || buf.byteLength > MAX_MEDIA) return json({ error: 'size' }, 413);
     const id = randomBytes(12).toString('base64url') + '.' + ({ 'image/jpeg': 'jpg' }[type] || type.slice(6));
     await media.set(id, buf, { metadata: { type, by: me.login, at: new Date().toISOString() } });
+    await log(store, me, 'uploaded', 'picture ' + id);
     return json({ url: '/api/media/' + id });
   }
 
@@ -238,7 +264,7 @@ export async function handle(req, { store, media, auth, purge = async (tags = ['
     const post = body && body.post;
     const errs = check(post);
     if (errs.length) return json({ error: 'invalid', details: errs }, 400);
-    if (body.publish && me.role === 'claude') return json({ error: 'Claude saves drafts; Nero publishes' }, 403);
+    if (body.publish && me.role === 'claude' && !(await readSettings(store)).claude.publish) return json({ error: 'Claude saves drafts; Nero publishes (or allows it in /admin/site → Claude)' }, 403);
     if (!can.everything(me.role) && me.role !== 'claude') {
       if ((post.kind || 'article') !== 'article') return json({ error: 'Pages are for admins' }, 403);
       if (hasScene(post)) return json({ error: 'Scene code is for admins. Use the no-code blocks.' }, 403);
@@ -262,19 +288,23 @@ export async function handle(req, { store, media, auth, purge = async (tags = ['
       await editIndex(store, idx => idx.filter(p => p.slug !== slug).concat(card(clean)));
       await purge();
     }
+    await log(store, me, body.publish ? 'published' : 'saved draft', (clean.kind === 'page' ? 'page ' : '') + slug + ' · ' + clean.title);
     return json({ ok: true, savedAt: now, published: Boolean(body.publish) || Boolean(old) });
   }
 
   if (a === 'unpublish' && req.method === 'POST') {
+    if (me.role === 'claude') { const c = (await readSettings(store)).claude; if (!c.publish && !c.takedowns) return json({ error: 'Claude may not take posts down here' }, 403) }
     await store.delete('pub/' + slug);
     await editIndex(store, idx => idx.filter(p => p.slug !== slug));
     await purge();
+    await log(store, me, 'unpublished', slug);
     return json({ ok: true });
   }
 
   if (a === 'item' && req.method === 'DELETE') {
     if (await store.get('pub/' + slug, { consistency: 'strong' })) return json({ error: 'unpublish first' }, 409);
     await store.delete('draft/' + slug);
+    await log(store, me, 'deleted draft', slug);
     return json({ ok: true });
   }
 

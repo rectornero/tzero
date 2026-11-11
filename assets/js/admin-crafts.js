@@ -350,8 +350,41 @@ window.CRAFTS = (() => {
     });
   }
 
-  const MAKERS = { image: (n, f, o) => image(null, f, o), gallery: () => gallery(), video: () => video(), button: () => button(), scene: () => scene(), vn: () => vn(), hotspots: () => hotspots(), compare: () => compare(), cards: () => cards(), slides: () => slides() };
-  const BLOCKS = { vn, hotspots, compare, cards, slides };
+  // Ache's lines for the part above the marker: one line per row, or a set from his script book
+  function ache(data) {
+    data = data || { lines: [''], set: '', scope: 'part', show: 'hidden' };
+    data.lines = Array.isArray(data.lines) && data.lines.length ? data.lines : [''];
+    return open("Ache's lines for this part", box => {
+      box.append(el('p', 'ad-note', 'Ache walks up to the part right above this marker and says one of these lines, a different one each time. Keep them short, lowercase and in his voice.'));
+      const rows = el('div', 'ad-rows');
+      const draw = () => {
+        rows.replaceChildren();
+        data.lines.forEach((l, i) => {
+          const r = el('div', 'ad-line');
+          const inp = input(l, { placeholder: 'What Ache says', maxLength: 300 }); inp.addEventListener('input', () => { data.lines[i] = inp.value });
+          inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); data.lines.splice(i + 1, 0, ''); draw(); rows.querySelectorAll('input')[i + 1].focus() } });
+          r.append(inp, small('✕', () => { data.lines.splice(i, 1); if (!data.lines.length) data.lines.push(''); draw() }, 'Remove'));
+          rows.append(r);
+        });
+      };
+      draw();
+      const scope = select([['part', 'Only the part right above'], ['section', 'The whole section (back to the last heading)']], data.scope || 'part');
+      const show = select([['hidden', 'Only Ache says them (nothing shows in the article)'], ['bubble', 'Also show a small "Ache says" note readers can tap']], data.show || 'hidden');
+      const set = input(data.set || '', { placeholder: 'e.g. proud', pattern: '[a-z0-9-]*', spellcheck: false });
+      box.append(field('Lines', rows), small('+ Line', () => { if (data.lines.length < 30) { data.lines.push(''); draw() } }),
+        field('Belongs to', scope), field('In the article', show),
+        field('Or use a set from his script book', set, 'The set\'s key from Ache\'s lines (/admin/lines). Leave empty to use the lines above.'));
+      return () => {
+        const lines = data.lines.map(l => l.trim()).filter(Boolean), key = set.value.trim();
+        if (key && !/^[a-z0-9][a-z0-9-]{0,59}$/.test(key)) throw new Error('The set key uses a-z, 0-9 and dashes');
+        if (!lines.length && !key) throw new Error('Write at least one line, or name a set');
+        return { type: 'TZ_BLOCK', id: '', nodes: [], blockData: { kind: 'ache', data: { lines, set: key, scope: scope.value, show: show.value } } };
+      };
+    }, data.lines.some(Boolean) || data.set ? 'Save' : 'Insert');
+  }
+
+  const MAKERS = { image: (n, f, o) => image(null, f, o), gallery: () => gallery(), video: () => video(), button: () => button(), scene: () => scene(), vn: () => vn(), hotspots: () => hotspots(), compare: () => compare(), cards: () => cards(), slides: () => slides(), ache: () => ache() };
+  const BLOCKS = { vn, hotspots, compare, cards, slides, ache };
   return {
     ui: { open, field, input, select, picture, el },
     make: (kind, file, opts) => MAKERS[kind] ? MAKERS[kind](null, file, opts) : Promise.resolve(null),
