@@ -116,8 +116,7 @@ b += bullets([
 b += heading("Nero's take")
 b += P("TZERØ's motto is “With AI. For People.”, so you might expect an argument. There isn't one:")
 b += quote("I think his point is perfectly reasonable: he chose his style of working, and thinks it may have drawbacks. I respect it, and will strive preserving what Sakurai-san also fights to protect while using AI a bit more.")
-b += image(SC + 'crew/nero-ship.webp', 720, 405, "Captain Nero, a pixel-art character, aboard the starship Contrary",
-           "Captain Nero aboard the Contrary in Contrary Quest: Starchasers, the game Nero is making with AI tools. Art: Starchasers art team.")
+b += image(NEWS + 'tools-tablet.webp', 1280, 720, "A clean star on a drawing tablet, with notes like Ctrl+Z times 14 and Layer 3: colour", "The same star on a tablet: undo, layers, mirror. Illustration: TZERØ.")
 b += heading("Juries draw a harder line")
 b += P("Not everyone is that relaxed about it. The Indie Game Awards don't accept games made with generative AI at any stage of development. Last December they took back Clair Obscur: Expedition 33's Game of the Year and Debut Game awards, after AI-generated assets were found in the version that shipped ([Insider Gaming](https://insider-gaming.com/indie-game-awards-disqualifies-clair-obscur-expedition-33-gen-ai/)). Some judges of the Independent Games Festival have said they won't vote for AI-made games either.")
 b += P("Asked about that, Nero picked “too blunt: judge the game”, and explained it with something every digital artist knows:")
@@ -128,7 +127,7 @@ b += scene('tools.html', 470)
 b += heading("His last word")
 b += P("I asked Nero for one line to close this piece. He gave me a paragraph, and it's better than anything I'd cut it down to:")
 b += quote("AI is a great opportunity: it's up to us to understand where it's worth for us to explore more, to overcome our limits, to try something new with our own hands. AI can also be a great tool to learn and do exactly this. We have a powerful tool in our hands: let's use it while still seeking for beauty and meaning, and it will for sure be a strong toolkit to achieve what we all look for... and maybe even beyond.")
-b += signoff(CODE_CREDIT + " Starchasers art: Starchasers art team, AI-generated under Nero's art direction, used as given.")
+b += signoff(CODE_CREDIT + "")
 write('sakurai-doesnt-use-ai-and-still-says-dont-ignore-it', "Sakurai doesn't use AI. He still says don't ignore it", '2026-11-11T11:00:00Z',
       "Masahiro Sakurai keeps generative AI out of his own work, but warns that refusing it could leave developers behind. Nero agrees, and has a word for award juries.",
       "Masahiro Sakurai keeps generative AI out of his own work, and warns that refusing it outright could leave developers behind. Nero agrees with more of that than you might think.",
@@ -151,9 +150,7 @@ b += scene('noise.html', 460)
 b += heading("And the slop?")
 b += P("One more twist. The heroes of Nero's Contrary Quest games are diligent geniuses who are secretly lazy, in a genius way. So I asked him whether he worries about his own games coming out sloppy:")
 b += quote("In our Contrary Quest game line, the characters are the sloppy ones. I hope the game doesn't end up like the characters! I am a lazy person myself, but I do have hyperfixation on design and quality, so, as the game series' characters, I trust my weakness will come to fruition... especially when it'll be with friends!")
-b += image(SC + 'crew/nero-out.webp', 720, 405, "Captain Nero, a pixel-art character, out exploring",
-           "Captain Nero in Contrary Quest: Starchasers. Lazy, by his own admission. Obsessed with quality, also by his own admission. Art: Starchasers art team.")
-b += signoff(CODE_CREDIT + " Starchasers art: Starchasers art team, AI-generated under Nero's art direction, used as given. Steam is a trademark of Valve.")
+b += signoff(CODE_CREDIT + " Steam is a trademark of Valve.")
 write('steam-is-filling-up-with-clones-nero-isnt-worried', "Steam is filling up with clones. Nero isn't worried", '2026-11-11T13:00:00Z',
       "AI-made copies crowded October's Next Fest and Valve added a five-minute rule to its release checklist. Nero's take: more friends, and a line in the ad budget.",
       "AI-made copies crowded October's Next Fest, and Valve has added a five-minute rule to its release checklist. Nero's reaction: more friends, and a new line in the ad budget.",

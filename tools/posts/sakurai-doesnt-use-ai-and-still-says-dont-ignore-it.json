@@ -578,7 +578,7 @@
         "id": "",
         "nodes": [],
         "textData": {
-         "text": "Captain Nero aboard the Contrary in Contrary Quest: Starchasers, the game Nero is making with AI tools. Art: Starchasers art team.",
+         "text": "The same star on a tablet: undo, layers, mirror. Illustration: TZERØ.",
          "decorations": []
         }
        }
@@ -594,12 +594,12 @@
      },
      "image": {
       "src": {
-       "url": "/assets/img/starchasers/crew/nero-ship.webp"
+       "url": "/assets/img/posts/news-2026-11/tools-tablet.webp"
       },
-      "width": 720,
-      "height": 405
+      "width": 1280,
+      "height": 720
      },
-     "altText": "Captain Nero, a pixel-art character, aboard the starship Contrary"
+     "altText": "A clean star on a drawing tablet, with notes like Ctrl+Z times 14 and Layer 3: colour"
     }
    },
    {
@@ -1154,7 +1154,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art. Starchasers art: Starchasers art team, AI-generated under Nero's art direction, used as given.",
+       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art.",
        "decorations": [
         {
          "type": "COLOR",
