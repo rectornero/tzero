@@ -252,8 +252,8 @@ a.dep-row:hover,a.dep-row:focus-visible{background:rgba(255,255,255,.07);transfo
 .post-body h2{scroll-margin-top:110px}
 .post-body .tz-speaking{background:linear-gradient(transparent 0,color-mix(in srgb,var(--w-accent) 28%,transparent) 0);border-radius:4px;box-shadow:-6px 0 0 color-mix(in srgb,var(--w-accent) 28%,transparent),6px 0 0 color-mix(in srgb,var(--w-accent) 28%,transparent);transition:background .3s}
 /* a quiet first letter in the world's own type */
-:root[data-world] .post-body>p:first-of-type::first-letter{font-family:var(--display);float:left;font-size:3.3em;line-height:.86;margin:.08em .1em 0 0;color:var(--b3);font-weight:700}
-:root[data-world=overgame] .post-body>p:first-of-type::first-letter{font-weight:400}
+:root[data-world] .post-body>p.dropcap::first-letter{font-family:var(--display);float:left;font-size:3.3em;line-height:.86;margin:.08em .1em 0 0;color:var(--b3);font-weight:700}
+:root[data-world=overgame] .post-body>p.dropcap::first-letter{font-weight:400}
 /* reading progress: a thread across the top in the world's colour */
 .reading{--read-p:0}
 .reading .read-bar{position:fixed;left:0;top:0;height:3px;width:100%;z-index:30;transform-origin:left;transform:scaleX(var(--read-p));background:var(--w-accent);pointer-events:none;transition:transform .15s}
@@ -395,3 +395,6 @@ header{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in
   .card .tag{font-size:10.5px}
   .card:not(.has-pic){padding:12px 14px}
 }
+
+/* picture stand-ins: the journal's star on the world colour, never a flat block */
+.row .rp,.ticket .tk-ph{background:var(--wc,#13224b) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' fill-opacity='.85' d='M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z'/%3E%3C/svg%3E") center/34% no-repeat}

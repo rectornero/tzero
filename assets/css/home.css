@@ -272,3 +272,9 @@ a.tile:hover{transform:translateY(-4px);box-shadow:0 26px 50px -28px rgba(10,14,
 @media (max-width:1060px){.upnext .ticket{flex:0 0 min(290px,78vw)}}
 @media (max-width:640px){.feature{min-height:min(56svh,460px)}.mast-side{padding-bottom:0}}
 @media (max-width:640px){.mast .open-search{display:none}.mast .mark{font-size:clamp(48px,15vw,68px)}.mast-line{font-size:13.5px}}
+/* Nero, 11 Nov 09:58: the planet behind the logo hid the red Ø. The window now only opens on hover or focus. */
+.pt-window{opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity .3s,transform .4s cubic-bezier(.2,1.4,.4,1),background .8s}
+.portal:hover .pt-window,.portal:focus-visible .pt-window{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.portal.through .pt-window{opacity:1}
+.portal.pulse::after{animation:none}
+.pt-glyph{position:relative;z-index:2}
