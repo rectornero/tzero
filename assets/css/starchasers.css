@@ -109,3 +109,4 @@ section h2 small{font-weight:400}
 .sc-soon-pic img,.sc-key .sc-soon-pic img{width:38%;max-width:200px;height:auto;aspect-ratio:auto;object-fit:contain;opacity:.85;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}
 .sc-soon-box{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 14px 34px -22px rgba(26,90,166,.5)}
 .sc-soon-card .sc-name small{margin-left:auto}
+.sc-crew-soon{grid-template-columns:minmax(0,1fr);max-width:640px}
