@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/pages.css">
 <link rel="stylesheet" href="/assets/css/starchasers.css">
-<link rel="stylesheet" href="/assets/css/spoiler.css">
 <title>Contrary Quest: Starchasers | TZERØ</title>
 <meta name="description" content="A cosy space-fantasy gacha RPG where the crew of the starship Contrary sets out to break the gacha itself, one boss at a time. Pixel art, made in Godot, for Android and PC. In development at Artache.">
 <link rel="canonical" href="https://tzero.live/starchasers">
@@ -17,7 +16,7 @@
 <meta property="og:image" content="/assets/img/starchasers/weary-reach-landing.webp">
 </head><body class="sc-page">
 <!-- Starchasers section. Copy and art come from the approved, spoiler-free Starchasers website pack (6 Nov 2026).
-     No story spoilers (ending, late twists, secret modes). Gameplay details, boss names and boss art go inside a .spoiler gate (assets/js/spoiler.js), which keeps them blurred until the reader taps: Nero, 2026-11-06. Art is used as given; credit "Starchasers art team". -->
+     Keep it spoiler-free: no boss names, ending, late twists or secret modes. Art is used as given; credit "Starchasers art team". -->
 <canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
 <header><div class="wrap">
   <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
@@ -33,7 +32,7 @@
       <h1 class="sc-title"><small>Contrary Quest:</small><span>Starchasers</span><svg class="h1-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></h1>
       <p class="sub">A cosy space-fantasy gacha RPG where the crew of the starship <em>Contrary</em> sets out to break the gacha itself, one boss at a time.</p>
       <ul class="sc-chips" aria-label="At a glance"><li>Pixel art</li><li>Made in Godot</li><li>Android + PC</li></ul>
-      <p class="sc-links"><a class="btn" href="#next">What's coming <span>→</span></a> <a class="btn ghost" href="#devlog">Read the devlog</a></p>
+      <p class="sc-links"><a class="btn" href="#next">What's coming <span>→</span></a> <a class="btn ghost" href="#reach">See Weary Reach</a></p>
     </div>
     <figure class="sc-key sc-soon tilt" data-say="cover">
       <div class="sc-soon-pic"><img src="/assets/img/starchasers/logo-emblem.webp" width="256" height="245" alt="Starchasers emblem: the starship Contrary under sail inside a golden compass ring." fetchpriority="high"></div>
@@ -57,170 +56,45 @@
         <p>One boss at a time, the crew sets out to break the gacha itself.</p>
       </div>
     </div>
-
-  </section>
-
-  <section id="why">
-    <h2>Why this game <small>warmth in a space full of questions</small></h2>
-    <div class="sc-why">
-      <p class="sc-big">Most gacha games are built to keep you chasing. Starchasers is about a crew that decides to stop the chase, for everyone, and has a lot of fun doing it.</p>
-      <p>Artache's mission is to walk the gachafication of games backwards, and Starchasers does it from the inside. It looks like the games it's about: banners, pulls, stars, a summoning hall. Then, one boss at a time, the story takes those mechanics apart in front of you. The gacha isn't the target of a joke. It's a metaphor for something everybody knows: the feeling that you're never quite enough.</p>
-      <blockquote class="sc-mini"><q>Freedom comes from mastery of what kept you stuck, and this is my way to achieve that.</q><span>Nero, <a href="/post/starchasers-interview-nero-breaking-the-gacha">in his interview</a></span></blockquote>
-      <p>So the game is sincere first. The crew are Nero's Contrary Quest friends, reimagined as diligent geniuses who are secretly lazy in a genius way, and they set out to save what matters to people: warmth, in a galaxy full of questions.</p>
-    </div>
-    <ul class="grid sc-pillars">
-      <li data-say="story"><span class="tag">Heart</span><b>Quiet crew moments</b><span>Burnout, limits, worries and far-away family, talked about honestly between friends. Never a lecture.</span></li>
-      <li data-say="trip"><span class="tag">Wonder</span><b>Worlds explored together</b><span>Pixel-art vistas, and nine people reacting to them in nine different ways.</span></li>
-      <li data-say="loop"><span class="tag">Strategy</span><b>Real decisions</b><span>Grid tactics built for veteran players, with real-time bursts and big showdowns.</span></li>
-      <li data-say="image"><span class="tag">The look tells the story</span><b>A world that changes</b><span>Pull sounds grow warmer, the corruption fades from the monsters, and small glows tell you something broke. The menus start at their best and stay that way.</span></li>
-    </ul>
-  </section>
-
-  <section id="breaking">
-    <h2>How the gacha breaks <small>by discovery</small></h2>
-    <div class="spoiler" data-spoiler="How the gacha breaks, step by step, and its secret 6★">
-    <div class="sc-break">
-      <div class="sc-break-txt">
-        <p>At the start, Starchasers plays like a familiar gacha game, on purpose. The Summoning Hall has banners and a ten-pull, the crew starts at 4★ and can rise to 5★, and the odds board is right there on screen. Then things start to give.</p>
-        <ol class="sc-steps">
-          <li><b>Every boss is a mechanic with a body.</b> When the crew befriends one, that mechanic breaks for good, for every player, and the boss joins the ship.</li>
-          <li><b>The odds are always shown,</b> and early on you'll catch the board flickering. That's the first crack.</li>
-          <li><b>Pulls sound different over time.</b> The pull music has three eras, from cold and shiny to warm chiptune, and moves along with the story.</li>
-          <li><b>3★ pulls aren't junk.</b> They're the crew's own wishes coming true: they stack and raise your bonds.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="sc-pigeon tilt" data-say="image">
-      <img data-spoiler-src="/assets/img/posts/starchasers/pigeon.webp" width="960" height="538" alt="A majestic, smug pigeon with iridescent wings spread wide, standing on a cookie-like asteroid in a sparkling starfield." loading="lazy" decoding="async">
-      <div>
-        <span class="tag">Secret 6★ · 1 in 10,000</span>
-        <h3>The Interstellar Pigeon</h3>
-        <p>Every gacha has its legend. Ours is a pigeon. It sits outside pity, it shows up once in ten thousand pulls with the biggest entrance in the game, and in battle it is completely, magnificently useless. It knows. It does not care.</p>
-        <p class="note">Yes, it's real, and the odds are on the banner like everything else.</p>
-      </div>
-    </div>
-    </div>
     <ul class="grid sc-promises">
-      <li data-say="save"><b>Nothing paid is random</b><span>If you pay for something, you know exactly what you get.</span></li>
-      <li data-say="save"><b>Odds are always shown</b><span>In the game, next to the button, not in a menu three screens away.</span></li>
+      <li data-say="save"><b>Nothing paid is random</b></li>
+      <li data-say="save"><b>Odds are always shown</b></li>
       <li data-say="studio"><b>The shop is a secret world</b><span>You unlock it through quests rather than a checkout.</span></li>
     </ul>
   </section>
 
   <section id="crew">
     <h2>The crew <small>nine, all playable</small></h2>
-    <p class="sc-lead">Diligent geniuses who are secretly lazy in a genius way, with Nero as the captain. Tap a crew member to see them out exploring. More of the crew is getting fresh art and will join this page soon.</p>
-    <ul class="sc-crew">
-      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Nero: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/nero-ship.webp" width="720" height="405" alt="Nero relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/nero-out.webp" width="720" height="405" alt="Nero out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/nero-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Nero</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
-      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Martin: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/martin-ship.webp" width="720" height="405" alt="Martin relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/martin-out.webp" width="720" height="405" alt="Martin out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/martin-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Martin</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
-      <li class="sc-member" data-say="banner"><button type="button" aria-pressed="false" aria-label="Wilhelm: show at home on the ship or out exploring"><span class="sc-pics"><img class="ship" src="/assets/img/starchasers/crew/wilhelm-ship.webp" width="720" height="405" alt="Wilhelm relaxing at home aboard the Contrary." loading="lazy" decoding="async"><img class="out" src="/assets/img/starchasers/crew/wilhelm-out.webp" width="720" height="405" alt="Wilhelm out exploring a planet." loading="lazy" decoding="async"></span><span class="sc-name"><img src="/assets/img/starchasers/crew/wilhelm-sticker.webp" width="128" height="128" alt="" loading="lazy" decoding="async"><b>Wilhelm</b><small class="lbl-ship">at home</small><small class="lbl-out">out exploring</small></span></button></li>
-      <li class="sc-member sc-soon-card" data-say="banner"><div class="sc-soon-box"><span class="sc-soon-pic"><img src="/assets/img/starchasers/logo-emblem.webp" width="256" height="245" alt="" loading="lazy" decoding="async"></span><span class="sc-name"><b>Six more</b><small>new art coming soon</small></span></div></li>
+    <p class="sc-lead">Diligent geniuses who are secretly lazy in a genius way, with Nero as the captain. The whole crew is getting fresh art, and they will be back on this page soon.</p>
+    <ul class="sc-crew sc-crew-soon">
+      <li class="sc-member sc-soon-card" data-say="banner"><div class="sc-soon-box"><span class="sc-soon-pic"><img src="/assets/img/starchasers/logo-emblem.webp" width="256" height="245" alt="" loading="lazy" decoding="async"></span><span class="sc-name"><b>The whole crew</b><small>new art coming soon</small></span></div></li>
     </ul>
   </section>
 
-  <section id="fights">
-    <h2>How a fight works <small>three modes, one battle</small></h2>
-    <div class="spoiler" data-spoiler="How a fight works, the three modes and a boss showdown">
-    <p class="sc-lead">The first playtest note was blunt: “just moving characters and waiting for attacks feels weak.” So one battle now shifts between three modes, depending on what's in front of you.</p>
-    <div class="sc-modes">
-      <figure class="tilt" data-say="image"><img data-spoiler-src="/assets/img/posts/starchasers/grid-launch.webp" width="960" height="540" alt="The crew in pixel art on a battle grid in a forest clearing, turn 1." loading="lazy" decoding="async"><figcaption><span class="tag">1 · Grid</span><b>Tactics against many</b>Place the crew on the grid and they act by role. You see who each foe is targeting, not how hard. Standing side by side opens combos, and huddling together is never the safe play. Damage lands in the hundreds.</figcaption></figure>
-      <figure class="tilt" data-say="image"><img data-spoiler-src="/assets/img/posts/starchasers/grid-break.webp" width="960" height="540" alt="A banner reading GRID-BREAK sweeps across the battlefield." loading="lazy" decoding="async"><figcaption><span class="tag">2 · Grid-Break</span><b>Real time, for a moment</b>Fill the gauge against a swarm and the grid vanishes. The crew fights in real time on a small lit 2.5D stage, empowered and touch-controlled. Perfect chains, dodges and guard breaks win it; mashing makes the crew fumble.</figcaption></figure>
-      <figure class="tilt" data-say="image"><img data-spoiler-src="/assets/img/posts/starchasers/boss-fight.webp" width="960" height="540" alt="A turn-based boss showdown in pixel art: a huge corrupted creature glowing gold and purple faces four crew members, with skill buttons along the bottom." loading="lazy" decoding="async"><figcaption><span class="tag">3 · Showdown</span><b>The strongest one, turn by turn</b>When only the strongest foe is left, the fight turns into a high-stakes turn-based showdown, with ultimates staged as pixel-art animations and cut-ins. There's a Faster button for when you've seen them enough.</figcaption></figure>
-    </div>
-    <div class="sc-ults">
-      <figure class="tilt" data-say="image"><img data-spoiler-src="/assets/img/posts/starchasers/ember-storm.webp" width="960" height="540" alt="Charlotte's ultimate: pixel fire bursts over a block of grid cells." loading="lazy" decoding="async"><figcaption>Ultimates are shaped by the grid: Charlotte's Ember Storm burns a whole block of cells.</figcaption></figure>
-    </div>
-    <p class="note">Auto-play works everywhere, and Forge runs can be auto-battled. There's also a real-time 1v1 duel for some fights.</p>
-    </div>
-  </section>
-
-  <section id="aboard">
-    <h2>Life aboard the <i>Contrary</i> <small>home between worlds</small></h2>
-    <div class="sc-aboard">
-      <div class="sc-aboard-txt">
-        <p>The ship isn't a menu. You walk its decks, the Bridge, the galley, the dock, where the crew are on shift, napping or arguing about tea. There are spots to find, treasures, small goals, and somebody always has something to say.</p>
-        <p>Spend time with someone and your bond grows: chats with answers that matter to them, chores done together, gifts they actually like, and bond visits, now with pajamas. A strong bond unlocks a small side skill in battle, never a stronger one, so nobody is locked behind a favourite.</p>
-        <blockquote class="sc-mini"><q>This doesn't go in the ledger. This goes on my desk.</q><span>Laura, given something she loves</span></blockquote>
-      </div>
-      <div class="sc-aboard-pics">
-        <figure class="tilt" data-say="image"><img src="/assets/img/posts/starchasers/bridge.webp" width="960" height="540" alt="The Bridge of the Contrary in pixel art: consoles, a round window on the stars, crew at their posts." loading="lazy" decoding="async"><figcaption>The Bridge</figcaption></figure>
-        <figure class="tilt" data-say="image"><img src="/assets/img/posts/starchasers/galley.webp" width="960" height="540" alt="The ship's galley in pixel art: a wooden floor, a long table and lamps." loading="lazy" decoding="async"><figcaption>The galley</figcaption></figure>
-      </div>
-    </div>
-    <div class="sc-forge">
-      <span class="tag">Growing the crew</span>
-      <p><b>Gear never comes from wishes.</b> You earn it on the Forge Planets, short worlds where clearing early is the challenge and auto-battle is allowed. They pay out gear with main stats and set bonuses, plus the crew's favourite study material: Cheat Sheets, from the Forge Planet called the Crib Archive.</p>
-    </div>
-  </section>
-
   <section id="next">
-    <h2>In the latest build <small><span class="dot"></span>v0.9.0, tested by Nero</small></h2>
+    <h2>Coming in the next build <small><span class="dot"></span>v0.9.0, in testing</small></h2>
     <div class="grid sc-features">
-      <div class="card tilt sc-feat sc-two" data-say="story"><img class="sc-feat-pic" src="/assets/img/posts/starchasers/dimwick.webp" alt="Dimwick, the town on Weary Reach: cottages around a stone fountain at dusk." loading="lazy" decoding="async"><span class="tag">Story</span><h4>Chapter 1</h4><p>On the first planet, Weary Reach: three explorable pixel maps, dialogue choices that shape how the crew sees you (heart, wonder, resolve), and visual-novel scenes with expressive character busts.</p></div>
-      <div class="card tilt sc-feat sc-two" data-say="loop"><img class="sc-feat-pic" src="/assets/img/posts/starchasers/star-route.webp" alt="The Contrary sailing a glowing route across a purple starfield." loading="lazy" decoding="async"><span class="tag">New roguelite mode</span><h4>“Inside the Machine”</h4><p>20 to 30 minute runs where your power-ups are broken gacha mechanics. Branching star-chart routes, a mini summon inside each run, optional challenges, and shareable seed and score codes.</p></div>
-      <div class="card tilt sc-feat sc-wide sc-two" data-say="devlog"><img class="sc-feat-pic" src="/assets/img/posts/starchasers/duel.webp" alt="A 1v1 duel on a round lit stage aboard the ship." loading="lazy" decoding="async"><span class="tag">Battle</span><h4>Grid tactics, then Grid-Break</h4><p>Grid tactics at the core, plus Grid-Break, our signature. When the gauge fills, the grid vanishes and the team fights in real time on a small lit 2.5D stage. The strongest foe is a turn-based showdown with ultimates and cut-ins. Auto-play everywhere.</p></div>
-      <div class="card tilt sc-feat" data-say="banner"><img class="sc-feat-pic" src="/assets/img/posts/starchasers/nero-phone.webp" alt="Nero's gadget screen: a big pixel bust and clearly labelled slots." loading="lazy" decoding="async"><span class="tag">Crew</span><h4>All nine crew playable</h4><p>Each with skills, an ultimate, a passive and a team combo. Big pixel busts with four moods on every character sheet.</p></div>
-      <div class="card tilt sc-feat" data-say="season-sea"><img class="sc-feat-pic" src="/assets/img/posts/starchasers/title-key-art.webp" alt="The Contrary flying past a line of small planets at night." loading="lazy" decoding="async"><span class="tag">Music</span><h4>Original soundtrack</h4><p>Nine tracks made in-house, in a handheld-era tactics-RPG style. Each comes in three warmth eras that cross-fade as the story moves on.</p></div>
-      <div class="card tilt sc-feat" data-say="image"><img class="sc-feat-pic" src="/assets/img/starchasers/crew/wilhelm-ship.webp" alt="Wilhelm's banner: at home aboard the Contrary." loading="lazy" decoding="async"><span class="tag">Art</span><h4>HD splash art</h4><p>High-definition banners, level-up art, cards and story scenes; true pixel art in the world.</p></div>
-      <div class="card tilt sc-feat" data-say="recharge"><img class="sc-feat-pic" src="/assets/img/posts/starchasers/engine-room.webp" alt="The engine room of the Contrary in pixel art, a glowing core in the middle." loading="lazy" decoding="async"><span class="tag">Ship life</span><h4>A walkable ship</h4><p>Crew chats and chores, and bond visits (now with pajama costumes).</p></div>
-      <div class="card tilt sc-feat sc-two" data-say="studio"><img class="sc-feat-pic" src="/assets/img/posts/starchasers/nero-phone.webp" alt="Nero's gadget screen on a wide phone: a big pixel bust and clearly labelled slots." loading="lazy" decoding="async"><span class="tag">Menus</span><h4>Phone-first menus</h4><p>Big labelled buttons, an in-game Codex book, a bag with “where to find” links, a Settings screen, and a login calendar that never resets on missed days.</p></div>
+      <div class="card tilt sc-feat sc-two" data-say="story"><span class="tag">Story</span><h4>Chapter 1</h4><p>On the first planet, Weary Reach: three explorable pixel maps, dialogue choices that shape how the crew sees you (heart, wonder, resolve), and visual-novel scenes with expressive character busts.</p></div>
+      <div class="card tilt sc-feat sc-two" data-say="loop"><span class="tag">New roguelite mode</span><h4>“Inside the Machine”</h4><p>20 to 30 minute runs where your power-ups are broken gacha mechanics. Branching star-chart routes, a mini summon inside each run, optional challenges, and shareable seed and score codes.</p></div>
+      <div class="card tilt sc-feat sc-wide sc-two" data-say="devlog"><span class="tag">Battle</span><h4>Grid tactics, then Grid-Break</h4><p>Grid tactics at the core, plus Grid-Break, our signature. When the gauge fills, the grid vanishes and the team fights in real time on a small lit 2.5D stage. The strongest foe is a turn-based showdown with ultimates and cut-ins. Auto-play everywhere.</p>
+        <div class="sc-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="card tilt sc-feat" data-say="banner"><span class="tag">Crew</span><h4>All nine crew playable</h4><p>Each with skills, an ultimate, a passive and a team combo.</p></div>
+      <div class="card tilt sc-feat" data-say="season-sea"><span class="tag">Music</span><h4>Original soundtrack</h4><p>Made in-house, in a handheld-era tactics-RPG style.</p></div>
+      <div class="card tilt sc-feat" data-say="image"><span class="tag">Art</span><h4>HD splash art</h4><p>For banners, cards and story scenes; true pixel art in the world.</p></div>
+      <div class="card tilt sc-feat" data-say="recharge"><span class="tag">Ship life</span><h4>A walkable ship</h4><p>Crew chats and chores, and bond visits (now with pajama costumes).</p></div>
+      <div class="card tilt sc-feat sc-two" data-say="studio"><span class="tag">Menus</span><h4>Phone-first menus</h4><p>Big labelled buttons, an in-game Codex book, a bag with “where to find” links, and a login calendar that never resets on missed days.</p></div>
     </div>
   </section>
 
   <section id="reach">
     <h2>First stop: Weary Reach <small>chapter 1</small></h2>
-    <p class="sc-lead">The <i>Contrary</i>'s first landing is a tired planet where people keep sitting down halfway and forgetting to stand up. Three tiled maps, walked cell by cell like a classic RPG: the Landing, the Mossway and the Drained Hollow, where the colour has gone out of everything. Fights start when you walk into a nest.</p>
-    <blockquote class="sc-mini"><q>I carry the letters up and down the Mossway. Only lately I keep sitting down halfway and forgetting to stand up.</q><span>Pell, the letter carrier</span></blockquote>
     <div class="sc-reach">
-      <figure class="tilt" data-say="trip"><img src="/assets/img/starchasers/weary-reach-landing.webp" width="1280" height="720" alt="Pixel map of a grassy landing on Weary Reach: a stone well, mossy ruins and old trees under a lilac sky." loading="lazy" decoding="async"><figcaption>The Landing</figcaption></figure>
-      <figure class="tilt" data-say="trip"><img src="/assets/img/starchasers/weary-reach-mossway.webp" width="1280" height="720" alt="Pixel map of a mossy forest path on Weary Reach, with ruined arches, a stream and glowing crystals." loading="lazy" decoding="async"><figcaption>The Mossway</figcaption></figure>
-      <figure class="tilt" data-say="trip"><img src="/assets/img/starchasers/weary-reach-hollow.webp" width="1280" height="720" alt="Pixel map of the Drained Hollow on Weary Reach: grey roots, bare ground and an old lamp post, with the colour gone out of everything." loading="lazy" decoding="async"><figcaption>The Drained Hollow</figcaption></figure>
+      <figure class="tilt" data-say="trip"><img src="/assets/img/starchasers/weary-reach-landing.webp" width="1280" height="720" alt="Pixel map of a grassy landing on Weary Reach: a stone well, mossy ruins and old trees under a lilac sky." loading="lazy" decoding="async"><figcaption>The landing</figcaption></figure>
+      <figure class="tilt" data-say="trip"><img src="/assets/img/starchasers/weary-reach-mossway.webp" width="1280" height="720" alt="Pixel map of a mossy forest path on Weary Reach, with ruined arches, a stream and glowing crystals." loading="lazy" decoding="async"><figcaption>The mossway</figcaption></figure>
     </div>
-    <p>The people you meet ask things of you, and every answer leans <b>Heart</b>, <b>Wonder</b> or <b>Resolve</b>. The crew notices, the locals react, and the planet's little epilogue follows the way you leaned.</p>
-    <p class="note">True pixel art in the world: chapter 1's three explorable maps. All art on this page: Starchasers art team. Screenshots from test builds.</p>
+    <p class="note">True pixel art in the world: two of chapter 1's three explorable maps.</p>
   </section>
 
-  <section id="road">
-    <h2>The road to 1.0 <small>from Nero's v0.9.0 test</small></h2>
-    <blockquote class="sc-quote" data-say="motto"><b>“I think the build is finally mature: it has a lot of stuff I dreamed about having, and I'm happy with it.”</b></blockquote>
-    <ul class="grid sc-pillars sc-roadmap">
-      <li data-say="trip"><span class="tag">World</span><b>A bigger first planet</b><span>A longer, wider chapter 1 with a proper town, place markers and treasure chests that fit where you find them.</span></li>
-      <li data-say="loop"><span class="tag">Battle</span><b>More strategy</b><span>Early fights with more to think about, a tougher Grid-Break, and result screens that tell you what happened.</span></li>
-      <li data-say="season-sea"><span class="tag">Summer</span><b>A summer that feels like one</b><span>Brighter music, weird and cute sea creatures, event outfits and fights built on event gimmicks.</span></li>
-      <li data-say="studio"><span class="tag">Menus</span><b>Menus with character</b><span>A Codex like an encyclopedia, a Bag like a knapsack, a trophy room you can visit, real mail.</span></li>
-    </ul>
-    <p class="note">The whole list, without spoilers, is in <a href="/post/starchasers-devlog-6-road-to-1-0">devlog #6</a>. The first stop on the road, four builds later, is <a href="/post/starchasers-devlog-7-chapter-1-grows-up">devlog #7</a>.</p>
-  </section>
-
-  <section id="devlog">
-    <h2>The devlog <small>the road so far</small></h2>
-    <p class="sc-lead">From a throwaway prototype to the biggest patch yet, one stage at a time. Written by Claude from the studio's build notes.</p>
-    <ol class="sc-road">
-      <li><a class="tilt" data-say="devlog" href="/post/starchasers-devlog-1-a-gacha-that-breaks-itself"><img src="/assets/img/posts/starchasers/star-route.webp" width="960" height="538" alt="" loading="lazy" decoding="async"><span class="sc-ver">#1 · v0.1 to v0.2 · 2 to 3 Nov</span><b>A gacha that breaks itself</b><span>The idea, the first playable slice, and Pull Day.</span></a></li>
-      <li><a class="tilt" data-say="devlog" href="/post/starchasers-interview-nero-breaking-the-gacha"><img src="/assets/img/starchasers/weary-reach-mossway.webp" width="1280" height="720" alt="" loading="lazy" decoding="async"><span class="sc-ver">Interview · 6 Nov</span><b>Breaking the gacha to be free of it</b><span>Nero, in his own words, on freedom, warmth and art.</span></a></li>
-      <li><a class="tilt" data-say="devlog" href="/post/starchasers-devlog-2-grid-break"><img src="/assets/img/posts/starchasers/grid-break.webp" width="960" height="540" alt="" loading="lazy" decoding="async"><span class="sc-ver">#2 · v0.3 to v0.6 · 3 to 4 Nov</span><b>From grid tactics to Grid-Break</b><span>One honest playtest note, and three modes in one fight.</span></a></li>
-      <li><a class="tilt" data-say="devlog" href="/post/starchasers-devlog-3-weary-reach"><img src="/assets/img/posts/starchasers/landing-v07.webp" width="960" height="540" alt="" loading="lazy" decoding="async"><span class="sc-ver">#3 · v0.7 · 4 to 5 Nov</span><b>Landing on Weary Reach</b><span>Three maps, an opening, a summer, and a phone.</span></a></li>
-      <li><a class="tilt" data-say="devlog" href="/post/starchasers-devlog-4-the-whole-crew"><img src="/assets/img/starchasers/crew/wilhelm-ship.webp" width="720" height="405" alt="" loading="lazy" decoding="async"><span class="sc-ver">#4 · v0.8 · 5 to 6 Nov</span><b>The whole crew comes aboard</b><span>Nine playable crew, HD banners, pixel busts.</span></a></li>
-      <li><a class="tilt" data-say="devlog" href="/post/starchasers-devlog-5-coming-in-v0-9-0"><img src="/assets/img/posts/starchasers/star-route.webp" width="960" height="538" alt="" loading="lazy" decoding="async"><span class="sc-ver">#5 · v0.9.0 · preview</span><b>What's coming in v0.9.0</b><span>Chapter 1, a roguelite, and our own soundtrack.</span></a></li>
-      <li><a class="tilt" data-say="devlog" href="/post/starchasers-devlog-6-road-to-1-0"><img src="/assets/img/posts/starchasers/grid-break-25d.webp" width="960" height="540" alt="" loading="lazy" decoding="async"><span class="sc-ver"><span class="dot"></span>#6 · v0.9.0 tested · 6 Nov</span><b>The road to 1.0</b><span>Nero's verdict: “finally mature”. And a long list.</span></a></li>
-      <li><a class="tilt" data-say="devlog" href="/post/starchasers-design-grid-break"><img src="/assets/img/posts/starchasers/gb-perfect-chain.webp" width="960" height="540" alt="" loading="lazy" decoding="async"><span class="sc-ver">Design notes · Grid-Break</span><b>From a playtest note to a signature</b><span>Twenty seconds without a grid, and why mashing loses.</span></a></li>
-      <li class="next"><a class="tilt" data-say="devlog" href="/post/starchasers-devlog-7-chapter-1-grows-up"><img src="/assets/img/posts/starchasers/dimwick.webp" width="960" height="540" alt="" loading="lazy" decoding="async"><span class="sc-ver"><span class="dot"></span>#7 · v0.9.1 to v0.9.4 · 7 Nov</span><b>Chapter 1 grows up</b><span>A town, six areas, side goals and a new trailer.</span></a></li>
-    </ol>
-  </section>
-
-<section id="faq">
-    <h2>Questions <small>asked and answered</small></h2>
-    <div class="sc-faq">
-      <details><summary>Is it really a gacha game?</summary><p>It starts as one, on purpose, so the story can take it apart. Nothing you pay for is random, the odds are always on screen, and every boss the crew befriends removes one gacha mechanic for every player, permanently.</p></details>
-      <details><summary>Doesn’t this break TZERØ’s Statement of Conduct?</summary><p>Yes, on purpose, and it’s the only exception. The <a href="/conduct">Statement of Conduct</a> says no dailies, energy or login rewards. Starchasers starts as a real gacha, with daily notes, a login calendar, stamina for the Forge Planets and a pass, because you can’t take apart something that isn’t there. Even then they’re gentle: the calendar never resets on a missed day and nothing expires. Then the story breaks them, one boss at a time, for every player. Nero explains why in <a href="/post/starchasers-interview-nero-breaking-the-gacha">his interview</a>.</p></details>
-      <details><summary>What does it cost?</summary><p>The start is free. After that, each boss arrives as a story chapter you can buy on its own, or all together as one pack. Prices aren't set yet.</p></details>
-      <details><summary>Where can I play it?</summary><p>Android and PC. It's in development, and every test build ships for both.</p></details>
-      <details><summary>When does it come out?</summary><p>No date yet. A new boss chapter is planned every two to three months after launch. We'll say it here first.</p></details>
-      <details><summary>Who makes it?</summary><p>Nero, with Claude and a small studio of AI “offices” (menus, battle, exploration, forge, story, music, art, releases), each with its own job. Nero decides; every question goes to his desk. The art is AI-generated under his art direction, and the soundtrack is composed in code, in-house.</p></details>
-      <details><summary>Do I need to know Contrary Quest?</summary><p>No. The crew comes from Nero's Contrary Quest, but Starchasers is its own story, and everyone is introduced from scratch.</p></details>
-    </div>
-  </section>
 
   <section id="status">
     <div class="sc-status" data-say="studio">
@@ -240,11 +114,10 @@
 </div></div>
 
 <footer id="publisher"><div class="wrap">
-  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. For People. AI opens paths. We thread the best.</div>
+  <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. By People. AI opens paths. We thread the best.</div>
   <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/starchasers">Starchasers</a> · <a href="/conduct">Statement of Conduct</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>Starchasers art: Starchasers art team. TZERØ is a publication of Artache Creative Studio, 2026</div>
 </div></footer>
 <script src="/assets/js/scene.js" defer></script>
-<script src="/assets/js/spoiler.js" defer></script>
 <script>/* The gacha machine on "The hook" cracks once it scrolls into view */
 addEventListener('DOMContentLoaded',()=>{const el=document.querySelector('.sc-hook');if(!el)return;if(!window.IntersectionObserver){el.classList.add('broken');return}new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){el.classList.add('broken');o.disconnect()}},{threshold:.6}).observe(el)});
 /* Crew cards: tap to switch between "at home on the ship" and "out exploring" */
