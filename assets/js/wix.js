@@ -185,6 +185,8 @@ window.WIX = (() => {
       const meta = document.createElement('span'); meta.className = 'meta';
       meta.textContent = this.date(post.firstPublishedDate) + ' · by ' + this.author(post);
       a.append(tag, h, p, meta);
+      // An article in one of the game worlds wears its colours on the card (assets/js/worlds.js)
+      if (window.TZW) TZW.decorate(a, post);
       // A picture on top: the cover, else the post's video thumbnail or first picture (assets/card-pics.json)
       const pic = url => {
         const img = document.createElement('img');

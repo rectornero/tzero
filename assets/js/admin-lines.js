@@ -9,12 +9,12 @@
   // Where each set shows up. "fixed" sets have one line per moment, in order: edit the words, keep the count.
   const G = { home: 'Around the site', pages: 'Other pages', moves: 'Moves and moods', chat: 'Chat (click to catch him)', fight: 'Fight', news: 'The UNITE news scene', other: 'Other sets' };
   const TOPICS = {
-    cover: [G.home, 'Home: the Liminal Outliers polaroid'], save: [G.home, 'Home: the "first save" polaroid'],
-    devlog: [G.home, 'Home: Devlog cassette'], studio: [G.home, 'Home: Studio cassette'], archive: [G.home, 'Home: Archive cassette'],
+    cover: [G.home, 'Home: the opening (unused)'], save: [G.home, 'Home: The story so far tile'],
+    devlog: [G.home, 'Home: Devlog tile'], studio: [G.home, 'Home: Studio tile'], archive: [G.home, 'Home: Archive tile'],
     motto: [G.home, 'Home: the motto "With AI. For People."'], unite: [G.home, 'Home: the Pokémon UNITE card (after the news scene)'],
     artache: [G.home, 'Home: the Artache card'], story: [G.home, 'Home story band and the /story page'], proud: [G.home, 'Bragging about Artache, at random and on studio things'],
     grief: [G.home, 'Mood lines while the news is sad'], miriam: [G.home, 'Not on any page yet'],
-    'season-sea': [G.home, 'Summer skin (sea): now and then'], 'season-autumn': [G.home, 'Autumn skin: now and then'],
+    'season-thread': [G.home, 'Thread look (default): now and then'], 'season-sea': [G.home, 'Summer skin (sea): now and then'], 'season-autumn': [G.home, 'Autumn skin: now and then'],
     'season-winter': [G.home, 'Winter skin: now and then'], 'season-spring': [G.home, 'Spring skin: now and then'],
     'post-studio': [G.pages, 'Post pages: links to Studio articles'], 'post-devlog': [G.pages, 'Post pages: links to Devlog articles'],
     'post-archive': [G.pages, 'Post pages: links to Archive articles'], heading: [G.pages, 'Post pages: section headings'], image: [G.pages, 'Post pages: cover image'],

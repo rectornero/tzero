@@ -17,8 +17,8 @@
   "wixMedia": {
    "image": {
     "url": "/assets/img/posts/news-2026-11/noise-full.webp",
-    "width": 1280,
-    "height": 720
+    "width": 2560,
+    "height": 1440
    }
   },
   "displayed": true,
@@ -154,8 +154,8 @@
       "src": {
        "url": "/assets/img/posts/news-2026-11/noise-full.webp"
       },
-      "width": 1280,
-      "height": 720
+      "width": 2560,
+      "height": 1440
      },
      "altText": "A glowing card that says Our game, made with friends, below two rows of grey copies with names like Our Gaem and Our Game DX"
     }
@@ -279,6 +279,54 @@
      }
     ],
     "paragraphData": {}
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "VIDEO",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "SiriusGaming looks at the Next Fest numbers instead of the noise.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "videoData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "video": {
+      "src": {
+       "url": "https://www.youtube.com/watch?v=_r7Bdf9LuMM"
+      }
+     },
+     "thumbnail": {
+      "src": {
+       "url": "https://i.ytimg.com/vi/_r7Bdf9LuMM/hqdefault.jpg"
+      },
+      "width": 480,
+      "height": 360
+     },
+     "title": "Everyone Said AI Slop Ruined Next Fest, But What Does the Data Show?"
+    }
    },
    {
     "type": "PARAGRAPH",
@@ -440,6 +488,49 @@
      }
     ],
     "paragraphData": {}
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The five-minute rule, drawn. Illustration: TZERØ.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/posts/news-2026-11/steam-timer.webp"
+      },
+      "width": 2560,
+      "height": 1440
+     },
+     "altText": "A play button on a screen next to a clock reading 5:00, with the words Run it. Keep it running. Then submit."
+    }
    },
    {
     "type": "PARAGRAPH",
@@ -934,6 +1025,49 @@
     "paragraphData": {}
    },
    {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "Lazy, by his own admission. Obsessed with quality, also by his own admission. Illustration: TZERØ.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/posts/news-2026-11/steam-hammock.webp"
+      },
+      "width": 2560,
+      "height": 1440
+     },
+     "altText": "A small figure asleep in a red hammock under the stars, with two tags: laziness: genius, quality: obsessed"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
     "type": "DIVIDER",
     "id": "",
     "nodes": [],
@@ -995,7 +1129,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art. Steam is a trademark of Valve.",
+       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art. Video embedded from SiriusGaming's YouTube channel. Steam is a trademark of Valve.",
        "decorations": [
         {
          "type": "COLOR",

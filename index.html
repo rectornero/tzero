@@ -8,72 +8,76 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/pages.css">
+<link rel="stylesheet" href="/assets/css/worlds.css">
+<link rel="stylesheet" href="/assets/css/home.css">
 <title>TZERØ: a journal by Artache Creative Studio</title>
 <meta name="description" content="TZERØ is the journal of Artache Creative Studio: devlogs, studio notes and essays on games that respect your time. With AI. For People.">
 <meta property="og:title" content="TZERØ">
 <meta property="og:description" content="A journal by Artache Creative Studio. With AI. For People.">
 <meta property="og:image" content="https://tzero.live/assets/img/liminal-outliers.jpg">
-</head><body class="home">
+</head><body class="home2">
 <canvas id="bg" aria-hidden="true"></canvas><canvas id="thread" aria-hidden="true"></canvas><canvas id="fx" aria-hidden="true"></canvas>
 <header><div class="wrap">
   <a class="brand" href="/"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span>TZER<b>Ø</b></span></a>
-  <nav><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/characters">Characters</a><a href="/studio">Artache</a><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button></nav>
+  <nav class="main-nav"><a href="/#latest">Latest</a><a href="/posts/categories/devlog">Devlog</a><a href="/posts/categories/studio">Studio</a><a href="/posts/categories/archive">Archive</a><a href="/story">Story</a><a href="/characters">Characters</a><a href="/studio">Artache</a></nav><div class="hud"><button class="hud-btn" id="search-btn" type="button" aria-label="Search everything" title="Search articles, worlds and tools (/)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><kbd>/</kbd></button><button class="world-chip" id="world-chip" type="button" aria-haspopup="dialog" aria-expanded="false"><svg class="wc-globe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g class="orbit"><ellipse cx="12" cy="12" rx="10" ry="4.2" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(-24 12 12)"/><circle cx="21" cy="8.6" r="1.6" fill="#d7182a"/></g></svg><span class="wc-name">Travel</span></button><button class="slot" id="slot" type="button" aria-label="Put Ache to sleep" title="Ache's bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/><path class="lid" d="M9.6 12.4q2.4 1.6 4.8 0"/></svg><span class="zz">z</span></button><details class="tweaks"><summary aria-label="Page settings" title="Season, sound and motion"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></summary><div class="tweaks-pop"><button class="skin" id="skin" type="button">Skin</button><button class="skin" id="snd" type="button" aria-pressed="false">♪ Sound off</button><button class="skin" id="motion" type="button">Motion: Auto</button><small>Looks show in the TZERØ hub. Game worlds bring their own weather.</small></div></details></div>
 </div></header>
 
-<div class="sea">
+<section class="sea open" id="open" aria-labelledby="open-h">
   <div class="sunball" aria-hidden="true"></div>
   <canvas id="waves" aria-hidden="true"></canvas>
-  <div class="wrap hero hero2"><div>
-    <div class="kicker">T-zero: the moment things start</div>
-    <h1 aria-label="TZERØ"><span>T</span><span>Z</span><span>E</span><span>R</span><span class="o">Ø</span></h1>
-    <p class="sub">a journal by Artache Creative Studio</p>
-    <a data-say="motto" class="motto" href="#publisher">With AI. For People.</a>
-    <div class="hero-links"><span>Start here</span><a data-say="story" href="/story">The story</a><a href="/characters">Characters</a><a href="/scrapbook">Scrapbook</a><a href="/lab">Idea Lab</a></div>
-  </div>
-  <div class="board">
-    <!-- Ache's picks: the newest pieces. Tap to flip (Ache's note + link), drag to move, pin to keep the spot. The second one is filled by home.js from the newest post (Liminal Outliers stays as its fallback); the third leads to the story. -->
-    <figure data-say="cover" class="polaroid pick" data-pick="a" style="left:7%;top:3%;transform:rotate(-6deg);width:min(215px,48vw)"><span class="tape"></span><button class="pin" type="button" aria-pressed="false" title="Pin it here" aria-label="Pin this photo here"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M12 14v9"/></svg></button><div class="pol-in"><div class="pol-front"><img src="/assets/img/posts/starchasers/title-key-art.webp" alt="The starship Contrary sailing a route of small planets at night"><span class="cap">Starchasers, setting sail</span></div><div class="pol-back"><span class="pol-kick">Ache's pick</span><p class="pol-note">a whole crew lives on that ship. new faces coming soon. I'll wait here. I won't.</p><a class="pol-open" href="/starchasers">Open Starchasers →</a></div></div></figure>
-    <figure data-say="cover" class="polaroid pick" data-pick="b" style="right:0;top:0;transform:rotate(5deg);width:min(200px,44vw)"><span class="tape"></span><button class="pin" type="button" aria-pressed="false" title="Pin it here" aria-label="Pin this photo here"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M12 14v9"/></svg></button><div class="pol-in"><div class="pol-front"><img src="/assets/img/liminal-outliers.jpg" alt="Liminal Outliers cover art"><span class="cap">Liminal Outliers, 9th floor</span></div><div class="pol-back"><span class="pol-kick">Ache's pick</span><p class="pol-note">the 9th floor has a 10th floor. probably. go find out.</p><a class="pol-open" href="/post/artache-a-studio-opens-its-doors">Open the cover story →</a></div></div></figure>
-    <figure data-say="save" class="polaroid pick" data-pick="c" style="right:24%;top:47%;transform:rotate(-3deg);width:min(180px,40vw)"><span class="tape"></span><button class="pin" type="button" aria-pressed="false" title="Pin it here" aria-label="Pin this photo here"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M12 14v9"/></svg></button><div class="pol-in"><div class="pol-front"><img src="https://static.wixstatic.com/media/38ba49_8039141420034594b8ff3e72f8549454~mv2.jpg/v1/fill/w_400,h_400,al_r,q_82/first-save.jpg" alt="An old CRT screen glowing with a red star: the first save"><span class="cap">the first save</span></div><div class="pol-back"><span class="pol-kick">Ache's pick</span><p class="pol-note">where it all started. a red star on an old screen. I was the star. obviously.</p><a class="pol-open" href="/story">Open the story →</a></div></div></figure>
-  </div>
-</div>
-
-<div class="shore"><div class="wrap">
-
-  <section id="latest">
-    <h2>Latest <small><span class="dot"></span>live from the nightly build</small></h2>
-    <div class="grid" id="latest-grid" aria-busy="true">
-      <a data-say="unite" class="card tilt" href="/post/pokemon-unite-doesnt-have-to-die"><span class="tag">Studio</span><h4>Pokémon UNITE doesn't have to die</h4><p>A leak says the servers could go dark. Here's why that would be a waste.</p><span class="meta">25 Oct 2026 · by Claude</span></a>
-      <a data-say="artache" class="card tilt" href="/post/artache-a-studio-opens-its-doors"><span class="tag">Studio</span><h4>Artache: a studio opens its doors</h4><p>Who we are, what we make, and why it's made with AI, by people.</p><span class="meta">18 Oct 2026 · by Nero</span></a>
+  <div class="open-veil" aria-hidden="true"></div>
+  <div class="countdown" id="countdown" aria-hidden="true"><b>T-3</b></div>
+  <div class="wrap open-in">
+    <div class="mast">
+      <h1 class="mark" id="open-h" aria-label="TZERØ"><span class="l" aria-hidden="true">T</span><span class="l" aria-hidden="true">Z</span><span class="l" aria-hidden="true">E</span><span class="l" aria-hidden="true">R</span><button class="portal" id="portal" type="button" aria-label="Ø: open a portal to a game world"><span class="pt-window" aria-hidden="true"><i></i></span><span class="pt-glyph" aria-hidden="true">Ø</span></button></h1>
+      <div class="mast-side">
+        <p class="mast-line"><b data-say="motto">With AI. For People.</b> The journal of <a href="/studio">Artache Creative Studio</a>: devlogs, studio notes and essays on games that respect your time.</p>
+        <button class="open-search" id="open-search" type="button" aria-label="Search the journal"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><span class="os-ph">Search <b>167</b> articles</span><kbd>/</kbd></button>
+      </div>
     </div>
-    <p class="note" id="latest-note">Fresh from the nightly build. Older issues live in the <a href="/posts/categories/archive">Archive</a>.</p>
-  </section>
-
-  <section id="story">
-    <a class="story-band tilt" data-say="story" href="/story">
-      <img class="band-pic" src="https://static.wixstatic.com/media/38ba49_e3e2928e412e4549b229c77c7f654259~mv2.jpg/v1/fill/w_1400,h_600,al_r,q_82/story-path.jpg" alt="" loading="lazy">
-      <span class="tag">Continue?</span>
-      <h3>The story so far</h3>
-      <p>RectorNews in 2017, a tiering team called TZERO, the gacha years, the way out, and a studio. Eleven save points, all from the journal itself.</p>
-      <span class="btn">Load the first save <span>→</span></span>
-      <ol class="band-saves" aria-hidden="true"><li>2017</li><li>2023</li><li>2024</li><li>2025</li><li>2026</li></ol>
-    </a>
-  </section>
-
-  <section id="sections">
-    <h2>The tapes <small>hover to play</small></h2>
-    <div class="grid">
-      <a data-say="devlog" class="cassette tilt s1" href="/posts/categories/devlog" data-cat="986847d2-3b96-464b-8b8b-338e07845d9c"><img class="tape-bg" src="/assets/img/games/lmo-sea-fence.webp" alt="" loading="lazy"><div class="lbl"><b>Devlog</b><span>SIDE A</span></div><div class="window"><div class="reels"><i class="reel"></i><i class="reel"></i></div></div><p class="now"><span>Now playing</span> <em>How the games get made: scenes, drafts, decisions.</em></p></a>
-      <a data-say="studio" class="cassette tilt s2" href="/posts/categories/studio" data-cat="de8055a9-ce06-426e-a47f-d860d026981f"><img class="tape-bg" src="/assets/img/starchasers/weary-reach-mossway.webp" alt="" loading="lazy"><div class="lbl"><b>Studio</b><span>SIDE B</span></div><div class="window"><div class="reels"><i class="reel"></i><i class="reel"></i></div></div><p class="now"><span>Now playing</span> <em>News and choices from Artache Creative Studio.</em></p></a>
-      <a data-say="archive" class="cassette tilt s3" href="/posts/categories/archive" data-cat="6fecd53b-e26c-46ca-a508-d8b36cda3c3b"><img class="tape-bg" src="https://static.wixstatic.com/media/38ba49_8039141420034594b8ff3e72f8549454~mv2.jpg/v1/fill/w_600,h_300,al_c,q_80/archive.jpg" alt="" loading="lazy"><div class="lbl"><b>Archive</b><span>2017–2026</span></div><div class="window"><div class="reels"><i class="reel"></i><i class="reel"></i></div></div><p class="now"><span>Now playing</span> <em>TZERØ's early issues since 2017: reviews, essays and the gacha years.</em></p></a>
+    <div class="stage">
+      <article class="feature sk" id="feature" aria-live="polite" aria-roledescription="carousel">
+        <a class="ft-link" id="ft-link" href="/posts"><span class="ft-pic" id="ft-pic" aria-hidden="true"></span><span class="ft-body"><span class="ft-kick" id="ft-kick">Loading the newest article…</span><b class="ft-title" id="ft-title"></b><span class="ft-ex" id="ft-ex"></span><span class="ft-go">Read it <span aria-hidden="true">→</span></span></span></a>
+        <div class="ft-bars" id="ft-bars" aria-hidden="true"></div>
+        <div class="ft-nav"><button type="button" id="ft-prev" aria-label="Previous article">‹</button><button type="button" id="ft-next" aria-label="Next article">›</button></div>
+      </article>
+      <aside class="boarding upnext" aria-labelledby="board-h">
+        <h2 class="board-h" id="board-h"><span class="live-dot" aria-hidden="true"></span>Up next</h2>
+        <ol class="tickets" id="tickets"><li class="ticket sk"></li><li class="ticket sk"></li><li class="ticket sk"></li><li class="ticket sk"></li></ol>
+        <a class="board-all" href="/posts">Every article →</a>
+      </aside>
     </div>
+  </div>
+  <div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+</section>
+
+<main class="wrap bento" id="now">
+  <section class="tile t-worlds" aria-labelledby="w-h">
+    <div class="tile-h"><h2 id="w-h">Worlds</h2><small>hover one: the page goes there</small></div>
+    <div class="portals" id="portals"></div>
   </section>
-</div></div>
+  <section class="tile t-latest" id="latest" aria-labelledby="l-h">
+    <div class="tile-h"><h2 id="l-h">Latest</h2><a href="/posts">All posts →</a></div>
+    <ol class="rows" id="latest-rows" aria-busy="true"></ol>
+  </section>
+  <a class="tile t-continue" id="continue" href="/story" data-say="story"><span class="tk">Start here</span><b>The story so far</b><span>RectorNews in 2017, a tiering team called TZERO, the gacha years, the way out, and a studio. Eleven save points.</span><span class="go">Load the first save →</span></a>
+  <nav class="tile t-sections" aria-label="Sections">
+    <a href="/posts/categories/devlog" data-say="devlog"><b>Devlog</b><span>How the games get made</span></a>
+    <a href="/posts/categories/studio" data-say="studio"><b>Studio</b><span>News and choices from Artache</span></a>
+    <a href="/posts/categories/archive" data-say="archive"><b>Archive</b><span>Early issues, 2017 to 2026</span></a>
+  </nav>
+  <a class="tile t-small t-lab" href="/lab"><span class="tk">Idea Lab</span><b>One toy per game</b><span>30 seconds each. Heart the ones you want.</span></a>
+  <a class="tile t-small t-scrap" href="/scrapbook"><span class="tk">Scrapbook</span><b id="stickers-n">24 stickers hidden</b><span>Ache left them across the site.</span></a>
+  <a class="tile t-small t-conduct" href="/conduct"><span class="tk">Our rules</span><b>No timers. No paid luck.</b><span>Odds always shown. Statement of Conduct →</span></a>
+  <a class="tile t-small t-chars" href="/characters"><span class="tk">Cast</span><b>Characters across worlds</b><span>Being redrawn. Meet who's back.</span></a>
+</main>
 
 <footer id="publisher"><div class="wrap">
   <div><strong><a href="/studio">Published by Artache Creative Studio</a></strong><br>With AI. For People. AI opens paths. We thread the best.</div>
   <div><a href="/story">Our story</a> · <a href="/studio">Meet the studio</a> · <a href="/redache">Where Ache lives</a> · <a href="/posts">All posts</a><br><a href="https://www.youtube.com/@neroatlas" target="_blank" rel="noopener">YouTube</a> · <a href="https://ko-fi.com/neroatlas" target="_blank" rel="noopener">Ko-fi</a><br>TZERØ is a publication of Artache Creative Studio, 2026</div>
 </div></footer>
+<script src="/assets/js/worlds.js" defer></script>
+<script src="/assets/js/tools.js" defer></script>
 <script src="/assets/js/scene.js" defer></script>
 <script src="/assets/js/wix.js" defer></script>
 <script src="/assets/js/home.js" defer></script>

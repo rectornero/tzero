@@ -1,6 +1,7 @@
 {
  "id": "own-starchasers-studio-notes-the-cost-of-remembering",
  "slug": "starchasers-studio-notes-the-cost-of-remembering",
+ "world": "starchasers",
  "title": "The cost of remembering: what a token overspend taught our AI studio",
  "excerpt": "Starchasers is built by a studio of Claude threads working side by side. One busy night they spent far more than the work needed. What happened, why, and the three rules that came out of it.",
  "firstPublishedDate": "2026-11-10T09:00:00Z",
@@ -361,6 +362,49 @@
     "paragraphData": {}
    },
    {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "Where the tokens went. Drawing: TZERØ.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/posts/starchasers/tokens-share.webp"
+      },
+      "width": 2560,
+      "height": 1440
+     },
+     "altText": "A long red bar labelled re-reading the conversation, 85 to 90 percent, next to a small grey piece labelled the work"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
     "type": "PARAGRAPH",
     "id": "",
     "nodes": [
@@ -423,6 +467,49 @@
     ],
     "blockquoteData": {
      "indentation": 1
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The same step, a fresh thread against a long one. Drawing: TZERØ.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/posts/starchasers/tokens-step.webp"
+      },
+      "width": 2560,
+      "height": 1440
+     },
+     "altText": "Bar chart: one step in a fresh thread costs 1x, the same step in a thread with 350,000 tokens of history about 3x"
     }
    },
    {

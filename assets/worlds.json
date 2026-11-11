@@ -1,0 +1,80 @@
+{
+  "_about": "The game worlds the journal travels to. An article picks one with a top-level \"world\": \"<key>\" field in its post data (empty = the TZERØ hub). Colours and scenes live in assets/css/worlds.css and assets/js/scene.js under the same key; names, codes and fonts live here. \"hidden\": true keeps a world off the menus (the editor greys it out). No character art anywhere: worlds are drawn with colour, type and scenery only.",
+  "tzero": {
+    "name": "TZERØ",
+    "code": "TZ0",
+    "genre": "the journal's home port",
+    "tagline": "Where every trip starts and ends: studio notes, news and the journal itself.",
+    "accent": "#d7182a",
+    "home": "/posts",
+    "fonts": ""
+  },
+  "starchasers": {
+    "name": "Starchasers",
+    "code": "SC1",
+    "genre": "space-fantasy RPG",
+    "tagline": "A starship called Contrary, a route of small planets, a crew that's being redrawn.",
+    "accent": "#ffd27a",
+    "dark": true,
+    "home": "/starchasers",
+    "fonts": "family=Pixelify+Sans:wght@500&family=Space+Grotesk:wght@500;700"
+  },
+  "liminal-outliers": {
+    "name": "Liminal Outliers",
+    "code": "LMO",
+    "genre": "psychological mystery visual novel",
+    "tagline": "A white block of flats by the sea. Nine storeys. Probably.",
+    "accent": "#8cc63f",
+    "home": "/posts/worlds/liminal-outliers",
+    "fonts": "family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300;1,9..144,600&family=IBM+Plex+Mono:wght@400"
+  },
+  "deadend": {
+    "name": "DeadenD",
+    "code": "DED",
+    "genre": "noir visual novel, since 2018",
+    "tagline": "Rain on the window, a case file on the table, one true ending.",
+    "accent": "#ffb347",
+    "dark": true,
+    "home": "/posts/worlds/deadend",
+    "fonts": "family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Courier+Prime:wght@400;700"
+  },
+  "overgame": {
+    "name": "Overgame",
+    "code": "OVG",
+    "genre": "social strategy game",
+    "tagline": "Everyone sees your Zone. No one sees your deals.",
+    "accent": "#ff3b4e",
+    "dark": true,
+    "home": "/posts/worlds/overgame",
+    "fonts": "family=Bebas+Neue&family=JetBrains+Mono:wght@400;600"
+  },
+  "ai-ice": {
+    "name": "AI-ICE",
+    "code": "ICE",
+    "genre": "two-player card game",
+    "tagline": "AIs dream to remember a lost mankind. Fights end with a handshake.",
+    "accent": "#ffcf9a",
+    "dark": true,
+    "home": "/posts/worlds/ai-ice",
+    "fonts": "family=Unbounded:wght@400;700&family=Outfit:wght@300;500"
+  },
+  "archive": {
+    "name": "The Archive",
+    "code": "ARC",
+    "genre": "TZERØ's early issues, 2017 to 2026",
+    "tagline": "Old pages under warm light: reviews, guides and the gacha years, kept as they were.",
+    "accent": "#b5652b",
+    "home": "/posts/categories/archive",
+    "fonts": "family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Special+Elite"
+  },
+  "contrary-quest": {
+    "name": "Contrary Quest",
+    "code": "CNQ",
+    "genre": "storybook RPG",
+    "tagline": "Being redrawn. The tape comes off when it's ready.",
+    "accent": "#ffd400",
+    "hidden": true,
+    "home": "/studio",
+    "fonts": ""
+  }
+}
