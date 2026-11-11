@@ -152,7 +152,7 @@
     if (mins(p)) bits.push(mins(p) + ' min');
     return { k, text: bits.filter(Boolean).join(' · ') };
   };
-  const say = (a, p) => { try { if (window.WIX && p.categoryIds) a.dataset.say = WIX.lineKey(p) } catch (e) {} };
+  const say = (a, p) => { try { if (a.dataset.say === 'news') return; if (window.WIX && p.categoryIds) a.dataset.say = WIX.lineKey(p) } catch (e) {} };
   function ticket(p, url) {
     const li = el('li', 'ticket'), a = el('a'), { k, text } = meta(p), sm = el('small');
     a.href = '/post/' + p.slug; a.dataset.w = k; say(a, p);
@@ -175,7 +175,23 @@
     const url = p => thumb(p) || (picMap && picMap[p.slug]) || '';
     if (tickets) tickets.replaceChildren(...posts.slice(0, 3).map(p => ticket(p, url(p))));
     if (rows) { rows.replaceChildren(...posts.slice(3, 9).map(p => row(p, url(p)))); rows.removeAttribute('aria-busy') }
+    pinPick();
   };
+  // "Nero's pick": set on the site desk (/admin/site, window.TZSITE from scene.js); it boards first
+  function pinPick() {
+    if (!window.TZSITE || !tickets) return;
+    Promise.resolve(window.TZSITE).then(s => {
+      const k = s && s.home && s.home.pick; if (!k || !k.href || tickets.querySelector('.pick')) return;
+      const li = el('li', 'ticket pick'), a = el('a'), sm = el('small'), t = el('span', 'tk-txt');
+      a.href = k.href; a.dataset.w = 'tzero';
+      sm.append(el('i', '', '★'), document.createTextNode(k.kick || "Nero's pick"));
+      t.append(sm, el('b', '', k.cap || k.linkText || 'Read it'));
+      const img = pic(k.img || '', 'tk', 240, 168); if (img.tagName === 'IMG') img.alt = k.alt || '';
+      a.append(img, t); if (k.note) a.title = k.note;
+      li.append(a); tickets.prepend(li);
+      const all = tickets.querySelectorAll('.ticket'); if (all.length > 3) all[all.length - 1].remove();
+    }).catch(() => {});
+  }
   const fallback = () => counts.then(({ rows: idx }) => {
     // the nightly build didn't answer: the newest articles from the site's own index, no pictures
     const list = idx.filter(r => r.w !== 'archive').sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, 9)
