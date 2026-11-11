@@ -27,11 +27,11 @@
   },
   "hint": "At the very bottom of the front page. Nobody looks there. That's why it's his.",
   "leaf": [
-   34.4,
-   11.0,
-   33.0,
-   74.2,
-   "r"
+   33.2,
+   9.9,
+   33.4,
+   78.0,
+   "l"
   ]
  },
  {
@@ -48,10 +48,10 @@
   },
   "hint": "On the Studio shelf. Of course his office is in the business section.",
   "leaf": [
-   30.5,
-   7.3,
-   39.1,
-   80.6,
+   31.1,
+   8.2,
+   37.7,
+   78.8,
    "l"
   ]
  },
@@ -70,12 +70,11 @@
   "hint": "In the Idea Lab, by the handshake. A door that is always left open a crack.",
   "leaf": [
    32.5,
-   8.7,
-   34.8,
-   75.1,
+   14.7,
+   35.1,
+   72.2,
    "l"
-  ],
-  "arch": "50% 50% 0 0 / 20% 20% 0 0"
+  ]
  },
  {
   "id": "door-aqua",
@@ -91,10 +90,10 @@
   },
   "hint": "In the AI◆ICE world, by the shelf of its stories. Listen for drums under the floor.",
   "leaf": [
-   27.3,
-   14.7,
-   45.1,
-   72.8,
+   28.6,
+   13.7,
+   42.1,
+   74.6,
    "l"
   ]
  },
@@ -113,9 +112,9 @@
   "hint": "In the Idea Lab, out on Soul Street at night. Look for a lantern.",
   "leaf": [
    29.5,
-   17.9,
-   41.0,
-   66.6,
+   21.2,
+   41.2,
+   63.5,
    "l"
   ]
  },
@@ -133,10 +132,10 @@
   },
   "hint": "At the top of the story page, where it all begins.",
   "leaf": [
-   30.0,
-   6.0,
-   41.4,
-   86.1,
+   31.1,
+   6.6,
+   38.5,
+   83.0,
    "l"
   ]
  },
@@ -154,11 +153,11 @@
   },
   "hint": "In Ache's source code, by the comments he reads like an old book.",
   "leaf": [
-   30.2,
-   11.0,
-   39.6,
-   75.1,
-   "l"
+   31.4,
+   13.1,
+   37.5,
+   74.4,
+   "r"
   ]
  },
  {
@@ -175,11 +174,11 @@
   },
   "hint": "On the story page, among the tapes. A quiet door with a flower on it.",
   "leaf": [
-   27.7,
+   32.1,
    8.1,
-   44.4,
-   81.7,
-   "l"
+   35.9,
+   78.0,
+   "r"
   ]
  },
  {
@@ -196,11 +195,11 @@
   },
   "hint": "Where he lives, in his own source code. The door is red. Obviously.",
   "leaf": [
-   28.6,
-   17.4,
-   41.5,
-   69.6,
-   "r"
+   29.8,
+   15.8,
+   40.3,
+   73.5,
+   "l"
   ]
  },
  {
