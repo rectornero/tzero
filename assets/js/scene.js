@@ -1,6 +1,10 @@
 /* TZERØ living page: season scene, page glow, click effects, the red thread and its critter.
    Ported from the approved "Tide and Thread" mockup. */
 (()=>{
+/* The site desk: one CDN-cached request for everything Nero sets at /admin/site (and Ache's published lines), shared
+   with site.js, newsletter.js and home.js through window.TZSITE. It replaced the /api/lines request. */
+window.TZSITE=window.TZSITE||fetch('/api/site').then(r=>r.ok?r.json():{}).catch(()=>({}));
+(()=>{const s=document.createElement('script');s.src='/assets/js/site.js';document.head.appendChild(s)})();
 const LITE=matchMedia('(pointer:coarse)').matches||innerWidth<760;
 let MODE='auto';try{const m=localStorage.getItem('tz-motion');if(m==='light'||m==='still')MODE=m}catch(e){}
 function autoLevel(){const n=navigator,cores=n.hardwareConcurrency||8,mem=n.deviceMemory||8,save=n.connection&&n.connection.saveData;if(LITE&&(cores<=2||mem<=1))return 2;return LITE||save?1:0}
@@ -393,7 +397,7 @@ addEventListener('scroll',()=>{if(target&&target.getBoundingClientRect().bottom<
 /* Ache's lines: lines.json, with the sets Nero changed in the script editor (/admin/lines) laid on top. Sets that live
    in this file (fights, chat, stake, sleep, therapy, the news scene) keep their text here as the default.
    L(key, default) is a set to pick from; LF(key, default) is a fixed set where each place keeps its own line. */
-let LINES={};Promise.all([fetch('/assets/lines.json').then(r=>r.json()),fetch('/api/lines').then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,o])=>{LINES=Object.assign(d,o&&o.lines||{});for(const k in bags)delete bags[k]}).catch(()=>{});const bags={};
+let LINES={};Promise.all([fetch('/assets/lines.json').then(r=>r.json()),window.TZSITE]).then(([d,o])=>{LINES=Object.assign(d,o&&o.lines||{});for(const k in bags)delete bags[k]}).catch(()=>{});const bags={};
 const L=(k,d)=>{const a=LINES[k];return Array.isArray(a)&&a.length?a:d},LF=(k,d)=>{const a=LINES[k];return d.map((x,i)=>Array.isArray(a)&&typeof a[i]==='string'&&a[i].trim()?a[i]:x)},anyOf=a=>a[Math.floor(Math.random()*a.length)];
 const XLINES={'season-thread':['AI opens paths. You pick one. I approve. Usually.','see the red line? that\'s you. choosing. very human of you','blue is the machine guessing. red is a person deciding. I\'m red. obviously','With AI. For People. I\'m the "people" part. the best part','click anywhere. paths open. one of them is yours']};function nextLine(k){const L=LINES[k]||XLINES[k];if(!L||!L.length)return '';if(!bags[k]||!bags[k].length){bags[k]=L.slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
 /* catch the critter and talk to it */
@@ -593,7 +597,7 @@ function seasonSay(prio){if(!fight&&!home&&!busy())speak(nextLine('season-'+skin
 
 /* news awareness: the current story sets Ache's mood (swap this object when the news changes) */
 // News mood comes live from a Wix tag (see WIX.news); assets/news.json is only the fallback until that tag exists
-let NEWS=null;addEventListener('DOMContentLoaded',()=>{(window.WIX?WIX.news():Promise.reject()).catch(()=>fetch('/assets/news.json').then(r=>r.json())).then(d=>{NEWS=d&&d.mood?d:null;try{if(NEWS&&localStorage.getItem('tz-news-seen')===NEWS.topic&&newsStage===0)newsStage=1}catch(e){}}).catch(()=>{})});
+let NEWS=null;addEventListener('DOMContentLoaded',()=>{window.TZSITE.then(s=>{const m=s&&s.mood;if(m&&m.mode==='on')return{topic:m.topic||m.slug,key:'news',mood:'grief',lines:'grief'};if(m&&m.mode==='off')return null;return(window.WIX?WIX.news():Promise.reject()).catch(()=>fetch('/assets/news.json').then(r=>r.json()))}).then(d=>{NEWS=d&&d.mood?d:null;try{if(NEWS&&localStorage.getItem('tz-news-seen')===NEWS.topic&&newsStage===0)newsStage=1}catch(e){}}).catch(()=>{})});
 addEventListener('pointermove',()=>{lastMove=performance.now()});
 const TH_OPEN=["Doc. DOC. I want UNITE to stay. I WANT it. Fix it. Now, please. Now.","Nobody asked ME before leaking that. I'm the site manager! I should be consulted!","Doc… can we talk? It's about UNITE.","I'm not crying, my eye is just… a star thing. Got a minute?","Mouse, you're the only one who gets me.","Do you charge by the hour? I'm a thread. I have no money.","Same time as last week? I brought tissues. I AM tissues.","I had the dream again. The servers went dark and I was in the lobby. Alone."];
 const TH_FEEL=["Like a server going dark. Like a lobby with no players. Like a sad star.","Like I've been left on read by a game company.","Like a goal I'll never get to score.","Like my thread is made of wet spaghetti.","Honestly? Like the 9th floor. Liminal. Empty. Humming."];

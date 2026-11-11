@@ -29,5 +29,6 @@
 /embed                   /embed.html    200
 /admin                   /admin.html    200
 /admin/lines             /admin-lines.html 200
+/admin/site              /admin-site.html 200
 /admin/*                 /admin.html    200
 /*                       https://journal.tzero.live/:splat  301
