@@ -17,8 +17,8 @@
   "wixMedia": {
    "image": {
     "url": "/assets/img/posts/news-2026-11/tools-ai.webp",
-    "width": 1280,
-    "height": 720
+    "width": 2560,
+    "height": 1440
    }
   },
   "displayed": true,
@@ -154,8 +154,8 @@
       "src": {
        "url": "/assets/img/posts/news-2026-11/tools-ai.webp"
       },
-      "width": 1280,
-      "height": 720
+      "width": 2560,
+      "height": 1440
      },
      "altText": "A red star picked out from a cloud of faint sketched stars, with the words: you pick this one, and make it better"
     }
@@ -398,6 +398,54 @@
     "paragraphData": {}
    },
    {
+    "type": "VIDEO",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "Sakurai's own YouTube channel, Masahiro Sakurai on Creating Games, where he explains how he works.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "videoData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "video": {
+      "src": {
+       "url": "https://www.youtube.com/watch?v=7M-DnOIeasA"
+      }
+     },
+     "thumbnail": {
+      "src": {
+       "url": "https://i.ytimg.com/vi/7M-DnOIeasA/hqdefault.jpg"
+      },
+      "width": 480,
+      "height": 360
+     },
+     "title": "About This Channel"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
     "type": "DIVIDER",
     "id": "",
     "nodes": [],
@@ -596,8 +644,8 @@
       "src": {
        "url": "/assets/img/posts/news-2026-11/tools-tablet.webp"
       },
-      "width": 1280,
-      "height": 720
+      "width": 2560,
+      "height": 1440
      },
      "altText": "A clean star on a drawing tablet, with notes like Ctrl+Z times 14 and Layer 3: colour"
     }
@@ -867,8 +915,8 @@
       "src": {
        "url": "/assets/img/posts/news-2026-11/tools-paper.webp"
       },
-      "width": 1280,
-      "height": 720
+      "width": 2560,
+      "height": 1440
      },
      "altText": "A hand-drawn pencil star on lined paper"
     }
@@ -979,6 +1027,49 @@
     ],
     "headingData": {
      "level": 2
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "Three tools, one hand. Illustration: TZERØ.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/posts/news-2026-11/sakurai-toolset.webp"
+      },
+      "width": 2560,
+      "height": 1440
+     },
+     "altText": "Three panels: a pencil on paper, a star on a tablet and a red circle picked from many on a dark screen, under the words Three tools. One hand."
     }
    },
    {
@@ -1154,7 +1245,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art.",
+       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art. Video embedded from Masahiro Sakurai on Creating Games on YouTube.",
        "decorations": [
         {
          "type": "COLOR",

@@ -17,9 +17,9 @@
  "media": {
   "wixMedia": {
    "image": {
-    "url": "/assets/img/starchasers/weary-reach-landing.webp",
-    "width": 1280,
-    "height": 720
+    "url": "/assets/img/starchasers/title-key-art.webp",
+    "width": 1920,
+    "height": 1080
    }
   },
   "displayed": true,
@@ -1190,6 +1190,49 @@
     "paragraphData": {}
    },
    {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "Four of the seventy notes, as he typed them. Drawing: TZERØ.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/posts/news-2026-11/cycle-notepad.webp"
+      },
+      "width": 2560,
+      "height": 1440
+     },
+     "altText": "A notepad window titled test-notes-0.9.0.txt with four of Nero's notes under the headings The opening, Weary Reach, Inside the Machine and Fight"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
     "type": "DIVIDER",
     "id": "",
     "nodes": [],
@@ -1360,6 +1403,49 @@
      }
     ],
     "paragraphData": {}
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The Drained Hollow, the third Weary Reach map.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/starchasers/weary-reach-hollow.webp"
+      },
+      "width": 1280,
+      "height": 720
+     },
+     "altText": "Pixel-art map of the Drained Hollow on Weary Reach"
+    }
    },
    {
     "type": "PARAGRAPH",
@@ -1946,6 +2032,49 @@
     ],
     "blockquoteData": {
      "indentation": 1
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The Contrary, the ship the whole studio is building.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/starchasers/title-key-art.webp"
+      },
+      "width": 1920,
+      "height": 1080
+     },
+     "altText": "The starship Contrary under the Starchasers title"
     }
    },
    {

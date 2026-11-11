@@ -17,8 +17,8 @@
   "wixMedia": {
    "image": {
     "url": "/assets/img/posts/news-2026-11/oot-field.webp",
-    "width": 1280,
-    "height": 720
+    "width": 2560,
+    "height": 1440
    }
   },
   "displayed": true,
@@ -154,8 +154,8 @@
       "src": {
        "url": "/assets/img/posts/news-2026-11/oot-field.webp"
       },
-      "width": 1280,
-      "height": 720
+      "width": 2560,
+      "height": 1440
      },
      "altText": "A drawn morning field with rolling green hills, a dirt path and a small figure at its start"
     }
@@ -461,6 +461,54 @@
     "paragraphData": {}
    },
    {
+    "type": "VIDEO",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The official overview trailer, from Nintendo of America.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "videoData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "video": {
+      "src": {
+       "url": "https://www.youtube.com/watch?v=8v8eDMh1o3g"
+      }
+     },
+     "thumbnail": {
+      "src": {
+       "url": "https://i.ytimg.com/vi/8v8eDMh1o3g/hqdefault.jpg"
+      },
+      "width": 480,
+      "height": 360
+     },
+     "title": "The Legend of Zelda: Ocarina of Time – Overview Trailer – Nintendo Switch 2"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
     "type": "PARAGRAPH",
     "id": "",
     "nodes": [
@@ -643,8 +691,8 @@
       "src": {
        "url": "/assets/img/posts/news-2026-11/oot-shop.webp"
       },
-      "width": 1280,
-      "height": 720
+      "width": 2560,
+      "height": 1440
      },
      "altText": "Drawing of a boy at a shop counter pointing at a purple console box and a game case with a sailboat on it, while a puzzled shopkeeper looks on"
     }
@@ -793,6 +841,49 @@
     ],
     "headingData": {
      "level": 2
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The gate, still closed. Illustration: TZERØ.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/posts/news-2026-11/oot-gate.webp"
+      },
+      "width": 2560,
+      "height": 1440
+     },
+     "altText": "A pair of closed wooden town gates at night"
     }
    },
    {
@@ -1225,7 +1316,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art. The Legend of Zelda, Ocarina of Time, The Wind Waker, GameCube and Nintendo Switch 2 are trademarks of Nintendo.",
+       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art. Trailer embedded from Nintendo of America's YouTube channel. The Legend of Zelda, Ocarina of Time, The Wind Waker, GameCube and Nintendo Switch 2 are trademarks of Nintendo.",
        "decorations": [
         {
          "type": "COLOR",
