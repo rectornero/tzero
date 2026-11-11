@@ -1,7 +1,7 @@
 /* Post listings: /posts, /posts/categories/<slug> and /posts/tags/<slug> are served by posts.html
    (same paths as the Wix blog, so old links keep working). Posts load live from Wix. */
 (() => {
-  const m = /^\/posts(?:\/(categories|tags)\/([^/]+))?\/?$/.exec(location.pathname) || [];
+  const m = /^\/posts(?:\/(categories|tags|worlds)\/([^/]+))?\/?$/.exec(location.pathname) || [];
   const kind = m[1], slug = m[2] && decodeURIComponent(m[2]);
   const grid = document.getElementById('shelf-grid');
   const status = document.getElementById('status');
@@ -26,7 +26,24 @@
     status.appendChild(a);
   }
 
+  // A game world's shelf: the site's own articles that live in it (assets/worlds.json)
+  function worldPage() {
+    return WIX.ownPosts().then(all => {
+      const posts = all.filter(p => TZW.of(p) === slug);
+      grid.append(...posts.map(p => WIX.card(p)));
+      grid.removeAttribute('aria-busy');
+      window.TZ && TZ.bindTilt(grid);
+      status.hidden = posts.length > 0;
+      if (!posts.length) {
+        status.textContent = 'No articles from this world yet. The gate is open, the first one is on its way. ';
+        const a = document.createElement('a'); a.href = '/lab'; a.textContent = 'Meanwhile, try its toy in the Idea Lab →'; status.append(a);
+      }
+      btn.hidden = true;
+    });
+  }
+
   function page() {
+    if (kind === 'worlds') return worldPage();
     btn.disabled = true;
     return WIX.list({ ...filter, offset, limit: PAGE }).then(({ posts, total: t }) => {
       total = t; offset += posts.length;
@@ -57,10 +74,13 @@
 
   btn.onclick = () => page().catch(() => { btn.disabled = false; btn.textContent = 'Try again' });
 
-  const find = kind === 'categories' ? WIX.categoryBySlug(slug) : kind === 'tags' ? WIX.tagBySlug(slug) : Promise.resolve(null);
+  const find = kind === 'categories' ? WIX.categoryBySlug(slug) : kind === 'tags' ? WIX.tagBySlug(slug)
+    : kind === 'worlds' ? (window.TZW ? TZW.ready.then(reg => reg[slug] && !reg[slug].hidden ? { label: reg[slug].name, world: reg[slug] } : null) : Promise.resolve(null))
+    : Promise.resolve(null);
   find.then(found => {
     if (kind && !found) throw new Error('missing');
     if (kind === 'categories') { filter = { category: found.id }; show(found.label, 'Section', BLURBS[slug] || 'Posts in ' + found.label + '.', '/posts/categories/' + slug) }
+    else if (kind === 'worlds') { TZW.enter(slug); show(found.label, 'World · ' + found.world.code, found.world.tagline, '') }
     else if (kind === 'tags') { filter = { tag: found.id }; show('#' + found.label, 'Tag', 'Posts tagged ' + found.label + '.', '') }
     else show('All posts', 'The journal', 'Everything in TZERØ, newest first.', '/posts');
     return page();
