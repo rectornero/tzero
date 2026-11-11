@@ -297,15 +297,38 @@
   const knownDoor = item => { const c = S.caw || {}; return !!((c.rooms || {})[item] || {}).door || Object.keys(c.found || {}).some(k => k.indexOf(item + '-') === 0) };
   // the drawn door: a panel that swings on its hinge, used until the picture exists
   const drawn = () => { const d = el('span', 'cd-drawn'); d.append(el('i', 'leaf')); return d };
+  // a door picture whose leaf is cut out of the picture itself and swings on its hinge, so it always lines up.
+  // c.leaf = [x, y, w, h, hinge] in % of the square picture (hinge 'l' or 'r'); c.arch = optional border-radius of the leaf top
+  function leafDoor(c, fail) {
+    const [x, y, w, h, hinge] = c.leaf, src = DOOR(c.item, 1);
+    const d = el('span', 'ld hinge-' + (hinge === 'r' ? 'r' : 'l')), pic = el('img', 'ld-pic'), hole = el('span', 'ld-hole'), leaf = el('span', 'ld-leaf');
+    pic.alt = ''; pic.loading = 'lazy'; pic.src = src; pic.onerror = fail;
+    [hole, leaf].forEach(p => Object.assign(p.style, { left: x + '%', top: y + '%', width: w + '%', height: h + '%', borderRadius: c.arch || '' }));
+    Object.assign(leaf.style, { backgroundImage: 'url("' + src + '")', backgroundSize: (10000 / w) + '% ' + (10000 / h) + '%',
+      backgroundPosition: (x / (100 - w) * 100) + '% ' + (y / (100 - h) * 100) + '%' });
+    // the room shows through the doorway if its picture exists, else the room's light
+    const room = new Image(); room.onload = () => hole.style.setProperty('--room', 'url("/assets/img/caw/room/' + c.item + '.webp")'); room.src = '/assets/img/caw/room/' + c.item + '.webp';
+    leaf.append(el('i', 'ld-glow'));
+    d.append(pic, hole, leaf); return d;
+  }
   function door(c, host) {
     const known = knownDoor(c.item);
     const b = el('button', 'caw-door' + (known ? ' known' : '')); b.type = 'button';
     b.setAttribute('aria-label', known ? c.name + '\'s door. Go back in' : 'A small door, with light under it');
     b.title = known ? c.name + '\'s room' : '';
     b.style.setProperty('--dc', c.color || '#d7182a');
-    const img = el('img'); img.alt = ''; img.loading = 'lazy'; img.src = DOOR(c.item, known ? 2 : 1);
-    img.onerror = () => { img.remove(); b.classList.add('is-drawn'); b.prepend(drawn()) };
-    b.append(img, el('i', 'cd-gap'));
+    if (c.leaf) {
+      // one picture, with its door leaf cut out: show the leaf and a little of its frame
+      const d = leafDoor(c, () => { d.remove(); b.classList.remove('is-leaf'); b.classList.add('is-drawn'); b.prepend(drawn(), el('i', 'cd-gap')) });
+      const [x, y, w, h] = c.leaf, S = Math.min(220, 68 / Math.min(1, h * 1.16 / 100));
+      Object.assign(d.style, { inset: 'auto', width: S + 'px', height: S + 'px',
+        left: Math.min(0, Math.max(54 - S, 27 - (x + w / 2) / 100 * S)) + 'px', top: Math.min(0, Math.max(68 - S, 34 - (y + h / 2) / 100 * S)) + 'px' });
+      b.classList.add('is-leaf'); b.append(d);
+    } else {
+      const img = el('img'); img.alt = ''; img.loading = 'lazy'; img.src = DOOR(c.item, known ? 2 : 1);
+      img.onerror = () => { img.remove(); b.classList.add('is-drawn'); b.prepend(drawn()) };
+      b.append(img, el('i', 'cd-gap'));
+    }
     Object.assign(b.style, c.style || {});
     b.addEventListener('click', e => {
       e.preventDefault(); e.stopPropagation();
@@ -331,6 +354,14 @@
       setTimeout(() => { if (left) return; ov.classList.add('s3'); tz().sfx && tz().sfx('gap') }, 2200);
       setTimeout(leave, 3300);
     };
+    // a cut-out leaf that swings open on the picture
+    if (c.leaf) {
+      const d = leafDoor(c, () => { d.remove(); box.classList.add('is-drawn'); box.append(drawn()); play() });
+      d.querySelector('.ld-pic').loading = 'eager';
+      box.classList.add('is-leaf'); box.append(d);
+      const p = d.querySelector('.ld-pic'); if (p.complete && p.naturalWidth) play(); else p.addEventListener('load', play, { once: true });
+      return;
+    }
     // three aligned pictures if they exist, else the drawn door
     const f = [1, 2, 3].map(k => { const i = el('img', 'dg-f f' + k); i.alt = ''; i.src = DOOR(c.item, k); return i });
     let ok = 0, bad = false;
