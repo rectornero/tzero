@@ -203,3 +203,72 @@ a.tile:hover{transform:translateY(-4px);box-shadow:0 26px 50px -28px rgba(10,14,
 }
 [data-skin=thread] .open-veil{background:radial-gradient(62% 78% at 27% 52%,rgba(251,248,241,.94),rgba(251,248,241,.7) 55%,transparent 82%)}
 @media (max-width:1060px){[data-skin=thread] .open-veil{background:linear-gradient(180deg,rgba(251,248,241,.9) 0 62%,rgba(251,248,241,.35) 80%,transparent)}}
+
+/* ---------- the stage (Nero, 11 Nov 08:57: the homepage is the boldest part; dive into the articles first) ---------- */
+.home2 .open{min-height:0;justify-content:flex-start}
+.open-in{display:flex;flex-direction:column;gap:clamp(14px,2vw,22px);padding-block:clamp(18px,3vh,30px) 70px}
+.mast{display:flex;align-items:flex-end;justify-content:space-between;gap:16px 32px;flex-wrap:wrap}
+.mast .mark{font-size:clamp(58px,8vw,124px);margin:0}
+.mast-side{display:flex;flex-direction:column;gap:10px;max-width:470px;padding-bottom:.4em}
+.mast-line{margin:0;font-size:15.5px;line-height:1.45;color:var(--page-ink)}
+.mast-line b{color:var(--red);font-weight:700}.mast-line a{text-decoration:underline;text-underline-offset:3px}
+:root[data-dark] .mast-line b{color:var(--w-accent)}
+.mast .open-search{margin:0;width:100%;padding:11px 14px}
+.stage{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(260px,1fr);gap:clamp(12px,1.6vw,20px);align-items:stretch}
+.feature{position:relative;min-height:clamp(380px,56vh,560px);border-radius:16px;overflow:hidden;background:var(--wc,#13224b);color:#fff;box-shadow:0 30px 60px -34px rgba(10,14,40,.75);isolation:isolate}
+.feature.sk{background:linear-gradient(110deg,#13224b,#1d3370 50%,#13224b);background-size:200% 100%;animation:sk 1.4s linear infinite}
+.ft-link{position:absolute;inset:0;display:flex;align-items:flex-end;color:inherit}
+.ft-pic{position:absolute;inset:0;z-index:-2;background:radial-gradient(80% 90% at 80% 10%,color-mix(in srgb,var(--wc,#13224b) 55%,#fff),var(--wc,#13224b))}
+.ft-pic img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 7s linear}
+.feature.swap .ft-pic img{animation:ftin .9s cubic-bezier(.2,.7,.2,1) both}
+.feature:hover .ft-pic img{transform:scale(1.1)}
+.ft-link::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(6,10,28,.92) 0%,rgba(6,10,28,.6) 38%,rgba(6,10,28,.05) 72%),linear-gradient(90deg,rgba(6,10,28,.45),transparent 60%)}
+.ft-body{display:flex;flex-direction:column;gap:10px;padding:clamp(18px,3vw,36px);max-width:860px}
+.feature.swap .ft-body>*{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+.feature.swap .ft-title{animation-delay:.06s}.feature.swap .ft-ex{animation-delay:.12s}.feature.swap .ft-go{animation-delay:.18s}
+.ft-kick{display:flex;align-items:center;gap:8px;font:12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#e6ecf8}
+.ft-kick i{font-style:normal;padding:2px 8px;border-radius:4px;background:var(--wc,#d7182a);color:#fff;filter:brightness(1.25)}
+.ft-title{font:800 clamp(30px,3.9vw,60px)/1.02 var(--display);letter-spacing:-.025em;text-wrap:balance;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.ft-ex{font-size:clamp(15px,1.3vw,18px);line-height:1.45;color:#dbe3f2;max-width:60ch;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ft-go{align-self:flex-start;margin-top:4px;padding:10px 18px;border-radius:99px;background:#d7182a;color:#fff;font-weight:600;font-size:15px;transition:transform .25s}
+.ft-link:hover .ft-go{transform:translateX(4px)}
+.ft-bars{position:absolute;left:clamp(18px,3vw,36px);right:clamp(18px,3vw,36px);top:16px;display:flex;gap:6px;z-index:2;pointer-events:none}
+.ft-bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden;position:relative}
+.ft-bars i::after{content:"";position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left}
+.ft-bars i.done::after{transform:scaleX(1)}
+.ft-bars i.on::after{animation:fill 7s linear forwards}
+.feature.held .ft-bars i.on::after{animation-play-state:paused}
+:root[data-motion="2"] .ft-bars i.on::after{animation:none;transform:scaleX(1)}
+.ft-nav{position:absolute;right:16px;bottom:16px;display:flex;gap:8px;z-index:2}
+.ft-nav button{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(6,10,28,.35);color:#fff;font-size:22px;line-height:1;cursor:pointer;backdrop-filter:none}
+.ft-nav button:hover{background:#d7182a;border-color:#d7182a}
+@keyframes fill{to{transform:scaleX(1)}}
+@keyframes ftin{from{opacity:0;transform:scale(1.12)}to{opacity:1;transform:scale(1.04)}}
+@keyframes sk{to{background-position:-200% 0}}
+.upnext{justify-content:space-between}
+.upnext .tickets{flex:1;justify-content:space-between}
+.upnext .ticket a{grid-template-columns:72px minmax(0,1fr)}
+.upnext .ticket img,.upnext .ticket .tk-ph{width:72px;height:60px}
+.upnext .tk-txt b{-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+.landing .feature{animation:rise .7s .3s cubic-bezier(.2,.7,.2,1) both}
+@media (max-width:1060px){
+  .stage{grid-template-columns:minmax(0,1fr)}
+  .upnext .tickets{flex-direction:row;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:2px 16px 8px;scroll-snap-type:x mandatory}
+  .upnext .ticket{flex:0 0 min(290px,78vw);scroll-snap-align:start}
+}
+@media (max-width:640px){
+  .mast{align-items:flex-start;flex-direction:column;gap:8px}
+  .mast .mark{font-size:clamp(54px,18vw,84px)}
+  .mast-line{font-size:14px}
+  .open-in{padding-block:12px 64px}
+  .feature{min-height:min(68svh,520px);border-radius:12px;margin-inline:-6px}
+  .ft-title{font-size:clamp(27px,8.4vw,38px)}
+  .ft-nav{display:none}
+  .ft-bars{top:12px}
+}
+.open-in{align-items:stretch}.mast,.stage{width:100%}
+.upnext .tickets{justify-content:flex-start;gap:8px}
+.upnext .ticket{flex:1 1 0;min-height:0}.upnext .ticket a{height:100%}
+@media (max-width:1060px){.upnext .ticket{flex:0 0 min(290px,78vw)}}
+@media (max-width:640px){.feature{min-height:min(56svh,460px)}.mast-side{padding-bottom:0}}
+@media (max-width:640px){.mast .open-search{display:none}.mast .mark{font-size:clamp(48px,15vw,68px)}.mast-line{font-size:13.5px}}

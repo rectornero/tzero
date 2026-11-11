@@ -155,7 +155,7 @@
   const say = (a, p) => { try { if (a.dataset.say === 'news') return; if (window.WIX && p.categoryIds) a.dataset.say = WIX.lineKey(p) } catch (e) {} };
   function ticket(p, url) {
     const li = el('li', 'ticket'), a = el('a'), { k, text } = meta(p), sm = el('small');
-    a.href = '/post/' + p.slug; a.dataset.w = k; say(a, p);
+    a.href = p.href || '/post/' + p.slug; a.dataset.w = k; say(a, p);
     sm.append(el('i', '', code(k)), document.createTextNode(text));
     const t = el('span', 'tk-txt'); t.append(sm, el('b', '', p.title));
     a.append(pic(url, 'tk', 240, 168), t);
@@ -171,31 +171,69 @@
     if (k !== 'tzero') hover(a, k);
     li.append(a); return li;
   }
+  /* the stage: the newest articles one at a time, full bleed, with the next four lined up beside it */
+  const F = { list: [], i: 0, timer: 0, held: false, url: () => '' };
+  const fe = $('feature'), DUR = 7000;
+  function show(i, user) {
+    if (!fe || !F.list.length) return;
+    const n = F.list.length; F.i = (i + n) % n;
+    const p = F.list[F.i], { k, text } = meta(p), link = $('ft-link'), pic = $('ft-pic');
+    fe.classList.remove('sk'); fe.dataset.w = k; link.href = p.href || '/post/' + p.slug; say(link, p);
+    const src = p.img || F.url(p);
+    pic.replaceChildren(); if (src) { const im = el('img'); im.src = fit(src, 1400, 860); im.alt = ''; im.decoding = 'async'; im.onerror = () => im.remove(); pic.append(im) }
+    pic.classList.toggle('none', !src);
+    const kick = $('ft-kick'); kick.replaceChildren(el('i', '', p.pinned ? '★' : code(k)), document.createTextNode(p.pinned ? (p.kick || "Nero's pick") : text));
+    $('ft-title').textContent = p.title;
+    $('ft-ex').textContent = (p.excerpt || p.e || '').split(/(?<=[.!?])\s/)[0];
+    fe.classList.remove('swap'); void fe.offsetWidth; fe.classList.add('swap');
+    const bars = $('ft-bars'); [...bars.children].forEach((b, j) => { b.className = j < F.i ? 'done' : j === F.i ? 'on' : '' });
+    // up next: the following four, in order
+    if (tickets) tickets.replaceChildren(...Array.from({ length: Math.min(4, n - 1) }, (_, j) => {
+      const q = F.list[(F.i + 1 + j) % n], li = ticket(q, q.img || F.url(q));
+      if (q.pinned) li.classList.add('pick');
+      li.querySelector('a').addEventListener('click', e => { if (e.metaKey || e.ctrlKey) return; e.preventDefault(); show(F.list.indexOf(q), true) });
+      return li;
+    }));
+    clearTimeout(F.timer); if (!user || !F.held) F.timer = setTimeout(auto, DUR);
+  }
+  function auto() { if (F.held || document.hidden || calm() || !visibleOpen) { F.timer = setTimeout(auto, 1500); return } show(F.i + 1) }
+  let visibleOpen = true;
+  if (window.IntersectionObserver) new IntersectionObserver(e => { visibleOpen = e[0].isIntersecting }).observe(open);
+  if (fe) {
+    const hold = v => () => { F.held = v; fe.classList.toggle('held', v); if (!v) { clearTimeout(F.timer); F.timer = setTimeout(auto, DUR / 2) } };
+    fe.addEventListener('pointerenter', hold(true)); fe.addEventListener('pointerleave', hold(false));
+    fe.addEventListener('focusin', hold(true)); fe.addEventListener('focusout', hold(false));
+    fe.addEventListener('pointerenter', () => { const k = fe.dataset.w; if (W && k && k !== 'tzero') W.preview(k) });
+    fe.addEventListener('pointerleave', () => W && W.unpreview());
+    $('ft-prev').addEventListener('click', () => show(F.i - 1, true));
+    $('ft-next').addEventListener('click', () => show(F.i + 1, true));
+    // phones: swipe the stage
+    let sx = null, sy = 0;
+    fe.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY }, { passive: true });
+    fe.addEventListener('touchend', e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null; if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) show(F.i + (dx < 0 ? 1 : -1), true) }, { passive: true });
+    addEventListener('keydown', e => { if (e.target.closest && e.target.closest('input,textarea,[contenteditable]')) return; if (!fe.matches(':hover') && !fe.contains(document.activeElement)) return; if (e.key === 'ArrowRight') show(F.i + 1, true); if (e.key === 'ArrowLeft') show(F.i - 1, true) });
+  }
   const fill = (posts, picMap) => {
     const url = p => thumb(p) || (picMap && picMap[p.slug]) || '';
-    if (tickets) tickets.replaceChildren(...posts.slice(0, 3).map(p => ticket(p, url(p))));
-    if (rows) { rows.replaceChildren(...posts.slice(3, 9).map(p => row(p, url(p)))); rows.removeAttribute('aria-busy') }
+    F.url = url; F.list = posts.slice(0, 5);
+    const bars = $('ft-bars'); if (bars) bars.replaceChildren(...F.list.map(() => el('i')));
+    show(0);
+    if (rows) { rows.replaceChildren(...posts.slice(5, 11).map(p => row(p, url(p)))); rows.removeAttribute('aria-busy') }
     pinPick();
   };
-  // "Nero's pick": set on the site desk (/admin/site, window.TZSITE from scene.js); it boards first
+  // "Nero's pick": set on the site desk (/admin/site, window.TZSITE from scene.js); it takes the stage first
   function pinPick() {
-    if (!window.TZSITE || !tickets) return;
+    if (!window.TZSITE) return;
     Promise.resolve(window.TZSITE).then(s => {
-      const k = s && s.home && s.home.pick; if (!k || !k.href || tickets.querySelector('.pick')) return;
-      const li = el('li', 'ticket pick'), a = el('a'), sm = el('small'), t = el('span', 'tk-txt');
-      a.href = k.href; a.dataset.w = 'tzero';
-      sm.append(el('i', '', '★'), document.createTextNode(k.kick || "Nero's pick"));
-      t.append(sm, el('b', '', k.cap || k.linkText || 'Read it'));
-      const img = pic(k.img || '', 'tk', 240, 168); if (img.tagName === 'IMG') img.alt = k.alt || '';
-      a.append(img, t); if (k.note) a.title = k.note;
-      li.append(a); tickets.prepend(li);
-      const all = tickets.querySelectorAll('.ticket'); if (all.length > 3) all[all.length - 1].remove();
+      const k = s && s.home && s.home.pick; if (!k || !k.href || F.list.some(p => p.pinned)) return;
+      F.list.unshift({ pinned: true, href: k.href, img: k.img || '', title: k.cap || k.linkText || 'Read it', excerpt: k.note || '', kick: k.kick, slug: '' });
+      F.list = F.list.slice(0, 5); show(0);
     }).catch(() => {});
   }
   const fallback = () => counts.then(({ rows: idx }) => {
     // the nightly build didn't answer: the newest articles from the site's own index, no pictures
-    const list = idx.filter(r => r.w !== 'archive').sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, 9)
-      .map(r => ({ slug: r.s, title: r.t, m: r.m, c: r.c, world: r.w || undefined }));
+    const list = idx.filter(r => r.w !== 'archive').sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, 11)
+      .map(r => ({ slug: r.s, title: r.t, m: r.m, c: r.c, e: r.e, world: r.w || undefined }));
     if (!list.length) {
       if (tickets) { const li = el('li', 'ticket'), a = el('a'); a.href = '/posts'; a.append(el('span', 'tk-txt', 'The newest articles are on the journal →')); li.append(a); tickets.replaceChildren(li) }
       if (rows) rows.removeAttribute('aria-busy');
@@ -203,7 +241,7 @@
     }
     fill(list, null);
   });
-  if (window.WIX) Promise.all([WIX.latest(9), pics]).then(([posts, picMap]) => { if (!posts.length) throw new Error('empty'); fill(posts, picMap) }).catch(fallback);
+  if (window.WIX) Promise.all([WIX.latest(11), pics]).then(([posts, picMap]) => { if (!posts.length) throw new Error('empty'); fill(posts, picMap) }).catch(fallback);
   else fallback();
 
   /* ---------- continue reading, and the sticker count ---------- */
