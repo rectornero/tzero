@@ -350,10 +350,13 @@
     sel.value = key;
     for (const c of [...sheet.classList]) if (c.startsWith('world-')) sheet.classList.remove(c);
     if (key) { sheet.classList.add('world-' + key); sheet.dataset.world = key } else delete sheet.dataset.world;
+    if (key && WORLDS[key] && WORLDS[key].dark) sheet.dataset.dark = ''; else delete sheet.dataset.dark;
   }
+  let WORLDS = {};
   $('f-world').addEventListener('change', e => { setWorld(e.target.value); changed() });
   fetch('/assets/worlds.json').then(r => r.ok ? r.json() : {}).catch(() => ({})).then(worlds => {
     const sel = $('f-world'), cur = sel.value;
+    WORLDS = worlds || {};
     for (const [key, w] of Object.entries(worlds || {})) {
       if (!/^[a-z0-9][a-z0-9-]{0,59}$/.test(key) || [...sel.options].some(o => o.value === key)) continue;
       const o = el('option', '', ((w && w.name) || key) + (w && w.hidden ? ' (hidden for now)' : '')); o.value = key; o.disabled = Boolean(w && w.hidden);
@@ -523,6 +526,10 @@
     $('gate').hidden = true; $('app').hidden = false;
     const wip = store.get('tz-admin-wip');
     fresh('article');
+    // Claude's requests wait on the site desk: say so here, and open the draft a desk link points to (/admin#slug)
+    if (!local && (me.role === 'owner' || me.role === 'admin')) api('/api/settings/proposals').then(r => { const n = (r.proposals || []).length; if (n) { const c = $('desk-chip'); c.textContent = 'Claude is waiting: ' + n; c.classList.add('live') } }).catch(() => {});
+    const want = location.hash.slice(1);
+    if (!local && /^[a-z0-9][a-z0-9-]*$/.test(want)) { open(want).catch(() => {}); return list() }
     if (wip && wip.post && (wip.post.title || (wip.post.richContent.nodes || []).length > 1) && Date.now() - wip.at < 7 * 864e5) {
       load(wip.post, {}); status('Brought back your last unsaved draft');
     }

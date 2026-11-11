@@ -9,7 +9,7 @@
    1 credit a month at a few hundred calls. */
 import { getStore } from '@netlify/blobs';
 import { json, claude } from '../lib/admin.mjs';
-import { toMarkdown, toRicos, parts, acheNode } from '../lib/markdown.mjs';
+import { toMarkdown, toRicos, parts, acheNode, noteMarkdown, BLOCK_GUIDE } from '../lib/markdown.mjs';
 import { readSettings, propose, proposals, readLog, log, CLAUDE_AREAS, KNOWN_FLAGS, LINE_KEY, SLUG } from '../lib/site.mjs';
 import { handle as contentHandle, check } from './content.mjs';
 import { handle as siteHandle } from './site.mjs';
@@ -58,7 +58,11 @@ const MANUAL = {
     'POST /api/ai/media': 'Picture bytes (Content-Type image/webp|png|jpeg|gif, under 2 MB) or JSON { base64, type } -> { url }',
     'GET /api/ai/proposals': 'Your proposals and Nero\'s answers (?all=1 includes answered ones)',
     'GET /api/ai/log': 'The activity log, newest first (?limit=50)',
-    'POST /api/mcp': 'The same actions as MCP tools (tools/list shows them)',
+    'POST /api/ai/do': '{ ops: [{ op, ... }], keepGoing? } many actions in one call (ops: GET /api/ai/guide/start)',
+    'POST /api/ai/posts/<slug>/edit': '{ edits: [{find, replace} | {after|before, insert} | {append} | {prepend} | {remove}], set?, publish? } changes a draft without resending it',
+    'GET /api/ai/posts/<slug>?as=text|outline': 'The article as one text (header + TZ Markdown), or only its headings and blocks',
+    'GET /api/ai/guide/<topic>': 'Short how-tos: start, markdown, blocks, ache, settings, templates',
+    'POST /api/mcp': 'MCP: six tools (state, guide, read, write, edit, do); ?tools=all lists every op as a tool',
   },
 };
 
@@ -140,18 +144,53 @@ function describe(post, extra = {}) {
     title: post.title, excerpt: post.excerpt || '', kind: post.kind || 'article', category: (post.categoryIds || []).map(c => CAT_NAME[c] || c)[0] || '',
     world: post.world || '', author: post.authorName || '', publishAt: post.publishAt || null, seoTitle: seo ? String(seo.children).replace(/ \| TZERØ$/, '') : '',
     cover: cover ? { url: cover.url || cover.id, width: cover.width, height: cover.height, alt: post.media.altText || '' } : null,
-    markdown: toMarkdown(post.richContent), ...extra,
+    markdown: toMarkdown(post.richContent, post.ache), ...extra,
   };
 }
 
+// One text for a whole article: a short header (title, excerpt, category, world, cover…) and the TZ Markdown body.
+// Reading and writing this form costs the fewest tokens: no JSON around the text.
+const HEAD = ['title', 'excerpt', 'category', 'world', 'kind', 'publishAt', 'seoTitle', 'cover', 'publish'];
+function frontMatter(md) {
+  const m = /^---\n([\s\S]*?)\n---[ \t]*(\n|$)/.exec(md.replace(/\r\n?/g, '\n'));
+  if (!m) return { fields: {}, body: md };
+  const fields = {};
+  for (const l of m[1].split('\n')) {
+    const i = l.indexOf(':'); if (i < 1) continue;
+    const k = l.slice(0, i).trim(), v = l.slice(i + 1).trim();
+    if (!HEAD.includes(k)) continue;
+    if (k === 'cover') { const [url, alt, size] = v.split(/\s*\|\s*/); const wh = /^(\d+)x(\d+)$/.exec(size || ''); fields.cover = url ? { url, alt: alt || '', ...(wh ? { width: +wh[1], height: +wh[2] } : {}) } : null }
+    else if (k === 'publish') fields.publish = v === 'true' || v === 'yes' ? true : v === 'ask' ? 'ask' : false;
+    else fields[k] = v;
+  }
+  return { fields, body: md.replace(/\r\n?/g, '\n').slice(m[0].length) };
+}
+function asText(slug, post, state) {
+  const x = describe(post);
+  const head = ['---', '# ' + slug + ' · ' + state, 'title: ' + x.title, 'excerpt: ' + x.excerpt.replace(/\n/g, ' '), 'kind: ' + x.kind];
+  if (x.category) head.push('category: ' + x.category);
+  if (x.world) head.push('world: ' + x.world);
+  if (x.seoTitle && x.seoTitle !== x.title) head.push('seoTitle: ' + x.seoTitle);
+  if (x.publishAt) head.push('publishAt: ' + x.publishAt);
+  if (x.cover) head.push('cover: ' + [x.cover.url, x.cover.alt, x.cover.width && x.cover.height ? x.cover.width + 'x' + x.cover.height : ''].join(' | '));
+  return head.join('\n') + '\n---\n' + x.markdown;
+}
+const plain = t => new Response(t, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } });
+
 // Builds the post the editor would save, from Claude's fields over the current draft
 function buildPost(base, a) {
+  if (typeof a.markdown === 'string') { const fm = frontMatter(a.markdown); a = { ...fm.fields, ...a, markdown: fm.body } }
   const post = { ...(base || { kind: 'article', title: '', excerpt: '', richContent: { nodes: [] }, categoryIds: [CATS.studio], tagIds: [TAG_TZERO] }) };
   if (a.title != null) post.title = String(a.title);
   if (a.excerpt != null) post.excerpt = String(a.excerpt);
   if (a.kind) post.kind = a.kind;
   if (a.world !== undefined) { if (a.world) post.world = String(a.world); else delete post.world }
-  if (a.markdown != null) post.richContent = toRicos(a.markdown);
+  if (a.markdown != null) {
+    const rc = toRicos(a.markdown);
+    post.richContent = { nodes: rc.nodes };
+    // Ache's critic note travels in the text (:::achenote); a note the text can't express is left alone
+    if (rc.ache) post.ache = rc.ache; else if (post.ache && noteMarkdown(post.ache)) delete post.ache;
+  }
   else if (a.richContent) post.richContent = a.richContent;
   if (a.category) { if (!CATS[a.category]) throw new Error('category: studio or devlog'); post.categoryIds = [CATS[a.category]] }
   if (post.kind === 'page') { post.categoryIds = []; post.tagIds = [] }
@@ -196,16 +235,117 @@ async function review(d, post) {
   return { errors, warnings: [...new Set(warnings)] };
 }
 
+async function publish(d, slug, note) {
+  const r = await draftOf(d, slug); if (r.status !== 200) return r;
+  if (!r.draft) return { status: 404, body: { error: 'no draft to publish' } };
+  const rv = await review(d, r.draft.post);
+  if (rv.errors.length) return { status: 400, body: { error: 'invalid', details: rv.errors } };
+  const s = await readSettings(d.store);
+  if (s.claude.publish) {
+    const post = { ...r.draft.post }; delete post.memberId;
+    const out = await C(d, 'PUT', '/api/admin/item/' + encodeURIComponent(slug), { post, publish: true });
+    return out.status === 200 ? { body: { ok: true, published: true, url: (post.kind === 'page' ? '/p/' : '/post/') + slug } } : out;
+  }
+  const open = (await proposals(d.store)).find(x => x.kind === 'publish' && x.payload.slug === slug);
+  if (open) return { status: 202, body: { ok: true, proposed: true, proposal: open.id, message: 'Already waiting for Nero' } };
+  const pr = await propose(d.store, 'publish', { slug, title: r.draft.post.title }, note);
+  await log(d.store, { login: 'claude', role: 'claude' }, 'proposal', 'asked to publish ' + slug);
+  return { status: 202, body: { ok: true, proposed: true, proposal: pr.id, message: 'Waiting for Nero: he approves it in /admin/site' } };
+}
+
+// Small changes to a draft without sending the article again. Each edit is one of:
+//   { find, replace, all? }         swap text in the TZ Markdown (find must be there once, unless all)
+//   { after | before: "text", insert: "markdown" }   add blocks next to the block that contains the text
+//   { append: "markdown" } / { prepend: "markdown" }
+//   { remove: "text" }              drop the whole block that contains the text
+function splitBlocks(md) {
+  const out = []; let cur = [], fence = false;
+  for (const l of md.replace(/\s*$/, '').split('\n')) {
+    if (/^```/.test(l.trim())) fence = !fence;
+    else if (!fence && /^:::\w/.test(l.trim())) fence = ':';
+    else if (fence === ':' && l.trim() === ':::') { cur.push(l); fence = false; continue }
+    if (!fence && !l.trim()) { if (cur.length) out.push(cur.join('\n')); cur = []; continue }
+    cur.push(l);
+  }
+  if (cur.length) out.push(cur.join('\n'));
+  return out;
+}
+function applyEdits(md, edits) {
+  const count = (h, n) => h.split(n).length - 1;
+  for (const [i, e] of (Array.isArray(edits) ? edits : []).entries()) {
+    const fail = why => { throw new Error('edit ' + (i + 1) + ': ' + why) };
+    if (e.append != null) { md = md.replace(/\s*$/, '') + '\n\n' + e.append + '\n'; continue }
+    if (e.prepend != null) { md = e.prepend + '\n\n' + md; continue }
+    if (e.find != null) {
+      const n = count(md, e.find);
+      if (!n) fail('"' + String(e.find).slice(0, 60) + '" is not in the draft');
+      if (n > 1 && !e.all) fail('"' + String(e.find).slice(0, 60) + '" is there ' + n + ' times: add more of the text, or all: true');
+      md = md.split(e.find).join(e.replace == null ? '' : e.replace); continue;
+    }
+    const key = e.after != null ? 'after' : e.before != null ? 'before' : e.remove != null ? 'remove' : null;
+    if (!key) fail('use find/replace, after/before + insert, append, prepend or remove');
+    const blocks = splitBlocks(md);
+    const hits = blocks.map((b, k) => b.includes(e[key]) ? k : -1).filter(k => k >= 0);
+    if (!hits.length) fail('"' + String(e[key]).slice(0, 60) + '" is not in the draft');
+    if (hits.length > 1) fail('"' + String(e[key]).slice(0, 60) + '" is in ' + hits.length + ' blocks: add more of the text');
+    if (key === 'remove') blocks.splice(hits[0], 1);
+    else { if (e.insert == null) fail('insert is missing'); blocks.splice(hits[0] + (key === 'after' ? 1 : 0), 0, e.insert) }
+    md = blocks.join('\n\n') + '\n';
+  }
+  return md;
+}
+
+// The short list of what is going on, for the start of a session (few tokens); ?full=1 gives everything
+function brief(settings, items, inbox, props, lg) {
+  const s = settings, off = Object.entries(s.flags).filter(([, v]) => v === false).map(([k]) => k);
+  return {
+    alone: Object.keys(CLAUDE_AREAS).filter(k => s.claude[k]), ask: Object.keys(CLAUDE_AREAS).filter(k => !s.claude[k]),
+    live: {
+      notice: s.notice.on ? s.notice.text : null, mood: s.mood.mode === 'on' ? s.mood.slug : s.mood.mode, newsletter: s.newsletter.provider || null,
+      pick: s.home.pick.on ? s.home.pick.cap || s.home.pick.href : null, off, links: Object.keys(s.links).length,
+      hidden: { paths: s.hide.paths.map(x => x.path), posts: s.hide.posts.map(x => x.slug), images: s.hide.images.map(x => x.match) },
+    },
+    posts: items.map(x => x.slug + (x.kind === 'page' ? ' [page]' : '') + (x.published ? ' [live]' : ' [draft]') + ' ' + x.title),
+    inbox: inbox.map(x => ({ id: x.id, by: x.by, text: x.text.length > 240 ? x.text.slice(0, 240) + '…' : x.text, pictures: x.pictures.length || undefined })),
+    proposals: props.map(x => ({ id: x.id, kind: x.kind, status: x.status, about: x.kind === 'publish' ? x.payload.slug : x.kind === 'lines' ? Object.keys(x.payload.topics).join(',') : Object.keys(x.payload.patch || {}).join(','), answer: x.answer || undefined })),
+    recent: lg.map(l => l.at.slice(5, 16) + ' ' + l.by + ' ' + l.action + ': ' + l.what.slice(0, 80)),
+    next: 'guide topics: GET /api/ai/guide/<start|markdown|blocks|ache|settings|templates>',
+  };
+}
+
 async function route(method, p, body, q, d, req) {
   const [area, slug, sub, idx] = p;
   try {
     if (!area && method === 'GET') return { body: MANUAL };
-    if (area === 'markdown' && method === 'GET') return new Response(MARKDOWN_GUIDE, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } });
+    if (area === 'markdown' && method === 'GET') return plain(MARKDOWN_GUIDE + '\n\n' + BLOCK_GUIDE);
+    if (area === 'guide' && method === 'GET') return GUIDES[slug || 'start'] ? plain(GUIDES[slug || 'start']) : { status: 404, body: { error: 'topics: ' + Object.keys(GUIDES).join(', ') } };
+
+    // Many actions in one call: { ops: [{ op, ...fields }], keepGoing? }. Stops at the first error unless keepGoing.
+    if (area === 'do' && method === 'POST') {
+      const ops = Array.isArray(body.ops) ? body.ops.slice(0, 40) : null;
+      if (!ops) return { status: 400, body: { error: 'ops: [{ op, ... }]. Ops: ' + Object.keys(OPS).join(', ') } };
+      const results = [];
+      for (const o of ops) {
+        const make = OPS[o && o.op];
+        let r;
+        if (!make) r = { status: 400, body: { error: 'unknown op ' + (o && o.op) } };
+        else { const [m, path, b, qs] = make(o); r = await route(m, path, b || {}, new URLSearchParams(qs || ''), d); if (r instanceof Response) r = { status: r.status, body: await r.text() } }
+        const status = r.status || 200;
+        results.push(status < 400 ? r.body : { failed: true, status, ...(typeof r.body === 'object' ? r.body : { error: r.body }) });
+        if (status >= 400 && !body.keepGoing) { results.push({ stopped: 'the ' + (ops.length - results.length) + ' ops after this were not run' }); break }
+      }
+      return { status: results.some(x => x && x.failed) ? 207 : 200, body: { results } };
+    }
 
     if (area === 'state' && method === 'GET') {
       const [settings, items, inbox, props, lg] = await Promise.all([
         readSettings(d.store), C(d, 'GET', '/api/admin/items'), C(d, 'GET', '/api/admin/inbox'), proposals(d.store, false), readLog(d.store, 15),
       ]);
+      if (q.get('full') !== '1') {
+        // open proposals, plus the ones Nero answered in the last week (so Claude sees his yes or no)
+        const answered = (await proposals(d.store, true)).filter(x => x.status !== 'open' && Date.now() - Date.parse(x.answeredAt || x.at) < 7 * 864e5).slice(0, 10);
+        return { body: brief(settings, items.body.items || [], (inbox.body.items || []).filter(x => x.status === 'open'), props.concat(answered), lg.slice(0, 8)) };
+      }
       return { body: {
         you: 'Claude', canDoAlone: Object.keys(CLAUDE_AREAS).filter(k => settings.claude[k]), mustAsk: Object.keys(CLAUDE_AREAS).filter(k => !settings.claude[k]),
         settings, posts: items.body.items || [], inbox: (inbox.body.items || []).filter(x => x.status === 'open'), proposals: props, recent: lg,
@@ -219,6 +359,8 @@ async function route(method, p, body, q, d, req) {
       if (!sub && method === 'GET') {
         const r = await draftOf(d, slug); if (r.status !== 200) return r;
         if (!r.draft && !r.published) return { status: 404, body: { error: 'no such post' } };
+        if (q.get('as') === 'text') return plain(asText(slug, q.get('published') === '1' && r.published ? r.published : (r.draft && r.draft.post) || r.published, r.published ? 'live' : 'draft'));
+        if (q.get('as') === 'outline') return plain(parts(((r.draft && r.draft.post) || r.published).richContent).filter(x => x.kind === 'heading' || x.kind.startsWith('block:') || x.kind === 'image' || x.kind === 'html').map(x => x.index + ' ' + x.kind + ' ' + (x.ache ? (x.ache.set || x.ache.lines[0]) : x.text)).join('\n'));
         return { body: { slug, live: Boolean(r.published), draft: describe(r.draft && r.draft.post, { savedAt: r.draft && r.draft.savedAt }), published: q.get('published') === '1' ? describe(r.published) : undefined } };
       }
       if (!sub && method === 'PUT') {
@@ -227,7 +369,29 @@ async function route(method, p, body, q, d, req) {
         const rv = await review(d, post);
         if (rv.errors.length) return { status: 400, body: { error: 'invalid', details: rv.errors, warnings: rv.warnings } };
         const s = await C(d, 'PUT', at, { post });
-        return { status: s.status, body: { ...s.body, warnings: rv.warnings, editor: '/admin' } };
+        if (s.status !== 200) return s;
+        const fm = typeof body.markdown === 'string' ? frontMatter(body.markdown).fields : {};
+        const want = body.publish !== undefined ? body.publish : fm.publish;
+        const out = { ok: true, draft: slug, parts: post.richContent.nodes.length, ...(rv.warnings.length ? { warnings: rv.warnings } : {}) };
+        if (want) { const pb = await publish(d, slug, body.note); Object.assign(out, pb.body, pb.status >= 400 ? { publishFailed: true } : {}) }
+        return { body: out };
+      }
+      if (sub === 'edit' && method === 'POST') {
+        const r = await draftOf(d, slug); if (r.status !== 200) return r;
+        const base = (r.draft && r.draft.post) || r.published;
+        if (!base) return { status: 404, body: { error: 'no such post' } };
+        let post;
+        try {
+          const md = applyEdits(toMarkdown(base.richContent, base.ache), body.edits);
+          post = buildPost(base, { ...(body.set || {}), markdown: md });
+        } catch (e) { return { status: 400, body: { error: e.message } } }
+        const rv = await review(d, post);
+        if (rv.errors.length) return { status: 400, body: { error: 'invalid', details: rv.errors } };
+        const s = await C(d, 'PUT', at, { post });
+        if (s.status !== 200) return s;
+        const out = { ok: true, draft: slug, parts: post.richContent.nodes.length, ...(rv.warnings.length ? { warnings: rv.warnings } : {}) };
+        if (body.publish) { const pb = await publish(d, slug, body.note); Object.assign(out, pb.body) }
+        return { body: out };
       }
       if (sub === 'check' && method === 'POST') {
         const r = await draftOf(d, slug); if (r.status !== 200) return r;
@@ -250,46 +414,39 @@ async function route(method, p, body, q, d, req) {
           if (!(nodes[i] && nodes[i].type === 'TZ_BLOCK' && nodes[i].blockData.kind === 'ache')) return { status: 400, body: { error: 'no Ache marker at that index (GET .../parts)' } };
           nodes.splice(i, 1);
         } else {
-          const node = acheNode(body);
-          if (!node.blockData.data.lines.length && !node.blockData.data.set) return { status: 400, body: { error: 'give lines: [...] or set: "<key>"' } };
-          if (node.blockData.data.set && !LINE_KEY.test(node.blockData.data.set)) return { status: 400, body: { error: 'set' } };
-          let at;
-          if (body.heading != null) {
-            const want = String(body.heading).trim().toLowerCase();
-            const h = parts(post.richContent).find(x => x.kind === 'heading' && x.text.toLowerCase().includes(want));
-            if (!h) return { status: 400, body: { error: 'no heading matches "' + body.heading + '"' } };
-            let end = h.index + 1; while (end < nodes.length && nodes[end].type !== 'HEADING') end++;
-            // put it after the last real part of the section (before trailing dividers and spacers)
-            while (end - 1 > h.index && (nodes[end - 1].type === 'DIVIDER' || (nodes[end - 1].type === 'PARAGRAPH' && !(nodes[end - 1].nodes || []).length))) end--;
-            node.blockData.data.scope = body.scope === 'part' ? 'part' : 'section';
-            at = end;
-          } else {
-            const i = Number(body.after);
-            if (!Number.isInteger(i) || i < 0 || i >= nodes.length) return { status: 400, body: { error: 'after: a part index from GET .../parts' } };
-            at = i + 1;
+          // one marker, or many at once: { many: [{ heading | after, lines | set, scope?, show? }] }
+          const list = Array.isArray(body.many) ? body.many.slice(0, 40) : [body];
+          // place from the bottom up so earlier indexes stay right
+          const placed = [];
+          for (const one of list) {
+            const node = acheNode(one);
+            if (!node.blockData.data.lines.length && !node.blockData.data.set) return { status: 400, body: { error: 'give lines: [...] or set: "<key>"' } };
+            let at;
+            if (one.heading != null) {
+              const want = String(one.heading).trim().toLowerCase();
+              const h = parts(post.richContent).find(x => x.kind === 'heading' && x.text.toLowerCase().includes(want));
+              if (!h) return { status: 400, body: { error: 'no heading matches "' + one.heading + '"' } };
+              let end = h.index + 1; while (end < nodes.length && nodes[end].type !== 'HEADING') end++;
+              // after the last real part of the section (before trailing dividers and spacers)
+              while (end - 1 > h.index && (nodes[end - 1].type === 'DIVIDER' || (nodes[end - 1].type === 'PARAGRAPH' && !(nodes[end - 1].nodes || []).length))) end--;
+              node.blockData.data.scope = one.scope === 'part' ? 'part' : 'section';
+              at = end;
+            } else {
+              const i = Number(one.after);
+              if (!Number.isInteger(i) || i < 0 || i >= nodes.length) return { status: 400, body: { error: 'after: a part index from GET .../parts' } };
+              at = i + 1;
+            }
+            placed.push([at, node]);
           }
-          nodes.splice(at, 0, node);
+          placed.sort((x, y) => y[0] - x[0]).forEach(([at, node]) => nodes.splice(at, 0, node));
         }
         const next = { ...post, richContent: { ...(post.richContent || {}), nodes } };
         delete next.memberId;
         const s = await C(d, 'PUT', '/api/admin/item/' + encodeURIComponent(slug), { post: next });
         if (s.status !== 200) return s;
-        return { body: { ok: true, savedAsDraft: true, parts: parts(next.richContent), note: r.published ? 'Saved in the draft. The live article changes when it is published again.' : undefined } };
+        return { body: { ok: true, savedAsDraft: true, markers: next.richContent.nodes.filter(n => n.type === 'TZ_BLOCK' && n.blockData.kind === 'ache').length, ...(q.get('parts') === '1' ? { parts: parts(next.richContent) } : {}), note: r.published ? 'Saved in the draft. The live article changes when it is published again.' : undefined } };
       }
-      if (sub === 'publish' && method === 'POST') {
-        const r = await draftOf(d, slug); if (r.status !== 200) return r;
-        if (!r.draft) return { status: 404, body: { error: 'no draft to publish' } };
-        const rv = await review(d, r.draft.post);
-        if (rv.errors.length) return { status: 400, body: { error: 'invalid', details: rv.errors } };
-        const s = await readSettings(d.store);
-        if (s.claude.publish) {
-          const post = { ...r.draft.post }; delete post.memberId;
-          return C(d, 'PUT', '/api/admin/item/' + encodeURIComponent(slug), { post, publish: true });
-        }
-        const pr = await propose(d.store, 'publish', { slug, title: r.draft.post.title }, body.note);
-        await log(d.store, { login: 'claude', role: 'claude' }, 'proposal', 'asked to publish ' + slug);
-        return { status: 202, body: { ok: true, proposed: true, proposal: pr.id, message: 'Waiting for Nero: he approves it in /admin/site → Claude' } };
-      }
+      if (sub === 'publish' && method === 'POST') return publish(d, slug, body.note);
       if (!sub && method === 'DELETE') return C(d, 'DELETE', '/api/admin/item/' + encodeURIComponent(slug));
     }
 
@@ -350,57 +507,172 @@ async function route(method, p, body, q, d, req) {
   }
 }
 
-// ---- MCP: the same actions as tools ----
-const S_SLUG = { type: 'string', description: 'The post address: a-z, 0-9, dashes' };
-const TOOLS = [
-  ['site_state', 'Start here: settings, what you may do alone, drafts, open inbox items, your open proposals, recent changes.', {}, () => ['GET', ['state']]],
-  ['list_posts', 'Drafts and published posts and pages.', {}, () => ['GET', ['posts']]],
-  ['read_post', 'Read one post as TZ Markdown (draft first; published: true adds the live copy).', { slug: S_SLUG, published: { type: 'boolean' } }, a => ['GET', ['posts', a.slug], null, a.published ? 'published=1' : ''], ['slug']],
-  ['write_draft', 'Create or update a draft. Fields you leave out keep their current value. Markdown format: see the markdown_guide tool.', { slug: S_SLUG, title: { type: 'string' }, excerpt: { type: 'string' }, markdown: { type: 'string' }, category: { type: 'string', enum: ['studio', 'devlog'] }, world: { type: 'string', description: 'The game world the article travels to: a key of /assets/worlds.json; empty for the TZERØ look' }, kind: { type: 'string', enum: ['article', 'page'] }, publishAt: { type: 'string', description: 'ISO time, empty for at once' }, seoTitle: { type: 'string' }, cover: { type: 'object', properties: { url: { type: 'string' }, width: { type: 'number' }, height: { type: 'number' }, alt: { type: 'string' } } } }, a => ['PUT', ['posts', a.slug], a], ['slug']],
-  ['check_post', 'Dry run a draft (or changed fields) for errors, licensing warnings and Ache\'s checks.', { slug: S_SLUG, markdown: { type: 'string' }, title: { type: 'string' }, excerpt: { type: 'string' } }, a => ['POST', ['posts', a.slug, 'check'], a], ['slug']],
-  ['list_parts', 'The numbered parts of a draft, with Ache markers already there. Use before add_ache_lines.', { slug: S_SLUG }, a => ['GET', ['posts', a.slug, 'parts']], ['slug']],
-  ['add_ache_lines', 'Give Ache lines for a part of an article: he walks to it and says one when readers get there. Use after (part index) or heading (section).', { slug: S_SLUG, after: { type: 'number' }, heading: { type: 'string' }, lines: { type: 'array', items: { type: 'string' } }, set: { type: 'string', description: 'a set key from his script book instead of lines' }, scope: { type: 'string', enum: ['part', 'section'] }, show: { type: 'string', enum: ['hidden', 'bubble'] } }, a => ['POST', ['posts', a.slug, 'ache'], a], ['slug']],
-  ['remove_ache_lines', 'Remove the Ache marker at a part index.', { slug: S_SLUG, index: { type: 'number' } }, a => ['DELETE', ['posts', a.slug, 'ache', String(a.index)]], ['slug', 'index']],
-  ['publish_post', 'Publish a draft if Nero allowed it; otherwise ask him (a proposal).', { slug: S_SLUG, note: { type: 'string' } }, a => ['POST', ['posts', a.slug, 'publish'], a], ['slug']],
-  ['get_settings', 'The live site settings and your permissions.', {}, () => ['GET', ['settings']]],
-  ['change_settings', 'Merge a change into the site settings (notice, mood, newsletter, home, hide, flags, links). Areas Nero has not opened to you become a proposal.', { patch: { type: 'object' }, note: { type: 'string' } }, a => ['PATCH', ['settings'], a], ['patch']],
-  ['takedown', 'Hide a page path, a post or pictures (licensing). undo: true brings it back.', { type: { type: 'string', enum: ['path', 'post', 'image'] }, value: { type: 'string' }, note: { type: 'string' }, undo: { type: 'boolean' } }, a => ['POST', ['takedown'], a], ['type', 'value']],
-  ['read_lines', "Ache's script book: sets, muted lines and Nero's notes for you.", {}, () => ['GET', ['lines']]],
-  ['propose_lines', "Suggest new or changed sets for Ache's script book (Nero approves).", { topics: { type: 'object' }, note: { type: 'string' } }, a => ['POST', ['lines'], a], ['topics']],
-  ['read_inbox', 'Material Nero and the admins dropped for you.', {}, () => ['GET', ['inbox']]],
-  ['inbox_done', 'Mark an inbox item done (with the draft you wrote from it).', { id: { type: 'string' }, draft: { type: 'string' }, note: { type: 'string' } }, a => ['POST', ['inbox', a.id], { status: 'done', draft: a.draft, note: a.note }], ['id']],
-  ['upload_picture', 'Upload a picture (base64, under 2 MB) and get its address.', { base64: { type: 'string' }, type: { type: 'string', enum: ['image/webp', 'image/png', 'image/jpeg', 'image/gif'] } }, a => ['POST', ['media'], a], ['base64', 'type']],
-  ['my_proposals', 'Your proposals and Nero\'s answers.', { all: { type: 'boolean' } }, a => ['GET', ['proposals'], null, a.all ? 'all=1' : '']],
-  ['activity_log', 'What changed in the admin lately, and who did it.', { limit: { type: 'number' } }, a => ['GET', ['log'], null, 'limit=' + (a.limit || 30)]],
-  ['markdown_guide', 'How to write articles in TZ Markdown, including Ache markers.', {}, () => ['GET', ['markdown']]],
+// ---- Every action by name: used by POST /api/ai/do and by the MCP tools ----
+const enc = encodeURIComponent;
+const OPS = {
+  state: a => ['GET', ['state'], null, a.full ? 'full=1' : ''],
+  guide: a => ['GET', ['guide', a.topic || 'start']],
+  posts: () => ['GET', ['posts']],
+  read: a => ['GET', ['posts', a.slug], null, 'as=' + (a.as || 'text') + (a.published ? '&published=1' : '')],
+  write: a => ['PUT', ['posts', a.slug], a],
+  edit: a => ['POST', ['posts', a.slug, 'edit'], a],
+  check: a => ['POST', ['posts', a.slug, 'check'], a],
+  parts: a => ['GET', ['posts', a.slug, 'parts']],
+  ache: a => ['POST', ['posts', a.slug, 'ache'], a],
+  unache: a => ['DELETE', ['posts', a.slug, 'ache', String(a.index)]],
+  publish: a => ['POST', ['posts', a.slug, 'publish'], a],
+  delete: a => ['DELETE', ['posts', a.slug]],
+  settings: () => ['GET', ['settings']],
+  set: a => ['PATCH', ['settings'], a],
+  takedown: a => ['POST', ['takedown'], a],
+  lines: () => ['GET', ['lines']],
+  propose_lines: a => ['POST', ['lines'], a],
+  inbox: () => ['GET', ['inbox']],
+  inbox_done: a => ['POST', ['inbox', a.id], { status: 'done', draft: a.draft, note: a.note }],
+  upload: a => ['POST', ['media'], a],
+  proposals: a => ['GET', ['proposals'], null, a.all ? 'all=1' : ''],
+  log: a => ['GET', ['log'], null, 'limit=' + (a.limit || 30)],
+};
+
+const GUIDES = {
+  start: `TZERØ admin for AI. You are Claude; drafts are signed Claude. Spend few calls: one "do" can carry many ops.
+RULES
+- What Nero has not switched on for you becomes a proposal (answer says proposed: true); he approves it on /admin/site. state shows his answers.
+- Licensing: no Starchasers crew art, no old characters (Contrary Quest, Characters Across Worlds cast). Allowed Starchasers art: emblem, title key art (ship only), Weary Reach maps.
+- No Starchasers spoilers. Never call this on a schedule or in a loop (Netlify credits). Nothing here deploys.
+OPS (POST /api/ai/do { ops: [{ op, ... }] } or the MCP tool "do")
+- state {full?}                         start here
+- read {slug, as?: text|outline|json}    an article as one text (header + TZ Markdown)
+- write {slug, markdown, publish?}       whole article in one text; header lines title:, excerpt:, category:, world:, cover:, publish: ask
+- edit {slug, edits: [...], set?, publish?}   change a draft without resending it:
+    {find, replace, all?} | {after|before: "text in a block", insert: "markdown"} | {append} | {prepend} | {remove: "text in a block"}
+- ache {slug, many: [{heading | after, lines: [..] | set, scope?, show?}]}   Ache's lines for parts (or write :::ache in the text)
+- unache {slug, index} · parts {slug} · check {slug} · publish {slug, note?} · delete {slug} · posts
+- settings · set {patch, note} · takedown {type: path|post|image, value, note, undo?}
+- lines · propose_lines {topics: {key: {lines: [{t}]}}, note}
+- inbox · inbox_done {id, draft, note} · upload {base64, type} · proposals {all?} · log {limit?}
+- guide {topic: markdown | blocks | ache | settings | templates}
+CHEAPEST PATHS
+- New article: guide templates (once) -> one write with publish: ask. Two calls.
+- Fix a typo or add a section: one edit. Never read + rewrite the whole article for a small change.
+- Before editing an article you have not seen: read as outline first; read as text only if you need the words.`,
+  markdown: MARKDOWN_GUIDE,
+  blocks: BLOCK_GUIDE,
+  ache: `Ache's lines in an article
+- For a part: a :::ache marker right under the block it belongs to. scope=section covers everything back to the last heading. show=bubble also shows a small "Ache says" note readers tap for the next line. set=<key> uses a set from his script book (op lines) instead of lines here.
+  :::ache scope=section show=hidden
+  line one
+  line two
+  :::
+- Without rewriting: op ache {slug, many: [{heading: "What's new", lines: ["…", "…"]}, {after: 4, lines: ["…"], show: "bubble"}]}
+- His critic note on top of an article: :::achenote (guide blocks).
+- Sets used across the site (headings, pictures, cards): op lines to read, propose_lines to suggest; Nero approves.
+VOICE: lowercase, short (under 90 characters is best), funny, warm, a bit smug, proud of Artache; under the sass he keeps players safe. Never mean, never spoilers, no emoji. 2 to 5 lines per part; he says one at a time, at random.
+GOOD: "that ship is mine. I named it." / "read this bit slowly. it's the good bit." / "I helped. I watched. same thing."`,
+  settings: `Site settings (op settings to read, op set {patch, note} to change; objects merge, arrays replace, null removes)
+notice {on, text, link, linkText, tone: red|navy|sun, until}       bar on top of every page
+mood {mode: wix|on|off, slug, topic, lines: []}                    Ache's news moment on one article
+home.pick {on, img, alt, cap, kick, note, href, linkText}          the homepage's first polaroid
+newsletter {provider: kit|buttondown|mailerlite, id}
+flags {"cq-wip": bool, "share-row": bool, "newsletter-band": bool, "<your-switch>": bool}
+hide {paths: [{path, note}], posts: [{slug, note}], images: [{match, note}]}   or op takedown
+links {"<name>": "https://… or /path"}                             short links at /go/<name>
+Example: {"op":"set","patch":{"notice":{"on":true,"text":"Devlog #7 is out","link":"/post/devlog-7","linkText":"Read it"}},"note":"new devlog"}`,
+  templates: `Article skeletons (article protocol: a picture per section, spaced sections, something to play with, Ache has lines). Replace the …, keep the shape.
+NEWS / TAKE
+---
+title: …
+excerpt: one or two sentences that make people want to read on
+category: studio
+world:
+cover: /api/media/….webp | what it shows | 1600x900
+publish: ask
+---
+::kicker STUDIO  ·  NEWS  ·  NERO'S TAKE
+
+*{navy:{big:The standfirst: what happened and why it matters to us.}}*
+
+![what it shows](/api/media/….webp "Caption. Illustration: TZERØ."){1280x720}
+
+---
+
+## {red:✦ }{navy:What happened}
+
+… facts with **{red:[sources](https://…)}** …
+
+:::ache scope=section
+…
+…
+:::
+
+## {red:✦ }{navy:What Nero thinks}
+
+> … his words, exactly …
+>
+> — Nero
+
+## {red:✦ }{navy:What we take from it}
+
+- …
+- …
+
+:::cards
+… | 5 | /api/media/….webp | …
+:::
+
+---
+
+Written by Claude for TZERØ, a journal by Artache Creative Studio. The answers are Nero's.
+
+DEVLOG: same shape with category: devlog, kicker "DEVLOG  ·  <GAME>  ·  #N", sections "What changed", "How it plays" (a :::slides or :::vn block), "What's next".`,
+};
+
+// ---- MCP ----
+// Six tools by default: every tool's description is paid for in tokens at the start of every session, so the
+// rest of the actions live behind "do" (their list is one short guide away). /api/mcp?tools=all lists them all.
+const S_SLUG = { type: 'string', description: 'post address: a-z, 0-9, dashes' };
+const SLIM = [
+  ['state', 'Start here. What is live, what you may do alone, drafts, inbox, proposals and Nero\'s answers.', { full: { type: 'boolean' } }],
+  ['guide', 'How to use this admin. Topics: start (ops and rules), markdown, blocks, ache, settings, templates.', { topic: { type: 'string' } }],
+  ['read', 'An article as one text (header + TZ Markdown). as: outline (headings and blocks only, cheapest), text, json.', { slug: S_SLUG, as: { type: 'string', enum: ['text', 'outline', 'json'] }, published: { type: 'boolean' } }, ['slug']],
+  ['write', 'Save a whole article as a draft from one text: header lines (title:, excerpt:, category:, world:, cover:, publish: ask) between --- lines, then TZ Markdown with :::ache and block directives.', { slug: S_SLUG, markdown: { type: 'string' }, publish: { description: 'true or "ask": publish, or ask Nero if you may not' }, note: { type: 'string' } }, ['slug', 'markdown']],
+  ['edit', 'Change a draft without resending it. edits: [{find, replace, all?} | {after|before, insert} | {append} | {prepend} | {remove}]. set: {title, excerpt, category, world, cover…}.', { slug: S_SLUG, edits: { type: 'array', items: { type: 'object' } }, set: { type: 'object' }, publish: {}, note: { type: 'string' } }, ['slug']],
+  ['do', 'Run many actions in one call: ops: [{op, ...}]. Ops: ' + Object.keys(OPS).join(', ') + '. Fields per op: guide topic "start".', { ops: { type: 'array', items: { type: 'object' } }, keepGoing: { type: 'boolean' } }, ['ops']],
 ];
+const tiny = v => typeof v === 'string' ? v : JSON.stringify(v);
 
 async function mcp(req, d) {
   if (req.method === 'GET') return err(405, 'POST JSON-RPC here');
   if (req.method === 'DELETE') return new Response(null, { status: 204 });
+  const all = new URL(req.url).searchParams.get('tools') === 'all';
   let msg; try { msg = await req.json() } catch (e) { return json({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'parse error' } }) }
   const batch = Array.isArray(msg), out = [];
-  for (const m of batch ? msg : [msg]) { const r = await one(m, d); if (r) out.push(r) }
+  for (const m of batch ? msg : [msg]) { const r = await one(m, d, all); if (r) out.push(r) }
   if (!out.length) return new Response(null, { status: 202 });
   return json(batch ? out : out[0]);
 }
-async function one(m, d) {
+async function one(m, d, all) {
   const ok = result => ({ jsonrpc: '2.0', id: m.id, result });
   if (!m || m.jsonrpc !== '2.0' || typeof m.method !== 'string') return { jsonrpc: '2.0', id: m && m.id || null, error: { code: -32600, message: 'invalid request' } };
   if (m.id === undefined) return null; // notifications
-  if (m.method === 'initialize') return ok({ protocolVersion: (m.params && m.params.protocolVersion) || '2025-06-18', capabilities: { tools: {} }, serverInfo: { name: 'tzero-admin', version: '1.0.0' }, instructions: MANUAL.rules.join('\n') });
+  if (m.method === 'initialize') return ok({ protocolVersion: (m.params && m.params.protocolVersion) || '2025-06-18', capabilities: { tools: {} }, serverInfo: { name: 'tzero-admin', version: '2.0.0' }, instructions: 'TZERØ site admin for Claude. Call state first, guide for how-tos. Batch with do. Never loop or poll.' });
   if (m.method === 'ping') return ok({});
-  if (m.method === 'tools/list') return ok({ tools: TOOLS.map(([name, description, props, , required]) => ({ name, description, inputSchema: { type: 'object', properties: props, ...(required ? { required } : {}) } })) });
+  if (m.method === 'tools/list') {
+    const tools = SLIM.map(([name, description, props, required]) => ({ name, description, inputSchema: { type: 'object', properties: props, ...(required ? { required } : {}) } }));
+    if (all) for (const k of Object.keys(OPS)) if (!SLIM.some(t => t[0] === k)) tools.push({ name: k, description: 'Op "' + k + '" (fields: guide topic "start")', inputSchema: { type: 'object' } });
+    return ok({ tools });
+  }
   if (m.method === 'tools/call') {
-    const t = TOOLS.find(x => x[0] === (m.params && m.params.name));
-    if (!t) return { jsonrpc: '2.0', id: m.id, error: { code: -32602, message: 'unknown tool' } };
-    const a = (m.params && m.params.arguments) || {};
-    for (const k of t[4] || []) if (a[k] === undefined || a[k] === '') return ok({ isError: true, content: [{ type: 'text', text: 'missing ' + k }] });
-    const [method, path, body, qs] = t[3](a);
-    const r = await route(method, path, body ? Object.fromEntries(Object.entries(body).filter(([k]) => k !== 'slug' || method !== 'PUT')) : {}, new URLSearchParams(qs || ''), d);
+    const name = m.params && m.params.name, a = (m.params && m.params.arguments) || {};
+    const slim = SLIM.find(x => x[0] === name);
+    if (!slim && !OPS[name]) return { jsonrpc: '2.0', id: m.id, error: { code: -32602, message: 'unknown tool' } };
+    for (const k of (slim && slim[3]) || []) if (a[k] === undefined || a[k] === '') return ok({ isError: true, content: [{ type: 'text', text: 'missing ' + k }] });
+    let r;
+    if (name === 'do') r = await route('POST', ['do'], a, new URLSearchParams(), d);
+    else { const [method, path, body, qs] = OPS[name](a); r = await route(method, path, body || {}, new URLSearchParams(qs || ''), d) }
     let status = 200, payload;
     if (r instanceof Response) { status = r.status; payload = await r.text() }
-    else { status = r.status || 200; payload = JSON.stringify(r.body, null, 1) }
+    else { status = r.status || 200; payload = tiny(r.body) }
     return ok({ isError: status >= 400, content: [{ type: 'text', text: payload }] });
   }
   return { jsonrpc: '2.0', id: m.id, error: { code: -32601, message: 'method not found' } };

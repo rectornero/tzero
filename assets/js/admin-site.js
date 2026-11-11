@@ -196,29 +196,8 @@
     for (const [k, label] of Object.entries(AREAS)) { const c = check(label, S.claude[k], S.claude[k] ? 'Claude does this alone (it is logged)' : 'Claude asks first'); boxes[k] = c.box; c.box.disabled = me.role !== 'owner'; rows.append(c) }
     box.append(el('h3', '', 'What Claude may do alone'), rows);
     if (me.role !== 'owner') box.append(el('p', 'ad-note', 'Only Nero changes these.'));
-    const props = el('div', 'sd-props'); props.append(el('p', 'ad-empty', 'Loading…'));
-    box.append(el('h3', '', 'Waiting for your answer'), props);
-    api('/api/settings/proposals').then(r => {
-      const list = r.proposals || [];
-      props.replaceChildren();
-      if (!list.length) props.append(el('p', 'ad-empty', 'Nothing is waiting'));
-      for (const p of list) {
-        const card = el('article', 'sd-prop');
-        const what = p.kind === 'publish' ? 'Publish "' + (p.payload.title || p.payload.slug) + '"' : p.kind === 'lines' ? 'New lines for Ache: ' + Object.keys(p.payload.topics).join(', ') : 'Change settings: ' + Object.keys(p.payload.patch || {}).join(', ');
-        card.append(el('b', '', what), el('small', '', when(p.at)));
-        if (p.note) card.append(el('p', '', p.note));
-        const detail = el('details'); detail.append(el('summary', '', 'See exactly what changes'), el('pre', '', JSON.stringify(p.payload, null, 2))); card.append(detail);
-        if (p.kind === 'publish') { const a = el('a', 'ad-link', 'Open the draft in the editor'); a.href = '/admin'; card.append(a) }
-        const acts = el('div', 'sd-add');
-        const answer = async action => {
-          status(action === 'approve' ? 'Approving…' : 'Declining…');
-          try { await api('/api/settings/proposals/' + p.id, { method: 'POST', body: JSON.stringify({ action }) }); card.remove(); status(action === 'approve' ? 'Approved: it is live.' : 'Declined.'); if (action === 'approve' && p.kind === 'settings') load() } catch (e) { status(e.message, true) }
-        };
-        acts.append(button('Approve', () => answer('approve')), button('Decline', () => answer('decline'), 'btn ghost'));
-        card.append(acts); props.append(card);
-      }
-      const n = $('nav').querySelector('[data-id=claude] span'); if (n) { n.textContent = list.length || ''; n.classList.toggle('ch', list.length > 0) }
-    }).catch(() => props.replaceChildren(el('p', 'ad-empty', 'Could not load')));
+    const g = el('p', 'ad-note'); g.append('What Claude asks for shows at the top of this page. Its guide: ');
+    const code = el('code', '', 'docs/ai-admin.md'); g.append(code, '.'); box.append(g);
     return () => ({ claude: Object.fromEntries(Object.entries(boxes).map(([k, b]) => [k, b.checked])) });
   }, { saveLabel: 'Save what Claude may do', ownerSave: true });
 
@@ -251,21 +230,90 @@
     box.append(ul);
   }, { noSave: true });
 
+  // What each card says while it is closed: its current state in a few words
+  const SUM = {
+    notice: () => S.notice.on ? 'On: "' + S.notice.text.slice(0, 50) + '"' : 'Off',
+    mood: () => S.mood.mode === 'on' ? 'On: ' + S.mood.slug : S.mood.mode === 'off' ? 'Off' : 'Follows the Wix tag',
+    home: () => S.home.pick.on ? 'Your pick: ' + (S.home.pick.cap || S.home.pick.href) : 'Built-in pick',
+    newsletter: () => S.newsletter.provider && S.newsletter.id ? 'Open (' + S.newsletter.provider + ')' : 'Opening soon',
+    flags: () => { const off = Object.entries(S.flags).filter(([, v]) => v === false).map(([k]) => k); return off.length ? 'Off: ' + off.join(', ') : 'Everything on' },
+    hide: () => { const n = S.hide.paths.length + S.hide.posts.length + S.hide.images.length; return n ? n + ' hidden' : 'Nothing hidden' },
+    links: () => { const n = Object.keys(S.links).length; return n === 1 ? '1 link' : n + ' links' },
+    claude: () => { const n = Object.values(S.claude).filter(Boolean).length; return (claudeKey ? '' : 'Key missing · ') + 'Does ' + n + ' of ' + (Object.keys(AREAS).length || n) + ' things alone' },
+  };
+  const open = new Set(), dirty = new Set();
+  let waiting = [];
+  addEventListener('beforeunload', e => { if (dirty.size) { e.preventDefault(); e.returnValue = '' } });
+
+  // The top card: what is live right now, and what Claude is waiting for, answered with one tap
+  function glance() {
+    const card = el('section', 'al-set sd-card sd-glance'); card.id = 'glance';
+    card.append(el('h2', '', 'Right now on the site'));
+    const chips = el('div', 'sd-chips');
+    const chip = (id, label, on) => { const a = el('a', 'sd-chip' + (on ? ' on' : ''), label); a.href = '#' + id; a.onclick = () => show(id); chips.append(a) };
+    chip('notice', S.notice.on ? 'Notice bar: on' : 'Notice bar: off', S.notice.on);
+    chip('hide', SUM.hide(), S.hide.paths.length + S.hide.posts.length + S.hide.images.length > 0);
+    chip('newsletter', 'Newsletter: ' + SUM.newsletter().toLowerCase(), Boolean(S.newsletter.id));
+    chip('mood', "Ache's news: " + SUM.mood().toLowerCase(), S.mood.mode === 'on');
+    chip('claude', claudeKey ? 'Claude: connected' : 'Claude: key missing', claudeKey);
+    card.append(chips);
+    if (waiting.length) {
+      card.append(el('h3', '', 'Claude is waiting for your answer (' + waiting.length + ')'));
+      for (const p of waiting) card.append(proposalCard(p));
+    }
+    return card;
+  }
+  function proposalCard(p) {
+    const card = el('article', 'sd-prop');
+    const what = p.kind === 'publish' ? 'Publish "' + (p.payload.title || p.payload.slug) + '"' : p.kind === 'lines' ? 'New lines for Ache: ' + Object.keys(p.payload.topics).join(', ') : 'Change settings: ' + Object.keys(p.payload.patch || {}).join(', ');
+    card.append(el('b', '', what), el('small', '', when(p.at)));
+    if (p.note) card.append(el('p', '', p.note));
+    if (p.kind === 'lines') for (const [k, t] of Object.entries(p.payload.topics)) { const ul = el('ul', 'sd-lines'); ul.append(el('li', 'k', k)); for (const l of t.lines.slice(0, 12)) ul.append(el('li', '', l.t)); card.append(ul) }
+    else { const detail = el('details'); detail.append(el('summary', '', 'See exactly what changes'), el('pre', '', JSON.stringify(p.payload, null, 2))); card.append(detail) }
+    if (p.kind === 'publish') { const a = el('a', 'ad-link', 'Read the draft in the editor first'); a.href = '/admin#' + p.payload.slug; card.append(a) }
+    const acts = el('div', 'sd-add');
+    const answer = async action => {
+      status(action === 'approve' ? 'Approving…' : 'Declining…');
+      try {
+        await api('/api/settings/proposals/' + p.id, { method: 'POST', body: JSON.stringify({ action }) });
+        status(action === 'approve' ? 'Approved: it is live.' : 'Declined.');
+        waiting = waiting.filter(x => x.id !== p.id);
+        if (action === 'approve' && p.kind === 'settings') await load(); else draw();
+      } catch (e) { status(e.message, true) }
+    };
+    acts.append(button('Approve', () => answer('approve')), button('Decline', () => answer('decline'), 'btn ghost'));
+    card.append(acts);
+    return card;
+  }
+  function show(id) { open.add(id); const d = document.getElementById(id); if (d) { d.open = true; d.scrollIntoView({ behavior: 'smooth', block: 'start' }) } }
+
   function draw() {
     const main = $('main'), nav = $('nav'), y = scrollY;
-    main.replaceChildren(); nav.replaceChildren(el('h3', '', 'Codex · Site desk'));
+    dirty.clear();
+    main.replaceChildren(glance()); nav.replaceChildren(el('h3', '', 'Codex · Site desk'));
     SECTIONS.forEach((s, i) => {
       const num = String(i + 1).padStart(2, '0');
-      const a = el('a', '', s.title); a.href = '#' + s.id; a.dataset.id = s.id; a.append(el('span', '', '')); nav.append(a);
-      const card = el('section', 'al-set sd-card'); card.id = s.id;
-      const head = el('div', 'al-sh'); head.append(el('h2', '', num + ' · ' + s.title), el('p', '', s.blurb)); card.append(head);
+      const a = el('a', '', s.title); a.href = '#' + s.id; a.dataset.id = s.id; a.onclick = () => show(s.id);
+      a.append(el('span', s.id === 'claude' && waiting.length ? 'ch' : '', s.id === 'claude' && waiting.length ? String(waiting.length) : '')); nav.append(a);
+      // Each card is closed until tapped, showing its state in a few words; cards load their lists when first opened
+      const card = el('details', 'al-set sd-card'); card.id = s.id; card.open = open.has(s.id);
+      const head = el('summary', 'al-sh'); head.append(el('h2', '', num + ' · ' + s.title), el('span', 'sd-sum', SUM[s.id] ? SUM[s.id]() : ''));
+      card.append(head, el('p', 'sd-blurb', s.blurb));
       const body = el('div', 'sd-body'); card.append(body);
-      const get = s.build(body);
-      if (!s.noSave && get && !(s.ownerSave && me.role !== 'owner')) {
-        const foot = el('div', 'sd-foot');
-        foot.append(button(s.saveLabel || 'Save and put live', () => { try { save(get(), s.title) } catch (e) { status(e.message, true) } }));
-        card.append(foot);
-      }
+      let built = false;
+      const build = () => {
+        if (built) return; built = true;
+        const get = s.build(body);
+        if (!s.noSave && get && !(s.ownerSave && me.role !== 'owner')) {
+          const foot = el('div', 'sd-foot'), note = el('span', 'sd-unsaved', '');
+          const mark = () => { dirty.add(s.id); note.textContent = 'Not saved yet'; card.classList.add('dirty') };
+          body.addEventListener('input', mark); body.addEventListener('click', e => { if (e.target.closest('button')) mark() });
+          foot.append(note, button(s.saveLabel || 'Save and put live', () => { try { save(get(), s.title) } catch (e) { status(e.message, true) } }));
+          card.append(foot);
+        }
+      };
+      if (card.open) build();
+      card.addEventListener('toggle', () => { if (card.open) { open.add(s.id); build() } else open.delete(s.id) });
       main.append(card);
     });
     scrollTo(0, y);
@@ -274,6 +322,7 @@
   async function load() {
     const r = await api('/api/settings');
     S = r.settings; FLAGS = r.flags || {}; AREAS = r.areas || {}; claudeKey = Boolean(r.claudeKey);
+    waiting = (await api('/api/settings/proposals').catch(() => ({}))).proposals || [];
     draw();
   }
   function gate(msg) { $('app').hidden = true; $('gate').hidden = false; if (msg) $('gate-msg').textContent = msg }
@@ -294,6 +343,6 @@
     document.body.classList.add('role-' + me.role);
     $('gate').hidden = true; $('app').hidden = false;
     await load();
-    if (location.hash) { const t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView() }
+    if (location.hash.length > 1) show(location.hash.slice(1));
   }).catch(() => gate('The desk\'s server is not reachable from here.'));
 })();

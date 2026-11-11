@@ -15,6 +15,11 @@
 //   … settings [patch.json] [note]        shows the site settings, or merges a change
 //   … takedown <path|post|image> <value> [note]     hides it now; "undo-takedown" brings it back
 //   … proposals | log                     what is waiting for Nero; the activity log
+//   … text <slug> [outline]               the article as one text (header + TZ Markdown), or only its headings and blocks
+//   … put <slug> <file.md> [publish]      saves that one text back (the header carries title, excerpt, world, cover…)
+//   … edit <slug> <edits.json>            small changes without resending: { edits: [{find, replace} | {after, insert} | …], set? }
+//   … do <ops.json>                       many actions in one call: { ops: [{ op, … }] }
+//   … guide [topic]                       short how-tos: start, markdown, blocks, ache, settings, templates
 // TZ_SITE picks the site (default https://artache-tzero.netlify.app). The key is TZ_CLAUDE_KEY in Netlify's settings.
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -50,6 +55,17 @@ if (cmd === 'fingerprint') {
     console.log(`\n== ${k}${published && published.lines && published.lines[k] ? ' (live)' : ' (draft)'}${t.note ? '\nNOTE: ' + t.note : ''}`);
     for (const l of t.lines) console.log(`${l.off ? '  [muted] ' : '  '}${l.t}${l.note ? '\n      note: ' + l.note : ''}`);
   }
+} else if (cmd === 'text' || cmd === 'guide') {
+  const r = await fetch(SITE + (cmd === 'guide' ? '/api/ai/guide/' + (a || 'start') : '/api/ai/posts/' + encodeURIComponent(a) + '?as=' + (b === 'outline' ? 'outline' : 'text')), { headers: { Authorization: 'Bearer ' + process.env.TZ_CLAUDE_KEY } });
+  if (!r.ok) throw new Error(r.status + ' ' + await r.text());
+  console.log(await r.text());
+} else if (cmd === 'put') {
+  console.log(JSON.stringify(await call('/api/ai/posts/' + encodeURIComponent(a), { method: 'PUT', body: JSON.stringify({ markdown: fs.readFileSync(b, 'utf8'), ...(rest[0] === 'publish' ? { publish: 'ask' } : {}) }) })));
+} else if (cmd === 'edit') {
+  console.log(JSON.stringify(await call('/api/ai/posts/' + encodeURIComponent(a) + '/edit', { method: 'POST', body: fs.readFileSync(b, 'utf8') })));
+} else if (cmd === 'do') {
+  const r = await fetch(SITE + '/api/ai/do', { method: 'POST', headers: { Authorization: 'Bearer ' + process.env.TZ_CLAUDE_KEY, 'Content-Type': 'application/json' }, body: fs.readFileSync(a, 'utf8') });
+  console.log(JSON.stringify(await r.json(), null, 1));
 } else if (cmd === 'state') {
   console.log(JSON.stringify(await call('/api/ai/state'), null, 1));
 } else if (cmd === 'read') {
@@ -82,6 +98,6 @@ if (cmd === 'fingerprint') {
 } else if (cmd === 'log') {
   for (const l of (await call('/api/ai/log')).log) console.log(l.at + '  ' + l.by + ' ' + l.action + ': ' + l.what);
 } else {
-  console.log('AI desk: state | read <slug> | write <slug> <file.md> [title] [key=value] | check <slug> | parts <slug> | ache <slug> <index|heading> <line>… | publish <slug> | settings [patch.json] | takedown <path|post|image> <value> [note] | undo-takedown … | proposals | log');
+  console.log('AI desk: guide [topic] | text <slug> [outline] | put <slug> <file.md> [publish] | edit <slug> <edits.json> | do <ops.json> | state | read <slug> | write <slug> <file.md> [title] [key=value] | check <slug> | parts <slug> | ache <slug> <index|heading> <line>… | publish <slug> | settings [patch.json] | takedown <path|post|image> <value> [note] | undo-takedown … | proposals | log');
   console.log('Commands: inbox | lines | draft <post.json> [slug] | done <inbox-id> <slug> [note] | fingerprint <scene.html>');
 }

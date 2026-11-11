@@ -26,6 +26,48 @@ JSON, `GET /api/ai/markdown` the article format.
   permissions.
 - Every change is written to the activity log with who did it.
 
+## Spend few calls and few tokens
+
+The door is built so a whole job takes one or two calls:
+
+| Job | Cheapest way |
+| --- | --- |
+| See what is going on | `state` (short by default; `full` for everything) |
+| Learn the formats | `guide <topic>`: `start`, `markdown`, `blocks`, `ache`, `settings`, `templates` (read only what you need) |
+| New article | one `write` with the whole article as one text and `publish: ask` in its header |
+| Small change | one `edit`: `{find, replace}`, `{after, insert}`, `{append}`, `{prepend}`, `{remove}`; the article is not resent |
+| Look before editing | `read` as `outline` (headings and blocks only) |
+| Several things at once | one `do` with `ops: [...]` (up to 40; stops at the first error) |
+
+The MCP door lists six tools (`state`, `guide`, `read`, `write`, `edit`, `do`) because every tool description is
+paid for at the start of every session; all other actions are ops inside `do`. `/api/mcp?tools=all` lists every op
+as its own tool.
+
+One text for a whole article:
+
+```
+---
+title: The title
+excerpt: One or two sentences.
+category: devlog
+world: starchasers
+cover: /api/media/abc.webp | what it shows | 1600x900
+publish: ask
+---
+::kicker DEVLOG · STARCHASERS · #7
+
+## What changed
+
+Text…
+
+:::ache scope=section
+a line Ache says in this section
+:::
+```
+
+Every no-code block has a text form too (`guide blocks`): `:::cards`, `:::compare`, `:::slides`, `:::hotspots`,
+`:::vn` (mini visual novel), `:::gallery`, and `:::achenote` for Ache's critic note on top of the article.
+
 ## Start of a session
 
 ```
@@ -124,6 +166,6 @@ only) and the Weary Reach maps.
 ## Testing without a deploy
 
 ```
-node tools/tests/admin-api.test.mjs      # 64 server checks, Blobs faked in memory
+node tools/tests/admin-api.test.mjs      # 86 server checks, Blobs faked in memory
 node tools/tests/dev-server.mjs          # the whole site + functions on http://localhost:8787, signed in as Nero
 ```

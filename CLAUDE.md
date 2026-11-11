@@ -41,7 +41,8 @@ burned almost a whole month.
   there over a deploy. Takedowns hide in the browser at once; a repo file is only gone after the next deploy.
 - The AI desk (Nero, 2026-11-11): Claude's own door to the admin, `/api/ai/...` and the MCP endpoint `/api/mcp`
   (`netlify/functions/ai.mjs`, guide in `docs/ai-admin.md`, CLI `tools/editor-api.mjs`), with `TZ_CLAUDE_KEY`.
-  Articles travel as TZ Markdown. Claude saves drafts; what Nero has not switched on in `/admin/site` → Claude
+  Articles travel as TZ Markdown, one text per article. Spend few calls: `guide` for how-tos, one `write` per
+  article, `edit` for small changes, `do` for batches. Claude saves drafts; what Nero has not switched on in `/admin/site` → Claude
   (publishing, settings areas, Ache's script book) becomes a proposal he approves there. Takedowns are on for Claude
   from the start. Never call it on a schedule or in a loop. Estimated well under 1 credit a month.
 - Ache's lines for parts of an article: the "✦ Ache's lines" button in `/admin`, or `:::ache` in TZ Markdown / the
