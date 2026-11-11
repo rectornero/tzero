@@ -127,7 +127,9 @@
     });
   }
   if (isPost) {
-    const wait = setInterval(() => { if (document.querySelector('.post-sheet .post-body')) { clearInterval(wait); buildDock(); nextStop() } }, 300);
+    // the drop cap goes on the first real paragraph, never on a kicker line or a one-liner
+    const dropCap = () => { const p = [...document.querySelectorAll('.post-sheet .post-body > p')].find(p => p.textContent.trim().length > 160 && /^[A-Za-zÀ-ÿ“"']/.test(p.textContent.trim())); if (p) p.classList.add('dropcap') };
+    const wait = setInterval(() => { if (document.querySelector('.post-sheet .post-body')) { clearInterval(wait); buildDock(); nextStop(); dropCap() } }, 300);
     setTimeout(() => clearInterval(wait), 20000);
   }
 
