@@ -1,7 +1,8 @@
 /* "Letters from the shore": the newsletter signup band above the footer on every page.
-   The form posts straight to the newsletter service (no Netlify function, no feed). Set LETTERS once the account exists. */
-(()=>{
-const LETTERS={provider:'',id:''}; // provider: 'kit' (form id), 'buttondown' (username) or 'mailerlite' (account/form ids as "123/456")
+   The form posts straight to the newsletter service (no Netlify function, no feed). The service and its form id
+   come from /admin/site → Newsletter (window.TZSITE), so opening sign-ups needs no deploy; LETTERS is the fallback. */
+(()=>{(window.TZSITE||Promise.resolve({})).then(SITE=>{
+const LETTERS=(SITE&&SITE.newsletter)||{provider:'',id:''}; // provider: 'kit' (form id), 'buttondown' (username) or 'mailerlite' (account/form ids as "123/456")
 const ENDPOINT={
   kit:id=>['https://app.kit.com/forms/'+id+'/subscriptions','email_address'],
   buttondown:id=>['https://buttondown.com/api/emails/embed-subscribe/'+id,'email'],
@@ -38,4 +39,4 @@ sink.addEventListener('load',()=>{if(!sent)return;sent=false;sec.classList.remov
   btn.querySelector('span').textContent='On its way';say('Almost there: check your inbox and confirm, so we know it is really you.','ok');
   try{localStorage.setItem('tz-letters','1')}catch(e){}});
 try{if(localStorage.getItem('tz-letters')){sec.classList.add('done');say('You are on the list. Thanks for reading!','ok')}}catch(e){}
-})();
+})})();

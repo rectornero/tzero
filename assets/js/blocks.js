@@ -204,7 +204,48 @@ window.TZBLOCKS = (() => {
     return box;
   }
 
-  const KINDS = { vn, hotspots, compare, cards, slides };
+  /* Ache's lines for a part of the article: { lines: [text], set, scope: 'part' | 'section', show: 'hidden' | 'bubble' }.
+     The marker sits right under the part it belongs to. Ache walks to that part (scene.js follows [data-say]) and
+     says one of the lines; "section" covers everything back to the last heading. set uses a set from his script
+     book instead. With show "bubble" readers also see a small note they can tap for the next line. */
+  let acheN = 0;
+  function ache(d) {
+    const lines = (Array.isArray(d.lines) ? d.lines : []).map(l => str(l, 300).trim()).filter(Boolean).slice(0, 30);
+    const set = /^[a-z0-9][a-z0-9-]{0,59}$/.test(d.set || '') ? d.set : '';
+    if (!lines.length && !set) return null;
+    const key = set || 'part-' + (++acheN) + '-' + Math.random().toString(36).slice(2, 7);
+    if (!set && window.TZ && TZ.addLines) TZ.addLines(key, lines);
+    const bubble = d.show === 'bubble' && lines.length;
+    const box = el('aside', 'tzb tzb-ache' + (bubble ? '' : ' quiet'));
+    box.setAttribute('aria-label', 'Ache says');
+    const face = el('span', 'ache-star'); face.setAttribute('aria-hidden', 'true');
+    const who = el('b', '', 'Ache'), line = el('p', 'ache-line', lines[0] || 'Lines from the set "' + set + '"');
+    const more = el('small', 'ache-more', (d.scope === 'section' ? 'for this section' : 'for the part above') + (lines.length > 1 ? ' · ' + lines.length + ' lines' : ''));
+    box.append(face, who, line, more);
+    if (bubble && lines.length > 1) {
+      let k = 0;
+      box.tabIndex = 0; box.setAttribute('role', 'button'); box.title = 'Tap for another line';
+      const next = () => { k = (k + 1) % lines.length; line.textContent = lines[k]; box.classList.remove('pop'); void box.offsetWidth; box.classList.add('pop') };
+      box.addEventListener('click', next);
+      box.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); next() } });
+    }
+    // Once the article is built, tag the part(s) above so Ache finds them
+    const tag = () => {
+      let p = box.previousElementSibling, first = true;
+      while (p) {
+        if (p.classList.contains('tzb-ache')) { p = p.previousElementSibling; continue }
+        const head = /^H[1-6]$/.test(p.tagName);
+        if (first || d.scope === 'section') { p.dataset.say = key; first = false }
+        if (d.scope !== 'section' || head) break;
+        p = p.previousElementSibling;
+      }
+      if (bubble) box.dataset.say = key;
+    };
+    (window.queueMicrotask || setTimeout)(tag);
+    return box;
+  }
+
+  const KINDS = { vn, hotspots, compare, cards, slides, ache };
   return {
     KINDS: Object.keys(KINDS),
     render(blockData) {

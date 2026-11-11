@@ -17,7 +17,7 @@ import { JSDOM } from 'jsdom';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const LIVE = new Set(['986847d2-3b96-464b-8b8b-338e07845d9c', 'de8055a9-ce06-426e-a47f-d860d026981f']); // Devlog, Studio
-const KEEP = ['own', 'live', 'ache', 'id', 'title', 'excerpt', 'firstPublishedDate', 'lastPublishedDate', 'url', 'slug', 'categoryIds', 'tagIds', 'memberId', 'minutesToRead', 'media', 'richContent'];
+const KEEP = ['own', 'live', 'ache', 'world', 'id', 'title', 'excerpt', 'firstPublishedDate', 'lastPublishedDate', 'url', 'slug', 'categoryIds', 'tagIds', 'memberId', 'minutesToRead', 'media', 'richContent'];
 const SITE = 'https://tzero.live';
 
 const args = process.argv.slice(2);
@@ -98,6 +98,8 @@ function seo(post) {
   return { title: title ? title.children : post.title, desc: desc ? desc.props.content : (post.excerpt || '') };
 }
 
+// The game world the page wears (assets/worlds.json): the post's own "world", else the archive for old issues
+const world = post => /^[a-z0-9-]{1,40}$/.test(post.world || '') ? post.world : !post.own && (post.categoryIds || []).includes('6fecd53b-e26c-46ca-a508-d8b36cda3c3b') ? 'archive' : '';
 const frozen = [];
 for (const post of posts) {
   if (!post.own && (post.categoryIds || []).some(id => LIVE.has(id))) continue;
@@ -106,7 +108,7 @@ for (const post of posts) {
   const ld = { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.title, datePublished: post.firstPublishedDate, dateModified: post.lastPublishedDate, author: { '@type': 'Person', name: author }, publisher: { '@type': 'Organization', name: 'Artache Creative Studio' }, mainEntityOfPage: url, articleSection: cat.label };
   if (cover) ld.image = cover.url;
   let page = template
-    .replace('<html lang="en">', '<html lang="en" data-frozen' + (post.live ? ' data-live' : '') + '>')
+    .replace('<html lang="en">', '<html lang="en" data-frozen' + (post.live ? ' data-live' : '') + (world(post) ? ' data-world="' + esc(world(post)) + '"' : '') + '>')
     .replace(/<title>[^<]*<\/title>/, '<title>' + esc(post.title) + ' · TZERØ</title>')
     .replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="' + esc(meta.desc) + '">\n<link rel="canonical" href="' + esc(url) + '">\n<meta property="og:type" content="article">\n<meta property="og:title" content="' + esc(meta.title) + '">\n<meta property="og:description" content="' + esc(meta.desc) + '">\n<meta property="og:url" content="' + esc(url) + '">' + (cover ? '\n<meta property="og:image" content="' + esc(cover.url) + '">' : '') + '\n<script type="application/ld+json">' + JSON.stringify(ld).replace(/</g, '\\u003c') + '</script>')
     .replace(/<article id="article" class="post" aria-busy="true">[\s\S]*?<\/article>/, '<article id="article" class="post">' + html + '</article>');
@@ -120,7 +122,7 @@ for (const post of posts) {
 const rendered = frozen.length;
 
 // The own posts' cards, newest first: read by the Latest shelf and the listings
-const CARD = ['own', 'id', 'title', 'excerpt', 'firstPublishedDate', 'slug', 'categoryIds', 'tagIds', 'memberId', 'media'];
+const CARD = ['own', 'world', 'id', 'title', 'excerpt', 'firstPublishedDate', 'slug', 'categoryIds', 'tagIds', 'memberId', 'media'];
 const index = own.map(p => { const c = {}; for (const k of CARD) if (k in p) c[k] = p[k]; return c })
   .sort((a, b) => (b.firstPublishedDate || '').localeCompare(a.firstPublishedDate || ''));
 fs.writeFileSync(path.join(ROOT, 'post-data/index.json'), JSON.stringify(index));
@@ -138,3 +140,5 @@ const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.s
   + '\n</urlset>\n';
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), xml);
 console.log('rendered', rendered, 'posts (' + own.length + ' own); sitemap lists', frozen.length);
+// The search palette reads a small index of the saved posts
+await import("./build-search.mjs");

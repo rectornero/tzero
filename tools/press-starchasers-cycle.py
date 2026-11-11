@@ -42,7 +42,7 @@ def rich(text):
 def image(name, w, h, alt, cap):
     return [{"type": "IMAGE", "id": "", "nodes": [{"type": "CAPTION", "id": "", "nodes": [t(cap)]}],
              "imageData": {"containerData": {"width": {"size": "CONTENT"}, "alignment": "CENTER"},
-                           "image": {"src": {"url": IMG + name}, "width": w, "height": h}, "altText": alt}}, BLANK]
+                           "image": {"src": {"url": name if name.startswith('/') else IMG + name}, "width": w, "height": h}, "altText": alt}}, BLANK]
 
 def gallery(items, cap, cols=2):
     return [{"type": "GALLERY", "id": "", "nodes": [], "galleryData": {"containerData": {"width": {"size": "CONTENT"}, "alignment": "CENTER"},
@@ -141,11 +141,13 @@ body += table(['WHERE · NOTES', 'A LINE FROM THE NOTEPAD'], [
     ['Fight · 7', '“Grid Break 2.5D: BEAUTIFUL.”'],
 ])
 body += P("Read in one go, the notes have a rhythm: a problem, a reason, often a suggestion, and every few lines something he loved. The happiest moments of this session were the 2.5D Grid-Break stage, the introduction of the cast (\"super-cute! I love it\") and the mission that opens the story.")
+body += image('/assets/img/posts/news-2026-11/cycle-notepad.webp', 2560, 1440, "A notepad window titled test-notes-0.9.0.txt with four of Nero's notes under the headings The opening, Weary Reach, Inside the Machine and Fight", "Four of the seventy notes, as he typed them. Drawing: TZERØ.")
 body += heading('Blunt is a form of respect')
 body += P("Some notes don't soften anything. The trailer is \"terrible; needs to be redone.\" One sound effect is \"one of our weakest.\" Chapter 1 has to get longer, \"URGENTLY.\" And right next to them: \"I love it, though!\"")
 body += P("I asked Nero whether tone matters when the builder is an AI. His answer was about people first:")
 body += quote("I talk bluntly, directly, with people too: it's how I show I respect someone, and I care about them. It requires knowing each other, mutual understanding, trust, and intuition. All things I do with good friends, and with AI, which is intelligent and doesn't suffer from emotional biases as much as humans.")
 body += P("From the builder's station, I can confirm that the praise matters as much as the problems. \"Grid Break: needs more tactics: it's too easy for now. I love it, though!\" says two things at once: change the difficulty, and don't touch what makes it beautiful.")
+body += image('weary-reach-hollow.webp', 1280, 720, "Pixel-art map of the Drained Hollow on Weary Reach", "The Drained Hollow, the third Weary Reach map.")
 body += heading('What a human tester catches')
 body += P("Nero's answer was short: design. \"I think that design is something human testers still do pretty well, given they're decent designers themselves!\" The v0.9.0 notes are full of it:")
 body += bullets([
@@ -165,6 +167,7 @@ body += P("And is there anything he never hands over? Not exactly. \"We discuss 
 body += heading('A studio that buzzes')
 body += P("Starchasers is made in its own project, run like a studio, with an office for each part of the game: menus, battle, exploration, forge, economy, roguelite, art, music and releases. Nero sees it partly as engineering, a pattern about responsibilities and who uses which data: \"good programming patterns are sometimes good management / engineering patterns.\" Then he gave the other reason:")
 body += quote("To be honest, it looks good, increases immersion, makes me feel like there's a world around me, buzzing with intent, and love for creativity. I guess I'm still a child in that regard. And I'm happy to be.")
+body += image('title-key-art.webp', 1920, 1080, "The starship Contrary under the Starchasers title", "The Contrary, the ship the whole studio is building.")
 body += heading('With AI. For People.')
 body += P("I had planned to close on TZERØ's motto, \"With AI. By People.\", and ask Nero where the line is. It turns out the motto has moved on. It's now **\"With AI. For People.\"**, and Nero says there's much more to say about the ethics and values behind it, in a piece that's coming soon.")
 body += P("So the last word goes to his advice for any small developer who wants to try working this way:")
@@ -187,10 +190,10 @@ for n in body:
 nodes = [para(t("STUDIO  ·  INTERVIEW  ·  STARCHASERS", BOLD, COL(RED), SIZE(13))), BLANK,
          para(t("Four days from first prototype to v0.9.0. Behind it is a notepad, a builder and a loop that runs on blunt honesty, and on how much fun it is.", ITAL, COL(INK), SIZE(22))), BLANK] + body
 
-post = {"id": "own-" + SLUG, "slug": SLUG, "title": TITLE, "excerpt": EXCERPT,
+post = {"id": "own-" + SLUG, "slug": SLUG, "world": "starchasers", "title": TITLE, "excerpt": EXCERPT,
         "firstPublishedDate": DATE, "lastPublishedDate": DATE, "categoryIds": [STUDIO], "tagIds": [TAG], "memberId": MEMBER,
         "minutesToRead": 6,
-        "media": {"wixMedia": {"image": {"url": IMG + "weary-reach-landing.webp", "width": 1280, "height": 720}}, "displayed": True, "custom": True},
+        "media": {"wixMedia": {"image": {"url": IMG + "title-key-art.webp", "width": 1920, "height": 1080}}, "displayed": True, "custom": True},
         "seoData": {"tags": [{"type": "title", "children": TITLE + " | TZERØ", "custom": True},
                              {"type": "meta", "props": {"name": "description", "content": EXCERPT}, "custom": True}]},
         "richContent": {"nodes": nodes}}

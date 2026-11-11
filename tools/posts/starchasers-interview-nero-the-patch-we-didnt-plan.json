@@ -1,6 +1,7 @@
 {
  "id": "own-starchasers-interview-nero-the-patch-we-didnt-plan",
  "slug": "starchasers-interview-nero-the-patch-we-didnt-plan",
+ "world": "starchasers",
  "title": "The patch we didn't plan: Nero on the road to 1.0",
  "excerpt": "A new cast, a new character screen, Parallels, Ascended Forms, a black cat and a new Dimwick: the biggest patch before 1.0 was never on the plan. Nero on why it happened now, and why it made the game stronger.",
  "firstPublishedDate": "2026-11-11T12:00:00Z",
@@ -380,6 +381,49 @@
     ],
     "blockquoteData": {
      "indentation": 1
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "The Contrary, on the road to 1.0.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/starchasers/title-key-art.webp"
+      },
+      "width": 1920,
+      "height": 1080
+     },
+     "altText": "The starship Contrary under the Starchasers title"
     }
    },
    {
@@ -1382,6 +1426,49 @@
      }
     ],
     "paragraphData": {}
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "IMAGE",
+    "id": "",
+    "nodes": [
+     {
+      "type": "CAPTION",
+      "id": "",
+      "nodes": [
+       {
+        "type": "TEXT",
+        "id": "",
+        "nodes": [],
+        "textData": {
+         "text": "Weary Reach, the planet Dimwick sits on: the Drained Hollow.",
+         "decorations": []
+        }
+       }
+      ]
+     }
+    ],
+    "imageData": {
+     "containerData": {
+      "width": {
+       "size": "CONTENT"
+      },
+      "alignment": "CENTER"
+     },
+     "image": {
+      "src": {
+       "url": "/assets/img/starchasers/weary-reach-hollow.webp"
+      },
+      "width": 1280,
+      "height": 720
+     },
+     "altText": "Pixel-art map of the Drained Hollow on Weary Reach"
+    }
    },
    {
     "type": "PARAGRAPH",
