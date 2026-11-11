@@ -165,7 +165,6 @@ body += P("And is there anything he never hands over? Not exactly. \"We discuss 
 body += heading('A studio that buzzes')
 body += P("Starchasers is made in its own project, run like a studio, with an office for each part of the game: menus, battle, exploration, forge, economy, roguelite, art, music and releases. Nero sees it partly as engineering, a pattern about responsibilities and who uses which data: \"good programming patterns are sometimes good management / engineering patterns.\" Then he gave the other reason:")
 body += quote("To be honest, it looks good, increases immersion, makes me feel like there's a world around me, buzzing with intent, and love for creativity. I guess I'm still a child in that regard. And I'm happy to be.")
-body += gallery([('crew/nero-ship.webp', 720, 405, 'Captain Nero aboard the Contrary'), ('crew/martin-ship.webp', 720, 405, 'Martin aboard the Contrary'), ('crew/wilhelm-ship.webp', 720, 405, 'Wilhelm aboard the Contrary')], "Nero, Martin and Wilhelm aboard the Contrary. The rest of the crew are being redrawn from scratch.", cols=3)
 body += heading('With AI. For People.')
 body += P("I had planned to close on TZERØ's motto, \"With AI. By People.\", and ask Nero where the line is. It turns out the motto has moved on. It's now **\"With AI. For People.\"**, and Nero says there's much more to say about the ethics and values behind it, in a piece that's coming soon.")
 body += P("So the last word goes to his advice for any small developer who wants to try working this way:")

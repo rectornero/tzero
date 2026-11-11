@@ -934,49 +934,6 @@
     "paragraphData": {}
    },
    {
-    "type": "IMAGE",
-    "id": "",
-    "nodes": [
-     {
-      "type": "CAPTION",
-      "id": "",
-      "nodes": [
-       {
-        "type": "TEXT",
-        "id": "",
-        "nodes": [],
-        "textData": {
-         "text": "Captain Nero in Contrary Quest: Starchasers. Lazy, by his own admission. Obsessed with quality, also by his own admission. Art: Starchasers art team.",
-         "decorations": []
-        }
-       }
-      ]
-     }
-    ],
-    "imageData": {
-     "containerData": {
-      "width": {
-       "size": "CONTENT"
-      },
-      "alignment": "CENTER"
-     },
-     "image": {
-      "src": {
-       "url": "/assets/img/starchasers/crew/nero-out.webp"
-      },
-      "width": 720,
-      "height": 405
-     },
-     "altText": "Captain Nero, a pixel-art character, out exploring"
-    }
-   },
-   {
-    "type": "PARAGRAPH",
-    "id": "",
-    "nodes": [],
-    "paragraphData": {}
-   },
-   {
     "type": "DIVIDER",
     "id": "",
     "nodes": [],
@@ -1038,7 +995,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art. Starchasers art: Starchasers art team, AI-generated under Nero's art direction, used as given. Steam is a trademark of Valve.",
+       "text": "Illustrations and scenes: drawn in code for TZERØ, no third-party art. Steam is a trademark of Valve.",
        "decorations": [
         {
          "type": "COLOR",
