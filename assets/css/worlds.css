@@ -319,3 +319,27 @@ a.dep-row:hover,a.dep-row:focus-visible{background:rgba(255,255,255,.07);transfo
 .tz-toast{position:fixed;left:50%;bottom:90px;z-index:75;transform:translate(-50%,20px);opacity:0;background:#13224b;color:#fff;font:13px "Geist Mono",monospace;padding:10px 16px;border-radius:99px;pointer-events:none;transition:opacity .25s,transform .3s cubic-bezier(.3,1.5,.5,1);max-width:calc(100vw - 32px);text-align:center}
 .tz-toast.on{opacity:1;transform:translate(-50%,0)}
 @media (max-width:640px){.world-chip .wc-name{display:none}.world-chip{padding:7px}.hud{gap:2px}}
+
+/* ---------- hero: travel pills ---------- */
+.hero-worlds{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px;font:12px var(--mono)}
+.hero-worlds>span{margin-right:4px;color:var(--soft);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+.hw-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 5px;border-radius:99px;background:rgba(255,253,246,.72);border:1px solid color-mix(in srgb,var(--wc) 45%,transparent);color:var(--ink);transition:transform .25s cubic-bezier(.3,1.6,.5,1),background .25s}
+.hw-pill i{font-style:normal;font-weight:600;font-size:10.5px;padding:3px 6px;border-radius:99px;background:var(--wc);color:#fff;letter-spacing:.06em}
+.hw-pill:hover,.hw-pill:focus-visible{transform:translateY(-3px) scale(1.04);background:#fff}
+:root[data-dark] .hero-worlds>span{color:var(--page-soft)}
+@media (max-width:640px){.hero-worlds{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:2px 16px 6px}.hw-pill{flex:none}}
+
+/* ---------- next stop ---------- */
+.next-stop{display:flex;flex-direction:column;gap:6px;max-width:70ch;margin:44px auto 0;padding:22px 24px;border-radius:14px;background:var(--wc,#13224b);color:#fff;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.next-stop::before{content:"";position:absolute;inset:auto -20% -60% auto;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,var(--wg,#d7182a),transparent 70%);opacity:.35}
+.next-stop:hover{transform:translateY(-3px)}
+.ns-kick{font:500 11px "Geist Mono",monospace;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.next-stop b{font:700 22px var(--display);line-height:1.2}
+.ns-sub{opacity:.85;font-size:15px}
+.ns-go{font:500 13px "Geist Mono",monospace;color:var(--wg,#ffd27a);margin-top:4px}
+.next-stop[data-world=starchasers]{--wc:#2a2163;--wg:#ffd27a}.next-stop[data-world=liminal-outliers]{--wc:#2f5f66;--wg:#8cc63f}
+.next-stop[data-world=deadend]{--wc:#2b2036;--wg:#ffb347}.next-stop[data-world=overgame]{--wc:#2a0d14;--wg:#ff3b4e}
+.next-stop[data-world=ai-ice]{--wc:#0f2a48;--wg:#ffcf9a}.next-stop[data-world=archive]{--wc:#5a3a20;--wg:#e0a86a}
+:root[data-dark] .hero-links a{background:rgba(255,255,255,.08)}
+:root[data-dark] .hw-pill{background:rgba(255,255,255,.08);color:var(--page-ink)}
+:root[data-dark] .hw-pill:hover{background:rgba(255,255,255,.16)}

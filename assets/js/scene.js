@@ -30,6 +30,10 @@ addEventListener('pointermove',e=>{
   if(false){trailD=0;wake.push({x:e.clientX*dpr,y:e.clientY*dpr,r:4*dpr,a:.5})}
 });
 document.addEventListener('pointerleave',()=>{mx=-1;lastX=null});
+/* phones: tilting the device moves the light and the scenery like a cursor would (no permission needed on Android;
+   iOS asks once, on the first tap, and only if the reader allows it) */
+let tiltOn=false;function tilt(e){if(e.gamma==null)return;tiltOn=true;const r=c.getBoundingClientRect();mx=(r.width/2+Math.max(-1,Math.min(1,e.gamma/30))*r.width/2)*dpr;my=(Math.min(r.height,innerHeight)*.4+Math.max(-1,Math.min(1,(e.beta-45)/30))*Math.min(r.height,innerHeight)*.35)*dpr;energy=Math.min(1,energy+.03)}
+if(matchMedia('(pointer:coarse)').matches&&window.DeviceOrientationEvent){if(typeof DeviceOrientationEvent.requestPermission==='function')addEventListener('click',function ask(){removeEventListener('click',ask);DeviceOrientationEvent.requestPermission().then(s=>{if(s==='granted')addEventListener('deviceorientation',tilt)}).catch(()=>{})},{once:true});else addEventListener('deviceorientation',tilt)}
 
 /* click anywhere (except links and buttons): splash in summer, leaf burst in autumn, frost crystal in winter, blossom in spring */
 const drops=[],rings=[],flyers=[],frost=[],blooms=[];

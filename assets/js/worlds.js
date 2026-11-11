@@ -230,6 +230,15 @@ window.TZW = (() => {
     if (!OWN) enter(root.dataset.world || '');
     else if (root.dataset.world) paint(root.dataset.world);
     const dep = document.getElementById('departures-board'); if (dep) departures(dep);
+    // Hero: one pill per world; hovering tries the world on the whole homepage, tapping travels
+    const hw = document.getElementById('hero-worlds');
+    if (hw) Object.keys(REG).filter(k => k !== 'tzero' && !REG[k].hidden).forEach(k => {
+      const a = el('a', 'hw-pill'); a.href = REG[k].home || '/posts/worlds/' + k; a.dataset.w = k;
+      a.append(el('i', '', REG[k].code), document.createTextNode(REG[k].name));
+      a.addEventListener('pointerenter', () => preview(k)); a.addEventListener('focus', () => preview(k));
+      a.addEventListener('pointerleave', unpreview); a.addEventListener('blur', unpreview);
+      hw.append(a);
+    });
   });
 
   return { ready, of, info, enter, preview, unpreview, decorate, strip, departures, stamps, get list() { return REG } };

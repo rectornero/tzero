@@ -112,8 +112,22 @@
     const f = dock.querySelector('[data-k=focus]'); if (f) f.setAttribute('aria-pressed', root.hasAttribute('data-focus'));
     const m = dock.querySelector('[data-k=mark]'); if (m) m.setAttribute('aria-pressed', marks().some(x => x.slug === here().slug));
   }
+  // Next stop: at the end of an article, the next one in the same world (older first, like the next station down the line)
+  function nextStop() {
+    const foot = document.querySelector('.post-sheet .post-foot'); if (!foot || document.querySelector('.next-stop')) return;
+    const slug = here().slug, w = root.dataset.world || '';
+    load().then(rows => {
+      const same = rows.filter(r => (r.w || '') === w);
+      const i = same.findIndex(r => r.s === slug);
+      const pick = (i >= 0 && same[i + 1]) || same.find(r => r.s !== slug) || rows.find(r => r.s !== slug);
+      if (!pick) return;
+      const a = el('a', 'next-stop'); a.href = '/post/' + pick.s; if (w) a.dataset.world = w;
+      a.append(el('span', 'ns-kick', w ? 'Next stop in ' + WNAME(w) : 'Next stop'), el('b', '', pick.t), el('span', 'ns-sub', (pick.e || '').split(/(?<=[.!?])\s/)[0]), el('span', 'ns-go', 'Keep travelling →'));
+      foot.before(a);
+    });
+  }
   if (isPost) {
-    const wait = setInterval(() => { if (document.querySelector('.post-sheet .post-body')) { clearInterval(wait); buildDock() } }, 300);
+    const wait = setInterval(() => { if (document.querySelector('.post-sheet .post-body')) { clearInterval(wait); buildDock(); nextStop() } }, 300);
     setTimeout(() => clearInterval(wait), 20000);
   }
 
