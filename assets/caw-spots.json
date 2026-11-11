@@ -42,34 +42,6 @@
   "hint": "On the Studio shelf. Of course his office is in the business section."
  },
  {
-  "id": "door-nero",
-  "item": "nero",
-  "door": 1,
-  "name": "Nero",
-  "color": "#3f8a3a",
-  "path": "/post/contrary-quest-devlog-1",
-  "anchor": "#article",
-  "style": {
-   "top": "-30px",
-   "right": "2%"
-  },
-  "hint": "In the very first ContraryQuest devlog, in the Archive. Behind a door he hopes you won't open."
- },
- {
-  "id": "door-agata",
-  "item": "agata",
-  "door": 1,
-  "name": "Agata",
-  "color": "#3f8a3a",
-  "path": "/studio",
-  "anchor": "#make",
-  "style": {
-   "top": "-30px",
-   "right": "3%"
-  },
-  "hint": "On the studio page, where things get made. Follow the smell of lunch."
- },
- {
   "id": "door-prima",
   "item": "prima",
   "door": 1,
@@ -205,32 +177,6 @@
   },
   "hint": "On the front page, where the sea meets the shore. Press the buzzer.",
   "say": "Found Brass intercom! A keepsake for your shelf. See them on /characters."
- },
- {
-  "id": "k-clover-1",
-  "item": "k-clover",
-  "path": "/post/contrary-quest-devlog-1",
-  "anchor": ".post-foot",
-  "img": "/assets/img/caw/token/k-clover.png",
-  "style": {
-   "top": "-14px",
-   "right": "4%"
-  },
-  "hint": "At the end of the first ContraryQuest devlog.",
-  "say": "Found Four-leaf clover charm! A keepsake for your shelf. See them on /characters."
- },
- {
-  "id": "k-pin-1",
-  "item": "k-pin",
-  "path": "/studio",
-  "anchor": ".toolbox",
-  "img": "/assets/img/caw/token/k-pin.png",
-  "style": {
-   "top": "-14px",
-   "right": "4%"
-  },
-  "hint": "In the studio's toolbox.",
-  "say": "Found Wooden hairpin! A keepsake for your shelf. See them on /characters."
  },
  {
   "id": "k-bow-1",

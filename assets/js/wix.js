@@ -13,6 +13,9 @@ window.WIX = (() => {
     '38ba494c-02f6-400e-9e2d-5cb850448e7a': 'Nero',
     '1c53b988-3af9-4c8b-b6d4-0db133c2b09c': 'Claude',
   };
+  // Wix posts kept off this site for now (Nero, 11 Nov 2026: Contrary Quest is hidden until its characters are redrawn)
+  const HIDDEN = new Set(['contrary-quest-devlog-1']);
+  const shown = p => !HIDDEN.has(p.slug);
   // Posts that have their own critter lines in lines.json
   const LINE_KEYS = {
     'pokemon-unite-doesnt-have-to-die': 'unite',
@@ -101,7 +104,7 @@ window.WIX = (() => {
     // Own posts and the newest TZERØ-tagged posts on Wix, merged by date
     async latest(n = 3) {
       const [mine, wix] = await Promise.allSettled([own(), get('/blog/v3/posts?tagIds=' + TAG_TZERO + '&paging.limit=' + n + '&fieldsets=URL')]);
-      const posts = (mine.value || []).filter(p => (p.tagIds || []).includes(TAG_TZERO)).concat(wix.status === 'fulfilled' ? wix.value.posts || [] : []);
+      const posts = (mine.value || []).filter(p => (p.tagIds || []).includes(TAG_TZERO)).concat(wix.status === 'fulfilled' ? (wix.value.posts || []).filter(shown) : []);
       if (!posts.length && wix.status === 'rejected') throw wix.reason;
       return posts.sort(byDate).slice(0, n);
     },
@@ -130,7 +133,7 @@ window.WIX = (() => {
       if (tag) q += '&tagIds=' + tag;
       let j;
       try { j = await get(q) } catch (e) { if (offset || !mine.length) throw e; j = {} }
-      return { posts: (offset ? [] : mine).concat(j.posts || []), total: mine.length + ((j.metaData && j.metaData.total) || 0) };
+      return { posts: (offset ? [] : mine).concat((j.posts || []).filter(shown)), total: mine.length + ((j.metaData && j.metaData.total) || 0) };
     },
     async categoryBySlug(slug) {
       for (const id in CATEGORIES) if (CATEGORIES[id].key === slug) return { id, label: CATEGORIES[id].label };

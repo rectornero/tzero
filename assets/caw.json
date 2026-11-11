@@ -10,12 +10,6 @@
    "color": "#8cc63f",
    "line": "A psychological mystery visual novel in a white seaside block of flats."
   },
-  "cnq": {
-   "name": "ContraryQuest",
-   "short": "CNQ",
-   "color": "#3f8a3a",
-   "line": "A brief, witty RPG in Storybook ink, starring a (Not a) hero."
-  },
   "ice": {
    "name": "AI◆ICE",
    "short": "ICE",
@@ -364,223 +358,6 @@
    "gift": {
     "fav": null,
     "thanks": "A gift. No contract, no terms. I haven't had one of those since 1993. Thank you."
-   }
-  },
-  {
-   "id": "nero",
-   "kind": "char",
-   "world": "cnq",
-   "stars": 5,
-   "name": "Nero of Fourleaves",
-   "title": "(Not a) hero",
-   "ref": "nero.webp",
-   "refAlt": "Storybook-style portrait of Nero: messy brown hair, smug half-smile, patched brown hooded cloak, red neckerchief, clover charm and satchel.",
-   "refCredit": "ContraryQuest bust. AI-generated (Storybook ink style).",
-   "facts": [
-    [
-     "From",
-     "The village of Fourleaves"
-    ],
-    [
-     "Lives with",
-     "His grandma, Agata"
-    ],
-    [
-     "Wears",
-     "A patched cloak two sizes too big and a four-leaf clover charm"
-    ]
-   ],
-   "about": "Lazy, witty and extremely good at not doing quests. The title page calls his story a true account. He would like a word about that.",
-   "notes": [
-    "Dodging a quest takes him more effort than doing it. He considers this a skill.",
-    "The clover charm is his only lucky thing. He has checked."
-   ],
-   "quote": "A quest is a chore with a better name.",
-   "outfit": {
-    "name": "Festival knight",
-    "line": "Shiny borrowed armour, two sizes too big, for the village festival. He keeps the visor down to nap."
-   },
-   "meet": [
-    {
-     "line": "Shh. Close the door. I'm hiding from a quest. If anyone asks, this is a broom cupboard.",
-     "replies": [
-      {
-       "say": "Your secret's safe.",
-       "answer": "A true hero. Unlike me. Thank you."
-      },
-      {
-       "say": "What's the quest?",
-       "answer": "I didn't read it. That's the trick: if you don't read them, they don't count."
-      }
-     ]
-    },
-    {
-     "line": "You read all of that? Voluntarily? That's practically a quest.",
-     "replies": [
-      {
-       "say": "It was fun.",
-       "answer": "Fun is how they get you. First fun, then a dragon."
-      },
-      {
-       "say": "Says the guy hiding here.",
-       "answer": "Hiding is a skill. Nobody gives out medals for it, sadly."
-      }
-     ]
-    },
-    {
-     "line": "The title page calls my story a true account. I'd like a word with whoever wrote that.",
-     "replies": [
-      {
-       "say": "That's Nero. The real one.",
-       "answer": "Then I'd like two words."
-      },
-      {
-       "say": "Isn't it true?",
-       "answer": "True-ish. The sandwiches are accurate."
-      }
-     ]
-    },
-    {
-     "line": "Grandma packed a sandwich for you too. Don't ask how she knew you'd come.",
-     "replies": [
-      {
-       "say": "Thanks, Nero.",
-       "answer": "Thank her. I only carried it. Which is basically a side quest."
-      },
-      {
-       "say": "She knows everything?",
-       "answer": "Everything in Fourleaves. And most of what's outside it."
-      }
-     ]
-    }
-   ],
-   "act": {
-    "kind": "pick",
-    "label": "Pick today's excuse",
-    "prompt": "The village needs a hero again. Help me pick today's excuse.",
-    "options": [
-     [
-      "Allergic to dragons",
-      "Classic. Nobody checks. Nobody ever checks."
-     ],
-     [
-      "Cloak's in the wash",
-      "It IS two sizes too big. It takes ages to dry. Believable."
-     ],
-     [
-      "Grandma said no",
-      "Risky. If she hears, I'm doing the quest AND the dishes."
-     ]
-    ],
-    "done": "Excuse filed. Another quest successfully not done. Thank you, partner."
-   },
-   "gift": {
-    "fav": "k-clover",
-    "thanks": "A present? For me? Nobody gives presents to people who skip quests. You're very strange. Thank you.",
-    "favLine": "My clover! My only lucky thing. Don't tell Grandma I dropped it. Don't tell anyone."
-   }
-  },
-  {
-   "id": "agata",
-   "kind": "char",
-   "world": "cnq",
-   "stars": 4,
-   "name": "Agata",
-   "title": "Grandma of Fourleaves",
-   "ref": "agata.webp",
-   "refAlt": "Storybook-style portrait of Agata: silver hair in a bun with a wooden pin, round glasses, folded arms, flour-dusted apron, mustard shawl, clover brooch.",
-   "refCredit": "ContraryQuest bust. AI-generated (Storybook ink style).",
-   "facts": [
-    [
-     "Lives in",
-     "Fourleaves, with her grandson Nero"
-    ],
-    [
-     "Wears",
-     "An olive dress, a flour-dusted apron and a mustard shawl"
-    ],
-    [
-     "Always has",
-     "Lunch ready"
-    ]
-   ],
-   "about": "Runs the house, the kitchen and most of the village's opinions. She has seen her grandson dodge every quest in the region and still packs him a sandwich.",
-   "notes": [
-    "The wooden pin in her bun has never once fallen out.",
-    "Her clover brooch matches Nero's charm. Neither of them mentions it."
-   ],
-   "quote": "Not a hero, love. But not bad.",
-   "outfit": {
-    "name": "Sunday best",
-    "line": "A straw hat with a clover ribbon and an embroidered shawl. The apron comes off for exactly one day a week."
-   },
-   "meet": [
-    {
-     "line": "There you are, love. Wipe your feet, the door sticks. You must be starving. Sit.",
-     "replies": [
-      {
-       "say": "Just for a minute.",
-       "answer": "A minute is plenty for tea. Two is plenty for a second cup."
-      },
-      {
-       "say": "I'm fine, really.",
-       "answer": "That's what my grandson says. Then he eats three sandwiches."
-      }
-     ]
-    },
-    {
-     "line": "Read to the end, did you? Good. Things left half-done go cold, like tea.",
-     "replies": [
-      {
-       "say": "Like tea.",
-       "answer": "Exactly like tea. Now you understand everything."
-      },
-      {
-       "say": "What if it's boring?",
-       "answer": "Then you've learned something. Usually about the author."
-      }
-     ]
-    },
-    {
-     "line": "This hairpin holds the bun, the village and the family together. Mostly the bun.",
-     "replies": [
-      {
-       "say": "It's lovely.",
-       "answer": "My mother's, and her mother's before that. Don't tell the hairpin it's old."
-      },
-      {
-       "say": "And the family?",
-       "answer": "The family holds itself together. I just remind it."
-      }
-     ]
-    },
-    {
-     "line": "You visit more often than my grandson does. Don't tell him I said that. Actually, do.",
-     "replies": [
-      {
-       "say": "I'll tell him.",
-       "answer": "Good. He needs a little shame. A small portion."
-      },
-      {
-       "say": "He loves you.",
-       "answer": "I know, love. He just hides it like a quest."
-      }
-     ]
-    }
-   ],
-   "act": {
-    "kind": "hold",
-    "label": "Pour the tea",
-    "prompt": "Pour, love. Slowly. Stop whenever it looks right to you.",
-    "verb": "Pour",
-    "ms": 3200,
-    "done": "Just right. Whatever you poured is just right. That's the rule of my table.",
-    "stopAny": true
-   },
-   "gift": {
-    "fav": "k-pin",
-    "thanks": "Oh, love. You shouldn't have. I'll put it on the shelf, next to the good plates.",
-    "favLine": "My hairpin! I've been holding this bun up by willpower all morning. Thank you, dear."
    }
   },
   {
@@ -1420,30 +1197,6 @@
    ]
   },
   {
-   "id": "k-clover",
-   "kind": "keep",
-   "world": "cnq",
-   "stars": 3,
-   "name": "Four-leaf clover charm",
-   "icon": "clover",
-   "about": "Fourleaves' lucky charm. Every house has one.",
-   "notes": [
-    "Nero's is a little bent. He sat on it."
-   ]
-  },
-  {
-   "id": "k-pin",
-   "kind": "keep",
-   "world": "cnq",
-   "stars": 3,
-   "name": "Wooden hairpin",
-   "icon": "pin",
-   "about": "Agata's. It holds the bun, the village and the family together.",
-   "notes": [
-    "It has stirred soup. Twice."
-   ]
-  },
-  {
    "id": "k-bow",
    "kind": "keep",
    "world": "ice",
@@ -1494,64 +1247,6 @@
   }
  ],
  "meetings": [
-  {
-   "id": "miriam-agata",
-   "a": "miriam",
-   "b": "agata",
-   "title": "Two cups of tea",
-   "keep": "k-teacup",
-   "lines": [
-    [
-     "agata",
-     "You hold that cup like it owes you money, love."
-    ],
-    [
-     "miriam",
-     "It's porcelain. If I drop it, the sea gets it."
-    ],
-    [
-     "agata",
-     "Then sit. Nobody drops anything at my table."
-    ],
-    [
-     "miriam",
-     "You've got a very calm vibe. Suspiciously calm."
-    ]
-   ],
-   "bonus": [
-    "agata",
-    "Suspicious is just calm with good manners. More tea?"
-   ]
-  },
-  {
-   "id": "nero-free",
-   "a": "nero",
-   "b": "free",
-   "title": "Not doing it",
-   "keep": "k-clover",
-   "lines": [
-    [
-     "nero",
-     "Let me guess. Someone gave you a quest too."
-    ],
-    [
-     "free",
-     "A company. It's a very long quest."
-    ],
-    [
-     "nero",
-     "Have you tried not doing it?"
-    ],
-    [
-     "free",
-     "For about thirty years."
-    ]
-   ],
-   "bonus": [
-    "nero",
-    "Respect. Here, take a clover. It does nothing. That's the point."
-   ]
-  },
   {
    "id": "prima-kristoph",
    "a": "prima",
@@ -1608,64 +1303,6 @@
    "bonus": [
     "norman",
     "...'T was a fine beat. I'll grant thee that."
-   ]
-  },
-  {
-   "id": "vesper-agata",
-   "a": "vesper",
-   "b": "agata",
-   "title": "The night market",
-   "keep": "k-pact",
-   "lines": [
-    [
-     "vesper",
-     "Three loaves for a favour. Fair trade, grandma."
-    ],
-    [
-     "agata",
-     "Bread is not a favour. Bread is bread."
-    ],
-    [
-     "vesper",
-     "On Soul Street, everything is a favour."
-    ],
-    [
-     "agata",
-     "Then on Soul Street, everyone is hungry."
-    ]
-   ],
-   "bonus": [
-    "vesper",
-    "...Fine. One pact: you feed me, I tell nobody your recipe."
-   ]
-  },
-  {
-   "id": "ache-nero",
-   "a": "ache",
-   "b": "nero",
-   "title": "Two experts at skipping",
-   "keep": "k-clover",
-   "lines": [
-    [
-     "ache",
-     "You skip quests. I skip ads. We should start a club."
-    ],
-    [
-     "nero",
-     "Clubs have meetings. Meetings are quests."
-    ],
-    [
-     "ache",
-     "Fine, no club. But if a game ever asks you for money to keep going, you call me."
-    ],
-    [
-     "nero",
-     "I don't call anyone. Walking to the phone is a quest."
-    ]
-   ],
-   "bonus": [
-    "ache",
-    "Then keep the clover. If it gets heavy, that's me, knocking."
    ]
   },
   {
@@ -1811,64 +1448,6 @@
    "bonus": [
     "ache",
     "I like you. You can sit on my thread."
-   ]
-  },
-  {
-   "id": "norman-agata",
-   "a": "norman",
-   "b": "agata",
-   "title": "Old-fashioned",
-   "keep": "k-pin",
-   "lines": [
-    [
-     "norman",
-     "Good morrow, madam. 'Tis a fine kitchen."
-    ],
-    [
-     "agata",
-     "Nobody's talked to me like that since my wedding."
-    ],
-    [
-     "norman",
-     "I speak as the old books speak."
-    ],
-    [
-     "agata",
-     "Then the old books can wipe their feet before they come in."
-    ]
-   ],
-   "bonus": [
-    "norman",
-    "...Aye, madam. Forthwith."
-   ]
-  },
-  {
-   "id": "elise-nero",
-   "a": "elise",
-   "b": "nero",
-   "title": "Not a hero, written down",
-   "keep": "k-file",
-   "lines": [
-    [
-     "elise",
-     "Excuse me. I'm sorry, I'm not very good with names lately. Who are you?"
-    ],
-    [
-     "nero",
-     "Nero. Don't worry, nobody remembers me. I'm not a hero."
-    ],
-    [
-     "elise",
-     "Then I'll write you down. Nero, not a hero. There."
-    ],
-    [
-     "nero",
-     "That's the first time anyone's put me on a list for a good reason."
-    ]
-   ],
-   "bonus": [
-    "elise",
-    "It's in the case file now, so it can't slip away. Nero: not a hero. Kind. Shared his seat."
    ]
   }
  ],
@@ -2442,20 +2021,11 @@
  },
  "campfire": {
   "_note": "Opens when every character is on the shelf (one find each). Data-driven: a new game adds a world + items and its characters get a seat; 'spare' seats are kept empty for whoever joins next, our future games or other people's. Draft lines, Nero to review.",
-  "img": "/assets/img/caw/campfire.webp",
   "spare": 3,
   "lines": [
    [
     "ache",
     "Everyone's here. Look at that. Nobody bought a seat at this fire. You walked to every single one of them."
-   ],
-   [
-    "agata",
-    "Sit down, love, you look like you've been everywhere. Tea's on. There's enough for the critter too."
-   ],
-   [
-    "nero",
-    "I'm still not a hero. But I don't mind sitting next to one."
    ],
    [
     "miriam",

@@ -769,7 +769,7 @@ function doGift() {
   const it = RM.it, g = it.gift, have = D.items.filter(k => k.kind === 'keep' && copies(k.id));
   if (!have.length) {
     const hints = SPOTS.filter(s => !s.door && !found()[s.id]).slice(0, 3);
-    talkLine('You don\'t have a keepsake yet. They peek out of the pages around the site: a spinner, a teacup, a clover. Find one and bring it here.');
+    talkLine('You don\'t have a keepsake yet. They peek out of the pages around the site: a spinner, a teacup, a spool. Find one and bring it here.');
     $('#room-opts').innerHTML = '<ul class="ro-hints">' + hints.map(s => '<li>' + esc(s.hint) + ' <a href="' + esc(s.path) + '">Go</a></li>').join('') + '</ul>';
     return;
   }

@@ -1,3 +1,4 @@
+/post/contrary-quest-devlog-1  /studio  302!
 # Posts and listings render here (same paths as the Wix blog); the studio and Ache have their own pages.
 # Everything else that used to live on the Wix site goes to the journal.
 /post/*                  /post.html     200
