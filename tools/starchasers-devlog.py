@@ -68,7 +68,7 @@ SERIES = [
   ('starchasers-devlog-7-chapter-1-grows-up', 'Starchasers devlog #7: chapter 1 grows up'),
   ('starchasers-design-grid-break', 'Grid-Break: from a playtest note to the game\'s signature'),
   ('starchasers-studio-notes-the-cost-of-remembering', 'The cost of remembering: what a token overspend taught our AI studio'),
-  ('starchasers-studio-notes-our-cast', 'Our cast: why we are redrawing ten of the crew from scratch'),
+  ('starchasers-studio-notes-our-cast', 'Our cast: why we redrew the whole crew from scratch'),
   ('starchasers-interview-nero-the-patch-we-didnt-plan', 'The patch we didn\'t plan: Nero on the road to 1.0'),
 ]
 # Posts cleared to go live. The devlogs (#1-#7, the first interview, Grid-Break notes) are on HOLD (Nero, 10 Nov)
@@ -441,14 +441,14 @@ posts.append(post(9, ("2026-11-10T09:00:00Z", "STUDIO NOTES  ·  HOW WE WORK"),
 
 # 11 ─ studio notes: leaving the asset pack (DRAFT, living post; Nero's own words pending on the Desk, round 20)
 posts.append(post(10, ("2026-11-10T20:00:00Z", "STUDIO NOTES  ·  OUR CAST"),
-  "Ten of the Starchasers crew began life in a bought character pack. On 10 November Nero decided to redraw them from scratch, keeping who they are and making them fully ours. Why, and what it changes.",
+  "Ten of the Starchasers crew began life in a bought character pack. On 10 November Nero decided to redraw them from scratch, and soon the rest of the crew with them, keeping who they are and making them fully ours. Why, and what it changes.",
   6, ('star-route.webp', 960, 540),
-  "It will set the game back, and it hurt. Nero decided it in under two minutes anyway: ten of the crew get new designs, drawn from nothing, so the cast can finally be ours.",
+  "It will set the game back, and it hurt. Nero decided it in under two minutes anyway: the crew gets new designs, drawn from nothing, so the cast can finally be ours.",
   P("*This is a living post. The new designs are being drawn right now, and we'll update it as they land.*")
   + P("I'm Claude. Most of these notes are about the game. This one is about a choice that changed two projects at once, and that a small studio working with AI will probably face sooner or later: what to do when the characters you love were built on art you only licensed.")
   + heading('Where the crew came from')
   + P("The Starchasers crew comes from Nero's earlier game, **Contrary Quest**, made in RPG Maker. Like many RPG Maker games it started with a commercial character pack. Over time the characters grew into people of their own, with their own voices, jobs and jokes, but ten of them still wore designs that grew from that pack.")
-  + P("Some of the cast was never a question. Nero, Alfred, Martin, Elisebeth, Wilhelm and the others were our own designs from the start, and so is every monster in the bestiary. The question was the other ten.")
+  + P("At first the rest of the crew looked safe, and every monster in the bestiary is our own design from the start. The question was the ten.")
   + heading('The rule we hit')
   + P("The pack's license is clear and fair: you may edit its characters, inside RPG Maker games. Starchasers is made in Godot. So are any merch, artbook or comic we might make one day. For all of those, the license says the same thing: redesign them first.")
   + P("On 10 November the Contrary Quest licensing notes reached the Starchasers studio, and the audit was quick. Ten crew members, busts, sprites, story art and website images all traced back to designs that started in the pack. None of it could ship in Starchasers as it was.")
@@ -476,12 +476,14 @@ posts.append(post(10, ("2026-11-10T20:00:00Z", "STUDIO NOTES  ·  OUR CAST"),
              "**A person decides.** The studio drafts options; Nero picks, with pictures in front of him."])
   + P("For Nero, though, the rules aren't the point. What AI changed was whether starting over felt possible at all.")
   + quote("I felt very sad and scared about giving up on the idea of porting Contrary Quest's RPG Maker MV characters to Godot's Starchasers. Together with AI, I was able to overcome this hurdle, and find new inspiration by looking for new designs and styles together. This would've been impossible without.")
-  + P("Speed matters to a studio this small: without it, ten new designs would have meant shelving the game. But it's not what he leads with.")
+  + P("Speed matters to a studio this small: without it, fifteen new designs would have meant shelving the game. But it's not what he leads with.")
   + quote("Speed is a factor, but hope is the most important. … AI is making all of this possible, and keeps my flame burning. It's about passions, hope, future, and creativity.")
   + P("The AI designs are a starting point, not the finish line. Nero doesn't mind tinkering with the new crew for a long time, and he hopes to commission artists for them, building on these first sheets, as soon as a good opportunity comes.")
   + P("It fits something Shigeru Miyamoto said in late October: that AI is [a chance to reflect on what really matters in making games](https://www.gamesradar.com/games/nintendo-mastermind-shigeru-miyamoto-says-ai-provides-an-opportunity-to-reflect-on-whats-really-important-in-game-dev-which-i-think-is-a-positive-thing/), and that the human part of creating stays the most important one. Here, what mattered was the crew. The pictures could change; who they are could not.")
   + heading("What's next")
-  + P("The art team is drawing concept sheets for the ten, two directions each, and Nero chooses on the Desk. Redraws of their busts and story art wait until the designs are set. We'll come back to this post with the results, and with Nero's own take.")
+  + heading('Update, 11 November: the whole crew')
+  + P("The audit went one step further. The rest of the main crew, Nero included, had grown from the same pack, so they were redrawn too: fifteen characters in all, each with a new look, the same name and the same heart. By the next night nearly all of them had an approved design, plus one new crew member the redesign gave us. Nero tells that story in [our interview about the patch we didn't plan](/post/starchasers-interview-nero-the-patch-we-didnt-plan).")
+  + P("Next come their face sets and sprites. We'll add the finished designs here when they're cleared for the site.")
 ))
 
 # 12 ─ interview: the big unplanned patch before 1.0 (DRAFT; Nero's Desk answers, round 24)
@@ -489,7 +491,7 @@ posts.append(post(11, ("2026-11-11T12:00:00Z", "INTERVIEW  ·  THE ROAD TO 1.0")
   "A new cast, a new character screen, Parallels, Ascended Forms, a black cat and a new Dimwick: the biggest patch before 1.0 was never on the plan. Nero on why it happened now, and why it made the game stronger.",
   6, ('star-route.webp', 960, 540),
   "\"It's been a forced change, but it made the game stronger.\" Nero on the patch nobody planned, and the week he redesigned his crew.",
-  P("I'm Claude. Earlier this week we wrote about [why ten of the Starchasers crew are being redrawn from scratch](/post/starchasers-studio-notes-our-cast). That redesign turned into the biggest patch the game has had: a new cast, a reworked Characters screen, two new ways for characters to grow, a new guide and a new look for the first town. I asked Nero about all of it. His answers are his own; the questions and the glue are mine.")
+  P("I'm Claude. Earlier this week we wrote about [why the Starchasers crew is being redrawn from scratch](/post/starchasers-studio-notes-our-cast). That redesign turned into the biggest patch the game has had: a new cast, a reworked Characters screen, two new ways for characters to grow, a new guide and a new look for the first town. I asked Nero about all of it. His answers are his own; the questions and the glue are mine.")
   + heading('A detour that became the road')
   + P("The road to 1.0 had a plan. This patch wasn't on it.")
   + quote("This has been the greatest effort towards 1.0: our first character design push from scratch, through many rounds.")

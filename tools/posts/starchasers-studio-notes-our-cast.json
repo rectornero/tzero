@@ -1,8 +1,8 @@
 {
  "id": "own-starchasers-studio-notes-our-cast",
  "slug": "starchasers-studio-notes-our-cast",
- "title": "Our cast: why we are redrawing ten of the crew from scratch",
- "excerpt": "Ten of the Starchasers crew began life in a bought character pack. On 10 November Nero decided to redraw them from scratch, keeping who they are and making them fully ours. Why, and what it changes.",
+ "title": "Our cast: why we redrew the whole crew from scratch",
+ "excerpt": "Ten of the Starchasers crew began life in a bought character pack. On 10 November Nero decided to redraw them from scratch, and soon the rest of the crew with them, keeping who they are and making them fully ours. Why, and what it changes.",
  "firstPublishedDate": "2026-11-10T20:00:00Z",
  "lastPublishedDate": "2026-11-10T20:00:00Z",
  "categoryIds": [
@@ -28,14 +28,14 @@
   "tags": [
    {
     "type": "title",
-    "children": "Our cast: why we are redrawing ten of the crew from scratch | TZERØ",
+    "children": "Our cast: why we redrew the whole crew from scratch | TZERØ",
     "custom": true
    },
    {
     "type": "meta",
     "props": {
      "name": "description",
-     "content": "Ten of the Starchasers crew began life in a bought character pack. On 10 November Nero decided to redraw them from scratch, keeping who they are and making them fully ours. Why, and what it changes."
+     "content": "Ten of the Starchasers crew began life in a bought character pack. On 10 November Nero decided to redraw them from scratch, and soon the rest of the crew with them, keeping who they are and making them fully ours. Why, and what it changes."
     },
     "custom": true
    }
@@ -92,7 +92,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "It will set the game back, and it hurt. Nero decided it in under two minutes anyway: ten of the crew get new designs, drawn from nothing, so the cast can finally be ours.",
+       "text": "It will set the game back, and it hurt. Nero decided it in under two minutes anyway: the crew gets new designs, drawn from nothing, so the cast can finally be ours.",
        "decorations": [
         {
          "type": "ITALIC",
@@ -284,7 +284,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Some of the cast was never a question. Nero, Alfred, Martin, Elisebeth, Wilhelm and the others were our own designs from the start, and so is every monster in the bestiary. The question was the other ten.",
+       "text": "At first the rest of the crew looked safe, and every monster in the bestiary is our own design from the start. The question was the ten.",
        "decorations": []
       }
      }
@@ -1284,7 +1284,7 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "Speed matters to a studio this small: without it, ten new designs would have meant shelving the game. But it's not what he leads with.",
+       "text": "Speed matters to a studio this small: without it, fifteen new designs would have meant shelving the game. But it's not what he leads with.",
        "decorations": []
       }
      }
@@ -1492,6 +1492,69 @@
     "paragraphData": {}
    },
    {
+    "type": "DIVIDER",
+    "id": "",
+    "nodes": [],
+    "dividerData": {
+     "lineStyle": "SINGLE",
+     "width": "SMALL",
+     "alignment": "CENTER"
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "HEADING",
+    "id": "",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "✦ ",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#d7182a"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "Update, 11 November: the whole crew",
+       "decorations": [
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#13224b"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "headingData": {
+     "level": 2
+    }
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
     "type": "PARAGRAPH",
     "id": "",
     "nodes": [
@@ -1500,7 +1563,67 @@
       "id": "",
       "nodes": [],
       "textData": {
-       "text": "The art team is drawing concept sheets for the ten, two directions each, and Nero chooses on the Desk. Redraws of their busts and story art wait until the designs are set. We'll come back to this post with the results, and with Nero's own take.",
+       "text": "The audit went one step further. The rest of the main crew, Nero included, had grown from the same pack, so they were redrawn too: fifteen characters in all, each with a new look, the same name and the same heart. By the next night nearly all of them had an approved design, plus one new crew member the redesign gave us. Nero tells that story in ",
+       "decorations": []
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "our interview about the patch we didn't plan",
+       "decorations": [
+        {
+         "type": "BOLD",
+         "fontWeightValue": 700
+        },
+        {
+         "type": "COLOR",
+         "colorData": {
+          "foreground": "#d7182a"
+         }
+        },
+        {
+         "type": "LINK",
+         "linkData": {
+          "link": {
+           "url": "/post/starchasers-interview-nero-the-patch-we-didnt-plan",
+           "target": "SELF"
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": ".",
+       "decorations": []
+      }
+     }
+    ],
+    "paragraphData": {}
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [],
+    "paragraphData": {}
+   },
+   {
+    "type": "PARAGRAPH",
+    "id": "",
+    "nodes": [
+     {
+      "type": "TEXT",
+      "id": "",
+      "nodes": [],
+      "textData": {
+       "text": "Next come their face sets and sprites. We'll add the finished designs here when they're cleared for the site.",
        "decorations": []
       }
      }
@@ -1635,7 +1758,7 @@
           "id": "",
           "nodes": [],
           "textData": {
-           "text": "Our cast: why we are redrawing ten of the crew from scratch",
+           "text": "Our cast: why we redrew the whole crew from scratch",
            "decorations": [
             {
              "type": "BOLD",
