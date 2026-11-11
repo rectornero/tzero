@@ -341,11 +341,11 @@ function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const glow=WORLD_G
     fx.restore()}}
 
 let seaOn=c.isConnected,odd=false,lastF=0,win=[],settle=performance.now()+1500;if(seaOn&&window.IntersectionObserver)new IntersectionObserver(e=>{seaOn=e[0].isIntersecting}).observe(c);
-function setLevel(l){if(l===LEVEL)return;LEVEL=l;root.dataset.motion=l;stillDrawn=false;dpr=Math.min(devicePixelRatio||1,l?1:1.5);size();if(l===2){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H)}}
+let wakeThread=()=>{};function setLevel(l){if(l===LEVEL)return;LEVEL=l;root.dataset.motion=l;stillDrawn=false;dpr=Math.min(devicePixelRatio||1,l?1:1.5);size();if(l===2){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H)}wakeThread()}
 /* Auto: average the real time between frames over ~2 s windows; slow windows step the level down, never up */
 function watch(now){if(MODE!=='auto'||document.hidden||now<settle){lastF=now;return}if(lastF){const d=now-lastF;if(d<250)win.push(d)}lastF=now;if(win.length>=(LEVEL?60:120)){const avg=win.reduce((a,b)=>a+b,0)/win.length;win=[];if(LEVEL===0&&avg>24)setLevel(1);else if(LEVEL===1&&avg>40)setLevel(2)}}
 document.addEventListener('visibilitychange',()=>{lastF=0;win=[];settle=performance.now()+1000});
-function frame(now){watch(now||performance.now());worldTick();if(LEVEL===2){if(seaOn&&!stillDrawn){x.clearRect(0,0,w,h);(worldScene()||SCENES[skin])();stillDrawn=true}if(!still)requestAnimationFrame(frame);return}if(LEVEL===1&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LEVEL?.032:.016;energy*=LEVEL?.92:.96;if(seaOn){const ws=worldScene();if(!ws||(halfF=!halfF)){x.clearRect(0,0,w,h);(ws||SCENES[skin])()}}drawFx();if(!still)requestAnimationFrame(frame)}
+function frame(now){watch(now||performance.now());worldTick();if(LEVEL===2){if(seaOn&&!stillDrawn){x.clearRect(0,0,w,h);(worldScene()||SCENES[skin])();stillDrawn=true}if(!still)setTimeout(()=>requestAnimationFrame(frame),400);return}/* Still: one look twice a second for a world change or resize, not 60 frames of nothing */if(LEVEL===1&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LEVEL?.032:.016;energy*=LEVEL?.92:.96;if(seaOn){const ws=worldScene();if(!ws||(halfF=!halfF)){x.clearRect(0,0,w,h);(ws||SCENES[skin])()}}drawFx();if(!still)requestAnimationFrame(frame)}
 /* Header button: Auto, Light or Still, remembered per visitor */
 root.dataset.motion=LEVEL;const mbtn=document.getElementById('motion');const MODES={auto:'Auto',light:'Light',still:'Still'};function showMode(){if(mbtn){mbtn.textContent='Motion: '+MODES[MODE];mbtn.title='Background animation: '+MODES[MODE]}}showMode();if(mbtn)mbtn.onclick=()=>{MODE=MODE==='auto'?'light':MODE==='light'?'still':'auto';try{MODE==='auto'?localStorage.removeItem('tz-motion'):localStorage.setItem('tz-motion',MODE)}catch(e){}showMode();win=[];settle=performance.now()+1000;setLevel(MODE==='still'?2:MODE==='light'?1:autoLevel())};
 frame();
@@ -485,7 +485,7 @@ function fsay(t,ms=1800,prio=4){return speak(t,prio,fight?ms:Math.max(ms,readMs(
 function startFight(k){const d=DIFF[k];stake=null;caught=null;chat.hidden=true;
   fight={k,d,ahp:d.ahp,php:d.php,b:[],t:0,pat:0,patT:0,fire:0,ang:0,iframe:0,ax:innerWidth/2,ay:innerHeight*.3,tx:innerWidth/2,ty:innerHeight*.3,mt:0,over:false,shake:0,flash:0,lances:[],talkT:3,drops:[],dropT:3.5,pod:0,podF:0,pb:[],shield:0,beam:0,beamA:null};
   fc.width=innerWidth*dpr;fc.height=innerHeight*dpr;fc.hidden=false;hud.hidden=false;hud.querySelector('.fend').hidden=true;hud.querySelector('.fdiff').textContent=d.name;
-  document.body.classList.add('fighting');updHud();fsay(pickR('start'),2400)}
+  document.body.classList.add('fighting');updHud();fsay(pickR('start'),2400);kickFight()}
 function endFight(){fight=null;fc.hidden=true;hud.hidden=true;document.body.classList.remove('fighting');say.classList.remove('on');pick()}
 function updHud(){if(!fight)return;hud.querySelector('.hp i').style.width=Math.max(0,fight.ahp/fight.d.ahp*100)+'%';
   hud.querySelector('.php i').style.width=Math.max(0,fight.php/fight.d.php*100)+'%';hud.querySelector('.php i').style.background=fight.php/fight.d.php<=.34?'linear-gradient(90deg,#d7182a,#ff6b6b)':'linear-gradient(90deg,#3d8fd6,#8cc8f2)';hud.querySelector('.buffs').textContent=[fight.pod>0?'POD '+Math.ceil(fight.pod)+'s':'',fight.shield?'SHIELD':''].filter(Boolean).join(' · ');hud.querySelector('.hearts').textContent='♥'.repeat(Math.max(0,fight.php))+'♡'.repeat(Math.max(0,fight.d.php-fight.php))}
@@ -574,7 +574,7 @@ hud.querySelector('.leave').onclick=e=>{e.stopPropagation();endFight()};
 hud.querySelector('.again').onclick=e=>{e.stopPropagation();startFight(fight?fight.k:'normal')};
 addEventListener('keydown',e=>{if(e.key==='Escape'&&fight)endFight()});
 addEventListener('resize',()=>{if(fight){fc.width=innerWidth*dpr;fc.height=innerHeight*dpr}});
-(function floop(){if(fight)fightStep();requestAnimationFrame(floop)})();
+let floopOn=false;function floop(){if(!fight){floopOn=false;return}fightStep();requestAnimationFrame(floop)}function kickFight(){if(!floopOn){floopOn=true;requestAnimationFrame(floop)}}
 
 /* Ache's bed: the star slot in the header */
 const slot=document.getElementById('slot');
@@ -661,7 +661,9 @@ function endScene(){if(!scene)return;NS=LF('news-scene',NS0);const card=scene.ca
     setMood('sad',12);fsay(NS[9],3200);setTimeout(pick,2500)},1600)}
 function finish(){scene?endScene():release()}
 
-let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.height);tt+=.016;if(!still)requestAnimationFrame(thread);return}tt+=.016;const h0=pts[0],gx=home?slotPos().x:stake?stake.x-scrollX:TOUCH?pts[N-1].x:hx===null?innerWidth*.6+Math.sin(tt*.4)*innerWidth*.25:hx,gy=home?slotPos().y:stake?stake.y-scrollY:TOUCH?pts[N-1].y:hy===null?160+Math.sin(tt*.7)*50:hy;if(stake&&!scene){h0.x=gx;h0.y=gy}
+let tt=0,threadParked=false;const threadGo=()=>{if(!still&&LEVEL!==2)requestAnimationFrame(acheLoop);else threadParked=true};
+wakeThread=()=>{if(threadParked&&!still&&LEVEL!==2){threadParked=false;requestAnimationFrame(acheLoop)}};
+function acheLoop(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.height);tt+=.016;threadGo();return}tt+=.016;const h0=pts[0],gx=home?slotPos().x:stake?stake.x-scrollX:TOUCH?pts[N-1].x:hx===null?innerWidth*.6+Math.sin(tt*.4)*innerWidth*.25:hx,gy=home?slotPos().y:stake?stake.y-scrollY:TOUCH?pts[N-1].y:hy===null?160+Math.sin(tt*.7)*50:hy;if(stake&&!scene){h0.x=gx;h0.y=gy}
   if(scene&&scene.detached){const vx=(h0.x-(h0.px??h0.x))*.9,vy=(h0.y-(h0.py??h0.y))*.9;h0.px=h0.x;h0.py=h0.y;h0.x+=vx;h0.y+=vy}else{h0.px=h0.x;h0.py=h0.y;h0.x+=(gx-h0.x)*.3;h0.y+=(gy-h0.y)*.3}
   for(let i=1;i<N;i++){const p=pts[i],vx=(p.x-p.px)*.86,vy=(p.y-p.py)*.86;p.px=p.x;p.py=p.y;p.x+=vx+Math.sin(tt*1.3+i*.4)*.05;p.y+=vy+Math.cos(tt*1.1+i*.3)*.05}
   seek();
@@ -701,7 +703,7 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
     const wg=g.createLinearGradient(-4*dpr,0,4*dpr,0);wg.addColorStop(0,'#8a5a33');wg.addColorStop(1,'#c08a5a');g.fillStyle=wg;g.beginPath();g.moveTo(-4*dpr,-16*dpr);g.lineTo(4*dpr,-16*dpr);g.lineTo(4*dpr,4*dpr);g.lineTo(0,10*dpr);g.lineTo(-4*dpr,4*dpr);g.closePath();g.fill();
     g.fillStyle='#6b4325';g.fillRect(-5*dpr,-18*dpr,10*dpr,3*dpr);g.strokeStyle='#d7182a';g.lineWidth=2*dpr;g.beginPath();g.ellipse(0,-6*dpr,5.5*dpr,2.2*dpr,0,0,7);g.stroke();g.restore()}
   placeSay(tl.x,tl.y,18);
-  if(!still)requestAnimationFrame(thread)})();
+  threadGo()}acheLoop();
 /* draggable polaroids: tap a pick to flip it, pin one to keep its spot (remembered per browser) */
 let zz=10;const PINS=(()=>{try{return JSON.parse(localStorage.getItem('tz-pins'))||{}}catch(e){return {}}})();
 const savePins=()=>{try{localStorage.setItem('tz-pins',JSON.stringify(PINS))}catch(e){}};
