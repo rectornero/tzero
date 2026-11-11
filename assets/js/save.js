@@ -12,7 +12,7 @@
   const STICKERS = [
     // Found on the pages
     { id: 'o-cousin', g: 'pages', name: 'The Ø', hint: 'The Ø on the front page is my cousin. Say hi.', find: 'You poked my cousin! He\'s shy. He liked it.', note: 'My cousin, the Ø. Red, round, slashed. Family resemblance: zero. Get it.' },
-    { id: 'polaroid', g: 'pages', name: 'Under the polaroid', hint: 'Something is stuck under a photo on the front page. Photos can move.', find: 'You moved my photos. Rude. You found my sticker. Less rude.', note: 'I hid this under the cover photo. Interior design is a passion.' },
+    { id: 'polaroid', g: 'pages', name: 'Behind the tickets', hint: 'Something is stuck behind the boarding tickets on the front page. Look at the edges.', find: 'You checked behind the tickets. Nosy. Here, a sticker. Less nosy now.', note: 'I hid this behind the boarding tickets. Stowaway rules: finders keepers.' },
     { id: 'vhs', g: 'pages', name: 'The last tape', hint: 'The story page has a shelf of tapes. Check the end of it.', find: 'The last tape on the shelf! Be kind, rewind.', note: 'Every tape on that shelf is a save point. This one is just a tape. I like tapes.' },
     { id: 'receipt', g: 'pages', name: 'The receipt', hint: 'The gacha years left a receipt. Read it to the bottom.', find: 'The bottom of the receipt. Nobody reads to the bottom. You do. Good.', note: 'The receipt of the gacha years. I keep half. The half that says "never again".' },
     { id: 'free-pull', g: 'pages', name: 'The honest pull', hint: 'There\'s an honest banner on the story page. It\'s free. Try it.', find: 'Pulled! The rate for this sticker is 100%. That\'s the only rate I allow.', note: 'From the honest banner. No currency, no pity, no timer. Just a book in an egg.' },
@@ -215,23 +215,21 @@
   /* ---------- hidden stickers, page by page ---------- */
   function pages() {
     if (path === '/' || path === '/index') {
-      const o = document.querySelector('.hero h1 .o');
+      // the Ø of the masthead is a portal: the first poke says hi to Ache's cousin instead of travelling
+      const portal = document.getElementById('portal'), o = portal && portal.querySelector('.pt-glyph');
       if (o && !S.stickers['o-cousin']) {
         o.classList.add('stk-poke');
-        // the photo board overlaps the big Ø, so go by where the click lands rather than by what it hits
-        document.addEventListener('click', e => {
-          if (e.target.closest('.polaroid,.stk-spot,a,button,.chat')) return;
-          const r = o.getBoundingClientRect();
-          if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top + r.height * .1 || e.clientY > r.bottom - r.height * .1) return;
+        portal.addEventListener('click', e => {
+          if (S.stickers['o-cousin']) return;
+          e.preventDefault(); e.stopImmediatePropagation();
           o.classList.remove('boop'); void o.offsetWidth; o.classList.add('boop'); award('o-cousin', o);
-        });
+        }, true);
       }
-      // under the cover polaroid: a sticker on the board, beneath the photo, until someone drags the photo away
-      const board = document.querySelector('.board'), pol = board && board.querySelector('.polaroid');
-      if (pol) {
-        // first in the board, so the photo (positioned later in the page) covers it
-        const b = spot('polaroid', board, { left: '50px', top: '18%' }, 'A sticker stuck to the board');
-        if (b) { b.classList.add('under'); board.prepend(b) }
+      // behind the boarding tickets: a sticker peeking out from the stack
+      const board = document.querySelector('.boarding');
+      if (board) {
+        const b = spot('polaroid', board, { left: '-16px', bottom: '-10px' }, 'A sticker stuck behind the tickets');
+        if (b) b.classList.add('under');
       }
     }
     if (path === '/story') {
@@ -400,7 +398,7 @@
     if (open && slugOf(location.pathname) !== open.slug) line = 'Welcome back. You left "' + open.t + '" at ' + open.p + '%. I kept your page. Don\'t tell anyone I\'m nice.';
     else if (days >= 30) line = 'Oh! You\'re back! The journal waited. Nothing here expires. Studio rule. I made it. I didn\'t make it.';
     else if (days >= 7) line = 'Welcome back! It\'s been ' + days + ' days. Not that I count. I count. No rush, though. There\'s no clock here.';
-    else if (days >= 1) line = ['Save file loaded. Hi again!', 'Oh. You\'re back. I wasn\'t waiting. I was coiling. Near the door.', 'Welcome back. I dusted the polaroids. With my face.'][S.visits % 3];
+    else if (days >= 1) line = ['Save file loaded. Hi again!', 'Oh. You\'re back. I wasn\'t waiting. I was coiling. Near the door.', 'Welcome back. I dusted the departures board. With my face.'][S.visits % 3];
     else line = ['Back already? I like you. Don\'t make it weird.', 'Twice in one day. You must really like my site. Nero\'s site. Our site.'][S.visits % 2];
     setTimeout(() => say(line, 3), 2600);
 

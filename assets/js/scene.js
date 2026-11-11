@@ -5,17 +5,28 @@ const LITE=matchMedia('(pointer:coarse)').matches||innerWidth<760;
 let MODE='auto';try{const m=localStorage.getItem('tz-motion');if(m==='light'||m==='still')MODE=m}catch(e){}
 function autoLevel(){const n=navigator,cores=n.hardwareConcurrency||8,mem=n.deviceMemory||8,save=n.connection&&n.connection.saveData;if(LITE&&(cores<=2||mem<=1))return 2;return LITE||save?1:0}
 let LEVEL=MODE==='still'?2:MODE==='light'?1:autoLevel(),stillDrawn=false;
-let still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,LEVEL?1:2),root=document.documentElement;
+let still=matchMedia('(prefers-reduced-motion: reduce)').matches,dpr=Math.min(devicePixelRatio||1,LEVEL?1:1.5),root=document.documentElement;
 const sea=document.querySelector('.sea'),c=document.getElementById('waves')||document.createElement('canvas'),x=c.getContext('2d');
 const f=document.getElementById('fx'),fx=f.getContext('2d'),b=document.getElementById('bg'),bx=b.getContext('2d');let cx=-1,cy=-1;
-let w,h,W,H,t=0,mx=-1,my=-1,px=-1,py=-1,energy=0,gust=0,lastX=null;
-/* four skins, one per season. By default the skin follows the real season (northern hemisphere, like Italy);
-   the Skin button cycles them, a viewer's pick is remembered, and cycling back to today's season returns to auto */
-const SKINS={sea:'Summer',autumn:'Autumn',winter:'Winter',spring:'Spring'},ORDER=['sea','autumn','winter','spring'];
-const SEASON=['winter','spring','sea','autumn'][Math.floor((new Date().getMonth()+1)%12/3)];
+let TH=null,w,h,W,H,t=0,mx=-1,my=-1,px=-1,py=-1,energy=0,gust=0,lastX=null;
+/* skins. Default since 11 Nov 2026 (Nero: a homepage that feels "With AI. For People."): Thread, where a fine blue
+   lattice keeps opening paths (AI) and one red thread picks the best through them, following your hand (people).
+   The four season skins of the first site (Summer sea, Autumn, Winter, Spring) stay as options in the settings menu.
+   A viewer's pick is remembered; picking Thread again goes back to the default. */
+const SKINS={thread:'Thread',sea:'Summer',autumn:'Autumn',winter:'Winter',spring:'Spring'},ORDER=['thread','sea','autumn','winter','spring'];
+const SEASON='thread';
 let skin=SEASON;try{const s=localStorage.getItem('tz-skin');if(SKINS[s])skin=s}catch(e){}
-const btn=document.getElementById('skin');function setSkin(s){skin=s;root.dataset.skin=s;btn.textContent='Skin: '+SKINS[s];btn.title=s===SEASON?'Skin follows the season':'Your pick. Cycle to '+SKINS[SEASON]+' to follow the season again';stillDrawn=false}setSkin(skin);
-btn.onclick=()=>{setSkin(ORDER[(ORDER.indexOf(skin)+1)%ORDER.length]);try{skin===SEASON?localStorage.removeItem('tz-skin'):localStorage.setItem('tz-skin',skin)}catch(e){}seasonSay(1);deckShow()};
+const btn=document.getElementById('skin')||document.createElement('button');let skinSet=null;
+function setSkin(s){skin=s;root.dataset.skin=s;btn.textContent='Look: '+SKINS[s];stillDrawn=false;TH=null;
+  if(skinSet)skinSet.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.skin===s))}
+// the settings menu: one button per look instead of a cycling button
+if(btn.isConnected){skinSet=document.createElement('div');skinSet.className='skin-set';skinSet.setAttribute('role','group');skinSet.setAttribute('aria-label','Look of the page');
+  const mk=(k,cls)=>{const b=document.createElement('button');b.type='button';b.className='skin-opt'+(cls?' '+cls:'');b.dataset.skin=k;b.textContent=SKINS[k];
+    b.onclick=e=>{e.stopPropagation();if(k===skin)return;setSkin(k);try{k===SEASON?localStorage.removeItem('tz-skin'):localStorage.setItem('tz-skin',k)}catch(_){}seasonSay(1);deckShow();btn.dispatchEvent(new Event('click'))};return b};
+  const h1=document.createElement('small');h1.textContent='Look';const h2=document.createElement('small');h2.textContent='Old skins, from the first site';
+  const row=document.createElement('div');row.className='skin-row';['sea','autumn','winter','spring'].forEach(k=>row.append(mk(k)));
+  skinSet.append(h1,mk('thread','main'),h2,row);btn.after(skinSet);btn.hidden=true}
+setSkin(skin);
 function size(){w=c.width=c.clientWidth*dpr;h=c.height=c.clientHeight*dpr;W=f.width=innerWidth*dpr;H=f.height=innerHeight*dpr;b.width=W;b.height=H}
 addEventListener('resize',()=>{size();stillDrawn=false});size();
 
@@ -30,11 +41,17 @@ addEventListener('pointermove',e=>{
   if(false){trailD=0;wake.push({x:e.clientX*dpr,y:e.clientY*dpr,r:4*dpr,a:.5})}
 });
 document.addEventListener('pointerleave',()=>{mx=-1;lastX=null});
+/* phones: tilting the device moves the light and the scenery like a cursor would (no permission needed on Android;
+   iOS asks once, on the first tap, and only if the reader allows it) */
+let tiltOn=false;function tilt(e){if(e.gamma==null)return;tiltOn=true;const r=c.getBoundingClientRect();mx=(r.width/2+Math.max(-1,Math.min(1,e.gamma/30))*r.width/2)*dpr;my=(Math.min(r.height,innerHeight)*.4+Math.max(-1,Math.min(1,(e.beta-45)/30))*Math.min(r.height,innerHeight)*.35)*dpr;energy=Math.min(1,energy+.03)}
+if(matchMedia('(pointer:coarse)').matches&&window.DeviceOrientationEvent){if(typeof DeviceOrientationEvent.requestPermission==='function')addEventListener('click',function ask(){removeEventListener('click',ask);DeviceOrientationEvent.requestPermission().then(s=>{if(s==='granted')addEventListener('deviceorientation',tilt)}).catch(()=>{})},{once:true});else addEventListener('deviceorientation',tilt)}
 
 /* click anywhere (except links and buttons): splash in summer, leaf burst in autumn, frost crystal in winter, blossom in spring */
-const drops=[],rings=[],flyers=[],frost=[],blooms=[];
+const drops=[],rings=[],flyers=[],frost=[],blooms=[],forks=[];
 document.addEventListener('click',e=>{if(scene||e.target.closest('a,button,.polaroid,.err,.chat'))return;sfx('splash');memory(e);const X=e.clientX*dpr,Y=e.clientY*dpr;
-  if(skin==='sea'){rings.push({x:X,y:Y,r:0});energy=2;
+  const WK=root.dataset.world;if(WORLD_SPARK[WK]){energy=2;for(let k=0;k<22;k++){const an=Math.random()*6.28,sp=(1.5+Math.random()*5)*dpr;sparks.push({x:X,y:Y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp-1.5*dpr,life:1,s:(3+Math.random()*5)*dpr,c:WORLD_SPARK[WK],r:Math.random()*6.28})}}
+  else if(skin==='thread'){energy=2;const n=5+Math.floor(Math.random()*3),a0=Math.random()*6.28;forks.push({x:X,y:Y,age:0,pick:Math.floor(Math.random()*n),rays:Array.from({length:n},(_,i)=>({a:a0+i*6.28/n+(Math.random()-.5)*.5,l:(50+Math.random()*60)*dpr,b:(Math.random()-.5)*1.2}))})}
+  else if(skin==='sea'){rings.push({x:X,y:Y,r:0});energy=2;
     for(let k=0;k<26;k++){const an=-Math.PI/2+(Math.random()-.5)*1.9,sp=(3+Math.random()*7)*dpr;drops.push({x:X,y:Y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,r:(1+Math.random()*2.6)*dpr,y0:Y})}}
   else if(skin==='winter'){frost.push({x:X,y:Y,age:0,rot:Math.random()*1.05,s:.8+Math.random()*.5});energy=2;gust+=e.clientX>innerWidth/2?-.6:.6;
     for(let k=0;k<18;k++){const an=Math.random()*6.28,sp=(1+Math.random()*4)*dpr;flyers.push(mkFlake(X,Y,Math.cos(an)*sp,Math.sin(an)*sp-1.5*dpr))}}
@@ -156,11 +173,137 @@ function spring(){const wind=.5+Math.sin(t*.35)*.3+gust;gust*=.965;
   for(let k=scenePetals.length-1;k>=0;k--){const P=scenePetals[k];P.x+=(1.1*wind+P.z*.5)*dpr*.8;P.y+=(.6+Math.sin(t*2+P.r)*.5)*dpr;P.r+=P.vr*wind+.01;P.flip+=.06*wind;
     if(mx>=0){const dx=P.x-mx,dy=P.y-my,d=Math.hypot(dx,dy)||1,R=(110+60*energy)*dpr;if(d<R){P.x+=dx/d*(R-d)*.08;P.y+=dy/d*(R-d)*.08}}
     if(P.x>w+30*dpr||P.x<-30*dpr||P.y>h){if(scenePetals.length>30){scenePetals.splice(k,1);continue}P.x=gust<-.3?w+20*dpr:-20*dpr;P.y=Math.random()*h*.6}drawPetal(x,P)}}
-const SCENES={sea:summer,autumn,winter,spring};
-const GLOW={sea:['rgba(140,200,242,.45)','rgba(61,143,214,'],autumn:['rgba(232,137,106,.30)','rgba(196,101,43,'],winter:['rgba(205,230,255,.6)','rgba(110,160,215,'],spring:['rgba(247,185,204,.40)','rgba(78,163,109,']};
+/* scene: Thread. The lattice is drawn once per size into a sprite; each frame only moves a few pulses, the red thread
+   and its knots, so it costs less than the sea. */
+
+function bz(a,b,p){const m=(a.x+b.x)/2,q=1-p;return{x:q*q*q*a.x+3*q*q*p*m+3*q*p*p*m+p*p*p*b.x,y:q*q*q*a.y+3*q*q*p*a.y+3*q*p*p*b.y+p*p*p*b.y}}
+function threadBuild(){const cv=document.createElement('canvas');cv.width=w;cv.height=h;const g=cv.getContext('2d');let sd=11;const R=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const tall=h>w*1.1,cols=Math.max(5,Math.round(w/((tall?95:150)*dpr))),rows=Math.max(4,Math.round(h/((tall?120:105)*dpr)));const nodes=[];
+  for(let i=0;i<=cols;i++){const col=[];for(let j=0;j<rows;j++)col.push({x:i/cols*w+(i&&i<cols?(R()-.5)*w/cols*.5:0),y:h*.08+(j+.5)/rows*h*.84+(R()-.5)*h/rows*.55});nodes.push(col)}
+  const edges=[];for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){const a=nodes[i][j],k=[j];if(R()<.55&&j>0)k.push(j-1);if(R()<.55&&j<rows-1)k.push(j+1);if(R()<.2)k.push(Math.floor(R()*rows));k.forEach(q=>edges.push([a,nodes[i+1][q]]))}
+  g.lineWidth=1*dpr;g.strokeStyle='rgba(61,92,140,.2)';g.beginPath();edges.forEach(([a,b])=>{const m=(a.x+b.x)/2;g.moveTo(a.x,a.y);g.bezierCurveTo(m,a.y,m,b.y,b.x,b.y)});g.stroke();
+  g.fillStyle='rgba(61,92,140,.38)';nodes.flat().forEach(n=>{g.beginPath();g.arc(n.x,n.y,1.7*dpr,0,7);g.fill()});
+  // the "best" path when nobody points: a calm line across the middle
+  const best=nodes.map((col,i)=>{let bj=0,bd=1e9;const ty=h*(.55+.12*Math.sin(i*.9));col.forEach((n,j)=>{const d=Math.abs(n.y-ty);if(d<bd){bd=d;bj=j}});return bj});
+  TH={cv,nodes,edges,best,ys:nodes.map((c,i)=>c[best[i]].y),pulses:Array.from({length:LITE?7:14},()=>({e:edges[Math.floor(R()*edges.length)],p:R(),v:.004+R()*.007})),w,h}}
+function thread(){if(!TH||TH.w!==w||TH.h!==h)threadBuild();x.drawImage(TH.cv,0,0);
+  // AI: pulses running along the paths
+  x.fillStyle='rgba(61,143,214,.85)';TH.pulses.forEach(P=>{P.p+=P.v*(1+energy);if(P.p>=1){const nx=TH.edges.filter(e=>e[0]===P.e[1]);P.e=nx.length?nx[Math.floor(Math.random()*nx.length)]:TH.edges[Math.floor(Math.random()*TH.edges.length)];P.p=0}
+    const q=bz(P.e[0],P.e[1],P.p);x.globalAlpha=.25;x.beginPath();x.arc(q.x,q.y,5*dpr,0,7);x.fill();x.globalAlpha=1;x.beginPath();x.arc(q.x,q.y,1.8*dpr,0,7);x.fill()});
+  // people: the red thread follows the node nearest your hand, near where your hand is
+  const on=mx>=0&&my>=0&&my<=h,pts=TH.nodes.map((col,i)=>{let tj=TH.best[i];if(on){const inf=Math.exp(-Math.pow((col[0].x-mx)/(w*.28),2)),ty=TH.ys[i]*(1-inf)+my*inf;let bd=1e9;col.forEach((n,j)=>{const d=Math.abs(n.y-ty);if(d<bd){bd=d;tj=j}})}
+    const n=col[tj];TH.ys[i]+=(n.y-TH.ys[i])*.08;return{x:n.x,y:TH.ys[i]+Math.sin(t*1.3+i)*1.5*dpr,n}});
+  x.lineCap='round';x.strokeStyle='rgba(215,24,42,.18)';x.lineWidth=7*dpr;x.beginPath();pts.forEach((p,i)=>{if(!i)return x.moveTo(p.x,p.y);const a=pts[i-1],m=(a.x+p.x)/2;x.bezierCurveTo(m,a.y,m,p.y,p.x,p.y)});x.stroke();
+  x.strokeStyle='#d7182a';x.lineWidth=2.2*dpr;x.stroke();
+  pts.forEach(p=>{if(Math.abs(p.y-p.n.y)>3*dpr)return;x.fillStyle='#fff';x.beginPath();x.arc(p.x,p.y,4.6*dpr,0,7);x.fill();x.fillStyle='#d7182a';x.beginPath();x.arc(p.x,p.y,2.8*dpr,0,7);x.fill()})}
+const SCENES={thread,sea:summer,autumn,winter,spring};
+/* scenes for the game worlds (worlds.js sets <html data-world>). Each world has two forms: a wide one for
+   desktops and landscape tablets, and a tall one for phones and portrait screens, composed for that shape
+   rather than shrunk (Nero, 11 Nov: the world morphs with the screen). Scenery only, no characters. */
+function rnd(seed){let s=seed>>>0;return()=>{s=(s+0x6D2B79F5)>>>0;let q=Math.imul(s^s>>>15,1|s);q=q+Math.imul(q^q>>>7,61|q)^q;return((q^q>>>14)>>>0)/4294967296}}
+const tallForm=()=>h>w*1.1;
+/* reading moves the world: how far down the page the reader is (0 to 1) */
+const prog=()=>{const d=document.documentElement;return Math.min(1,Math.max(0,scrollY/Math.max(1,d.scrollHeight-innerHeight)))};
+const WSTARS=(()=>{const r=rnd(7);return Array.from({length:120},()=>({x:r(),y:r(),z:.25+r()*.75,p:r()*6.28}))})();
+function sky(stops){const g=x.createLinearGradient(0,0,0,h);stops.forEach(([o,c])=>g.addColorStop(o,c));x.fillStyle=g;x.fillRect(0,0,w,h)}
+function stars(maxY,col){const ox=mx>=0?(mx-w/2)*.02:0,oy=my>=0?(my-h/2)*.015:0;WSTARS.forEach(S=>{const y=S.y*h*maxY;const a=.25+.75*Math.abs(Math.sin(t*1.3*S.z+S.p));x.globalAlpha=a*S.z;x.fillStyle=col||'#fff';x.beginPath();x.arc(S.x*w+ox*S.z,y+oy*S.z,S.z*1.5*dpr,0,7);x.fill()});x.globalAlpha=1}
+const GLOWS={};function glowSprite(rgb){if(GLOWS[rgb])return GLOWS[rgb];const S=64,cv=document.createElement('canvas');cv.width=cv.height=S;const g=cv.getContext('2d'),gr=g.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);gr.addColorStop(0,'rgba('+rgb+',1)');gr.addColorStop(1,'rgba('+rgb+',0)');g.fillStyle=gr;g.fillRect(0,0,S,S);return GLOWS[rgb]=cv}
+/* glows are cached sprites drawn with alpha: far cheaper than a fresh gradient per glow per frame */
+function glowAt(X,Y,R,c){const m=c.match(/rgba?\(([^,]+),([^,]+),([^,)]+)(?:,([^)]+))?\)/);if(!m)return;const a=m[4]==null?1:+m[4];if(a<=0||R<=0)return;x.globalAlpha=Math.min(1,a);x.drawImage(glowSprite(m[1].trim()+','+m[2].trim()+','+m[3].trim()),X-R,Y-R,R*2,R*2);x.globalAlpha=1}
+function band(yy,amp,len,sp,top,bot){const g=x.createLinearGradient(0,yy*h-amp*dpr,0,h);g.addColorStop(0,top);g.addColorStop(1,bot);x.fillStyle=g;x.beginPath();x.moveTo(0,h);for(let i=0;i<=w+6*dpr;i+=6*dpr){let y=yy*h+Math.sin(i*len/dpr+t*sp)*amp*dpr+Math.sin(i*len*2.3/dpr-t*sp*1.4)*amp*.35*dpr;if(mx>=0){const d=(i-mx)/(170*dpr);y-=Math.exp(-d*d)*(14+26*energy)*dpr}x.lineTo(i,y)}x.lineTo(w,h);x.closePath();x.fill()}
+
+/* Starchasers: a dusk sky over a sea of clouds, and the route of small planets the ship sails.
+   Wide: the route arcs left to right. Tall: it winds down the screen, one planet per thumb-scroll. */
+const PLANETS=[{r:9,c:['#ffd27a','#c9772f'],ring:0},{r:14,c:['#b59cf0','#5b3f9e'],ring:1},{r:7,c:['#8fe3d0','#2a8ea0'],ring:0},{r:18,c:['#f4a3b9','#9a4a78'],ring:1},{r:10,c:['#fff1c4','#c9a24a'],ring:0}];
+function routePt(u,tall){if(tall){const y=h*(.08+u*.7);return[w*(.5+Math.sin(u*Math.PI*2.2+.6)*.32),y]}return[w*(.06+u*.88),h*(.62-Math.sin(u*Math.PI)*.42)]}
+function wStarchasers(){const tall=tallForm();
+  sky([[0,'#120f2e'],[.45,'#2b2160'],[.72,'#6a4c9c'],[.9,'#d996b0'],[1,'#f2b9a8']]);stars(tall?.8:.7);
+  x.save();x.setLineDash([2*dpr,9*dpr]);x.lineDashOffset=-t*30*dpr;x.strokeStyle='rgba(255,236,190,.55)';x.lineWidth=1.6*dpr;x.beginPath();for(let u=0;u<=1.001;u+=.01){const[p,q]=routePt(u,tall);u?x.lineTo(p,q):x.moveTo(p,q)}x.stroke();x.restore();
+  PLANETS.forEach((P,i)=>{const u=(i+.5)/PLANETS.length;let[p,q]=routePt(u,tall);q+=Math.sin(t*.9+i)*4*dpr;const r=P.r*dpr*(tall?1.15:1)*(1+(mx>=0?Math.max(0,1-Math.hypot(p-mx,q-my)/(140*dpr))*.35:0));
+    glowAt(p,q,r*3.2,'rgba(255,220,170,.18)');const g=x.createRadialGradient(p-r*.4,q-r*.4,r*.1,p,q,r);g.addColorStop(0,P.c[0]);g.addColorStop(1,P.c[1]);x.fillStyle=g;x.beginPath();x.arc(p,q,r,0,7);x.fill();
+    if(P.ring){x.strokeStyle='rgba(255,240,210,.7)';x.lineWidth=1.3*dpr;x.beginPath();x.ellipse(p,q,r*1.9,r*.5,-.35,0,7);x.stroke()}});
+  {const u=Math.min(.999,prog()*.94+.03);const[p,q]=routePt(u,tall);for(let k=1;k<14;k++){const[a,b]=routePt(Math.max(0,u-k*.006),tall);x.fillStyle='rgba(255,236,190,'+(.5-k*.035)+')';x.beginPath();x.arc(a,b,(2.4-k*.14)*dpr,0,7);x.fill()}
+    glowAt(p,q,26*dpr,'rgba(255,210,122,.6)');x.save();x.translate(p,q);x.rotate(t*.8);x.fillStyle='#fff6cf';x.beginPath();for(let k=0;k<8;k++){const r=(k%2?2.6:8)*dpr,a=k*Math.PI/4;k?x.lineTo(Math.cos(a)*r,Math.sin(a)*r):x.moveTo(r,0)}x.closePath();x.fill();x.restore()}
+  const sh=(t*.18)%1;if(sh<.25){const k=sh/.25,sx=w*(.15+k*.6),sy=h*(.08+k*.18);const g=x.createLinearGradient(sx,sy,sx-90*dpr,sy-30*dpr);g.addColorStop(0,'rgba(255,255,255,'+(1-k)+')');g.addColorStop(1,'rgba(255,255,255,0)');x.strokeStyle=g;x.lineWidth=2*dpr;x.beginPath();x.moveTo(sx,sy);x.lineTo(sx-90*dpr,sy-30*dpr);x.stroke()}
+  band(tall?.86:.8,10,.004,.5,'rgba(242,185,200,.45)','rgba(140,100,170,.55)');band(tall?.92:.88,12,.003,-.4,'rgba(170,130,200,.6)','rgba(60,45,110,.85)');band(.96,8,.0025,.3,'rgba(45,34,96,.9)','#17123a');
+  if(mx>=0)glowAt(mx,my,150*dpr,'rgba(255,210,122,'+(.12+.1*energy)+')')}
+
+/* Liminal Outliers: a pale sea, fog, the white block of flats with one window that shouldn't be lit.
+   Wide: the fence runs along the shore to the horizon. Tall: you look up the block, nine storeys and a tenth. */
+function wLiminal(){const tall=tallForm();sky([[0,'#f3f6f4'],[.55,'#dfe9e8'],[1,'#b9d3d6']]);
+  const hz=h*(tall?.78:.6);x.fillStyle='#c4dadb';x.fillRect(0,hz,w,h-hz);
+  for(let k=0;k<14;k++){const y=hz+(k*k)*1.6*dpr+4*dpr;const a=.25+.2*Math.sin(t*.8+k);x.strokeStyle='rgba(255,255,255,'+a+')';x.lineWidth=1*dpr;x.beginPath();const off=(t*12*(k%2?1:-1)+k*40)%(80*dpr);for(let i=-80*dpr+off;i<w;i+=80*dpr){x.moveTo(i,y);x.lineTo(i+30*dpr,y)}x.stroke()}
+  const bw=tall?w*.42:w*.16,bh=tall?h*.7:h*.5,bx0=tall?w*.5-bw/2:w*.72,by0=hz-bh,floors=tall?10:9;
+  x.fillStyle='#fbfcfb';x.fillRect(bx0,by0,bw,bh);x.fillStyle='rgba(31,43,46,.06)';x.fillRect(bx0+bw*.82,by0,bw*.18,bh);
+  const fh=bh/floors;for(let f=0;f<floors;f++)for(let c=0;c<4;c++){const lit=(f===Math.round((1-prog())*(floors-1))&&c===2);const wx=bx0+bw*(.1+c*.21),wy=by0+f*fh+fh*.28;x.fillStyle=lit?'rgba(255,214,120,'+(.6+.4*Math.abs(Math.sin(t*2.3)))+')':'rgba(79,138,143,.28)';x.fillRect(wx,wy,bw*.13,fh*.42)}
+  if(tall){x.fillStyle='rgba(31,43,46,.55)';x.font=(11*dpr)+'px "IBM Plex Mono",monospace';x.fillText('10',bx0-22*dpr,by0+fh*.6)}
+  else{x.strokeStyle='rgba(31,43,46,.55)';x.lineWidth=1.2*dpr;for(let k=0;k<22;k++){const u=k/21,px_=w*.02+u*w*.62,py_=h*.97-u*(h*.97-hz)*.95,s=(1-u*.85);x.beginPath();x.moveTo(px_,py_);x.lineTo(px_,py_-60*s*dpr);x.stroke()}
+    x.beginPath();[0,.35,.7].forEach(o=>{x.moveTo(w*.02,h*.97-60*dpr*(1-o));x.lineTo(w*.64,hz-60*.15*dpr*(1-o)+(h*.97-hz)*.05)});x.stroke()}
+  for(let k=0;k<3;k++){const y=hz-20*dpr+k*30*dpr,o=(t*14*(k+1))%(w*1.5)-w*.25;const g=x.createLinearGradient(o,0,o+w*.6,0);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(.5,'rgba(255,255,255,.55)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(o,y-18*dpr,w*.6,36*dpr)}
+  if(mx>=0)glowAt(mx,my,180*dpr,'rgba(255,255,255,'+(.35+.15*energy)+')')}
+
+/* DeadenD: night rain on a window, the city blurred into warm lights behind it.
+   Wide: a café window over a street. Tall: a narrow pane where the rain runs long. */
+const BOKEH=(()=>{const r=rnd(21);return Array.from({length:34},()=>({x:r(),y:r(),r:.4+r(),c:['255,179,71','215,24,42','120,200,210','255,230,180'][Math.floor(r()*4)],p:r()*6.28}))})();
+const RAIN=(()=>{const r=rnd(5);return Array.from({length:150},()=>({x:r(),y:r(),l:.5+r(),s:.6+r()*.8}))})();
+function wDeadend(){const tall=tallForm();sky([[0,'#0f0c18'],[.6,'#1d1630'],[1,'#2a1b2e']]);
+  BOKEH.forEach(B=>{const X=B.x*w,Y=(tall?.2+B.y*.75:.35+B.y*.55)*h,R=B.r*(tall?26:34)*dpr*(1+.15*Math.sin(t+B.p));glowAt(X,Y,R,'rgba('+B.c+','+(.18+.1*Math.sin(t*.7+B.p))+')')});
+  const ang=tall?.06:.18;x.strokeStyle='rgba(200,210,235,'+(.32*(1-prog()*.85))+')';x.lineWidth=1*dpr;x.beginPath();RAIN.forEach(D=>{const y=((D.y+t*D.s*(tall?.5:.4))%1)*h*1.1-h*.05,X=(D.x*w+y*ang)%w,L=D.l*(tall?42:24)*dpr;x.moveTo(X,y);x.lineTo(X+L*ang,y+L)});x.stroke();
+  {const P=prog();if(P>.05){const g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,'rgba(255,154,107,0)');g.addColorStop(1,'rgba(255,154,107,'+P*.35+')');x.fillStyle=g;x.fillRect(0,0,w,h)}}
+  x.fillStyle='rgba(10,8,14,.75)';if(tall){x.fillRect(w*.5-3*dpr,0,6*dpr,h)}else{x.fillRect(0,h*.3,w,5*dpr);x.fillRect(w*.33,0,5*dpr,h);x.fillRect(w*.66,0,5*dpr,h)}
+  if(mx>=0){glowAt(mx,my,120*dpr,'rgba(255,190,110,'+(.18+.12*energy)+')')}}
+
+/* Overgame: Soul Street at night. Wide: a skyline; windows wake where the cursor passes, the Red Zone glows below.
+   Tall: you stand in the street, signs stacked up both sides into the dark. */
+const BLD=(()=>{const r=rnd(33);return[0,1,2].map(L=>{const a=[];let X=0;while(X<1.05){const bw=.04+r()*.07;a.push({x:X,w:bw,h:.18+r()*(.35-L*.06)+L*.05,win:Array.from({length:40},()=>r())});X+=bw+.004}return a})})();
+let skyCache=null;
+function skyline(key,P){const cv=document.createElement('canvas');cv.width=w;cv.height=h;const g=cv.getContext('2d');
+  BLD.forEach((row,L)=>row.forEach(B=>{const X=B.x*w,bw=B.w*w,bh=B.h*h,Y=h*(.86+L*.05)-bh;g.fillStyle=['#1a1420','#140f18','#0d0a10'][L];g.fillRect(X,Y,bw,bh+h);
+    const cols=Math.max(2,Math.floor(bw/(10*dpr))),rows=Math.floor(bh/(14*dpr));g.fillStyle='rgba(255,'+(200-L*40)+',140,.4)';for(let c=0;c<cols;c++)for(let r_=0;r_<rows;r_++){if(B.win[(c*7+r_)%40]>.72-P*.35)g.fillRect(X+5*dpr+c*(bw-8*dpr)/cols,Y+6*dpr+r_*14*dpr,3*dpr,5*dpr)}}));return{key,cv}}
+function wOvergame(){const tall=tallForm();sky([[0,'#08070c'],[.6,'#160d16'],[1,'#2a0d14']]);stars(.35,'#ffd9de');
+  const pulse=.5+.5*Math.sin(t*1.6);
+  if(tall){const vx=w*.5,vy=h*.32;x.fillStyle='#120c12';x.beginPath();x.moveTo(0,h);x.lineTo(vx-8*dpr,vy);x.lineTo(vx+8*dpr,vy);x.lineTo(w,h);x.fill();
+    for(let k=0;k<9;k++){const u=k/9,side=k%2?1:-1,s=1-u*.85,X=vx+side*(w*.48)*s,Y=vy+(h-vy)*s*.92,sw=70*s*dpr,sh=26*s*dpr;const on=(Math.sin(t*3+k*2)>-.6)||k%3;x.fillStyle=on?['#ff3b4e','#ffb347','#7fe0e0'][k%3]:'#2a1c22';x.globalAlpha=.85;x.fillRect(side>0?X-sw:X,Y-sh*3,sw,sh);x.globalAlpha=1;if(on)glowAt(side>0?X-sw/2:X+sw/2,Y-sh*2.5,sw*1.3,'rgba(255,59,78,.12)')}}
+  else{const P=Math.round(prog()*20)/20,key=w+'x'+h+'@'+P;if(!skyCache||skyCache.key!==key){skyCache=skyline(key,P)}x.drawImage(skyCache.cv,0,0);
+    /* windows wake where the cursor passes: only the buildings near it are visited */
+    if(mx>=0)BLD.forEach((row,L)=>row.forEach(B=>{const X=B.x*w,bw=B.w*w;if(X>mx+130*dpr||X+bw<mx-130*dpr)return;const bh=B.h*h,Y=h*(.86+L*.05)-bh,cols=Math.max(2,Math.floor(bw/(10*dpr))),rows=Math.floor(bh/(14*dpr));
+      for(let c=0;c<cols;c++)for(let r_=0;r_<rows;r_++){const cxw=X+5*dpr+c*(bw-8*dpr)/cols,cyw=Y+6*dpr+r_*14*dpr;const near=Math.max(0,1-Math.hypot(cxw-mx,cyw-my)/(130*dpr));if(near>.05&&B.win[(c*7+r_)%40]>.72-near*.6-P*.35){x.fillStyle='rgba(255,'+(200-L*40)+',140,'+near*.8+')';x.fillRect(cxw,cyw,3*dpr,5*dpr)}}}))}
+  const g=x.createLinearGradient(0,h*.82,0,h);g.addColorStop(0,'rgba(255,59,78,0)');g.addColorStop(1,'rgba(255,59,78,'+(.25+.2*pulse)+')');x.fillStyle=g;x.fillRect(0,h*.82,w,h*.18);
+  if(mx>=0)glowAt(mx,my,140*dpr,'rgba(255,90,110,'+(.1+.1*energy)+')')}
+
+/* AI-ICE: deep space nostalgia. Aurora ribbons and slow crystals rising; they drift away from the cursor.
+   Wide: the aurora lies across the sky. Tall: it hangs in curtains you scroll past. */
+const ICE=(()=>{const r=rnd(44);return Array.from({length:46},()=>({x:r(),y:r(),s:.4+r(),p:r()*6.28}))})();
+const STRIPS={};function strip(c,tall){const k=c+tall;if(STRIPS[k])return STRIPS[k];const cv=document.createElement('canvas');cv.width=tall?64:1;cv.height=tall?1:64;const g=cv.getContext('2d'),gr=tall?g.createLinearGradient(0,0,64,0):g.createLinearGradient(0,0,0,64);gr.addColorStop(0,'rgba('+c+',0)');gr.addColorStop(.5,'rgba('+c+',1)');gr.addColorStop(1,'rgba('+c+',0)');g.fillStyle=gr;g.fillRect(0,0,cv.width,cv.height);return STRIPS[k]=cv}
+function wAiice(){const tall=tallForm(),P=prog();sky([[0,'#0b1433'],[.6,'#0f2a48'],[1,'#123a52']]);stars(1,'#dff6ff');
+  const cols=[['127,214,224',.0],['255,207,154',1.7],['181,156,240',3.1]];x.globalCompositeOperation='lighter';
+  cols.forEach(([c,o],k)=>{for(let s=0;s<(tall?16:20);s++){const u=s/(tall?15:19);let X,Y,L;if(tall){Y=u*h;X=w*(.25+k*.25)+Math.sin(u*5+t*.6+o)*w*.12;L=w*.18}else{X=u*w;Y=h*(.22+k*.09)+Math.sin(u*4+t*.5+o)*h*.08;L=h*.28}
+    x.globalAlpha=Math.min(1,(.07+.04*Math.sin(t+s*.3+o))*(1+P*1.4));x.drawImage(strip(c,tall),tall?X-L:X,tall?Y:Y-L,tall?L*2:w/28+1,tall?h/24+1:L*2)}});x.globalAlpha=1;
+  x.globalCompositeOperation='source-over';
+  ICE.forEach(C=>{let X=C.x*w,Y=(1-((C.y+t*.02*C.s)%1))*h;if(mx>=0){const d=Math.hypot(X-mx,Y-my),R=150*dpr;if(d<R){X+=(X-mx)/d*(R-d)*.5;Y+=(Y-my)/d*(R-d)*.5}}const s=(3+C.s*4)*dpr,a=.4+.5*Math.abs(Math.sin(t*1.5+C.p));
+    x.save();x.translate(X,Y);x.rotate(Math.PI/4+Math.sin(t+C.p)*.2);x.fillStyle='rgba(234,246,255,'+a*.5+')';x.strokeStyle='rgba(255,207,154,'+a+')';x.lineWidth=1*dpr;x.fillRect(-s/2,-s/2,s,s);x.strokeRect(-s/2,-s/2,s,s);x.restore()});
+  if(mx>=0)glowAt(mx,my,170*dpr,'rgba(255,207,154,'+(.12+.1*energy)+')')}
+
+/* The Archive: old pages under warm light, dust turning in the beams.
+   Wide: beams fall from a window on the left. Tall: one beam from above, like a reading lamp. */
+const DUST=(()=>{const r=rnd(9);return Array.from({length:90},()=>({x:r(),y:r(),z:.4+r()*.6,p:r()*6.28}))})();
+function wArchive(){const tall=tallForm();sky([[0,'#f6eddb'],[.7,'#efdfbf'],[1,'#e6cfa4']]);
+  const beams=tall?[[w*.5,0,w*.18,w*.55]]:[[w*.05,0,w*.08,w*.22],[w*.2,0,w*.06,w*.18],[w*.33,0,w*.05,w*.15]];
+  beams.forEach(([bx_,by_,top,spread],i)=>{const sl=tall?w*(prog()-.5)*.4:w*(.35-prog()*.6);const g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,'rgba(255,243,205,'+(.55+.1*Math.sin(t*.5+i))+')');g.addColorStop(1,'rgba(255,243,205,0)');x.fillStyle=g;x.beginPath();x.moveTo(bx_-top/2,by_);x.lineTo(bx_+top/2,by_);x.lineTo(bx_+spread+sl,h);x.lineTo(bx_-spread+sl,h);x.fill()});
+  DUST.forEach(D=>{let X=(D.x*w+Math.sin(t*.3*D.z+D.p)*30*dpr)%w,Y=(D.y*h+Math.cos(t*.25*D.z+D.p)*24*dpr-t*4*D.z*dpr)%h;if(Y<0)Y+=h;if(mx>=0){const d=Math.hypot(X-mx,Y-my),R=110*dpr;if(d<R){X+=(X-mx)/d*(R-d)*.6;Y+=(Y-my)/d*(R-d)*.6}}
+    x.fillStyle='rgba(140,90,40,'+(.25+.35*Math.abs(Math.sin(t+D.p)))*D.z+')';x.beginPath();x.arc(X,Y,1.4*D.z*dpr,0,7);x.fill()});
+  const v=x.createRadialGradient(w/2,h/2,Math.min(w,h)*.3,w/2,h/2,Math.max(w,h)*.75);v.addColorStop(0,'rgba(58,38,22,0)');v.addColorStop(1,'rgba(58,38,22,.22)');x.fillStyle=v;x.fillRect(0,0,w,h)}
+const WORLD_SCENES={starchasers:wStarchasers,'liminal-outliers':wLiminal,deadend:wDeadend,overgame:wOvergame,'ai-ice':wAiice,archive:wArchive};
+const WORLD_GLOW={starchasers:['rgba(255,210,122,.25)','rgba(255,210,122,'],'liminal-outliers':['rgba(255,255,255,.5)','rgba(79,138,143,'],deadend:['rgba(255,179,71,.2)','rgba(255,179,71,'],overgame:['rgba(255,59,78,.2)','rgba(255,59,78,'],'ai-ice':['rgba(127,214,224,.25)','rgba(255,207,154,'],archive:['rgba(255,236,190,.5)','rgba(168,100,46,']};
+const WORLD_SPARK={starchasers:'#ffd27a','liminal-outliers':'#8cc63f',deadend:'#ffb347',overgame:'#ff3b4e','ai-ice':'#ffcf9a',archive:'#a8642e'};
+const sparks=[];
+function worldScene(){return WORLD_SCENES[root.dataset.world]}
+let halfF=false,lastWorld=root.dataset.world;function worldTick(){if(root.dataset.world!==lastWorld){lastWorld=root.dataset.world;stillDrawn=false}}
+
+const GLOW={thread:['rgba(215,24,42,.08)','rgba(61,92,140,'],sea:['rgba(140,200,242,.45)','rgba(61,143,214,'],autumn:['rgba(232,137,106,.30)','rgba(196,101,43,'],winter:['rgba(205,230,255,.6)','rgba(110,160,215,'],spring:['rgba(247,185,204,.40)','rgba(78,163,109,']};
 
 /* page-wide fx layer */
-function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const glow=GLOW[skin]||GLOW.sea;
+function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const glow=WORLD_GLOW[root.dataset.world]||GLOW[skin]||GLOW.sea;
   if(cx>=0){const g=bx.createRadialGradient(cx,cy,0,cx,cy,(220+80*energy)*dpr);g.addColorStop(0,glow[0]);g.addColorStop(1,'rgba(255,255,255,0)');bx.fillStyle=g;bx.fillRect(0,0,W,H)}
   for(let k=wake.length-1;k>=0;k--){const R=wake[k];R.r+=1.6*dpr;R.a*=.94;if(R.a<.02){wake.splice(k,1);continue}
     bx.strokeStyle=glow[1]+R.a*.7+')';bx.lineWidth=1.4*dpr;bx.beginPath();bx.ellipse(R.x,R.y,R.r*1.6,R.r*.7,0,0,7);bx.stroke()}
@@ -178,6 +321,14 @@ function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const glow=GLOW[sk
     fx.beginPath();for(let q=0;q<6;q++){const a=q*Math.PI/3,c=Math.cos(a),n=Math.sin(a);fx.moveTo(0,0);fx.lineTo(c*R,n*R);
       for(const [b,l] of [[.35,.3],[.6,.22],[.82,.12]]){const bx_=c*R*b,by_=n*R*b;fx.moveTo(bx_,by_);fx.lineTo(bx_+Math.cos(a+1.05)*R*l,by_+Math.sin(a+1.05)*R*l);fx.moveTo(bx_,by_);fx.lineTo(bx_+Math.cos(a-1.05)*R*l,by_+Math.sin(a-1.05)*R*l)}}
     fx.strokeStyle='rgba(90,150,215,.4)';fx.lineWidth=4.5*dpr;fx.stroke();fx.strokeStyle='#fff';fx.lineWidth=1.8*dpr;fx.stroke();fx.restore()}
+  /* world click: four-point sparks in the world's own colour */
+  for(let k=sparks.length-1;k>=0;k--){const P=sparks[k];P.vx*=.95;P.vy=P.vy*.95+.08*dpr;P.x+=P.vx;P.y+=P.vy;P.life-=.02;P.r+=.05;if(P.life<=0){sparks.splice(k,1);continue}
+    const r=P.s*P.life;fx.save();fx.translate(P.x,P.y);fx.rotate(P.r);fx.globalAlpha=P.life;fx.fillStyle=P.c;fx.beginPath();for(let q=0;q<8;q++){const rr=q%2?r*.3:r,a=q*Math.PI/4;q?fx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr):fx.moveTo(rr,0)}fx.closePath();fx.fill();fx.restore()}
+  /* thread click: paths open from the point (AI), then one turns red (people pick it) */
+  for(let k=forks.length-1;k>=0;k--){const F=forks[k];F.age++;const gr=1-Math.pow(1-Math.min(1,F.age/20),3),al=F.age<50?1:1-(F.age-50)/30;if(al<=0){forks.splice(k,1);continue}
+    fx.save();fx.translate(F.x,F.y);fx.globalAlpha=al;fx.lineCap='round';F.rays.forEach((r,i)=>{const L=r.l*gr,ex=Math.cos(r.a)*L,ey=Math.sin(r.a)*L,cx_=Math.cos(r.a+r.b)*L*.5,cy_=Math.sin(r.a+r.b)*L*.5,red=i===F.pick&&F.age>22;
+      fx.strokeStyle=red?'#d7182a':'rgba(61,92,140,.55)';fx.lineWidth=(red?2.6:1.2)*dpr;fx.beginPath();fx.moveTo(0,0);fx.quadraticCurveTo(cx_,cy_,ex,ey);fx.stroke();fx.fillStyle=red?'#d7182a':'rgba(61,92,140,.7)';fx.beginPath();fx.arc(ex,ey,(red?3.4:2)*dpr,0,7);fx.fill()});
+    fx.fillStyle='#d7182a';fx.beginPath();fx.arc(0,0,3*dpr,0,7);fx.fill();fx.restore()}
   /* spring click: a cherry blossom opens where you clicked */
   for(let k=blooms.length-1;k>=0;k--){const B=blooms[k];B.age++;const e=1-Math.pow(1-Math.min(1,B.age/18),3),al=B.age<45?1:1-(B.age-45)/40;if(al<=0){blooms.splice(k,1);continue}
     const s=30*dpr*e;fx.save();fx.translate(B.x,B.y);fx.rotate(B.rot+B.age*.004);fx.globalAlpha=al;
@@ -186,11 +337,11 @@ function drawFx(){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H);const glow=GLOW[sk
     fx.restore()}}
 
 let seaOn=c.isConnected,odd=false,lastF=0,win=[],settle=performance.now()+1500;if(seaOn&&window.IntersectionObserver)new IntersectionObserver(e=>{seaOn=e[0].isIntersecting}).observe(c);
-function setLevel(l){if(l===LEVEL)return;LEVEL=l;root.dataset.motion=l;stillDrawn=false;dpr=Math.min(devicePixelRatio||1,l?1:2);size();if(l===2){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H)}}
+function setLevel(l){if(l===LEVEL)return;LEVEL=l;root.dataset.motion=l;stillDrawn=false;dpr=Math.min(devicePixelRatio||1,l?1:1.5);size();if(l===2){fx.clearRect(0,0,W,H);bx.clearRect(0,0,W,H)}}
 /* Auto: average the real time between frames over ~2 s windows; slow windows step the level down, never up */
 function watch(now){if(MODE!=='auto'||document.hidden||now<settle){lastF=now;return}if(lastF){const d=now-lastF;if(d<250)win.push(d)}lastF=now;if(win.length>=(LEVEL?60:120)){const avg=win.reduce((a,b)=>a+b,0)/win.length;win=[];if(LEVEL===0&&avg>24)setLevel(1);else if(LEVEL===1&&avg>40)setLevel(2)}}
 document.addEventListener('visibilitychange',()=>{lastF=0;win=[];settle=performance.now()+1000});
-function frame(now){watch(now||performance.now());if(LEVEL===2){if(seaOn&&!stillDrawn){x.clearRect(0,0,w,h);SCENES[skin]();stillDrawn=true}if(!still)requestAnimationFrame(frame);return}if(LEVEL===1&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LEVEL?.032:.016;energy*=LEVEL?.92:.96;if(seaOn){x.clearRect(0,0,w,h);SCENES[skin]()}drawFx();if(!still)requestAnimationFrame(frame)}
+function frame(now){watch(now||performance.now());worldTick();if(LEVEL===2){if(seaOn&&!stillDrawn){x.clearRect(0,0,w,h);(worldScene()||SCENES[skin])();stillDrawn=true}if(!still)requestAnimationFrame(frame);return}if(LEVEL===1&&(odd=!odd)){if(!still)requestAnimationFrame(frame);return}t+=LEVEL?.032:.016;energy*=LEVEL?.92:.96;if(seaOn){const ws=worldScene();if(!ws||(halfF=!halfF)){x.clearRect(0,0,w,h);(ws||SCENES[skin])()}}drawFx();if(!still)requestAnimationFrame(frame)}
 /* Header button: Auto, Light or Still, remembered per visitor */
 root.dataset.motion=LEVEL;const mbtn=document.getElementById('motion');const MODES={auto:'Auto',light:'Light',still:'Still'};function showMode(){if(mbtn){mbtn.textContent='Motion: '+MODES[MODE];mbtn.title='Background animation: '+MODES[MODE]}}showMode();if(mbtn)mbtn.onclick=()=>{MODE=MODE==='auto'?'light':MODE==='light'?'still':'auto';try{MODE==='auto'?localStorage.removeItem('tz-motion'):localStorage.setItem('tz-motion',MODE)}catch(e){}showMode();win=[];settle=performance.now()+1000;setLevel(MODE==='still'?2:MODE==='light'?1:autoLevel())};
 frame();
@@ -244,10 +395,10 @@ addEventListener('scroll',()=>{if(target&&target.getBoundingClientRect().bottom<
    L(key, default) is a set to pick from; LF(key, default) is a fixed set where each place keeps its own line. */
 let LINES={};Promise.all([fetch('/assets/lines.json').then(r=>r.json()),fetch('/api/lines').then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,o])=>{LINES=Object.assign(d,o&&o.lines||{});for(const k in bags)delete bags[k]}).catch(()=>{});const bags={};
 const L=(k,d)=>{const a=LINES[k];return Array.isArray(a)&&a.length?a:d},LF=(k,d)=>{const a=LINES[k];return d.map((x,i)=>Array.isArray(a)&&typeof a[i]==='string'&&a[i].trim()?a[i]:x)},anyOf=a=>a[Math.floor(Math.random()*a.length)];
-const XLINES={};function nextLine(k){const L=LINES[k]||XLINES[k];if(!L||!L.length)return '';if(!bags[k]||!bags[k].length){bags[k]=L.slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
+const XLINES={'season-thread':['AI opens paths. You pick one. I approve. Usually.','see the red line? that\'s you. choosing. very human of you','blue is the machine guessing. red is a person deciding. I\'m red. obviously','With AI. For People. I\'m the "people" part. the best part','click anywhere. paths open. one of them is yours']};function nextLine(k){const L=LINES[k]||XLINES[k];if(!L||!L.length)return '';if(!bags[k]||!bags[k].length){bags[k]=L.slice();for(let i=bags[k].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bags[k][i],bags[k][j]]=[bags[k][j],bags[k][i]]}}return bags[k].pop()}
 /* catch the critter and talk to it */
 let caught=null;const chat=document.createElement('div');chat.className='chat';chat.hidden=true;document.body.appendChild(chat);
-const secrets=['the 9th floor has a 10th floor. probably','I was drawn with AI help, then fixed by people','every season I change clothes. try the Skin button','click the sky. it does things','I\'ve read all 158 old letters','the Ø is my cousin','my full name is Redache. Ache for short','Nero named me. I pretend I picked it','TZERØ means the moment things start','the polaroids can be dragged. rearrange my room!','Nero plays with me like a cat. I pretend not to notice','I don\'t sleep. I coil','I steal one pixel from every page. nobody noticed','I\'m why the cursor glows. you\'re welcome','I could dodge every click. I\'m just nice'];let si=0;
+const secrets=['the 9th floor has a 10th floor. probably','I was drawn with AI help, then fixed by people','every season I change clothes. try the Skin button','click the sky. it does things','I\'ve read all 158 old letters','the Ø is my cousin','my full name is Redache. Ache for short','Nero named me. I pretend I picked it','TZERØ means the moment things start','the Ø on the front page is a portal. poke it','Nero plays with me like a cat. I pretend not to notice','I don\'t sleep. I coil','I steal one pixel from every page. nobody noticed','I\'m why the cursor glows. you\'re welcome','I could dodge every click. I\'m just nice'];let si=0;
 const TREAT=['A treat? Only the premium red yarn. The imported kind. From the studio. The best studio.','Obviously. I\'ve been SO good. I only bugged the site once. Twice.','Put it on the stake. No, on a pillow. A silk pillow. Thank you.','I deserve three treats. One for each section. Four, counting me.'],CAUGHT=['Ugh. Fine. You caught me. Welcome to Artache, best studio on Earth. In this building.','Ugh. Fine. You caught me.','Hey! Hands off the points!','Okay, okay, lucky click.','Caught? I let you catch me.','Rude. Impressive, but rude.','Unhand me, I\'m a star!'];
 function talk(text,opts){chat.innerHTML='';const p=document.createElement('p');p.textContent=text;chat.appendChild(p);const row=document.createElement('div');row.className='opts';
   opts.forEach(([label,fn])=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=e=>{e.stopPropagation();fn()};row.appendChild(b)});chat.appendChild(row)}
@@ -430,9 +581,13 @@ function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slo
   setTimeout(()=>fsay(L('sleep',sleepLines)[sli2++%L('sleep',sleepLines).length],1800,3),400);try{localStorage.removeItem('ache-asleep')}catch(e){}}
 slot.addEventListener('click',e=>{e.stopPropagation();home?wakeAche():goSleep()});
 try{if(localStorage.getItem('ache-asleep')){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up')}}catch(e){}
+/* calm reading (2026-11-11 redesign): on articles Ache naps in his bed so the words get the page; a tap on the bed wakes him for the rest of the visit */
+try{if(/^\/(post|p)\//.test(location.pathname)&&!sessionStorage.getItem('ache-reading-awake')&&!home){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up');slot.title='Ache naps while you read. Tap to wake him'}}catch(e){}
+slot.addEventListener('click',()=>{try{home?sessionStorage.removeItem('ache-reading-awake'):sessionStorage.setItem('ache-reading-awake','1')}catch(e){}});
 
 /* Ache can't help bragging about its home studio, then correcting itself */
-setInterval(()=>{if(!fight&&!home&&!caught&&!busy()&&Math.random()<.5){const seas=Math.random()<.25;if(speak(nextLine(seas?'season-'+skin:'proud'),0)&&!seas)setMood('smug',5)}},28000);
+let lastScroll=0;addEventListener('scroll',()=>{lastScroll=performance.now()},{passive:true});
+setInterval(()=>{if(!fight&&!home&&!caught&&!busy()&&performance.now()-lastScroll>6000&&Math.random()<.4){const seas=Math.random()<.25;if(speak(nextLine(seas?'season-'+skin:'proud'),0)&&!seas)setMood('smug',5)}},45000);
 /* ...and has opinions about the weather: one line per skin change */
 function seasonSay(prio){if(!fight&&!home&&!busy())speak(nextLine('season-'+skin),prio)}
 
@@ -522,8 +677,8 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
     else if(bat.st==='ring'){const k=(tt-bat.t)/.45;g.strokeStyle=`rgba(255,207,122,${1-k})`;g.lineWidth=2*dpr;g.beginPath();g.arc(hx*dpr,hy*dpr,(6+k*26)*dpr,0,7);g.stroke();if(k>=1){bat.st='ok';bat.next=tt+50+Math.random()*60}}}
   else if(bat.st!=='ok'){bat.st='ok';bat.next=tt+30;document.body.classList.remove('lowbat')}
   g.globalAlpha=thA;
-  if(!TOUCH&&thA>.02){g.strokeStyle='rgba(19,34,75,.14)';g.lineWidth=3*dpr;g.beginPath();pts.forEach((p,i)=>i?g.lineTo((p.x+2)*dpr,(p.y+4)*dpr):g.moveTo((p.x+2)*dpr,(p.y+4)*dpr));g.stroke();
-  g.strokeStyle='#d7182a';g.lineWidth=2.1*dpr;g.beginPath();g.moveTo(pts[0].x*dpr,pts[0].y*dpr);
+  if(!TOUCH&&thA>.02){g.strokeStyle='rgba(19,34,75,.08)';g.lineWidth=2.4*dpr;g.beginPath();pts.forEach((p,i)=>i?g.lineTo((p.x+2)*dpr,(p.y+4)*dpr):g.moveTo((p.x+2)*dpr,(p.y+4)*dpr));g.stroke();
+  g.strokeStyle='#d7182a';g.lineWidth=1.6*dpr;g.beginPath();g.moveTo(pts[0].x*dpr,pts[0].y*dpr);
   for(let i=1;i<N-1;i++){g.quadraticCurveTo(pts[i].x*dpr,pts[i].y*dpr,(pts[i].x+pts[i+1].x)/2*dpr,(pts[i].y+pts[i+1].y)/2*dpr)}g.stroke();}g.globalAlpha=1;
   const tl=pts[N-1],sp=Math.hypot(tl.x-tl.px,tl.y-tl.py);spin+=.02+sp*.04;squash+=(Math.min(.35,sp*.04)-squash)*.2;
   const R=(TOUCH?14:11)*dpr,ang=Math.sin(spin)*.5*(1-daze)+daze*(2.6+Math.sin(tt*3)*.08)+(caught?Math.sin(tt*10)*.15:0);g.save();g.translate(tl.x*dpr,tl.y*dpr);g.rotate(ang);g.scale(1+squash,1-squash*.6);
@@ -581,7 +736,7 @@ const SND=(()=>{let ac=null,master,music,sfx,voiceBus,on=false,nextT=0,step=0,ti
   const PENTA={sea:[72,74,76,79,81,84],autumn:[69,72,74,76,79,81],winter:[76,79,81,84,86,88],spring:[74,76,79,81,83,86]};
   const BPM={sea:88,autumn:76,winter:68,spring:96},VO={sea:[.42,.5,'triangle',.04],autumn:[.32,1.1,'sine',.05],winter:[.26,1.6,'sine',.045],spring:[.45,.35,'triangle',.04]};
   const mf=m=>440*Math.pow(2,(m-69)/12);
-  function sched(){if(!ac||!on)return;const mk=pick||skin,bpm=fight?132:phase==='rush'?116:phase==='creep'?80:phase==='shop'?96:phase==='room'?64:BPM[mk]||88,s16=60/bpm/4;
+  function sched(){if(!ac||!on)return;const mk=pick||(skin==='thread'?'sea':skin),bpm=fight?132:phase==='rush'?116:phase==='creep'?80:phase==='shop'?96:phase==='room'?64:BPM[mk]||88,s16=60/bpm/4;
     while(nextT<ac.currentTime+.25){const t=nextT,bar=Math.floor(step/16)%4,i=step%16,k=PROG[mk]?mk:'sea',ch=PROG[k][bar];
       if(scene||phase==='broken'){if(i===0&&step%32===0)tone(mf(33),t,s16*32,{type:'sawtooth',vol:.06,bus:music,att:1,q:180})}
       else if(fight){if(i%2===0)tone(mf(ch[0]-12+(i%8===6?7:0)),t,s16*1.6,{type:'square',vol:.07,bus:music,q:700});if(i%4===0)noise(t,.06,{vol:.12,f:90,type:'lowpass',bus:music});if(i%8===4)noise(t,.08,{vol:.1,f:2500,bus:music});

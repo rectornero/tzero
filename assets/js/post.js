@@ -170,7 +170,9 @@
     : frozen ? WIX.frozen(slug).catch(() => WIX.bySlug(slug))
     : isPage ? fromLive()
     : fromLive().then(p => p || WIX.bySlug(slug));
-  source.then(post => {
+  // The game world the article lives in (assets/worlds.json): the page travels there before it renders
+  const withWorld = post => post && window.TZW ? TZW.ready.then(() => { TZW.enter(TZW.of(post)); return post }) : post;
+  source.then(withWorld).then(post => {
     if (!post) throw new Error('missing');
     const cat = WIX.category(post);
     document.title = post.title + ' · TZERØ';
@@ -216,6 +218,8 @@
       foot.append(orig);
     }
 
+    const wk = window.TZW ? TZW.of(post) : '';
+    if (wk) sheet.append(TZW.strip(wk));
     sheet.append(head);
     if (post.ache) sheet.append(acheNote(post));
     sheet.append(body, share(post), foot);
