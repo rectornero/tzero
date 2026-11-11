@@ -7,27 +7,27 @@
 .post,.card,.side-box{background-color:var(--paper)}
 
 /* ---------- the worlds ---------- */
-:root[data-world=starchasers]{
+:root[data-world=starchasers],.ad-sheet[data-world=starchasers]{
   --sun:#17123a;--sand:#221b4d;--sky:#3b2e6e;--b1:#7a5aa8;--b2:#8b6fd6;--b3:#4b3592;--abyss:#120e2e;--ink:#1c1740;--soft:#5a5285;
   --page-ink:#f3eeff;--page-soft:#bdb2e6;--paper:#fcfbff;--w-accent:#ffd27a;
   --display:"Space Grotesk","Geist",system-ui,sans-serif;--mono:"Pixelify Sans","Geist Mono",ui-monospace,monospace}
-:root[data-world=liminal-outliers]{
+:root[data-world=liminal-outliers],.ad-sheet[data-world=liminal-outliers]{
   --sun:#eef3f1;--sand:#e3ebe8;--sky:#d3e3e2;--b1:#b4cdce;--b2:#4f8a8f;--b3:#2f5f66;--abyss:#1f2b2e;--ink:#1f2b2e;--soft:#5c6f72;
   --paper:#fdfefd;--w-accent:#8cc63f;
   --display:"Fraunces",Georgia,serif;--mono:"IBM Plex Mono","Geist Mono",ui-monospace,monospace}
-:root[data-world=deadend]{
+:root[data-world=deadend],.ad-sheet[data-world=deadend]{
   --sun:#15111d;--sand:#1f1828;--sky:#2b2036;--b1:#5a3d52;--b2:#c26a2a;--b3:#8e4517;--abyss:#120d18;--ink:#231b21;--soft:#6b5a60;
   --page-ink:#f3e9dc;--page-soft:#bba99a;--paper:#f8f2e8;--w-accent:#ffb347;
   --display:"Playfair Display",Georgia,serif;--mono:"Courier Prime","Geist Mono",ui-monospace,monospace}
-:root[data-world=overgame]{
+:root[data-world=overgame],.ad-sheet[data-world=overgame]{
   --sun:#0e0b12;--sand:#17121c;--sky:#241520;--b1:#4a1a26;--b2:#c9283a;--b3:#7a1420;--abyss:#0a080d;--ink:#1a1216;--soft:#6a5459;
   --page-ink:#f6eef0;--page-soft:#b8a0a6;--paper:#fbf8f8;--w-accent:#ff3b4e;
   --display:"Bebas Neue","Geist",system-ui,sans-serif;--mono:"JetBrains Mono","Geist Mono",ui-monospace,monospace}
-:root[data-world=ai-ice]{
+:root[data-world=ai-ice],.ad-sheet[data-world=ai-ice]{
   --sun:#0b1433;--sand:#0f2140;--sky:#123a52;--b1:#2f6f86;--b2:#2a8ea0;--b3:#1d6474;--abyss:#081029;--ink:#14203d;--soft:#56688c;
   --page-ink:#eaf6ff;--page-soft:#a8c4dc;--paper:#f8fbff;--w-accent:#ffcf9a;
   --display:"Unbounded","Geist",system-ui,sans-serif;--body:"Outfit","Geist",system-ui,sans-serif}
-:root[data-world=archive]{
+:root[data-world=archive],.ad-sheet[data-world=archive]{
   --sun:#f4ead6;--sand:#efe0c2;--sky:#e8d4ae;--b1:#d9bb8a;--b2:#a8642e;--b3:#7a4520;--abyss:#3a2616;--ink:#2e2015;--soft:#76604a;
   --paper:#fffaf0;--w-accent:#b5652b;
   --display:"Fraunces",Georgia,serif;--mono:"Special Elite","Geist Mono",ui-monospace,monospace}
@@ -350,7 +350,7 @@ a.dep-row:hover,a.dep-row:focus-visible{background:rgba(255,255,255,.07);transfo
 :root[data-dark] .letter .stamp{color:#fff}
 .ws-code{color:#14121c}
 :root:not([data-dark])[data-world] .shelf-head .tag{color:var(--b3)}
-:root[data-world=liminal-outliers]{--w-accent:#5e9a1f}
+:root[data-world=liminal-outliers],.ad-sheet[data-world=liminal-outliers]{--w-accent:#5e9a1f}
 :root[data-dark] .btn{background:var(--w-accent);color:#14121c}
 :root[data-dark] .story-band .btn{background:var(--w-accent);color:#14121c}
 :root[data-dark] .side-avatar{background:var(--w-accent);color:#14121c}
