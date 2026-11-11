@@ -100,22 +100,5 @@ a.card.is-read::after{content:attr(data-read-on);position:absolute;right:12px;to
 .door-go::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,#fffbe8,var(--dc) 60%);opacity:0;transition:opacity .5s ease;pointer-events:none}
 .door-go.s4 .dg-box{transform:scale(1.35);transition:transform .55s cubic-bezier(.5,0,.8,.4)}
 .door-go.s4::after{opacity:.92}
-/* a picture door: the leaf is cut out of the picture (save.js leafDoor) and swings on its hinge over the room's light */
-.ld{position:absolute;inset:0;display:block;perspective:900px}
-.ld-pic{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
-.ld-hole,.ld-leaf{position:absolute;display:block}
-.ld-hole{background:var(--room,none) center/cover,radial-gradient(ellipse at 50% 85%,#fffbe8,var(--dc) 50%,#0b1229 110%);background-blend-mode:soft-light,normal;box-shadow:inset 0 0 18px rgba(0,0,0,.45)}
-.ld-leaf{background-repeat:no-repeat;transform-origin:0 50%;backface-visibility:hidden;transition:transform 1.1s cubic-bezier(.45,0,.2,1),filter 1.1s;will-change:transform}
-.ld.hinge-r .ld-leaf{transform-origin:100% 50%}
-.ld-glow{position:absolute;left:6%;right:6%;bottom:-2px;height:3px;border-radius:2px;background:var(--dc);box-shadow:0 0 10px 3px var(--dc);animation:cd-breathe 3.4s ease-in-out infinite}
-.caw-door .ld-pic{transform:none}
-.caw-door.is-leaf{border-color:color-mix(in srgb,var(--dc) 45%,#13224b)}
-.caw-door.is-leaf .ld-glow{left:12%;right:12%}
-.caw-door.known .ld-leaf{transform:rotateY(24deg)}.caw-door.known .ld.hinge-r .ld-leaf{transform:rotateY(-24deg)}
-.door-go.s2 .ld-leaf{transform:rotateY(30deg);filter:brightness(.92)}.door-go.s2 .ld.hinge-r .ld-leaf{transform:rotateY(-30deg)}
-.door-go.s3 .ld-leaf{transform:rotateY(80deg);filter:brightness(.7)}.door-go.s3 .ld.hinge-r .ld-leaf{transform:rotateY(-80deg)}
-.door-go.s2 .ld-glow,.door-go.s3 .ld-glow{opacity:0;animation:none}
-@media (prefers-reduced-motion:reduce){.ld-glow{animation:none}.ld-leaf{transition:none}}
-:root[data-motion="2"] .ld-glow{animation:none}:root[data-motion="2"] .ld-leaf{transition:none}
 @media (prefers-reduced-motion:reduce){.caw-door .cd-gap{animation:none}}
 :root[data-motion="2"] .caw-door .cd-gap{animation:none}

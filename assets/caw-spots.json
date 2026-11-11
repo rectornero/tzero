@@ -25,14 +25,7 @@
    "top": "-34px",
    "right": "6%"
   },
-  "hint": "At the very bottom of the front page. Nobody looks there. That's why it's his.",
-  "leaf": [
-   34.4,
-   11.0,
-   33.0,
-   74.2,
-   "r"
-  ]
+  "hint": "At the very bottom of the front page. Nobody looks there. That's why it's his."
  },
  {
   "id": "door-kristoph",
@@ -46,14 +39,7 @@
    "top": "-20px",
    "right": "2%"
   },
-  "hint": "On the Studio shelf. Of course his office is in the business section.",
-  "leaf": [
-   30.5,
-   7.3,
-   39.1,
-   80.6,
-   "l"
-  ]
+  "hint": "On the Studio shelf. Of course his office is in the business section."
  },
  {
   "id": "door-prima",
@@ -67,15 +53,7 @@
    "top": "-30px",
    "right": "10px"
   },
-  "hint": "In the Idea Lab, by the handshake. A door that is always left open a crack.",
-  "leaf": [
-   32.5,
-   8.7,
-   34.8,
-   75.1,
-   "l"
-  ],
-  "arch": "50% 50% 0 0 / 20% 20% 0 0"
+  "hint": "In the Idea Lab, by the handshake. A door that is always left open a crack."
  },
  {
   "id": "door-aqua",
@@ -83,20 +61,13 @@
   "door": 1,
   "name": "Aqua",
   "color": "#ffcf9a",
-  "path": "/posts/worlds/ai-ice",
-  "anchor": ".shelf-head",
+  "path": "/",
+  "anchor": ".sea",
   "style": {
-   "top": "-20px",
-   "right": "2%"
+   "bottom": "18px",
+   "left": "6%"
   },
-  "hint": "In the AI◆ICE world, by the shelf of its stories. Listen for drums under the floor.",
-  "leaf": [
-   27.3,
-   14.7,
-   45.1,
-   72.8,
-   "l"
-  ]
+  "hint": "In the sea on the front page. Listen for the drums under the water."
  },
  {
   "id": "door-vesper",
@@ -110,14 +81,7 @@
    "top": "-30px",
    "right": "10px"
   },
-  "hint": "In the Idea Lab, out on Soul Street at night. Look for a lantern.",
-  "leaf": [
-   29.5,
-   17.9,
-   41.0,
-   66.6,
-   "l"
-  ]
+  "hint": "In the Idea Lab, out on Soul Street at night. Look for a lantern."
  },
  {
   "id": "door-bianca",
@@ -128,17 +92,10 @@
   "path": "/story",
   "anchor": ".story-hero",
   "style": {
-   "top": "12px",
+   "bottom": "10px",
    "right": "4%"
   },
-  "hint": "At the top of the story page, where it all begins.",
-  "leaf": [
-   30.0,
-   6.0,
-   41.4,
-   86.1,
-   "l"
-  ]
+  "hint": "At the top of the story page, where it all begins."
  },
  {
   "id": "door-norman",
@@ -152,14 +109,7 @@
    "top": "-30px",
    "right": "2%"
   },
-  "hint": "In Ache's source code, by the comments he reads like an old book.",
-  "leaf": [
-   30.2,
-   11.0,
-   39.6,
-   75.1,
-   "l"
-  ]
+  "hint": "In Ache's source code, by the comments he reads like an old book."
  },
  {
   "id": "door-elise",
@@ -173,14 +123,7 @@
    "top": "-30px",
    "right": "3%"
   },
-  "hint": "On the story page, among the tapes. A quiet door with a flower on it.",
-  "leaf": [
-   27.7,
-   8.1,
-   44.4,
-   81.7,
-   "l"
-  ]
+  "hint": "On the story page, among the tapes. A quiet door with a flower on it."
  },
  {
   "id": "door-ache",
@@ -194,14 +137,7 @@
    "top": "-30px",
    "right": "2%"
   },
-  "hint": "Where he lives, in his own source code. The door is red. Obviously.",
-  "leaf": [
-   28.6,
-   17.4,
-   41.5,
-   69.6,
-   "r"
-  ]
+  "hint": "Where he lives, in his own source code. The door is red. Obviously."
  },
  {
   "id": "k-spinner-1",
