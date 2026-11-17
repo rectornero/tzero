@@ -580,14 +580,18 @@ addEventListener('resize',()=>{if(fight){fc.width=innerWidth*dpr;fc.height=inner
 const slot=document.getElementById('slot');
 function slotPos(){const b=slot.getBoundingClientRect();return{x:b.left+b.width/2,y:b.top+b.height/2}}
 const sleepLines=['five more minutes…','zzz… four points… zzz','I was NOT asleep','ugh, daylight','*yawns in red*','I dreamt I won the fight','who woke the star?'];let sli2=0;
-function goSleep(){if(fight)return;sfx('sleep');caught=null;chat.hidden=true;stake=null;home=true;slot.setAttribute('aria-label','Wake Ache up');fsay('Bedtime? Fine. Don\'t touch my thread.',1600,3);try{localStorage.setItem('ache-asleep','1')}catch(e){}}
-function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');slot.setAttribute('aria-label','Put Ache to sleep');pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();setMood('sleepy',7);
-  setTimeout(()=>fsay(L('sleep',sleepLines)[sli2++%L('sleep',sleepLines).length],1800,3),400);try{localStorage.removeItem('ache-asleep')}catch(e){}}
+function goSleep(){if(fight)return;sfx('sleep');caught=null;chat.hidden=true;stake=null;home=true;bedLabel();fsay('Bedtime? Fine. Don\'t touch my thread.',1600,3);try{localStorage.removeItem('ache-awake')}catch(e){}}
+function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');bedLabel();pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();setMood('sleepy',7);
+  setTimeout(()=>fsay(L('sleep',sleepLines)[sli2++%L('sleep',sleepLines).length],1800,3),400);try{localStorage.setItem('ache-awake','1');localStorage.removeItem('ache-asleep')}catch(e){}}
 slot.addEventListener('click',e=>{e.stopPropagation();home?wakeAche():goSleep()});
-try{if(localStorage.getItem('ache-asleep')){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up')}}catch(e){}
-/* calm reading (2026-11-11 redesign): on articles Ache naps in his bed so the words get the page; a tap on the bed wakes him for the rest of the visit */
-try{if(/^\/(post|p)\//.test(location.pathname)&&!sessionStorage.getItem('ache-reading-awake')&&!home){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up');slot.title='Ache naps while you read. Tap to wake him'}}catch(e){}
-slot.addEventListener('click',()=>{try{home?sessionStorage.removeItem('ache-reading-awake'):sessionStorage.setItem('ache-reading-awake','1')}catch(e){}});
+/* opt-in (Nero, 2026-11-17): Ache and his red thread start docked (asleep in the bed) on every page. The reader switches him on
+   with "Ache's thread" in page settings or a click on the bed; the choice is remembered on this browser until they switch him off. */
+/* the specific option: "Ache's thread: Off / On" in page settings (the bed in the header does the same) */
+const ACHEBTN=(()=>{const pop=document.querySelector('.tweaks-pop');if(!pop)return null;const b=document.createElement('button');b.className='skin';b.id='ache-toggle';b.type='button';
+  b.addEventListener('click',e=>{e.stopPropagation();home?wakeAche():goSleep()});const sm=pop.querySelector(':scope>small');sm?pop.insertBefore(b,sm):pop.appendChild(b);return b})();
+function bedLabel(){const t=home?'Ache is docked. Click to switch on Ache and his red thread':'Dock Ache and switch his thread off';slot.setAttribute('aria-label',t);slot.title=t;
+  if(ACHEBTN){ACHEBTN.textContent=home?'Ache: Off':'Ache: On';ACHEBTN.setAttribute('aria-pressed',home?'false':'true');ACHEBTN.title=home?'Switch on Ache, the red star that follows your arrow':'Dock Ache in the header'}}
+{let awake=false;try{awake=localStorage.getItem('ache-awake')==='1'}catch(e){}if(!awake){home=true;sleeping=true;slot.classList.add('full')}bedLabel()}
 
 /* Ache can't help bragging about its home studio, then correcting itself */
 let lastScroll=0;addEventListener('scroll',()=>{lastScroll=performance.now()},{passive:true});
@@ -668,12 +672,12 @@ let tt=0;(function thread(){if(fight||sleeping){tx_.clearRect(0,0,tc.width,tc.he
   for(let k=0;k<5;k++)for(let i=1;i<N;i++){const a=pts[i-1],b=pts[i],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;if(d<=seg)continue;const df=(d-seg)/d;
     if(i===1&&!(scene&&scene.detached)){b.x-=dx*df;b.y-=dy*df}else{a.x+=dx*df*.5;a.y+=dy*df*.5;b.x-=dx*df*.5;b.y-=dy*df*.5}}
   const g=tx_;g.clearRect(0,0,tc.width,tc.height);g.lineCap=g.lineJoin='round';
-  /* the thread is a lot to look at: after 20 quiet seconds it fades into 'arrow wifi' (signal arcs from Ache toward the arrow) and comes back for catching, staking, sleep and scenes */
+  /* the thread is a lot to look at: after 20 quiet seconds it quietly fades out and comes back for catching, staking, sleep and scenes.
+     The 'arrow wifi' arcs and the low-battery spark that rode on them are off since 2026-11-17 (Nero: too distracting); WIFI=true brings them back. */
+  const WIFI=false;
   if(caught||stake||scene||therapy||home)lastActive=tt;thA+=((tt-lastActive<20?1:0)-thA)*.03;const tl0=pts[N-1];
-  if(!TOUCH&&thA<.98&&hx!==null){const a=Math.atan2(hy-tl0.y,hx-tl0.x);g.lineWidth=1.8*dpr;
-    for(let k=0;k<3;k++){const ph=((tt*1.2+k/3)%1);g.strokeStyle=`rgba(215,24,42,${(1-thA)*.75*(1-ph)})`;g.beginPath();g.arc(tl0.x*dpr,tl0.y*dpr,(16+ph*22)*dpr,a-.55,a+.55);g.stroke()}}
   /* low battery: now and then the arrow goes dark and Ache sends a spark over the wifi to recharge it (desktop only) */
-  if(!TOUCH&&thA<.1&&hx!==null&&!fight&&!scene&&!caught&&!stake&&!home&&!still){
+  if(WIFI&&!TOUCH&&thA<.1&&hx!==null&&!fight&&!scene&&!caught&&!stake&&!home&&!still){
     if(bat.st==='ok'&&tt>bat.next){bat.st='low';bat.t=tt;document.body.classList.add('lowbat');speak(nextLine('recharge'),1)}
     else if(bat.st==='low'&&tt-bat.t>1.6){bat.st='spark';bat.x=tl0.x;bat.y=tl0.y;sfx('drop')}
     else if(bat.st==='spark'){bat.x+=(hx-bat.x)*.16;bat.y+=(hy-bat.y)*.16;g.fillStyle='#fff6cf';g.shadowColor='#ffcf7a';g.shadowBlur=14*dpr;g.beginPath();g.arc(bat.x*dpr,bat.y*dpr,4*dpr,0,7);g.fill();g.shadowBlur=0;

@@ -125,7 +125,7 @@
 
   /* Live values: what Ache is doing right now, read from the page itself */
   function readLive() {
-    try { live.awake = localStorage.getItem('ache-asleep') !== '1' } catch (e) {}
+    try { live.awake = localStorage.getItem('ache-awake') === '1' } catch (e) {}
     live.skin = { thread: 'Thread', autumn: 'Autumn', winter: 'Winter', spring: 'Spring' }[root.dataset.skin] || 'Summer';
     live.sound = snd && snd.getAttribute('aria-pressed') === 'true' ? 'on' : 'off';
     live.mood = news ? 'grief' : 'fine';
