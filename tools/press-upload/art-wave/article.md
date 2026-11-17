@@ -3,7 +3,7 @@ title: One look for the whole game: inside the Starchasers art wave
 excerpt: In one week Starchasers redrew its crew, its map sprites and its townsfolk, and learned to measure what the eye was already saying. Nero on the hardest art push the game has had, and why it was worth it.
 category: studio
 world: starchasers
-cover: {{art-wave-cover2}} | The sixteen crew members as new map sprites, standing in two rows under a starry sky with a warm glow behind them | 1600x686
+cover: {{art-wave-cover3}} | The sixteen crew members as new map sprites, standing in two rows under a starry sky with a warm glow behind them | 1600x686
 ---
 ::kicker STUDIO NOTES · 17 NOVEMBER 2026
 
