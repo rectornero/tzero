@@ -27,12 +27,7 @@ Alfred is the clearest example. His first redesign was clean and on style, and i
 
 ![Two bold redesign directions for Alfred: A, a silver-haired admiral with a sun motif, and B, a dark-haired duelist with a glowing rapier and orbiting scale-weights]({{art-wave-alfred-ab}} "Alfred, round three: A, the Silver Sun Admiral, and B, the Starlight Duelist. B won."){1000x562}
 
-Zephir took the longest road. He went through version after version (straight, deadpan, glasses and hood, boots) until the design was right. Then Nero noticed something no checklist would catch: the finished Zephir looked tired. Slouched, eyes half closed. "We need a serious, but not so tired, Zephir as our model." Version nine kept every detail of the design and changed only how he stands and looks. Drag the slider to compare.
-
-:::compare caption="Zephir, version eight and version nine: the same design, a different person. Drag to compare." start=50
-before: {{art-wave-zephir-v8}} | v8: tired
-after: {{art-wave-zephir-v9}} | v9: serious
-:::
+Zephir took the longest road. He went through version after version (straight, deadpan, glasses and hood, boots) until the design was right. Then Nero noticed something no checklist would catch: the finished Zephir looked tired. Slouched, eyes half closed. The tired Zephir had plenty of charm, but this sheet is his base model, the pose every other picture of him starts from, and Nero wanted that to be "serious, but not so tired". Version nine kept every detail of the design and changed only how he stands and looks. He's the one on the cover of this article.
 
 It's Nero's favourite result of the whole wave. When the new sheet came back he wrote "I love this so much!" Four days later, his verdict is shorter:
 
@@ -40,11 +35,11 @@ It's Nero's favourite result of the whole wave. When the new sheet came back he 
 
 ## Readable on a phone
 
-The crew walks the maps as tiny pixel figures. After a playtest, Nero found the crew's map figures hard to read on a phone: small heads, soft outlines, and "too unlit" against the backgrounds. We put four options on the Desk as mock-ups at real game size. He picked the one that redraws everyone at about two heads tall with a dark outline and warmer light, at the same size on the map, so no map had to change.
+The crew walks the maps as tiny pixel figures. After a playtest, Nero found them hard to read on a phone: small heads, soft outlines, and "too unlit" against the backgrounds. The first fix, on 12 November, gave them a dark outline and warmer light. It helped, but the heads were still small.
 
-All sixteen crew sheets were redrawn the same day.
+So this week we measured them. On the shipped sprites the chin sat at 35 to 43% of the figure's height, so the head was barely a third of the body. The target was two sprites Nero picked from the crew's special outfits, where the chin sits at exactly half. Every crew sprite was redrawn to that line, in all four walking directions, and each frame was measured with a small tool that finds the chin row, instead of judged by eye. They also got the richer colours of the targets.
 
-![Rows of small pixel walking sprites for several crew members, each in four directions with three walking frames]({{art-wave-map-sprites}} "The second batch of new map sprites: bigger heads, a dark outline and warm light, so the crew reads at phone size."){1000x711}
+![Pixel sprites of three crew members: the old shipped sprite next to five new frames each, with a line marking the chin and the head percentage under each frame]({{art-wave-sprites-50}} "Top: the two target sprites, chin at exactly 50%. Below: Wilhelm, Laura and Charlotte, old shipped sprite first, then the new frames. Head 35-43% became 49-50%."){1000x970}
 
 ## The faces that already worked
 
@@ -56,7 +51,7 @@ The bodies worked. The faces didn't. Nero found the new expressions "unoriginal 
 
 So the town got the best of both: the old, calm, cute faces on the new bodies, and their old colours too. To bring back the colours without touching a single line of the approved faces, we built a colour map from each character's before-and-after pair and applied it to every mood.
 
-![Marigold the baker in three moods: the old figure on top, the new body with her old face below, and the faces compared side by side at the bottom]({{art-wave-marigold-faces}} "Marigold: the old figure (top) and the new body wearing her old face (bottom). Faces compared side by side at the bottom."){780x1288}
+![Three townsfolk, Clem, the Lamplighter and Wren, each shown before and after: the old figure on the left, the final one on the right]({{art-wave-townsfolk-before-after}} "Clem, the Lamplighter and Wren, before and after. Same faces and colours; crew-like bodies and detail, and a little shorter: they are village folk."){1200x605}
 
 > I'm happy the correction worked as I hoped.
 
@@ -96,7 +91,10 @@ Each head was measured the same way, from the top of the hair to the chin, and e
 
 The fix was not a smaller head. Her head, face, colours and outfit stayed exactly as they were. Only the body below the shoulders got its length back, in every mood.
 
-![Laura from the crew next to Delia before and after the fix, with head-unit marks along the left of each figure]({{art-wave-delia-ratio}} "Laura from the crew (left), Delia before (middle) and after (right). Same head, same face; the body below the shoulders gets its length back. The ticks mark head units."){1000x728}
+:::compare caption="Delia before and after the fix. Same head, same face; only the body below the shoulders gets its length back. The ticks mark head units. Drag to compare." start=50
+before: {{art-wave-delia-before}} | before: 6.3 heads
+after: {{art-wave-delia-after}} | after: 6.5 heads
+:::
 
 Nero liked it and asked for the same method everywhere. The rule we now use: every adult is at least 6.5 heads tall, and a head is never made smaller. The crew stand at 7.0 to 7.4 heads. Measured at three times zoom, two townsfolk were under the line: Delia and Clem, both at 6.3. Both now stand at 6.5. Everyone else measured 6.8 heads or more and didn't change. Pell is a child, so the rule doesn't apply to him.
 
