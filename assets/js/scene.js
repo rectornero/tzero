@@ -580,14 +580,14 @@ addEventListener('resize',()=>{if(fight){fc.width=innerWidth*dpr;fc.height=inner
 const slot=document.getElementById('slot');
 function slotPos(){const b=slot.getBoundingClientRect();return{x:b.left+b.width/2,y:b.top+b.height/2}}
 const sleepLines=['five more minutes…','zzz… four points… zzz','I was NOT asleep','ugh, daylight','*yawns in red*','I dreamt I won the fight','who woke the star?'];let sli2=0;
-function goSleep(){if(fight)return;sfx('sleep');caught=null;chat.hidden=true;stake=null;home=true;slot.setAttribute('aria-label','Wake Ache up');fsay('Bedtime? Fine. Don\'t touch my thread.',1600,3);try{localStorage.setItem('ache-asleep','1')}catch(e){}}
-function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');slot.setAttribute('aria-label','Put Ache to sleep');pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();setMood('sleepy',7);
-  setTimeout(()=>fsay(L('sleep',sleepLines)[sli2++%L('sleep',sleepLines).length],1800,3),400);try{localStorage.removeItem('ache-asleep')}catch(e){}}
+function goSleep(){if(fight)return;sfx('sleep');caught=null;chat.hidden=true;stake=null;home=true;bedLabel();fsay('Bedtime? Fine. Don\'t touch my thread.',1600,3);try{localStorage.removeItem('ache-awake')}catch(e){}}
+function wakeAche(){sfx('wake');const sp=slotPos();home=false;sleeping=false;slot.classList.remove('full');bedLabel();pts.forEach(q=>{q.x=q.px=sp.x;q.y=q.py=sp.y});pick();setMood('sleepy',7);
+  setTimeout(()=>fsay(L('sleep',sleepLines)[sli2++%L('sleep',sleepLines).length],1800,3),400);try{localStorage.setItem('ache-awake','1');localStorage.removeItem('ache-asleep')}catch(e){}}
 slot.addEventListener('click',e=>{e.stopPropagation();home?wakeAche():goSleep()});
-try{if(localStorage.getItem('ache-asleep')){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up')}}catch(e){}
-/* calm reading (2026-11-11 redesign): on articles Ache naps in his bed so the words get the page; a tap on the bed wakes him for the rest of the visit */
-try{if(/^\/(post|p)\//.test(location.pathname)&&!sessionStorage.getItem('ache-reading-awake')&&!home){home=true;sleeping=true;slot.classList.add('full');slot.setAttribute('aria-label','Wake Ache up');slot.title='Ache naps while you read. Tap to wake him'}}catch(e){}
-slot.addEventListener('click',()=>{try{home?sessionStorage.removeItem('ache-reading-awake'):sessionStorage.setItem('ache-reading-awake','1')}catch(e){}});
+/* opt-in (Nero, 2026-11-17): Ache and his red thread start asleep in the bed on every page. A click on the bed wakes him,
+   and that choice is remembered on this browser until the reader puts him back to sleep. */
+function bedLabel(){const t=home?'Ache is asleep. Click to wake him and his red thread':'Put Ache and his thread to sleep';slot.setAttribute('aria-label',t);slot.title=t}
+{let awake=false;try{awake=localStorage.getItem('ache-awake')==='1'}catch(e){}if(!awake){home=true;sleeping=true;slot.classList.add('full')}bedLabel()}
 
 /* Ache can't help bragging about its home studio, then correcting itself */
 let lastScroll=0;addEventListener('scroll',()=>{lastScroll=performance.now()},{passive:true});
