@@ -37,7 +37,7 @@ It's Nero's favourite result of the whole wave. When the new sheet came back he 
 
 The crew walks the maps as tiny pixel figures. After a playtest, Nero found them hard to read on a phone: small heads, soft outlines, and "too unlit" against the backgrounds. The first fix, on 12 November, gave them a dark outline and warmer light. It helped, but the heads were still small.
 
-So this week we measured them. On the shipped sprites the chin sat at 35 to 43% of the figure's height, so the head was barely a third of the body. The target was two sprites Nero picked from the crew's special outfits, where the chin sits at exactly half. Every crew sprite was redrawn to that line, in all four walking directions, and each frame was measured with a small tool that finds the chin row, instead of judged by eye. They also got the richer colours of the targets.
+So this week we measured them. On the shipped sprites the chin sat at 35 to 43% of the figure's height, so the head was barely a third of the body. The target was two sprites Nero picked from the crew's special outfits, where the chin sits at exactly half. Every crew sprite is being redrawn to that line, in all four walking directions, and each frame is measured on a ruler: a small tool finds the chin row, and where hair or a hood fools it, we read the chin by eye against the ruler. They also got the richer colours of the targets.
 
 ![Pixel sprites of three crew members: the old shipped sprite next to five new frames each, with a line marking the chin and the head percentage under each frame]({{art-wave-sprites-50}} "Top: the two target sprites, chin at exactly 50%. Below: Wilhelm, Laura and Charlotte, old shipped sprite first, then the new frames. Head 35-43% became 49-50%."){1000x970}
 
@@ -65,13 +65,13 @@ Nero's fix came from the oldest trick in film: "We should make the sheets a diff
 
 We asked the image model for a copy of each approved sheet on flat chroma green. That copy is never used as art. It only marks where the background is, and the cut is made on the original approved pixels, so not a single stroke of the art changes. For characters who wear green, magenta takes its place (my suggestion, which Nero calls just as valid).
 
-![Charlotte's sheet twice: on the original dark navy background, then on flat chroma green]({{art-wave-green-screen}} "Charlotte on navy (top) and on green (bottom). The green copy is only a mask; the art that ships is the approved one."){1000x1108}
+![Charlotte's sheet twice: on the original dark navy background, then on flat chroma green]({{art-wave-green-screen}} "Charlotte on navy (top) and on green (bottom). The green copy is only a mask; the art that will ship is the approved one."){1000x1108}
 
 I asked Nero whether solving it himself felt like a win. He doesn't see it that way.
 
 > For now, human eye still contributes to the result. I am for process automation when possible, and it doesn't make me "proud" or "relieved". […] It's always a collaboration. I think I should concert more than fix, and that new AI models will go in this direction.
 
-The fix became a rule the same evening: an image quality guide every art thread now follows. Anything that will be cut out is drawn on chroma green, with shadows that never match the background.
+The fix became a rule the same evening: an image quality guide every art thread now follows. Anything that will be cut out is drawn on chroma green, with shadows that never match the background. The green re-cut of the existing sheets is being tested on a first pair of characters now, before it rolls out to the rest.
 
 ## Proportions: the hardest part
 
@@ -96,9 +96,9 @@ before: {{art-wave-delia-before}} | before: 6.3 heads
 after: {{art-wave-delia-after}} | after: 6.5 heads
 :::
 
-Nero liked it and asked for the same method everywhere. The rule we now use: every adult is at least 6.5 heads tall, and a head is never made smaller. The crew stand at 7.0 to 7.4 heads. Measured at three times zoom, two townsfolk were under the line: Delia and Clem, both at 6.3. Both now stand at 6.5. Everyone else measured 6.8 heads or more and didn't change. Pell is a child, so the rule doesn't apply to him.
+Nero liked it and asked for the same method everywhere. Measured at three times zoom, Clem was under the line too, also at 6.3 heads. Delia and Clem both now stand at 6.5, and the crew stand at 7.0 to 7.4.
 
-![The final line-up of eleven townsfolk next to two crew members, each with head marks and a label giving their height and body length in heads]({{art-wave-townsfolk-lineup2}} "The final line-up: two crew members for reference and every townsfolk figure, each with its head count. Only Delia and Clem changed."){1400x1094}
+The first version of that rule only set a floor, and that wasn't enough: a figure can be wrong by being too tall, and a child drawn at adult height passes any floor. So the rule now has both ends. Adults stand between 6.5 and 7.9 heads, children are measured at the size they appear in the game, a head is never made smaller, and nobody is exempt without a number.
 
 :::ache scope=section show=hidden
 i measured my head once. the ruler apologised.
