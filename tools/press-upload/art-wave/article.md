@@ -51,7 +51,7 @@ The bodies worked. The faces didn't. Nero found the new expressions "unoriginal 
 
 So the town got the best of both: the old, calm, cute faces on the new bodies, and their old colours too. To bring back the colours without touching a single line of the approved faces, we built a colour map from each character's before-and-after pair and applied it to every mood.
 
-![Three townsfolk, Clem, the Lamplighter and Wren, each shown before and after: the old figure on the left, the final one on the right]({{art-wave-townsfolk-before-after}} "Clem, the Lamplighter and Wren, before and after. Same faces and colours; crew-like bodies and detail, and a little shorter: they are village folk."){1200x605}
+![Clem, the Lamplighter and Wren, each in three moods, shown from the waist up]({{art-wave-townsfolk-faces}} "Clem, the Lamplighter and Wren as they are now: their own calm, cute faces in every mood, on bodies drawn to sit next to the crew."){940x1224}
 
 > I'm happy the correction worked as I hoped.
 
@@ -98,7 +98,7 @@ after: {{art-wave-delia-after}} | after: 6.5 heads
 
 Nero liked it and asked for the same method everywhere. The rule we now use: every adult is at least 6.5 heads tall, and a head is never made smaller. The crew stand at 7.0 to 7.4 heads. Measured at three times zoom, two townsfolk were under the line: Delia and Clem, both at 6.3. Both now stand at 6.5. Everyone else measured 6.8 heads or more and didn't change. Pell is a child, so the rule doesn't apply to him.
 
-![The final line-up of eleven townsfolk next to two crew members, each with head marks and a label giving their height and body length in heads]({{art-wave-townsfolk-lineup}} "The final line-up: two crew members for reference and every townsfolk figure, each with its head count. Only Delia and Clem changed."){1400x1094}
+![The final line-up of eleven townsfolk next to two crew members, each with head marks and a label giving their height and body length in heads]({{art-wave-townsfolk-lineup2}} "The final line-up: two crew members for reference and every townsfolk figure, each with its head count. Only Delia and Clem changed."){1400x1094}
 
 :::ache scope=section show=hidden
 i measured my head once. the ruler apologised.
