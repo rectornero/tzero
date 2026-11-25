@@ -12,6 +12,7 @@ const { handle: content } = await import('../../netlify/functions/content.mjs');
 const { handle: site } = await import('../../netlify/functions/site.mjs');
 const { handle: ai } = await import('../../netlify/functions/ai.mjs');
 const { handle: auth } = await import('../../netlify/functions/auth.mjs');
+const { handle: letters } = await import('../../netlify/functions/letters.mjs');
 const { issue } = await import('../../netlify/lib/admin.mjs');
 
 export function fakeStore() {
@@ -31,7 +32,7 @@ export function fakeStore() {
     async list({ prefix = '' } = {}) { return { blobs: [...m.keys()].filter(k => k.startsWith(prefix)).map(key => ({ key })) } },
   };
 }
-const d = { store: fakeStore(), media: fakeStore(), auth: fakeStore(), purge: async () => {} };
+const d = { store: fakeStore(), media: fakeStore(), auth: fakeStore(), letters: fakeStore(), purge: async () => {} };
 d.contentDeps = d;
 const cookie = (await issue(d.auth, { id: 34218910, login: 'rectornero' })).split(';')[0];
 const TYPES = { html: 'text/html; charset=utf-8', js: 'text/javascript', mjs: 'text/javascript', css: 'text/css', json: 'application/json', svg: 'image/svg+xml', webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg', gif: 'image/gif' };
@@ -41,7 +42,7 @@ const port = Number(process.argv[2]) || 8787;
 http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://localhost:' + port), p = decodeURIComponent(url.pathname);
-    const fn = /^\/api\/(ai|mcp)(\/|$)/.test(p) ? ai : /^\/(api\/(site|settings)|go)(\/|$)/.test(p) ? site : /^\/api\/auth\//.test(p) ? (r => auth(r, d.auth)) : /^\/api\/(content|media|lines|admin)(\/|$)/.test(p) ? content : null;
+    const fn = /^\/api\/(ai|mcp)(\/|$)/.test(p) ? ai : /^\/(api\/(site|settings)|go)(\/|$)/.test(p) ? site : /^\/api\/letters(\/|$)/.test(p) ? letters : /^\/api\/auth\//.test(p) ? (r => auth(r, d.auth)) : /^\/api\/(content|media|lines|admin)(\/|$)/.test(p) ? content : null;
     if (fn) {
       const chunks = []; for await (const c of req) chunks.push(c);
       const headers = new Headers(Object.entries(req.headers).filter(([, v]) => typeof v === 'string'));

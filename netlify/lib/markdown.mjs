@@ -17,7 +17,7 @@
      line one                                   scope=section: the whole section since the last heading;
      line two                                   show=bubble: also a small visible "Ache says" note; set=<key>:
      :::                                        use a set from his script book instead of lines here)
-     :::cards / :::compare / :::slides / :::hotspots / :::vn / :::gallery / :::achenote   the no-code blocks as
+     :::cards / :::compare / :::slides / :::hotspots / :::vn / :::gallery / :::achenote / :::ask   the no-code blocks as
                                                 text, one item per line (see BLOCK_GUIDE below)
      ```tz-node {json} ```                       any other node (scene code, tables…)
    Inline
@@ -109,7 +109,7 @@ export function toRicos(md) {
       } else nodes.push({ type: 'CODE_BLOCK', id: '', nodes: [text(body.join('\n'))], codeBlockData: m[1] ? { language: m[1] } : {} });
       continue;
     }
-    if ((m = /^:::(cards|compare|slides|hotspots|vn|gallery|achenote)\b(.*)$/.exec(t))) {
+    if ((m = /^:::(cards|compare|slides|hotspots|vn|gallery|achenote|ask)\b(.*)$/.exec(t))) {
       flushPara();
       const body = []; i++;
       while (i < lines.length && lines[i].trim() !== ':::') { if (lines[i].trim()) body.push(lines[i].trim()); i++ }
@@ -200,6 +200,12 @@ ache: hey. you found the story bit.        a line: id: text   (": text" = narrat
 :::gallery
 /a.webp | what it shows
 :::
+:::ask box=d500 hint="…" button="Send to TZERØ" thanks="…"   reader's choice: readers pick one, add a line, Send
+Where should the next quest take you?      the question, then three choices
+- A sky garden
+- A quiet library city
+- A festival harbour
+:::                                        (letters reach /admin/site; box = a short id, unique in the article)
 :::achenote level=caution title="…" tip="…"     Ache's critic note on top of the article (level: warning, caution, cheer)
 The note itself, as plain text.
 ! something to watch out for (one per line)
@@ -217,6 +223,12 @@ const READ = {
   slides: (a, body) => tzb('slides', { slides: body.map(l => { const [img, label, who, text] = cut(l, 4); return { img, label, who: who.replace(/^!/, ''), red: who.startsWith('!'), quote: text.startsWith('~'), text: text.replace(/^~/, '') } }) }),
   hotspots: (a, body) => tzb('hotspots', { img: a.img || '', alt: a.alt || '', caption: a.caption || '', spots: body.map(l => { const [xy, title, text] = cut(l, 3); const [x, y] = xy.split(',').map(Number); return { x: x || 0, y: y || 0, title, text } }) }),
   gallery: (a, body) => ({ type: 'GALLERY', id: '', nodes: [], galleryData: { items: body.map(l => { const [url, alt] = cut(l, 2); return { image: { media: { src: { url } } }, altText: alt } }) } }),
+  ask: (a, body) => {
+    const choices = body.filter(l => /^[-*](\s|$)/.test(l)).map(l => l.replace(/^[-*]\s*/, '').slice(0, 120)).slice(0, 3);
+    while (choices.length < 3) choices.push('');
+    return tzb('ask', { box: /^[a-z0-9][a-z0-9-]{0,39}$/.test(a.box || '') ? a.box : 'ask', question: body.filter(l => !/^[-*](\s|$)/.test(l)).join(' ').slice(0, 200),
+      choices, placeholder: a.hint || '', button: a.button || 'Send to TZERØ', thanks: a.thanks || 'Got it! Thank you for writing to us.' });
+  },
   vn: (a, body) => {
     const d = { title: a.title || '', bg: a.bg || '', cast: [], scenes: [], start: '' };
     let sc = null;
@@ -254,6 +266,7 @@ export function noteMarkdown(n) {
   try { const back = toRicos(s).ache; return same(back, n) ? s : '' } catch (e) { return '' }
 }
 const WRITE = {
+  ask: d => ':::ask box=' + d.box + (d.placeholder ? ' hint=' + q(d.placeholder) : '') + ' button=' + q(d.button || '') + ' thanks=' + q(d.thanks || '') + '\n' + (d.question || '') + '\n' + (d.choices || []).map(c => '- ' + c).join('\n') + '\n:::',
   cards: d => ':::cards\n' + d.cards.map(c => [c.title, c.rarity, c.img, c.back].join(' | ')).join('\n') + '\n:::',
   compare: d => ':::compare' + (d.caption ? ' caption=' + q(d.caption) : '') + (d.start !== 50 ? ' start=' + d.start : '') + '\nbefore: ' + d.before + ' | ' + d.labelBefore + '\nafter: ' + d.after + ' | ' + d.labelAfter + '\n:::',
   slides: d => ':::slides\n' + d.slides.map(x => [x.img, x.label, (x.red ? '!' : '') + x.who, (x.quote ? '~' : '') + x.text].join(' | ')).join('\n') + '\n:::',

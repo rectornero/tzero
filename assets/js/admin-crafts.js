@@ -383,8 +383,28 @@ window.CRAFTS = (() => {
     }, data.lines.some(Boolean) || data.set ? 'Save' : 'Insert');
   }
 
-  const MAKERS = { image: (n, f, o) => image(null, f, o), gallery: () => gallery(), video: () => video(), button: () => button(), scene: () => scene(), vn: () => vn(), hotspots: () => hotspots(), compare: () => compare(), cards: () => cards(), slides: () => slides(), ache: () => ache() };
-  const BLOCKS = { vn, hotspots, compare, cards, slides, ache };
+  // Reader's choice: a question, three choices, a line of their own and Send. Letters land on /admin/site.
+  function ask(data) {
+    data = data || { box: uid('ask-'), question: '', choices: ['', '', ''], placeholder: '', button: 'Send to TZERØ', thanks: 'Got it! Thank you for writing to us.' };
+    data.box = /^[a-z0-9][a-z0-9-]{0,39}$/.test(data.box || '') ? data.box : uid('ask-');
+    data.choices = [0, 1, 2].map(i => (Array.isArray(data.choices) && data.choices[i]) || '');
+    return crafted('ask', "Reader's choice", data, (f, d, preview) => {
+      f.append(el('p', 'ad-note', 'Readers pick one of three answers, can add a line of their own, and press Send. What they send reaches the studio: read it on the site desk, under Reader letters. Nothing else about them is kept.'));
+      f.append(field('Question', bind(input(d.question, { maxLength: 200, placeholder: 'Where should the next quest take you?' }), d, 'question', preview)));
+      d.choices.forEach((c, i) => {
+        const inp = input(c, { maxLength: 120, placeholder: 'Choice ' + 'ABC'[i] });
+        inp.addEventListener('input', () => { d.choices[i] = inp.value; preview() });
+        f.append(field('Choice ' + 'ABC'[i], inp));
+      });
+      f.append(field('Hint in the text box', bind(input(d.placeholder, { maxLength: 140, placeholder: 'Tell us why, or add your own idea (optional)' }), d, 'placeholder', preview)),
+        field('Button', bind(input(d.button, { maxLength: 40 }), d, 'button', preview)),
+        field('Thank-you line', bind(input(d.thanks, { maxLength: 200 }), d, 'thanks', preview), 'Shown after Send, next to Ache\'s star'));
+      f.append(el('p', 'ad-note', 'In this preview Send does nothing; it works on the published article.'));
+    });
+  }
+
+  const MAKERS = { image: (n, f, o) => image(null, f, o), gallery: () => gallery(), video: () => video(), button: () => button(), scene: () => scene(), vn: () => vn(), hotspots: () => hotspots(), compare: () => compare(), cards: () => cards(), slides: () => slides(), ache: () => ache(), ask: () => ask() };
+  const BLOCKS = { vn, hotspots, compare, cards, slides, ache, ask };
   return {
     ui: { open, field, input, select, picture, el },
     make: (kind, file, opts) => MAKERS[kind] ? MAKERS[kind](null, file, opts) : Promise.resolve(null),

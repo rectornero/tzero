@@ -45,6 +45,11 @@ burned almost a whole month.
   article, `edit` for small changes, `do` for batches. Claude saves drafts; what Nero has not switched on in `/admin/site` → Claude
   (publishing, settings areas, Ache's script book) becomes a proposal he approves there. Takedowns are on for Claude
   from the start. Never call it on a schedule or in a loop. Estimated well under 1 credit a month.
+- Reader's choice (Nero, 2026-11-25): a no-code block (`ask` in `blocks.js`, "✉ Reader's choice" in `/admin`, `:::ask` in
+  TZ Markdown) with a question, three choices, a line of the reader's own and Send. Letters go to
+  `netlify/functions/letters.mjs` (one Blobs entry each in store `reader-letters`, rate-limited, no IP or cookie kept) and
+  are read on `/admin/site` → Reader letters (Claude can GET `/api/letters` with its key). Estimated well under 1 credit a
+  month at 1,000 letters. Never poll it.
 - Ache's lines for parts of an article: the "✦ Ache's lines" button in `/admin`, or `:::ache` in TZ Markdown / the
   `ache` command. Stored as a `TZ_BLOCK` of kind `ache` under the part it belongs to (drawn by `blocks.js`).
 - An article's game world is its top-level `world` key (a key of `assets/worlds.json`, owned by the redesign);
