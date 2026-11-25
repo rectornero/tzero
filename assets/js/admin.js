@@ -169,7 +169,7 @@
   }
 
   // ---- Sealed boxes for pictures, videos, scenes, crafted blocks ----
-  const LABEL = { IMAGE: 'Picture', GALLERY: 'Gallery', VIDEO: 'YouTube', HTML: 'Scene code', BUTTON: 'Button', TABLE: 'Table', CODE_BLOCK: 'Code', vn: 'Visual novel', hotspots: 'Hotspots', compare: 'Before / after', cards: 'Flip cards', slides: 'Story slides', ache: "Ache's lines" };
+  const LABEL = { IMAGE: 'Picture', GALLERY: 'Gallery', VIDEO: 'YouTube', HTML: 'Scene code', BUTTON: 'Button', TABLE: 'Table', CODE_BLOCK: 'Code', vn: 'Visual novel', hotspots: 'Hotspots', compare: 'Before / after', cards: 'Flip cards', slides: 'Story slides', ache: "Ache's lines", ask: "Reader's choice" };
   const kindOf = n => n.type === 'TZ_BLOCK' ? n.blockData && n.blockData.kind : n.type;
   function atom(node) {
     const box = el('figure', 'ad-atom');

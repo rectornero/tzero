@@ -201,7 +201,40 @@
     return () => ({ claude: Object.fromEntries(Object.entries(boxes).map(([k, b]) => [k, b.checked])) });
   }, { saveLabel: 'Save what Claude may do', ownerSave: true });
 
-  // 10 ---- Activity ----
+  // 10 ---- Reader letters ----
+  section('letters', 'Reader letters', "What readers sent from the Reader's choice boxes in articles: the choice they picked and the line they wrote. Only you and the admins see them.", box => {
+    const ul = el('ul', 'sd-rows sd-letters'); ul.append(el('li', 'ad-empty', 'Loading…'));
+    const tally = el('div', 'sd-tally');
+    api('/api/letters?limit=300').then(r => {
+      const list = r.letters || [];
+      ul.replaceChildren(); tally.replaceChildren();
+      if (!list.length) ul.append(el('li', 'ad-empty', demo ? 'Sign in to read the letters' : 'No letters yet'));
+      // A count per box and choice, so a glance shows how readers voted
+      const groups = new Map();
+      for (const l of list) {
+        const k = l.post + ' · ' + l.box; if (!groups.has(k)) groups.set(k, { q: l.question, n: 0, picks: new Map() });
+        const g = groups.get(k); g.n++; if (l.label) g.picks.set(l.label, (g.picks.get(l.label) || 0) + 1);
+      }
+      for (const [k, g] of groups) {
+        const p = el('p', 'ad-note'); p.append(el('b', '', g.q || k), ' · ' + g.n + (g.n === 1 ? ' letter' : ' letters') + (g.picks.size ? ': ' + [...g.picks].map(([c, n]) => c + ' ' + n).join(', ') : ''));
+        tally.append(p);
+      }
+      for (const l of list) {
+        const li = el('li'), t = el('div');
+        t.append(el('b', '', (l.label ? '“' + l.label + '”' : 'No choice') + ' · /post/' + l.post));
+        if (l.text) t.append(el('p', 'sd-letter', l.text));
+        t.append(el('small', '', (l.question || l.box)));
+        li.append(t, el('time', '', when(l.at)), button('Delete', async () => {
+          if (!confirm('Delete this letter for good?')) return;
+          try { await api('/api/letters/' + l.id, { method: 'DELETE' }); li.remove(); status('Deleted') } catch (e) { status(e.message, true) }
+        }, 'btn ghost small'));
+        ul.append(li);
+      }
+    }).catch(e => ul.replaceChildren(el('li', 'ad-empty', e.message)));
+    box.append(tally, ul);
+  }, { noSave: true });
+
+  // 11 ---- Activity ----
   section('log', 'Activity log', 'Everything changed in the editor and on this desk, newest first: who, what, when.', box => {
     const ul = el('ul', 'sd-rows sd-log'); ul.append(el('li', 'ad-empty', 'Loading…'));
     api('/api/settings/log?limit=80').then(r => {
@@ -212,7 +245,7 @@
     box.append(ul);
   }, { noSave: true });
 
-  // 11 ---- History ----
+  // 12 ---- History ----
   section('history', 'History', 'Every save of this desk. Bring an old one back if something went wrong.', box => {
     const ul = el('ul', 'sd-rows'); ul.append(el('li', 'ad-empty', 'Loading…'));
     api('/api/settings/versions').then(r => {

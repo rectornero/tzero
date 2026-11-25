@@ -6,6 +6,8 @@ const { handle: content } = await import('../../netlify/functions/content.mjs');
 const { handle: site } = await import('../../netlify/functions/site.mjs');
 const { handle: ai } = await import('../../netlify/functions/ai.mjs');
 const { issue } = await import('../../netlify/lib/admin.mjs');
+const { handle: lettersFn } = await import('../../netlify/functions/letters.mjs');
+const { toRicos, toMarkdown } = await import('../../netlify/lib/markdown.mjs');
 
 function fakeStore() {
   const m = new Map(); let n = 0;
@@ -242,4 +244,27 @@ ok('mcp guide', r.body.result.content[0].text.includes(':::ache'));
 r = await rpc('tools/call', { name: 'state', arguments: {} });
 ok('mcp state is compact', !r.body.result.content[0].text.includes('\n '));
 ok('mcp needs the key', (await call(ai, 'POST', '/api/mcp', { jsonrpc: '2.0', id: 1, method: 'tools/list' })).status === 401);
+
+// --- reader letters (Reader's choice box) ---
+d.letters = fakeStore();
+const L = { 'x-tz': '1' };
+ok('letter needs the site header', (await call(lettersFn, 'POST', '/api/letters', { post: 'd500', box: 'ask-1', choice: 0 })).status === 403);
+ok('letter needs a choice or a line', (await call(lettersFn, 'POST', '/api/letters', { post: 'd500', box: 'ask-1', choice: -1, text: '  ' }, L)).status === 400);
+ok('letter refuses a bad post', (await call(lettersFn, 'POST', '/api/letters', { post: '../x', box: 'ask-1', choice: 1 }, L)).status === 400);
+ok('letter refuses a bad choice', (await call(lettersFn, 'POST', '/api/letters', { post: 'd500', box: 'ask-1', choice: 7 }, L)).status === 400);
+ok('bot trap answers ok, stores nothing', (await call(lettersFn, 'POST', '/api/letters', { post: 'd500', box: 'ask-1', choice: 1, website: 'spam' }, L)).status === 200 && d.letters.m.size === 0);
+ok('letter sent', (await call(lettersFn, 'POST', '/api/letters', { post: 'd500', box: 'ask-1', question: 'Where?', choice: 1, label: 'A library city', text: 'x'.repeat(900) }, L)).status === 200);
+ok('letter sent (line only)', (await call(lettersFn, 'POST', '/api/letters', { post: 'd500', box: 'ask-1', text: 'Hello!' }, L)).status === 200);
+ok('letters are private', (await call(lettersFn, 'GET', '/api/letters')).status === 401);
+r = await call(lettersFn, 'GET', '/api/letters', undefined, { cookie });
+ok('Nero reads letters', r.status === 200 && r.body.letters.length === 2 && r.body.letters.some(l => l.label === 'A library city' && l.text.length === 600) && !JSON.stringify(r.body).includes('ip'));
+r = await call(lettersFn, 'GET', '/api/letters', undefined, KEY);
+ok('Claude reads letters with its key', r.status === 200 && r.body.total === 2);
+const lid = r.body.letters[0].id;
+ok('Claude may not delete letters', (await call(lettersFn, 'DELETE', '/api/letters/' + lid, undefined, KEY)).status === 403);
+ok('Nero deletes a letter', (await call(lettersFn, 'DELETE', '/api/letters/' + lid, undefined, NERO)).status === 200 && d.letters.m.size === 1);
+const askMd = ':::ask box=d500 hint="Why?" button="Send to TZERØ" thanks="Thanks!"\nWhere should the next quest take you?\n- A sky garden\n- A quiet library city\n- A festival harbour\n:::';
+const askNodes = toRicos(askMd).nodes;
+ok('ask block from markdown', askNodes[0].blockData.kind === 'ask' && askNodes[0].blockData.data.choices[2] === 'A festival harbour');
+ok('ask block round trip', toMarkdown({ nodes: askNodes }).trim() === askMd);
 console.log('all', n, 'checks passed');

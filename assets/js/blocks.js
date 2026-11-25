@@ -1,5 +1,5 @@
 /* Interactive blocks Nero crafts visually in /admin, with no code: a mini visual novel, a hotspot picture, a
-   before/after slider, flip cards and story slides. They are stored as plain data (a TZ_BLOCK node: { kind, data }) and drawn
+   before/after slider, flip cards, story slides and the reader's choice box. They are stored as plain data (a TZ_BLOCK node: { kind, data }) and drawn
    here by the site's own code with createElement/textContent, so nothing in them is ever run or parsed as HTML. */
 window.TZBLOCKS = (() => {
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e };
@@ -245,7 +245,63 @@ window.TZBLOCKS = (() => {
     return box;
   }
 
-  const KINDS = { vn, hotspots, compare, cards, slides, ache };
+  /* Reader's choice (Nero, 2026-11-25): a question, three choices, a line of their own and Send, which reaches the
+     studio (/api/letters, read on /admin/site). { box, question, choices: [a, b, c], placeholder, button, thanks }.
+     box names this box inside the article. Nothing about the reader is sent besides what they pick and write. */
+  function ask(d) {
+    const choices = (Array.isArray(d.choices) ? d.choices : []).map(c => str(c, 120).trim()).filter(Boolean).slice(0, 3);
+    const question = str(d.question, 200).trim();
+    if (!question && !choices.length) return null;
+    const boxId = /^[a-z0-9][a-z0-9-]{0,39}$/.test(d.box || '') ? d.box : 'ask';
+    const m = /^\/(?:post|p)\/([a-z0-9][a-z0-9-]{0,79})\/?$/.exec(location.pathname);
+    const post = m ? m[1] : '';
+    const memo = 'tz-ask:' + post + ':' + boxId;
+    const box = el('form', 'tzb tzb-ask');
+    box.noValidate = true;
+    const head = el('div', 'ask-head');
+    head.append(el('span', 'ask-tag', "Reader's choice"), el('b', 'ask-q', question || 'Which one would you pick?'));
+    const opts = el('div', 'ask-opts'); opts.setAttribute('role', 'radiogroup'); opts.setAttribute('aria-label', question || 'Choices');
+    let pick = -1;
+    const btns = choices.map((c, i) => {
+      const b = el('button', 'ask-opt'); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
+      b.append(el('span', 'ask-n', String.fromCharCode(65 + i)), el('span', '', c));
+      b.onclick = () => { if (post) msg.textContent = ''; pick = pick === i ? -1 : i; btns.forEach((x, j) => { x.classList.toggle('on', j === pick); x.setAttribute('aria-checked', String(j === pick)) }) };
+      opts.append(b); return b;
+    });
+    const note = el('textarea', 'ask-text'); note.rows = 3; note.maxLength = 600;
+    note.placeholder = str(d.placeholder, 140) || 'Tell us why, or add your own idea (optional)';
+    note.setAttribute('aria-label', note.placeholder);
+    const trap = el('input', 'ask-trap'); trap.name = 'website'; trap.tabIndex = -1; trap.autocomplete = 'off'; trap.setAttribute('aria-hidden', 'true');
+    const foot = el('div', 'ask-foot'), send = el('button', 'ask-send', str(d.button, 40) || 'Send to TZERØ'), msg = el('small', 'ask-msg');
+    send.type = 'submit';
+    foot.append(send, msg);
+    if (!post) msg.textContent = 'Preview: Send works on the published article.';
+    note.addEventListener('input', () => { if (post && !send.disabled) msg.textContent = '' });
+    box.append(head, opts, note, trap, foot);
+    const thanks = () => {
+      const t = el('div', 'ask-thanks');
+      t.append(el('span', 'ache-star'), el('b', '', str(d.thanks, 200) || 'Got it! Thank you for writing to us.'));
+      box.replaceChildren(head, t); box.classList.add('sent');
+    };
+    try { if (post && localStorage.getItem(memo)) thanks() } catch (e) {}
+    box.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!post) { msg.textContent = 'Preview: nothing was sent.'; return }
+      const text = note.value.trim();
+      if (pick < 0 && !text) { msg.textContent = 'Pick one, or write a line first.'; return }
+      send.disabled = true; msg.textContent = 'Sending…';
+      try {
+        const r = await fetch('/api/letters', { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'application/json', 'x-tz': '1' },
+          body: JSON.stringify({ post, box: boxId, question, choice: pick, label: pick >= 0 ? choices[pick] : '', text, website: trap.value }) });
+        if (!r.ok) throw new Error(r.status === 429 ? 'Too many letters at once. Try again in a minute.' : 'Not sent. Try again in a moment.');
+        try { localStorage.setItem(memo, '1') } catch (x) {}
+        thanks();
+      } catch (x) { msg.textContent = x.message; send.disabled = false }
+    });
+    return box;
+  }
+
+  const KINDS = { vn, hotspots, compare, cards, slides, ache, ask };
   return {
     KINDS: Object.keys(KINDS),
     render(blockData) {
